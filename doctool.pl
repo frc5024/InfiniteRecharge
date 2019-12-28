@@ -58,8 +58,13 @@ if ($mode eq "-l"){
     chdir "$name-DOBLE_TMP";
 
     # Checkout the latest gh-pages branch (Redundant)
-    system("git checkout -b gh-pages");
-    system("git checkout gh-pages");
+    # system("git checkout -b gh-pages");
+    my $fail = system("git checkout gh-pages");
+
+    if ($fail){
+        print "Could not checkout gh-pages\n";
+        exit 1;
+    }
 
     # Determine date string for branch name
     my $date = `date +"%I_%M-%h%d"`;
@@ -71,6 +76,9 @@ if ($mode eq "-l"){
 
     # Remove all branch contents
     system("rm -rf ./*");
+
+    system("git add .");
+    system("git commit -m \"Auto-authored by doble. Branch cleared\"");
 
     # Copy all documentation over to new branch
     system("cp -r $dir/build/reports/docs/* .");
