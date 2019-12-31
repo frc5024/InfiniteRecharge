@@ -2,6 +2,11 @@
 
 The source and tooling behind [FRC](https://www.firstinspires.org/robotics/frc) team [5024](https://www.thebluealliance.com/team/5024)'s 2020 competition robot. 
 
+## Table of contents
+
+ - [Setup & Installation](#project-setup--installation)
+ - [Documentation](#documentation)
+
 ## Project setup & Installation
 
 This project has multiple components, each requiring their own tools and software versions.
@@ -48,3 +53,25 @@ Our computer vision system is handled by a [Limelight 2.0 camera](https://limeli
 Documentation generation is handled by a Gradle plugin, and a Perl script. The perl script can only be run on [*nix systems](https://en.wikipedia.org/wiki/Unix-like).
 
 This script requires a recent version of [GIT](https://git-scm.com/), and [Perl 5.010](https://www.perl.org/) or later.
+
+## Documentation
+
+Here are the links to the multiple documentation sources for this project
+
+ - [Robot information](https://cs.5024.ca/webdocs/docs/robots/recharge)
+ - [Robot javadoc](https://cs.5024.ca/InfiniteRecharge/)
+ - [General FRC documentation](https://docs.wpilib.org/en/latest/)
+ - [WPILib API](https://first.wpi.edu/FRC/roborio/release/docs/java/index.html)
+ - [CTRE documentation](https://phoenix-documentation.readthedocs.io/en/latest/index.html)
+ - [CTRE API](http://www.ctr-electronics.com/downloads/api/java/html/index.html)
+ - [Limelight documentation](http://docs.limelightvision.io/en/latest/)
+
+### Building robot documentation
+
+The robot javadoc must be built manually. This **must** be done on a linux system, or inside a [WSL](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux) environment.
+
+There is a Perl script in the project root that will handle generation. Just `cd` into the project root, and run:
+
+```sh
+perl doctool.pl -p
+```
