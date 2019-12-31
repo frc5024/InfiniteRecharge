@@ -16,19 +16,19 @@ public class DriveTrain extends SubsystemBase {
     private DriveTrain() {
 
     }
-    
+
     /**
      * Get the DriveTrain instance.
+     * 
      * @return DriveTrain instance
      */
-    public static DriveTrain getInstance(){
+    public static DriveTrain getInstance() {
         if (s_instance == null) {
             s_instance = new DriveTrain();
         }
 
         return s_instance;
     }
-
 
     /**
      * Subsystem-specific tasks that must be run once per 20ms must be placed in
