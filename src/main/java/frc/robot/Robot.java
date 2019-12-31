@@ -1,6 +1,12 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.lib5k.roborio.FaultReporter;
+import frc.lib5k.utils.RobotLogger;
+import frc.lib5k.utils.RobotLogger.Level;
+import frc.robot.commands.DriveControl;
+import frc.robot.subsystems.DriveTrain;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -11,29 +17,53 @@ import edu.wpi.first.wpilibj.TimedRobot;
  */
 public class Robot extends TimedRobot {
 
+	/* Robot I/O helpers */
+	RobotLogger logger = RobotLogger.getInstance();
+	FaultReporter m_faultReporter = FaultReporter.getInstance();
 
-  /**
-   * This function is run when the robot is first started up and should be used
-   * for any initialization code.
-   */
-  @Override
-  public void robotInit() {
-  }
+	/* Robot Subsystems */
+	private DriveTrain m_drivetrain = DriveTrain.getInstance();
 
-  @Override
-  public void autonomousInit() {
-  }
+	/* Robot Commands */
+	private DriveControl m_driveControl;
 
-  @Override
-  public void autonomousPeriodic() {
-  }
+	/**
+	 * This function is run when the robot is first started up and should be used
+	 * for any initialization code.
+	 */
+	@Override
+	public void robotInit() {
 
-  @Override
-  public void teleopInit() {
-  }
+		// Create control commands
+		logger.log("Robot", "Constructing Commands", Level.kRobot);
+		m_driveControl = new DriveControl();
 
-  @Override
-  public void teleopPeriodic() {
-  }
+		// Register all subsystems
+		logger.log("Robot", "Registering Subsystems", Level.kRobot);
+		m_drivetrain.setDefaultCommand(m_driveControl);
+	}
+
+	@Override
+	public void autonomousInit() {
+	}
+
+	@Override
+	public void autonomousPeriodic() {
+
+		// Run all scheduled WPILib commands
+		CommandScheduler.getInstance().run();
+	}
+
+	@Override
+	public void teleopInit() {
+
+	}
+
+	@Override
+	public void teleopPeriodic() {
+
+		// Run all scheduled WPILib commands
+		CommandScheduler.getInstance().run();
+	}
 
 }
