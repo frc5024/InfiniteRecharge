@@ -1,4 +1,4 @@
-# InfiniteRecharge
+# InfiniteRecharge <br> ![CI Badge](https://github.com/frc5024/infiniterecharge/workflows/FRC%20Build%20%26%20Test/badge.svg)
 
 The source and tooling behind [FRC](https://www.firstinspires.org/robotics/frc) team [5024](https://www.thebluealliance.com/team/5024)'s 2020 competition robot. 
 
