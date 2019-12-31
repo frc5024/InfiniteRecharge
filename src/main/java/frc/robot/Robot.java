@@ -41,6 +41,9 @@ public class Robot extends TimedRobot {
 		// Register all subsystems
 		logger.log("Robot", "Registering Subsystems", Level.kRobot);
 		m_drivetrain.setDefaultCommand(m_driveControl);
+
+		// Start the logger
+		logger.start(0.02);
 	}
 
 	@Override
