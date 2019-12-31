@@ -5,8 +5,12 @@ The source and tooling behind [FRC](https://www.firstinspires.org/robotics/frc) 
 ## Table of contents
 
  - [Setup & Installation](#project-setup--installation)
+ - [Building the project](#building-the-project)
+ - [Code deployment](#deployment)
  - [Documentation](#documentation)
  - [Vendor Libraries](#vendor-libraries)
+ - [Networking](#networking)
+ - [Troubleshooting](#troubleshooting)
 
 
 ## Project setup & Installation
@@ -56,6 +60,25 @@ Documentation generation is handled by a Gradle plugin, and a Perl script. The p
 
 This script requires a recent version of [GIT](https://git-scm.com/), and [Perl 5.010](https://www.perl.org/) or later.
 
+
+
+
+## Building the project
+
+This project runs on [Gradle](https://gradle.org/), so most of the work of installing dependancies, and configuring builds is automatically handled. The first time the code is built, Gradle will automatically download all the tools you need. 
+
+There are two ways to build the robot project. 
+  - Pressing `CTRL+SHIFT+P` in VSCode, searching for `WPILib: Build robot code`, and running the task
+  - Opening the project in a terminal, and running `.\gradlew.bat build` (Windows) or `./gradlew build` (Linux)
+
+
+## Deployment
+
+All code deployment to the robot is done over the robot's internal network. In the shop, you can either connect to the robot's wifi access point, or connect with an ethernet cable to the grey networking switch mounted inside the robot.
+
+Once connected, robot code deployment should be done through the VSCode task: `WPILib: Deploy robot code`. It will handle almost everything for you.
+
+
 ## Documentation
 
 Here are the links to the multiple documentation sources for this project
@@ -80,6 +103,7 @@ perl doctool.pl -p
 
 ## Vendor libraries
 
+
 Many of the libraries used by this codebase are available in the WPILib *vendor JSON* format. The JSON files for each library can be found at:
 
 ```
@@ -92,3 +116,50 @@ https://dev.imjac.in/maven/jaci/pathfinder/PathfinderOLD-latest.json
 ```
 
 These should auto-update each time the project is built.
+
+
+## Networking
+As mentioned in the [Deployment section](#deployment), all robot communications are done through the robot's internal network. 
+
+This network uses the following topology:
+```
+                           RoboRIO
+                              |
+Other Wireless devices (( Robot AP
+                              |
+                        Network Switch
+                         |         |
+             Limelight --+         +-- Other Wired devices
+```
+
+The "Other Wired/Wireless devices" would be things like
+
+ - Programmer's laptops when deploying code
+ - The Laptop running DriverStation
+
+The network uses the `10.50.24.x` address space with dynamic IP addresses assigned from `10.50.24.20` and up.
+
+Some devices on the network have static addresses
+| Device    | Address       |
+| --------- | ------------- |
+| Router    | `10.50.24.1`  |
+| RoboRIO   | `10.50.24.2   |
+| Limelight | `10.50.24.11` |
+
+**Note: The wireless AP's password is `raiderrobotics`**
+
+## Troubleshooting
+
+Here are some solutions for known problems
+
+### Gradle wrapper errors
+
+Try installing Gradle (if not already installed), opening a command prompt / terminal in the project root, and running `gradle.exe wrapper` (Windows) or `gradle wrapper` (Linux)
+
+### Deployment errors
+
+ - Check to make sure you are properly connected with the robot, and it is turned on
+ - Try deploying again (sometimes a double-deploy is needed)
+ - Try restarting the robot from driverstation
+ - Try killing the power to the robot, then turning it on again
+ - Use Ethernet
