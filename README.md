@@ -140,6 +140,7 @@ The "Other Wired/Wireless devices" would be things like
 The network uses the `10.50.24.x` address space with dynamic IP addresses assigned from `10.50.24.20` and up.
 
 Some devices on the network have static addresses
+
 | Device    | Address       |
 | --------- | ------------- |
 | Router    | `10.50.24.1`  |
