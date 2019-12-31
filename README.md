@@ -1,4 +1,4 @@
-# InfiniteRecharge
+# InfiniteRecharge <br> ![CI Badge](https://github.com/frc5024/infiniterecharge/workflows/FRC%20Build%20%26%20Test/badge.svg)
 
 The source and tooling behind [FRC](https://www.firstinspires.org/robotics/frc) team [5024](https://www.thebluealliance.com/team/5024)'s 2020 competition robot. 
 
@@ -61,8 +61,6 @@ Documentation generation is handled by a Gradle plugin, and a Perl script. The p
 This script requires a recent version of [GIT](https://git-scm.com/), and [Perl 5.010](https://www.perl.org/) or later.
 
 
-
-
 ## Building the project
 
 This project runs on [Gradle](https://gradle.org/), so most of the work of installing dependancies, and configuring builds is automatically handled. The first time the code is built, Gradle will automatically download all the tools you need. 
@@ -70,6 +68,10 @@ This project runs on [Gradle](https://gradle.org/), so most of the work of insta
 There are two ways to build the robot project. 
   - Pressing `CTRL+SHIFT+P` in VSCode, searching for `WPILib: Build robot code`, and running the task
   - Opening the project in a terminal, and running `.\gradlew.bat build` (Windows) or `./gradlew build` (Linux)
+
+### GitHub CI
+
+Every time code is pushed to GitHub, or a pull request is opened, our [CI Pipeline](https://github.com/marketplace/actions/frc-build-test) will automatically build a copy of the code on GitHub's servers, and report back with a status. This can be checked with the badge at the top of the README file, or by looking for an icon beside each commit. Checkmark is a success, Yellow circle is "Build in progress", and a red X is "failure". 
 
 
 ## Deployment
