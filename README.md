@@ -6,6 +6,8 @@ The source and tooling behind [FRC](https://www.firstinspires.org/robotics/frc) 
 
  - [Setup & Installation](#project-setup--installation)
  - [Documentation](#documentation)
+ - [Vendor Libraries](#vendor-libraries)
+
 
 ## Project setup & Installation
 
@@ -75,3 +77,18 @@ There is a Perl script in the project root that will handle generation. Just `cd
 ```sh
 perl doctool.pl -p
 ```
+
+## Vendor libraries
+
+Many of the libraries used by this codebase are available in the WPILib *vendor JSON* format. The JSON files for each library can be found at:
+
+```
+https://raw.githubusercontent.com/wpilibsuite/allwpilib/master/wpilibNewCommands/WPILibNewCommands.json
+https://raw.githubusercontent.com/wpilibsuite/allwpilib/master/wpilibOldCommands/WPILibOldCommands.json
+https://www.kauailabs.com/dist/frc/2020/navx_frc.json
+http://devsite.ctr-electronics.com/maven/release/com/ctre/phoenix/Phoenix-latest.json
+http://www.revrobotics.com/content/sw/max/sdk/REVRobotics.json
+https://dev.imjac.in/maven/jaci/pathfinder/PathfinderOLD-latest.json
+```
+
+These should auto-update each time the project is built.
