@@ -1,8 +1,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib5k.roborio.FaultReporter;
 import frc.lib5k.utils.RobotLogger;
+import frc.lib5k.utils.RobotLogger.Level;
+import frc.robot.commands.DriveControl;
 import frc.robot.subsystems.DriveTrain;
 
 /**
@@ -21,6 +24,9 @@ public class Robot extends TimedRobot {
 	/* Robot Subsystems */
 	private DriveTrain m_drivetrain = DriveTrain.getInstance();
 
+	/* Robot Commands */
+	private DriveControl m_driveControl;
+
 	/**
 	 * This function is run when the robot is first started up and should be used
 	 * for any initialization code.
@@ -28,8 +34,13 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 
+		// Create control commands
+		logger.log("Robot", "Constructing Commands", Level.kRobot);
+		m_driveControl = new DriveControl();
+
 		// Register all subsystems
-		m_drivetrain.register(); // TODO: Replace with default command
+		logger.log("Robot", "Registering Subsystems", Level.kRobot);
+		m_drivetrain.setDefaultCommand(m_driveControl);
 	}
 
 	@Override
@@ -38,14 +49,21 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousPeriodic() {
+
+		// Run all scheduled WPILib commands
+		CommandScheduler.getInstance().run();
 	}
 
 	@Override
 	public void teleopInit() {
+
 	}
 
 	@Override
 	public void teleopPeriodic() {
+
+		// Run all scheduled WPILib commands
+		CommandScheduler.getInstance().run();
 	}
 
 }
