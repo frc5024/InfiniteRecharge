@@ -22,7 +22,7 @@ public class Robot extends TimedRobot {
 	FaultReporter m_faultReporter = FaultReporter.getInstance();
 
 	/* Robot Subsystems */
-	private DriveTrain m_drivetrain = DriveTrain.getInstance();
+	private DriveTrain m_driveTrain = DriveTrain.getInstance();
 
 	/* Robot Commands */
 	private DriveControl m_driveControl;
@@ -40,11 +40,28 @@ public class Robot extends TimedRobot {
 
 		// Register all subsystems
 		logger.log("Robot", "Registering Subsystems", Level.kRobot);
-		m_drivetrain.setDefaultCommand(m_driveControl);
+
+		m_driveTrain.setDefaultCommand(m_driveControl);
+    
+    // Start the logger
+		logger.start(0.02);
+	}
+
+	/**
+	 * Code to be called on both autonomous and teleop init
+	 */
+	private void sharedInit() {
+
+		// Enable brakes on the DriveTrain
+		m_driveTrain.setBrakes(true);
 	}
 
 	@Override
 	public void autonomousInit() {
+		logger.log("Robot", "Autonomous started");
+
+		// Run shared init code
+		sharedInit();
 	}
 
 	@Override
@@ -56,7 +73,10 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		logger.log("Robot", "Teleop started");
 
+		// Run shared init code
+		sharedInit();
 	}
 
 	@Override
@@ -66,4 +86,18 @@ public class Robot extends TimedRobot {
 		CommandScheduler.getInstance().run();
 	}
 
+	@Override
+	public void disabledInit() {
+		logger.log("Robot", "Robot disabled");
+
+		// Disable brakes on the DriveTrain
+		m_driveTrain.setBrakes(false);
+	}
+
+	@Override
+	public void disabledPeriodic() {
+
+		// Run all scheduled WPILib commands
+		CommandScheduler.getInstance().run();
+	}
 }
