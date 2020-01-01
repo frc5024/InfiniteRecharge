@@ -93,8 +93,6 @@ public class Robot extends TimedRobot {
 		// Disable brakes on the DriveTrain
 		m_driveTrain.setBrakes(false);
 
-		// Stop the drivetrain from moving
-		m_driveTrain.stop();
 	}
 
 	@Override
