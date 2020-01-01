@@ -1,6 +1,9 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib5k.components.drive.DifferentialDriveCalculation;
+import frc.lib5k.components.drive.InputUtils;
+import frc.lib5k.components.drive.InputUtils.ScalingMode;
 import frc.lib5k.kinematics.DriveSignal;
 import frc.lib5k.utils.RobotLogger;
 
@@ -81,7 +84,16 @@ public class DriveTrain extends SubsystemBase {
      * @param rotation Desired rotation factor [-1.0-1.0]
      */
     public void drive(double speed, double rotation) {
-        // TODO: Method stub
+
+        // Square inputs
+        speed = InputUtils.scale(speed, ScalingMode.SQUARED);
+        rotation = InputUtils.scale(rotation, ScalingMode.SQUARED);
+
+        // Compute a DriveSignal from inputs
+        DriveSignal signal = DifferentialDriveCalculation.semiConstCurve(speed, rotation);
+
+        // Set the signal
+        setOpenLoop(signal);
     }
 
     /**
