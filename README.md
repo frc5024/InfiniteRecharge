@@ -151,6 +151,19 @@ Some devices on the network have static addresses
 
 **Note: The wireless AP's password is `raiderrobotics`**
 
+## FRC Game resources
+
+*FIRST* provides us with a few useful documents containing information about the competition. For convenience, the two most important of these are included in this repo in the `docs/gameseason` folder. The following links will bring you to the rest of the needed files. Make sure to keep a copy of these on your computer at all times, we reference them a lot.
+
+These files are usually password-protected. The password is: `UNKNOWN`
+
+ - _Game animation_
+ - [Game manual](https://firstfrc.blob.core.windows.net/frc2020/Manual/2020FRCGameSeasonManual.pdf)
+ - [Pre-kickoff rules](https://firstfrc.blob.core.windows.net/frc2019/PreKickoffRuleChanges.pdf)
+ - [Half-field drawings](https://firstfrc.blob.core.windows.net/frc2020/PlayingField/2020TeamDrawing-HalfField.pdf)
+ - [Full field diagrams](https://firstfrc.blob.core.windows.net/frc2020/PlayingField/2020FieldDrawing-SeasonSpecific.pdf)
+ - [Field photos](https://firstfrc.blob.core.windows.net/frc2020/PlayingField/NASAFieldImages.zip) (**Large Download**)
+
 ## Troubleshooting
 
 Here are some solutions for known problems
