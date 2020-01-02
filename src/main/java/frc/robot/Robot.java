@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.lib5k.components.gyroscopes.NavX;
 import frc.lib5k.roborio.FaultReporter;
 import frc.lib5k.utils.RobotLogger;
 import frc.lib5k.utils.RobotLogger.Level;
@@ -42,9 +43,12 @@ public class Robot extends TimedRobot {
 		logger.log("Robot", "Registering Subsystems", Level.kRobot);
 
 		m_driveTrain.setDefaultCommand(m_driveControl);
-    
-    // Start the logger
+
+		// Start the logger
 		logger.start(0.02);
+
+		// Reset & calibrate the robot gyroscope
+		NavX.getInstance().reset();
 	}
 
 	/**
