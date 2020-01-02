@@ -10,6 +10,7 @@ The source and tooling behind [FRC](https://www.firstinspires.org/robotics/frc) 
  - [Documentation](#documentation)
  - [Vendor Libraries](#vendor-libraries)
  - [Networking](#networking)
+ - [Game resources](#frc-game-resources)
  - [Troubleshooting](#troubleshooting)
 
 
