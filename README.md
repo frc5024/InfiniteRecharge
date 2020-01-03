@@ -147,7 +147,7 @@ Some devices on the network have static addresses
 | Device    | Address       |
 | --------- | ------------- |
 | Router    | `10.50.24.1`  |
-| RoboRIO   | `10.50.24.2   |
+| RoboRIO   | `10.50.24.2`  |
 | Limelight | `10.50.24.11` |
 
 **Note: The wireless AP's password is `raiderrobotics`**
