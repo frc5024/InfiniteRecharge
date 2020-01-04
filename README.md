@@ -156,7 +156,7 @@ Some devices on the network have static addresses
 
 *FIRST* provides us with a few useful documents containing information about the competition. For convenience, the two most important of these are included in this repo in the `docs/gameseason` folder. The following links will bring you to the rest of the needed files. Make sure to keep a copy of these on your computer at all times, we reference them a lot.
 
-These files are usually password-protected. The password is: `UNKNOWN`
+These files are usually password-protected. The password is: `R!$E2geTHeR#2020`
 
  - _Game animation_
  - [Game manual](https://firstfrc.blob.core.windows.net/frc2020/Manual/2020FRCGameSeasonManual.pdf)
