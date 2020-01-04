@@ -1,6 +1,10 @@
 plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2020.1.1"
+
+    // IDE-Support
+    id 'idea'
+    id 'eclipse'
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
