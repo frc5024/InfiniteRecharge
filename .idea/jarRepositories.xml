@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteRepositoriesConfiguration">
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Maven Central repository" />
+      <option name="url" value="https://repo1.maven.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jboss.community" />
+      <option name="name" value="JBoss Community repository" />
+      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="WPIcb311d09-36e9-4143-a032-55bb2b94443b_0Release" />
+      <option name="name" value="WPIcb311d09-36e9-4143-a032-55bb2b94443b_0Release" />
+      <option name="url" value="https://repo1.maven.org/maven2/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="MavenRepo" />
+      <option name="name" value="MavenRepo" />
+      <option name="url" value="https://repo.maven.apache.org/maven2/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="WPIab676553-b602-441f-a38d-f1296eff6537_0Release" />
+      <option name="name" value="WPIab676553-b602-441f-a38d-f1296eff6537_0Release" />
+      <option name="url" value="http://devsite.ctr-electronics.com/maven/release/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="WPIOfficialRelease" />
+      <option name="name" value="WPIOfficialRelease" />
+      <option name="url" value="https://frcmaven.wpi.edu/artifactory/release" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="WPI3f48eb8c-50fe-43a6-9cb7-44c86353c4cb_0Release" />
+      <option name="name" value="WPI3f48eb8c-50fe-43a6-9cb7-44c86353c4cb_0Release" />
+      <option name="url" value="http://www.revrobotics.com/content/sw/max/sdk/maven/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="WPI7194a2d4-2860-4bcc-86c0-97879737d875_0Release" />
+      <option name="name" value="WPI7194a2d4-2860-4bcc-86c0-97879737d875_0Release" />
+      <option name="url" value="https://dev.imjac.in/maven" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="WPILocal" />
+      <option name="name" value="WPILocal" />
+      <option name="url" value="file:/C:/Users/Public/wpilib/2020/maven/" />
+    </remote-repository>
+  </component>
+</project>
