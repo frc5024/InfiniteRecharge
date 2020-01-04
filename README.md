@@ -180,3 +180,26 @@ Try installing Gradle (if not already installed), opening a command prompt / ter
  - Try restarting the robot from driverstation
  - Try killing the power to the robot, then turning it on again
  - Use Ethernet
+ 
+### FRC Tools are not updating
+
+Each time we update the WPILib version for the project, all project tools should update to reflect the new version (the version will be displayed on the loading screen of each tool). If this is not happening:
+
+Open up the FRC tools install folder (`~/wpilib/<year>/tools` for Linux, `C:/Users/Public/wpilib/<year>/tools` for Windows), and delete all files except for:
+
+ - ScriptBase.py
+ - ScriptBase.vbs
+ - tools.json
+ - ToolsUpdater.jar
+ - ToolsUpdater.py
+ 
+Then, run the following in the project root:
+
+```sh
+# Linux
+./gradlew ./gradlew installAllTools
+
+# Windows
+.\gradlew.bat installAllTools
+
+```
