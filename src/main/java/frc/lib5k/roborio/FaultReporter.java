@@ -33,6 +33,7 @@ public class FaultReporter {
         // Configure and start the notifier
         logger.log("FaultReporter", "Starting reporter thread", Level.kLibrary);
         thread = new Notifier(this::update);
+        thread.setName("Lib5K FaultReporter");
         thread.startPeriodic(0.08);
     }
 

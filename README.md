@@ -1,4 +1,4 @@
-# InfiniteRecharge
+# InfiniteRecharge <br> ![CI Badge](https://github.com/frc5024/infiniterecharge/workflows/FRC%20Build%20%26%20Test/badge.svg)
 
 The source and tooling behind [FRC](https://www.firstinspires.org/robotics/frc) team [5024](https://www.thebluealliance.com/team/5024)'s 2020 competition robot. 
 
@@ -10,6 +10,7 @@ The source and tooling behind [FRC](https://www.firstinspires.org/robotics/frc) 
  - [Documentation](#documentation)
  - [Vendor Libraries](#vendor-libraries)
  - [Networking](#networking)
+ - [Game resources](#frc-game-resources)
  - [Troubleshooting](#troubleshooting)
 
 
@@ -61,8 +62,6 @@ Documentation generation is handled by a Gradle plugin, and a Perl script. The p
 This script requires a recent version of [GIT](https://git-scm.com/), and [Perl 5.010](https://www.perl.org/) or later.
 
 
-
-
 ## Building the project
 
 This project runs on [Gradle](https://gradle.org/), so most of the work of installing dependancies, and configuring builds is automatically handled. The first time the code is built, Gradle will automatically download all the tools you need. 
@@ -70,6 +69,10 @@ This project runs on [Gradle](https://gradle.org/), so most of the work of insta
 There are two ways to build the robot project. 
   - Pressing `CTRL+SHIFT+P` in VSCode, searching for `WPILib: Build robot code`, and running the task
   - Opening the project in a terminal, and running `.\gradlew.bat build` (Windows) or `./gradlew build` (Linux)
+
+### GitHub CI
+
+Every time code is pushed to GitHub, or a pull request is opened, our [CI Pipeline](https://github.com/marketplace/actions/frc-build-test) will automatically build a copy of the code on GitHub's servers, and report back with a status. This can be checked with the badge at the top of the README file, or by looking for an icon beside each commit. Checkmark is a success, Yellow circle is "Build in progress", and a red X is "failure". 
 
 
 ## Deployment
@@ -140,13 +143,27 @@ The "Other Wired/Wireless devices" would be things like
 The network uses the `10.50.24.x` address space with dynamic IP addresses assigned from `10.50.24.20` and up.
 
 Some devices on the network have static addresses
+
 | Device    | Address       |
 | --------- | ------------- |
 | Router    | `10.50.24.1`  |
-| RoboRIO   | `10.50.24.2   |
+| RoboRIO   | `10.50.24.2`  |
 | Limelight | `10.50.24.11` |
 
 **Note: The wireless AP's password is `raiderrobotics`**
+
+## FRC Game resources
+
+*FIRST* provides us with a few useful documents containing information about the competition. For convenience, the two most important of these are included in this repo in the `docs/gameseason` folder. The following links will bring you to the rest of the needed files. Make sure to keep a copy of these on your computer at all times, we reference them a lot.
+
+These files are usually password-protected. The password is: `UNKNOWN`
+
+ - _Game animation_
+ - [Game manual](https://firstfrc.blob.core.windows.net/frc2020/Manual/2020FRCGameSeasonManual.pdf)
+ - [Pre-kickoff rules](https://firstfrc.blob.core.windows.net/frc2019/PreKickoffRuleChanges.pdf)
+ - [Half-field drawings](https://firstfrc.blob.core.windows.net/frc2020/PlayingField/2020TeamDrawing-HalfField.pdf)
+ - [Full field diagrams](https://firstfrc.blob.core.windows.net/frc2020/PlayingField/2020FieldDrawing-SeasonSpecific.pdf)
+ - [Field photos](https://firstfrc.blob.core.windows.net/frc2020/PlayingField/NASAFieldImages.zip) (**Large Download**)
 
 ## Troubleshooting
 

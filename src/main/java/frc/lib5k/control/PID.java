@@ -125,7 +125,7 @@ public class PID extends SendableBase {
     /**
      * Feed the controller with a sensor error
      * 
-     * @param sensor_reading The current control loop error
+     * @param error The current control loop error
      * 
      * @return The output of the controller. This generally should be fed directly
      *         into a motor
