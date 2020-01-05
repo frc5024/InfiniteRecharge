@@ -286,4 +286,13 @@ public class DriveTrain extends SubsystemBase {
     public Pose2d getPosition() {
         return m_robotPose;
     }
+
+    /**
+     * Force-set the robot's position
+     * 
+     * @param pose Robot pose
+     */
+    public void setPosition(Pose2d pose) {
+        m_odometry.resetPosition(pose, Rotation2d.fromDegrees(NavX.getInstance().getHeading()));
+    }
 }
