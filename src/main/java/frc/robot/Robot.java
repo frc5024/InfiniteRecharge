@@ -59,6 +59,7 @@ public class Robot extends TimedRobot {
 
 		// Reset the drivetrain pose
 		m_driveTrain.setPosition(new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0.0)));
+		m_driveTrain.setRampRate(0.12);
 
 		// Create and publish an autonomous chooser
 		m_autonChooser = new Chooser();

@@ -46,8 +46,8 @@ public class RobotConstants {
             public static final int LEFT_REAR_TALON = 2;
 
             /* Right side Talons */
-            public static final int RIGHT_FRONT_TALON = 1;
-            public static final int RIGHT_REAR_TALON = 1;
+            public static final int RIGHT_FRONT_TALON = 3;
+            public static final int RIGHT_REAR_TALON = 4;
         }
 
         /**
