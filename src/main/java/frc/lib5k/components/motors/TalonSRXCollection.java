@@ -5,6 +5,9 @@ import java.util.function.Consumer;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.hal.SimBoolean;
+import edu.wpi.first.hal.SimDevice;
+import edu.wpi.first.hal.SimDouble;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 
@@ -41,6 +44,11 @@ public class TalonSRXCollection extends SpeedControllerGroup implements IMotorCo
 
     /* Telemetry */
     private NetworkTable telemetryTable;
+    private SimDevice m_simDevice;
+    private SimBoolean m_simConnected;
+    private SimBoolean m_simInverted;
+    private SimDouble m_simSpeed;
+
 
     public TalonSRXCollection(WPI_TalonSRX master, WPI_TalonSRX... slaves) {
         super(master, slaves);
@@ -65,11 +73,21 @@ public class TalonSRXCollection extends SpeedControllerGroup implements IMotorCo
         // Get the telemetry NetworkTable
         telemetryTable = ComponentTelemetry.getInstance().getTableForComponent(name);
 
+        // handle simulation device settings
+        m_simDevice = SimDevice.create("TalonSRXCollection", master.getDeviceID());
+        if (m_simDevice != null) {
+            m_simConnected = m_simDevice.createBoolean("Connected", true, true);
+            m_simInverted = m_simDevice.createBoolean("Inverted", true, false);
+            m_simSpeed = m_simDevice.createDouble("Speed", true, 0.0);
+        }
+
+
     }
 
     @Override
     public void set(double speed) {
         output = speed;
+        m_simSpeed.set(speed);
 
         super.set(speed);
     }
@@ -85,6 +103,8 @@ public class TalonSRXCollection extends SpeedControllerGroup implements IMotorCo
     @Override
     public void setInverted(boolean isInverted) {
         inverted = isInverted;
+        m_simInverted.set(isInverted);
+
         super.setInverted(isInverted);
 
     }
