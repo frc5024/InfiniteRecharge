@@ -1,6 +1,10 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib5k.components.motors.TalonSRXCollection;
+import frc.robot.RobotConstants;
 
 /**
  * The DriveTrain handles all robot movement.
@@ -9,11 +13,42 @@ public class DriveTrain extends SubsystemBase {
     private static DriveTrain s_instance = null;
 
     /**
+     * Left side gearbox.
+     */
+    private TalonSRXCollection m_leftGearbox;
+
+    /**
+     * Right side gearbox.
+     */
+    private TalonSRXCollection m_rightGearbox;
+
+    /**
      * DriveTrain constructor.
      * 
      * All subsystem components should be created and configured here.
      */
     private DriveTrain() {
+
+        // Construct both gearboxes
+        m_leftGearbox = new TalonSRXCollection(
+                new WPI_TalonSRX(RobotConstants.DriveTrain.MotorControllers.LEFT_FRONT_TALON),
+                new WPI_TalonSRX(RobotConstants.DriveTrain.MotorControllers.LEFT_REAR_TALON));
+        m_rightGearbox = new TalonSRXCollection(
+                new WPI_TalonSRX(RobotConstants.DriveTrain.MotorControllers.RIGHT_FRONT_TALON),
+                new WPI_TalonSRX(RobotConstants.DriveTrain.MotorControllers.RIGHT_REAR_TALON));
+
+        // Configure the gearboxes
+        m_leftGearbox.setCurrentLimit(RobotConstants.DriveTrain.CurrentLimits.PEAK_AMPS,
+                RobotConstants.DriveTrain.CurrentLimits.TIMEOUT_MS, RobotConstants.DriveTrain.CurrentLimits.HOLD_AMPS,
+                0);
+        m_rightGearbox.setCurrentLimit(RobotConstants.DriveTrain.CurrentLimits.PEAK_AMPS,
+                RobotConstants.DriveTrain.CurrentLimits.TIMEOUT_MS, RobotConstants.DriveTrain.CurrentLimits.HOLD_AMPS,
+                0);
+        
+        // Disable motor safety
+        m_leftGearbox.setMasterMotorSafety(false);
+        m_rightGearbox.setMasterMotorSafety(false);
+
 
     }
 
