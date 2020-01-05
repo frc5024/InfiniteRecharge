@@ -57,4 +57,17 @@ public class Mathutils {
     public static double clamp(double value, double low, double high) {
         return Math.max(low, Math.min(value, high));
     }
+
+    /**
+     * Checks if two values are roughly equal to each other.
+     *
+     * @param a
+     * @param b
+     * @param epsilon
+     * @return true if a and b are within epsilon
+     */
+    public static boolean epsilonEquals(double a, double b, double epsilon) {
+        return (a - epsilon <= b) && (a + epsilon >= b);
+    }
+
 }
