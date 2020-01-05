@@ -5,48 +5,72 @@ import edu.wpi.first.wpilibj.DriverStation;
 import java.awt.*;
 
 public class GameData {
+    private static GameData s_instance = null;
 
-    DriverStation driverStation;
-
-    public GameData() {
-        driverStation = DriverStation.getInstance();
+    /**
+     * GameData constructor
+     *
+     */
+    private GameData() {
 
     }
 
+    /**
+     * Get the GameData instance
+     *
+     * @return GameData instance
+     */
+    public static GameData getInstance(){
+        if (s_instance == null) {
+            s_instance = new GameData();
+        }
+
+        return s_instance;
+    }
+
+
+    /**
+     *
+     * @return one of the three enums in Stages to know which stage we are in.
+     */
     public Stage getGameStage() {
 
-        if(driverStation.isAutonomous()) {
+        if(DriverStation.getInstance().isAutonomous()) {
             return Stage.STAGE1;
         }
 
-        if(!driverStation.isAutonomous() && getControlColor() == null) {
+        if( DriverStation.getInstance().isOperatorControl() && getControlColor() == null) {
             return Stage.STAGE2;
         }
 
-        if( !driverStation.isAutonomous() && getControlColor() != null) {
+        if( DriverStation.getInstance().isOperatorControl() && getControlColor() != null) {
             return Stage.STAGE3;
         }
 
         return null;
     }
 
+
+    /**
+     *
+     * @return a Color object
+     */
     public Color getControlColor() {
 
-        switch (driverStation.getGameSpecificMessage()) {
+        switch (DriverStation.getInstance().getGameSpecificMessage()) {
             case "R":
-                return Color.RED;
+                return new Color(255, 0, 0);
             case "G":
-                return Color.GREEN;
+                return new Color(0, 255, 0);
             case "B":
-                return Color.BLUE;
+                return new Color(0, 255, 255);
             case "Y":
-                return Color.YELLOW;
+                return new Color(255, 255, 0);
             default:
                 return null;
         }
     }
 
-    // Stages within the game.
     private enum Stage {
         STAGE1,
         STAGE2,
