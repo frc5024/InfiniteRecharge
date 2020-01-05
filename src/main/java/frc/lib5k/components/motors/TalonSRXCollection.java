@@ -197,8 +197,16 @@ public class TalonSRXCollection extends SpeedControllerGroup implements IMotorCo
         // Handle TalonSRX configuration
         if (enabled) {
             master.configOpenloopRamp(rampRate);
+
+            forEachSlave((slave) -> {
+                slave.configOpenloopRamp(rampRate);
+            });
         } else {
             master.configOpenloopRamp(0.0);
+
+            forEachSlave((slave) -> {
+                slave.configOpenloopRamp(0.0);
+            });
         }
 
     }
