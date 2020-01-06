@@ -95,14 +95,17 @@ public class DriveTrain extends SubsystemBase {
         m_leftGearbox.setMasterMotorSafety(false);
         m_rightGearbox.setMasterMotorSafety(false);
 
-
         // Set motor inversions
         m_leftGearbox.setInverted(false);
         m_rightGearbox.setInverted(true);
 
+        // Set sensor phases
+        // m_leftGearbox.getMaster().setSensorPhase(false);
+        // m_rightGearbox.getMaster().setSensorPhase(false);
+
         // Get encoders
-        m_leftEncoder = m_leftGearbox.getEncoder(RobotConstants.DriveTrain.Encoders.LEFT_ENCODER_SLOT);
-        m_rightEncoder = m_rightGearbox.getEncoder(RobotConstants.DriveTrain.Encoders.RIGHT_ENCODER_SLOT);
+        m_leftEncoder = m_leftGearbox.getEncoder(RobotConstants.DriveTrain.Encoders.LEFT_ENCODER_SLOT, false);
+        m_rightEncoder = m_rightGearbox.getEncoder(RobotConstants.DriveTrain.Encoders.RIGHT_ENCODER_SLOT, true);
 
         // Create odometry object
         m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(NavX.getInstance().getHeading()));
@@ -154,6 +157,8 @@ public class DriveTrain extends SubsystemBase {
             // the outputs to 0
             setOpenLoop(new DriveSignal(0, 0));
         }
+
+        System.out.println(String.format("%d, %d", m_leftEncoder.getTicks(), m_rightEncoder.getTicks()));
 
     }
 

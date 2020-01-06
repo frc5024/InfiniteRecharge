@@ -268,17 +268,19 @@ public class TalonSRXCollection extends SpeedControllerGroup implements IMotorCo
     }
 
     @Override
-    public EncoderBase getEncoder(int id) {
+    public EncoderBase getEncoder(int id, boolean phase) {
         // Clamp the ID to the number of slaved + 1 (the master)
         id = (int) Mathutils.clamp(id, 0, slaves.length);
 
         // Check if the ID is for the master
         if (id == 0) {
+            master.setSensorPhase(phase);
             return new TalonEncoder(master);
         }
 
         // Otherwise, get the encoder from the list of slaves
-        return new TalonEncoder(slaves[id]);
+        slaves[id - 1].setSensorPhase(phase);
+        return new TalonEncoder(slaves[id - 1]);
     }
 
     public void setNeutralMode(NeutralMode mode) {

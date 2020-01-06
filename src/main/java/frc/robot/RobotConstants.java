@@ -73,8 +73,8 @@ public class RobotConstants {
         public static class Encoders {
 
             /* Encoder slots */
-            public static final int LEFT_ENCODER_SLOT = 0;
-            public static final int RIGHT_ENCODER_SLOT = 0;
+            public static final int LEFT_ENCODER_SLOT = 1;
+            public static final int RIGHT_ENCODER_SLOT = 1;
 
             /* Ticks per revolution of the encoder */
             public static final int TICKS_PER_REVOLUTION = 4096;
