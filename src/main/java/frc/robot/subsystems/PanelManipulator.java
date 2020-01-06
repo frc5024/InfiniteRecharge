@@ -21,18 +21,22 @@ public class PanelManipulator extends SubsystemBase {
     private boolean redSame, blueSame, greenSame, alphaSame;
     private boolean colorSame;
 
+    Color8Bit detectedColor;
+
     private I2C.Port i2cPort = I2C.Port.kOnboard;
 
     private ColorSensorV3 colorSensor = new ColorSensorV3(i2cPort);
     private GameData gameData;
     private ShuffleboardTab panelTab;
     private NetworkTableEntry threashold;
+    private double threasholdDouble;
 
     private PanelManipulator() {
 
         gameData = gameData.getInstance();
         panelTab = Shuffleboard.getTab("Panel Manipulator");
         threashold = panelTab.add("Color Threashold", 0).getEntry();
+
     }
 
     public static PanelManipulator getInstance() {
@@ -47,16 +51,34 @@ public class PanelManipulator extends SubsystemBase {
     @Override
     public void periodic() {
 
-               
-        
-        Color8Bit detectedColor = new Color8Bit(colorSensor.getColor());  
-        
+        detectedColor = new Color8Bit(colorSensor.getColor());
+
+
+        threasholdDouble = threashold.getDouble(threasholdDouble);
+
+    }
+
+    public boolean isSensedColorCorrect() {
+
+        Color c = new Color(detectedColor);
+        Color8Bit wantedColor = gameData.getControlColor();
+
+        if (wantedColor == null) {
+            return false;
+        }
+
+
+        return ColorUtils.epsilonEquals(c, new Color(wantedColor), threasholdDouble);
+
+    }
+
+    public void outputTelemetry() {
 
         SmartDashboard.putNumber("Red", detectedColor.red);
         SmartDashboard.putNumber("Green", detectedColor.green);
         SmartDashboard.putNumber("Blue", detectedColor.blue);
-
         SmartDashboard.putBoolean("Color Matches?", colorSame);
+
     }
 
 }
