@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
-public class Intake{
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+public class Intake extends SubsystemBase{
     public static Intake m_instance = null;
 
     /**
