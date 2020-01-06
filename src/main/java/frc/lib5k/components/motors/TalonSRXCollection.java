@@ -49,7 +49,6 @@ public class TalonSRXCollection extends SpeedControllerGroup implements IMotorCo
     private SimBoolean m_simInverted;
     private SimDouble m_simSpeed;
 
-
     public TalonSRXCollection(WPI_TalonSRX master, WPI_TalonSRX... slaves) {
         super(master, slaves);
 
@@ -81,13 +80,15 @@ public class TalonSRXCollection extends SpeedControllerGroup implements IMotorCo
             m_simSpeed = m_simDevice.createDouble("Speed", true, 0.0);
         }
 
-
     }
 
     @Override
     public void set(double speed) {
         output = speed;
-        m_simSpeed.set(speed);
+
+        if (m_simDevice != null) {
+            m_simSpeed.set(speed);
+        }
 
         super.set(speed);
     }
@@ -103,7 +104,10 @@ public class TalonSRXCollection extends SpeedControllerGroup implements IMotorCo
     @Override
     public void setInverted(boolean isInverted) {
         inverted = isInverted;
-        m_simInverted.set(isInverted);
+
+        if (m_simDevice != null) {
+            m_simInverted.set(isInverted);
+        }
 
         super.setInverted(isInverted);
 

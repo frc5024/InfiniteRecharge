@@ -7,6 +7,14 @@ import edu.wpi.first.wpilibj.util.Units;
  */
 public class RobotConstants {
 
+    public static class Autonomous {
+        
+        /**
+         * Number of seconds to wait before robot is allowed to score
+         */
+        public static final double SCORE_LATE_DELAY = 5.0;
+    }
+
     /**
      * Constants regarding human input
      */
