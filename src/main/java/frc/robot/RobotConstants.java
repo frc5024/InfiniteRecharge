@@ -1,9 +1,19 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.util.Units;
+
 /**
  * All constants and configuration for the robot should be stored here
  */
 public class RobotConstants {
+
+    public static class Autonomous {
+        
+        /**
+         * Number of seconds to wait before robot is allowed to score
+         */
+        public static final double SCORE_LATE_DELAY = 5.0;
+    }
 
     /**
      * Constants regarding human input
@@ -44,8 +54,8 @@ public class RobotConstants {
             public static final int LEFT_REAR_TALON = 2;
 
             /* Right side Talons */
-            public static final int RIGHT_FRONT_TALON = 1;
-            public static final int RIGHT_REAR_TALON = 1;
+            public static final int RIGHT_FRONT_TALON = 3;
+            public static final int RIGHT_REAR_TALON = 4;
         }
 
         /**
@@ -55,6 +65,33 @@ public class RobotConstants {
             public static final int PEAK_AMPS = 35;
             public static final int HOLD_AMPS = 33;
             public static final int TIMEOUT_MS = 30;
+        }
+
+        /**
+         * Encoder constants
+         */
+        public static class Encoders {
+
+            /* Encoder slots */
+            public static final int LEFT_ENCODER_SLOT = 1;
+            public static final int RIGHT_ENCODER_SLOT = 1;
+
+            /* Ticks per revolution of the encoder */
+            public static final int TICKS_PER_REVOLUTION = 4096;
+        }
+
+        /**
+         * Component measurements
+         */
+        public static class Measurements {
+            public static final double WHEEL_DIAMETER = Units.inchesToMeters(6.0);
+            public static final double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
+
+            public static final double DRIVEBASE_WIDTH = Units.inchesToMeters(28.0);
+            public static final double DRIVEBASE_LENGTH = Units.inchesToMeters(28.0);
+
+            public static final double GEAR_RATIO = 8.45;
+
         }
     }
 
