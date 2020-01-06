@@ -95,6 +95,11 @@ public class DriveTrain extends SubsystemBase {
         m_leftGearbox.setMasterMotorSafety(false);
         m_rightGearbox.setMasterMotorSafety(false);
 
+
+        // Set motor inversions
+        m_leftGearbox.setInverted(false);
+        m_rightGearbox.setInverted(true);
+
         // Get encoders
         m_leftEncoder = m_leftGearbox.getEncoder(RobotConstants.DriveTrain.Encoders.LEFT_ENCODER_SLOT);
         m_rightEncoder = m_rightGearbox.getEncoder(RobotConstants.DriveTrain.Encoders.RIGHT_ENCODER_SLOT);
@@ -168,6 +173,7 @@ public class DriveTrain extends SubsystemBase {
 
         // Set the signal
         setOpenLoop(signal);
+
     }
 
     /**

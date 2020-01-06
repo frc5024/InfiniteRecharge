@@ -106,6 +106,11 @@ public class Robot extends TimedRobot {
 			m_autonomousCommand.cancel();
 		}
 
+		// Start the teleop commands
+		if (m_driveControl != null) {
+			m_driveControl.schedule();
+		}
+
 	}
 
 	@Override
