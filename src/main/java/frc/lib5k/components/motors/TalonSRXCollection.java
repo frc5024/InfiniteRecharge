@@ -57,7 +57,7 @@ public class TalonSRXCollection extends SpeedControllerGroup implements IMotorCo
         this.master = master;
         this.slaves = slaves;
 
-        // Defult the master
+        // Default the master
         master.configFactoryDefault();
 
         // Slave each slave

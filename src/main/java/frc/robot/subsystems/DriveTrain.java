@@ -236,6 +236,8 @@ public class DriveTrain extends SubsystemBase {
      * @param rampRate Ramp rate
      */
     public void setRampRate(double rampRate) {
+        logger.log("DriveTrain", String.format("Setting DriveTrain ramp rate to: %.2f", rampRate));
+
         m_leftGearbox.setRampRate(rampRate);
         m_rightGearbox.setRampRate(rampRate);
     }
@@ -244,6 +246,8 @@ public class DriveTrain extends SubsystemBase {
      * Stop the drivetrain
      */
     public void stop() {
+        logger.log("DriveTrain", "Stopping DriveTrain");
+
         setOpenLoop(new DriveSignal(0, 0));
     }
 
@@ -254,6 +258,8 @@ public class DriveTrain extends SubsystemBase {
      * @param brakesApplied Should the brakes be applied?
      */
     public void setBrakes(boolean brakesApplied) {
+        logger.log("DriveTrain", String.format("%s brakes", (brakesApplied) ? "Enabling" : "Disabling"));
+
         m_leftGearbox.setNeutralMode((brakesApplied) ? NeutralMode.Brake : NeutralMode.Coast);
         m_rightGearbox.setNeutralMode((brakesApplied) ? NeutralMode.Brake : NeutralMode.Coast);
     }
@@ -293,6 +299,8 @@ public class DriveTrain extends SubsystemBase {
      * @param pose Robot pose
      */
     public void setPosition(Pose2d pose) {
+        logger.log("DriveTrain", String.format("Set odometry position to: %s", pose.toString()));
+
         m_odometry.resetPosition(pose, Rotation2d.fromDegrees(NavX.getInstance().getHeading()));
     }
 }

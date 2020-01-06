@@ -79,6 +79,9 @@ public class RobotConstants {
             public static final double WHEEL_DIAMETER = Units.inchesToMeters(6.0);
             public static final double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
 
+            public static final double DRIVEBASE_WIDTH = Units.inchesToMeters(28.0);
+            public static final double DRIVEBASE_LENGTH = Units.inchesToMeters(28.0);
+
             public static final double GEAR_RATIO = 8.45;
 
         }
