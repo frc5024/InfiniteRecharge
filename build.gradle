@@ -76,4 +76,4 @@ jar {
 javadoc{
     source = "src/main/java"
     destinationDir = reporting.file("docs")
-}
+} 
