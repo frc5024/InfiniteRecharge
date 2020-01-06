@@ -66,21 +66,9 @@ public class Robot extends TimedRobot {
 		m_autonChooser.publishOptions();
 	}
 
-	/**
-	 * Code to be called on both autonomous and teleop init
-	 */
-	private void sharedInit() {
-
-		// Enable brakes on the DriveTrain
-		m_driveTrain.setBrakes(true);
-	}
-
 	@Override
 	public void autonomousInit() {
 		logger.log("Robot", "Autonomous started");
-
-		// Run shared init code
-		sharedInit();
 
 		// Determine correct autonomous command to run
 		m_autonomousCommand = m_autonChooser.generateAutonomousCommand();
@@ -94,6 +82,9 @@ public class Robot extends TimedRobot {
 
 		// Determine robot starting position
 		m_driveTrain.setPosition(m_autonChooser.getRobotAutoStartPosition());
+
+		// Enable brakes on the DriveTrain
+		m_driveTrain.setBrakes(true);
 	}
 
 	@Override
@@ -107,8 +98,14 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 		logger.log("Robot", "Teleop started");
 
-		// Run shared init code
-		sharedInit();
+		// Enable brakes on the DriveTrain
+		m_driveTrain.setBrakes(true);
+
+		// Disable the autonomous command
+		if (m_autonomousCommand != null) {
+			m_autonomousCommand.cancel();
+		}
+
 	}
 
 	@Override
