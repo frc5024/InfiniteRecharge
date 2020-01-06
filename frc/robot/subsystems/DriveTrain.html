@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":9,"i2":10,"i3":10};
+var data = {"i0":10,"i1":9,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -88,7 +88,7 @@ loadScripts(document, 'script');</script>
 <div>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
-<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#nested.class.summary">Nested</a>&nbsp;|&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
 <li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
@@ -149,6 +149,29 @@ extends edu.wpi.first.wpilibj2.command.SubsystemBase</pre>
 <div class="summary">
 <ul class="blockList">
 <li class="blockList">
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+<section role="region">
+<ul class="blockList">
+<li class="blockList"><a id="nested.class.summary">
+<!--   -->
+</a>
+<h3>Nested Class Summary</h3>
+<table class="memberSummary">
+<caption><span>Nested Classes</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colSecond" scope="col">Class</th>
+<th class="colLast" scope="col">Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="DriveTrain.DriveMode.html" title="enum in frc.robot.subsystems">DriveTrain.DriveMode</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+</table>
+</li>
+</ul>
+</section>
 <!-- ========== METHOD SUMMARY =========== -->
 <section role="region">
 <ul class="blockList">
@@ -179,6 +202,27 @@ extends edu.wpi.first.wpilibj2.command.SubsystemBase</pre>
 </td>
 </tr>
 <tr id="i2" class="altColor">
+<td class="colFirst"><code>double</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLeftMeters()">getLeftMeters</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Get the left side distance traveled in meters</div>
+</td>
+</tr>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>edu.wpi.first.wpilibj.geometry.Pose2d</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getPosition()">getPosition</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Get the robot's current field-relative position</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code>double</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getRightMeters()">getRightMeters</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Get the right side distance traveled in meters</div>
+</td>
+</tr>
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#periodic()">periodic</a></span>()</code></th>
 <td class="colLast">
@@ -186,11 +230,54 @@ extends edu.wpi.first.wpilibj2.command.SubsystemBase</pre>
  this method.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setBrakes(boolean)">setBrakes</a></span>&#8203;(boolean&nbsp;brakesApplied)</code></th>
 <td class="colLast">
 <div class="block">Set the motor brakes.</div>
+</td>
+</tr>
+<tr id="i7" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setOpenLoop(frc.lib5k.kinematics.DriveSignal)">setOpenLoop</a></span>&#8203;(<a href="../../lib5k/kinematics/DriveSignal.html" title="class in frc.lib5k.kinematics">DriveSignal</a>&nbsp;signal)</code></th>
+<td class="colLast">
+<div class="block">Set the Open loop control signal.</div>
+</td>
+</tr>
+<tr id="i8" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setPosition(edu.wpi.first.wpilibj.geometry.Pose2d)">setPosition</a></span>&#8203;(edu.wpi.first.wpilibj.geometry.Pose2d&nbsp;pose)</code></th>
+<td class="colLast">
+<div class="block">Force-set the robot's position</div>
+</td>
+</tr>
+<tr id="i9" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setRampRate(double)">setRampRate</a></span>&#8203;(double&nbsp;rampRate)</code></th>
+<td class="colLast">
+<div class="block">Set the number of seconds the drivebase should take to get to full power</div>
+</td>
+</tr>
+<tr id="i10" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setVoltage(double,double)">setVoltage</a></span>&#8203;(double&nbsp;left,
+          double&nbsp;right)</code></th>
+<td class="colLast">
+<div class="block">Sets Voltage Signal</div>
+</td>
+</tr>
+<tr id="i11" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setVoltage(frc.lib5k.kinematics.DriveSignal)">setVoltage</a></span>&#8203;(<a href="../../lib5k/kinematics/DriveSignal.html" title="class in frc.lib5k.kinematics">DriveSignal</a>&nbsp;signal)</code></th>
+<td class="colLast">
+<div class="block">Set the Open loop control signal.</div>
+</td>
+</tr>
+<tr id="i12" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#stop()">stop</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Stop the drivetrain</div>
 </td>
 </tr>
 </table>
@@ -279,10 +366,80 @@ extends edu.wpi.first.wpilibj2.command.SubsystemBase</pre>
 </dl>
 </li>
 </ul>
+<a id="setOpenLoop(frc.lib5k.kinematics.DriveSignal)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setOpenLoop</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;setOpenLoop&#8203;(<a href="../../lib5k/kinematics/DriveSignal.html" title="class in frc.lib5k.kinematics">DriveSignal</a>&nbsp;signal)</pre>
+<div class="block">Set the Open loop control signal. The values of this signal should be in the
+ rage of [-1.0-1.0]</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>signal</code> - Open loop signal</dd>
+</dl>
+</li>
+</ul>
+<a id="setVoltage(frc.lib5k.kinematics.DriveSignal)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setVoltage</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;setVoltage&#8203;(<a href="../../lib5k/kinematics/DriveSignal.html" title="class in frc.lib5k.kinematics">DriveSignal</a>&nbsp;signal)</pre>
+<div class="block">Set the Open loop control signal. The values of this signal should be in the
+ rage of [-12.0-12.0]</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>signal</code> - Voltage signal</dd>
+</dl>
+</li>
+</ul>
+<a id="setVoltage(double,double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setVoltage</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;setVoltage&#8203;(double&nbsp;left,
+                       double&nbsp;right)</pre>
+<div class="block">Sets Voltage Signal</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>left</code> - </dd>
+<dd><code>right</code> - </dd>
+</dl>
+</li>
+</ul>
+<a id="setRampRate(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setRampRate</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;setRampRate&#8203;(double&nbsp;rampRate)</pre>
+<div class="block">Set the number of seconds the drivebase should take to get to full power</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>rampRate</code> - Ramp rate</dd>
+</dl>
+</li>
+</ul>
+<a id="stop()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>stop</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;stop()</pre>
+<div class="block">Stop the drivetrain</div>
+</li>
+</ul>
 <a id="setBrakes(boolean)">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>setBrakes</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;setBrakes&#8203;(boolean&nbsp;brakesApplied)</pre>
@@ -291,6 +448,62 @@ extends edu.wpi.first.wpilibj2.command.SubsystemBase</pre>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>brakesApplied</code> - Should the brakes be applied?</dd>
+</dl>
+</li>
+</ul>
+<a id="getLeftMeters()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getLeftMeters</h4>
+<pre class="methodSignature">public&nbsp;double&nbsp;getLeftMeters()</pre>
+<div class="block">Get the left side distance traveled in meters</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>Left distance</dd>
+</dl>
+</li>
+</ul>
+<a id="getRightMeters()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getRightMeters</h4>
+<pre class="methodSignature">public&nbsp;double&nbsp;getRightMeters()</pre>
+<div class="block">Get the right side distance traveled in meters</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>Right distance</dd>
+</dl>
+</li>
+</ul>
+<a id="getPosition()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getPosition</h4>
+<pre class="methodSignature">public&nbsp;edu.wpi.first.wpilibj.geometry.Pose2d&nbsp;getPosition()</pre>
+<div class="block">Get the robot's current field-relative position</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>Robot position</dd>
+</dl>
+</li>
+</ul>
+<a id="setPosition(edu.wpi.first.wpilibj.geometry.Pose2d)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>setPosition</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;setPosition&#8203;(edu.wpi.first.wpilibj.geometry.Pose2d&nbsp;pose)</pre>
+<div class="block">Force-set the robot's position</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>pose</code> - Robot pose</dd>
 </dl>
 </li>
 </ul>
@@ -345,7 +558,7 @@ extends edu.wpi.first.wpilibj2.command.SubsystemBase</pre>
 <div>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
-<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#nested.class.summary">Nested</a>&nbsp;|&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
 <li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>

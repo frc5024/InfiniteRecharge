@@ -208,7 +208,8 @@ implements <a href="interfaces/IMotorCollection.html" title="interface in frc.li
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="../sensors/EncoderBase.html" title="class in frc.lib5k.components.sensors">EncoderBase</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getEncoder(int)">getEncoder</a></span>&#8203;(int&nbsp;id)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getEncoder(int,boolean)">getEncoder</a></span>&#8203;(int&nbsp;id,
+          boolean&nbsp;phase)</code></th>
 <td class="colLast">
 <div class="block">Get an encoder of a specific ID.</div>
 </td>
@@ -568,14 +569,15 @@ implements <a href="interfaces/IMotorCollection.html" title="interface in frc.li
 </dl>
 </li>
 </ul>
-<a id="getEncoder(int)">
+<a id="getEncoder(int,boolean)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>getEncoder</h4>
-<pre class="methodSignature">public&nbsp;<a href="../sensors/EncoderBase.html" title="class in frc.lib5k.components.sensors">EncoderBase</a>&nbsp;getEncoder&#8203;(int&nbsp;id)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../sensors/IEncoderProvider.html#getEncoder(int)">IEncoderProvider</a></code></span></div>
+<pre class="methodSignature">public&nbsp;<a href="../sensors/EncoderBase.html" title="class in frc.lib5k.components.sensors">EncoderBase</a>&nbsp;getEncoder&#8203;(int&nbsp;id,
+                              boolean&nbsp;phase)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../sensors/IEncoderProvider.html#getEncoder(int,boolean)">IEncoderProvider</a></code></span></div>
 <div class="block">Get an encoder of a specific ID. This is useful if a system has more than one
  sensor, or if it has more than one input, but only one sensor.
  
@@ -583,7 +585,7 @@ implements <a href="interfaces/IMotorCollection.html" title="interface in frc.li
  getDefaultEncoder()</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../sensors/IEncoderProvider.html#getEncoder(int)">getEncoder</a></code>&nbsp;in interface&nbsp;<code><a href="../sensors/IEncoderProvider.html" title="interface in frc.lib5k.components.sensors">IEncoderProvider</a></code></dd>
+<dd><code><a href="../sensors/IEncoderProvider.html#getEncoder(int,boolean)">getEncoder</a></code>&nbsp;in interface&nbsp;<code><a href="../sensors/IEncoderProvider.html" title="interface in frc.lib5k.components.sensors">IEncoderProvider</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>id</code> - Encoder ID</dd>
 <dt><span class="returnLabel">Returns:</span></dt>

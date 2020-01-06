@@ -98,8 +98,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="horizontal">
 <li><a href="frc/lib5k/package-tree.html">frc.lib5k</a>, </li>
 <li><a href="frc/lib5k/components/package-tree.html">frc.lib5k.components</a>, </li>
+<li><a href="frc/lib5k/components/drive/package-tree.html">frc.lib5k.components.drive</a>, </li>
 <li><a href="frc/lib5k/components/gyroscopes/package-tree.html">frc.lib5k.components.gyroscopes</a>, </li>
-<li><a href="frc/lib5k/components/gyroscopes/interfaces/package-tree.html">frc.lib5k.components.gyroscopes.interfaces</a>, </li>
 <li><a href="frc/lib5k/components/limelight/package-tree.html">frc.lib5k.components.limelight</a>, </li>
 <li><a href="frc/lib5k/components/motors/package-tree.html">frc.lib5k.components.motors</a>, </li>
 <li><a href="frc/lib5k/components/motors/interfaces/package-tree.html">frc.lib5k.components.motors.interfaces</a>, </li>
@@ -122,6 +122,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li><a href="frc/lib5k/utils/package-tree.html">frc.lib5k.utils</a>, </li>
 <li><a href="frc/lib5k/utils/telemetry/package-tree.html">frc.lib5k.utils.telemetry</a>, </li>
 <li><a href="frc/robot/package-tree.html">frc.robot</a>, </li>
+<li><a href="frc/robot/autonomous/package-tree.html">frc.robot.autonomous</a>, </li>
+<li><a href="frc/robot/autonomous/actions/package-tree.html">frc.robot.autonomous.actions</a>, </li>
 <li><a href="frc/robot/commands/package-tree.html">frc.robot.commands</a>, </li>
 <li><a href="frc/robot/subsystems/package-tree.html">frc.robot.subsystems</a></li>
 </ul>
@@ -137,19 +139,26 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="circle">frc.lib5k.components.<a href="frc/lib5k/components/USBVisionCamera.html" title="class in frc.lib5k.components"><span class="typeNameLink">USBVisionCamera</span></a></li>
 </ul>
 </li>
+<li class="circle">frc.robot.autonomous.<a href="frc/robot/autonomous/AutonomousStartpoints.html" title="class in frc.robot.autonomous"><span class="typeNameLink">AutonomousStartpoints</span></a></li>
+<li class="circle">frc.robot.autonomous.<a href="frc/robot/autonomous/Chooser.html" title="class in frc.robot.autonomous"><span class="typeNameLink">Chooser</span></a></li>
 <li class="circle">edu.wpi.first.wpilibj2.command.CommandBase (implements edu.wpi.first.wpilibj2.command.Command, edu.wpi.first.wpilibj.Sendable)
 <ul>
 <li class="circle">frc.robot.commands.<a href="frc/robot/commands/DriveControl.html" title="class in frc.robot.commands"><span class="typeNameLink">DriveControl</span></a></li>
+<li class="circle">edu.wpi.first.wpilibj2.command.InstantCommand
+<ul>
+<li class="circle">frc.robot.autonomous.actions.<a href="frc/robot/autonomous/actions/LogCommand.html" title="class in frc.robot.autonomous.actions"><span class="typeNameLink">LogCommand</span></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="circle">frc.lib5k.utils.telemetry.<a href="frc/lib5k/utils/telemetry/ComponentTelemetry.html" title="class in frc.lib5k.utils.telemetry"><span class="typeNameLink">ComponentTelemetry</span></a></li>
 <li class="circle">frc.lib5k.utils.<a href="frc/lib5k/utils/Consts.html" title="class in frc.lib5k.utils"><span class="typeNameLink">Consts</span></a></li>
 <li class="circle">frc.lib5k.control.<a href="frc/lib5k/control/CubicDeadband.html" title="class in frc.lib5k.control"><span class="typeNameLink">CubicDeadband</span></a></li>
+<li class="circle">frc.lib5k.components.drive.<a href="frc/lib5k/components/drive/DifferentialDriveCalculation.html" title="class in frc.lib5k.components.drive"><span class="typeNameLink">DifferentialDriveCalculation</span></a></li>
 <li class="circle">frc.lib5k.kinematics.<a href="frc/lib5k/kinematics/DriveConstraints.html" title="class in frc.lib5k.kinematics"><span class="typeNameLink">DriveConstraints</span></a></li>
 <li class="circle">frc.lib5k.kinematics.<a href="frc/lib5k/kinematics/DriveSignal.html" title="class in frc.lib5k.kinematics"><span class="typeNameLink">DriveSignal</span></a></li>
 <li class="circle">frc.lib5k.components.sensors.<a href="frc/lib5k/components/sensors/EncoderBase.html" title="class in frc.lib5k.components.sensors"><span class="typeNameLink">EncoderBase</span></a> (implements frc.lib5k.interfaces.<a href="frc/lib5k/interfaces/PeriodicComponent.html" title="interface in frc.lib5k.interfaces">PeriodicComponent</a>)
 <ul>
-<li class="circle">frc.lib5k.components.<a href="frc/lib5k/components/GearBoxEncoder.html" title="class in frc.lib5k.components"><span class="typeNameLink">GearBoxEncoder</span></a></li>
 <li class="circle">frc.lib5k.simulation.mock.sensors.<a href="frc/lib5k/simulation/mock/sensors/MockEncoder.html" title="class in frc.lib5k.simulation.mock.sensors"><span class="typeNameLink">MockEncoder</span></a> (implements frc.lib5k.interfaces.<a href="frc/lib5k/interfaces/Loggable.html" title="interface in frc.lib5k.interfaces">Loggable</a>)</li>
 <li class="circle">frc.lib5k.components.motors.motorsensors.<a href="frc/lib5k/components/motors/motorsensors/TalonEncoder.html" title="class in frc.lib5k.components.motors.motorsensors"><span class="typeNameLink">TalonEncoder</span></a></li>
 <li class="circle">frc.lib5k.components.motors.motorsensors.<a href="frc/lib5k/components/motors/motorsensors/VictorEncoder.html" title="class in frc.lib5k.components.motors.motorsensors"><span class="typeNameLink">VictorEncoder</span></a></li>
@@ -157,12 +166,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </li>
 <li class="circle">frc.lib5k.kinematics.<a href="frc/lib5k/kinematics/Error2D.html" title="class in frc.lib5k.kinematics"><span class="typeNameLink">Error2D</span></a></li>
 <li class="circle">frc.lib5k.roborio.<a href="frc/lib5k/roborio/FaultReporter.html" title="class in frc.lib5k.roborio"><span class="typeNameLink">FaultReporter</span></a></li>
+<li class="circle">frc.robot.<a href="frc/robot/FieldConstants.html" title="class in frc.robot"><span class="typeNameLink">FieldConstants</span></a></li>
 <li class="circle">frc.lib5k.kinematics.<a href="frc/lib5k/kinematics/FieldPosition.html" title="class in frc.lib5k.kinematics"><span class="typeNameLink">FieldPosition</span></a></li>
 <li class="circle">frc.lib5k.utils.<a href="frc/lib5k/utils/FileUtils.html" title="class in frc.lib5k.utils"><span class="typeNameLink">FileUtils</span></a></li>
 <li class="circle">frc.lib5k.networking.firewall.<a href="frc/lib5k/networking/firewall/FMS2014Firewall.html" title="class in frc.lib5k.networking.firewall"><span class="typeNameLink">FMS2014Firewall</span></a> (implements frc.lib5k.networking.firewall.<a href="frc/lib5k/networking/firewall/IFirewall.html" title="interface in frc.lib5k.networking.firewall">IFirewall</a>)</li>
 <li class="circle">frc.lib5k.roborio.<a href="frc/lib5k/roborio/FPGAClock.html" title="class in frc.lib5k.roborio"><span class="typeNameLink">FPGAClock</span></a></li>
-<li class="circle">frc.lib5k.components.<a href="frc/lib5k/components/GearBox.html" title="class in frc.lib5k.components"><span class="typeNameLink">GearBox</span></a></li>
+<li class="circle">frc.robot.<a href="frc/robot/GameData.html" title="class in frc.robot"><span class="typeNameLink">GameData</span></a></li>
 <li class="circle">frc.lib5k.simulation.<a href="frc/lib5k/simulation/Hooks.html" title="class in frc.lib5k.simulation"><span class="typeNameLink">Hooks</span></a></li>
+<li class="circle">frc.lib5k.components.drive.<a href="frc/lib5k/components/drive/InputUtils.html" title="class in frc.lib5k.components.drive"><span class="typeNameLink">InputUtils</span></a></li>
 <li class="circle">frc.lib5k.components.<a href="frc/lib5k/components/Latch.html" title="class in frc.lib5k.components"><span class="typeNameLink">Latch</span></a></li>
 <li class="circle">frc.lib5k.components.limelight.<a href="frc/lib5k/components/limelight/Limelight.html" title="class in frc.lib5k.components.limelight"><span class="typeNameLink">Limelight</span></a></li>
 <li class="circle">frc.lib5k.components.limelight.<a href="frc/lib5k/components/limelight/LimelightTarget.html" title="class in frc.lib5k.components.limelight"><span class="typeNameLink">LimelightTarget</span></a></li>
@@ -190,7 +201,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="circle">frc.lib5k.kinematics.<a href="frc/lib5k/kinematics/PIDProfile.html" title="class in frc.lib5k.kinematics"><span class="typeNameLink">PIDProfile</span></a></li>
 <li class="circle">frc.lib5k.networking.<a href="frc/lib5k/networking/Port.html" title="class in frc.lib5k.networking"><span class="typeNameLink">Port</span></a></li>
 <li class="circle">frc.lib5k.networking.<a href="frc/lib5k/networking/PortManager.html" title="class in frc.lib5k.networking"><span class="typeNameLink">PortManager</span></a></li>
-<li class="circle">frc.lib5k.components.<a href="frc/lib5k/components/RaiderDrive.html" title="class in frc.lib5k.components"><span class="typeNameLink">RaiderDrive</span></a></li>
 <li class="circle">frc.lib5k.components.<a href="frc/lib5k/components/Reportable.html" title="class in frc.lib5k.components"><span class="typeNameLink">Reportable</span></a></li>
 <li class="circle">edu.wpi.first.wpilibj.RobotBase (implements java.lang.AutoCloseable)
 <ul>
@@ -207,6 +217,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </li>
 <li class="circle">frc.lib5k.utils.<a href="frc/lib5k/utils/RobotConfiguration.html" title="class in frc.lib5k.utils"><span class="typeNameLink">RobotConfiguration</span></a></li>
 <li class="circle">frc.robot.<a href="frc/robot/RobotConstants.html" title="class in frc.robot"><span class="typeNameLink">RobotConstants</span></a></li>
+<li class="circle">frc.robot.<a href="frc/robot/RobotConstants.Autonomous.html" title="class in frc.robot"><span class="typeNameLink">RobotConstants.Autonomous</span></a></li>
+<li class="circle">frc.robot.<a href="frc/robot/RobotConstants.DriveTrain.html" title="class in frc.robot"><span class="typeNameLink">RobotConstants.DriveTrain</span></a></li>
+<li class="circle">frc.robot.<a href="frc/robot/RobotConstants.DriveTrain.CurrentLimits.html" title="class in frc.robot"><span class="typeNameLink">RobotConstants.DriveTrain.CurrentLimits</span></a></li>
+<li class="circle">frc.robot.<a href="frc/robot/RobotConstants.DriveTrain.Encoders.html" title="class in frc.robot"><span class="typeNameLink">RobotConstants.DriveTrain.Encoders</span></a></li>
+<li class="circle">frc.robot.<a href="frc/robot/RobotConstants.DriveTrain.Measurements.html" title="class in frc.robot"><span class="typeNameLink">RobotConstants.DriveTrain.Measurements</span></a></li>
+<li class="circle">frc.robot.<a href="frc/robot/RobotConstants.DriveTrain.MotorControllers.html" title="class in frc.robot"><span class="typeNameLink">RobotConstants.DriveTrain.MotorControllers</span></a></li>
 <li class="circle">frc.robot.<a href="frc/robot/RobotConstants.HumanInputs.html" title="class in frc.robot"><span class="typeNameLink">RobotConstants.HumanInputs</span></a></li>
 <li class="circle">frc.robot.<a href="frc/robot/RobotConstants.HumanInputs.Deadbands.html" title="class in frc.robot"><span class="typeNameLink">RobotConstants.HumanInputs.Deadbands</span></a></li>
 <li class="circle">frc.lib5k.utils.<a href="frc/lib5k/utils/RobotLogger.html" title="class in frc.lib5k.utils"><span class="typeNameLink">RobotLogger</span></a></li>
@@ -215,7 +231,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul>
 <li class="circle">com.kauailabs.navx.frc.AHRS (implements edu.wpi.first.wpilibj.PIDSource, edu.wpi.first.wpilibj.Sendable)
 <ul>
-<li class="circle">frc.lib5k.components.gyroscopes.<a href="frc/lib5k/components/gyroscopes/NavX.html" title="class in frc.lib5k.components.gyroscopes"><span class="typeNameLink">NavX</span></a> (implements frc.lib5k.components.gyroscopes.interfaces.<a href="frc/lib5k/components/gyroscopes/interfaces/IGyroscope.html" title="interface in frc.lib5k.components.gyroscopes.interfaces">IGyroscope</a>)</li>
+<li class="circle">frc.lib5k.components.gyroscopes.<a href="frc/lib5k/components/gyroscopes/NavX.html" title="class in frc.lib5k.components.gyroscopes"><span class="typeNameLink">NavX</span></a></li>
 </ul>
 </li>
 <li class="circle">frc.lib5k.components.<a href="frc/lib5k/components/BlinkinDriver.html" title="class in frc.lib5k.components"><span class="typeNameLink">BlinkinDriver</span></a></li>
@@ -239,7 +255,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </li>
 <li class="circle">edu.wpi.first.wpilibj2.command.SubsystemBase (implements edu.wpi.first.wpilibj.Sendable, edu.wpi.first.wpilibj2.command.Subsystem)
 <ul>
+<li class="circle">frc.robot.subsystems.<a href="frc/robot/subsystems/Climber.html" title="class in frc.robot.subsystems"><span class="typeNameLink">Climber</span></a></li>
 <li class="circle">frc.robot.subsystems.<a href="frc/robot/subsystems/DriveTrain.html" title="class in frc.robot.subsystems"><span class="typeNameLink">DriveTrain</span></a></li>
+<li class="circle">frc.robot.subsystems.<a href="frc/robot/subsystems/Intake.html" title="class in frc.robot.subsystems"><span class="typeNameLink">Intake</span></a></li>
 </ul>
 </li>
 <li class="circle">frc.lib5k.components.motors.<a href="frc/lib5k/components/motors/TalonHelper.html" title="class in frc.lib5k.components.motors"><span class="typeNameLink">TalonHelper</span></a></li>
@@ -271,8 +289,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="circle">frc.lib5k.components.motors.interfaces.<a href="frc/lib5k/components/motors/interfaces/ICurrentController.html" title="interface in frc.lib5k.components.motors.interfaces"><span class="typeNameLink">ICurrentController</span></a></li>
 <li class="circle">frc.lib5k.components.sensors.<a href="frc/lib5k/components/sensors/IEncoderProvider.html" title="interface in frc.lib5k.components.sensors"><span class="typeNameLink">IEncoderProvider</span></a></li>
 <li class="circle">frc.lib5k.networking.firewall.<a href="frc/lib5k/networking/firewall/IFirewall.html" title="interface in frc.lib5k.networking.firewall"><span class="typeNameLink">IFirewall</span></a></li>
-<li class="circle">frc.lib5k.components.gyroscopes.interfaces.<a href="frc/lib5k/components/gyroscopes/interfaces/IGyroscope.html" title="interface in frc.lib5k.components.gyroscopes.interfaces"><span class="typeNameLink">IGyroscope</span></a></li>
-<li class="circle">frc.lib5k.components.gyroscopes.interfaces.<a href="frc/lib5k/components/gyroscopes/interfaces/IHeadingErrorCalculator.html" title="interface in frc.lib5k.components.gyroscopes.interfaces"><span class="typeNameLink">IHeadingErrorCalculator</span></a></li>
 <li class="circle">frc.lib5k.components.motors.interfaces.<a href="frc/lib5k/components/motors/interfaces/IMotorGroupSafety.html" title="interface in frc.lib5k.components.motors.interfaces"><span class="typeNameLink">IMotorGroupSafety</span></a></li>
 <li class="circle">frc.lib5k.components.motors.interfaces.<a href="frc/lib5k/components/motors/interfaces/IRampRateController.html" title="interface in frc.lib5k.components.motors.interfaces"><span class="typeNameLink">IRampRateController</span></a></li>
 <li class="circle">frc.lib5k.components.motors.interfaces.<a href="frc/lib5k/components/motors/interfaces/IVoltageOutputController.html" title="interface in frc.lib5k.components.motors.interfaces"><span class="typeNameLink">IVoltageOutputController</span></a></li>
@@ -297,8 +313,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="circle">java.lang.Enum&lt;E&gt; (implements java.lang.Comparable&lt;T&gt;, java.io.Serializable)
 <ul>
 <li class="circle">frc.lib5k.components.<a href="frc/lib5k/components/BlinkinDriver.LEDSetting.html" title="enum in frc.lib5k.components"><span class="typeNameLink">BlinkinDriver.LEDSetting</span></a></li>
-<li class="circle">frc.lib5k.kinematics.<a href="frc/lib5k/kinematics/DriveSignal.DriveType.html" title="enum in frc.lib5k.kinematics"><span class="typeNameLink">DriveSignal.DriveType</span></a></li>
+<li class="circle">frc.robot.subsystems.<a href="frc/robot/subsystems/DriveTrain.DriveMode.html" title="enum in frc.robot.subsystems"><span class="typeNameLink">DriveTrain.DriveMode</span></a></li>
 <li class="circle">frc.lib5k.simulation.<a href="frc/lib5k/simulation/Hooks.RobotState.html" title="enum in frc.lib5k.simulation"><span class="typeNameLink">Hooks.RobotState</span></a></li>
+<li class="circle">frc.lib5k.components.drive.<a href="frc/lib5k/components/drive/InputUtils.ScalingMode.html" title="enum in frc.lib5k.components.drive"><span class="typeNameLink">InputUtils.ScalingMode</span></a></li>
 <li class="circle">frc.lib5k.components.limelight.<a href="frc/lib5k/components/limelight/Limelight.CameraMode.html" title="enum in frc.lib5k.components.limelight"><span class="typeNameLink">Limelight.CameraMode</span></a></li>
 <li class="circle">frc.lib5k.components.limelight.<a href="frc/lib5k/components/limelight/Limelight.LEDMode.html" title="enum in frc.lib5k.components.limelight"><span class="typeNameLink">Limelight.LEDMode</span></a></li>
 <li class="circle">frc.lib5k.networking.<a href="frc/lib5k/networking/Port.Protocol.html" title="enum in frc.lib5k.networking"><span class="typeNameLink">Port.Protocol</span></a></li>

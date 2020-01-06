@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":9,"i1":9,"i2":9,"i3":9};
+var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -184,6 +184,15 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
+<td class="colFirst"><code>static boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#epsilonEquals(double,double,double)">epsilonEquals</a></span>&#8203;(double&nbsp;a,
+             double&nbsp;b,
+             double&nbsp;epsilon)</code></th>
+<td class="colLast">
+<div class="block">Checks if two values are roughly equal to each other.</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>static double</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getWrappedError(double,double)">getWrappedError</a></span>&#8203;(double&nbsp;currentAngle,
                double&nbsp;desiredAngle)</code></th>
@@ -192,12 +201,12 @@ extends java.lang.Object</pre>
  boundary</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#main(java.lang.String%5B%5D)">main</a></span>&#8203;(java.lang.String[]&nbsp;args)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>static double</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#wrapGyro(double)">wrapGyro</a></span>&#8203;(double&nbsp;angle)</code></th>
 <td class="colLast">
@@ -296,7 +305,7 @@ extends java.lang.Object</pre>
 <a id="clamp(double,double,double)">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>clamp</h4>
 <pre class="methodSignature">public static&nbsp;double&nbsp;clamp&#8203;(double&nbsp;value,
@@ -308,6 +317,26 @@ extends java.lang.Object</pre>
 <dd><code>value</code> - Value to clamp.</dd>
 <dd><code>low</code> - The lower boundary to which to clamp value.</dd>
 <dd><code>high</code> - The higher boundary to which to clamp value.</dd>
+</dl>
+</li>
+</ul>
+<a id="epsilonEquals(double,double,double)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>epsilonEquals</h4>
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;epsilonEquals&#8203;(double&nbsp;a,
+                                    double&nbsp;b,
+                                    double&nbsp;epsilon)</pre>
+<div class="block">Checks if two values are roughly equal to each other.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>a</code> - </dd>
+<dd><code>b</code> - </dd>
+<dd><code>epsilon</code> - </dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true if a and b are within epsilon</dd>
 </dl>
 </li>
 </ul>
