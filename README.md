@@ -203,3 +203,9 @@ Then, run the following in the project root:
 .\gradlew.bat installAllTools
 
 ```
+
+### FRC roboRIO Imaging Won’t Update Firmware or Format Target
+
+This comes from [HERE](https://www.chiefdelphi.com/t/frc-roborio-imaging-wont-update-firmware-or-format-target/370145).
+
+> Does your computer name have a dash in it? If so, try renaming it. Several teams have reported issues similar to this.
