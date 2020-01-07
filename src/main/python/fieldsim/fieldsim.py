@@ -22,7 +22,7 @@ rbt_size = (50,50)
 rbt  = pygame.Surface(rbt_size)
 
 # Others
-distance_mul = (1228 / 54) 
+distance_mul = round(1228 / 52.43) 
 
 # image loading
 field = pygame.image.load(sys.argv[1])
@@ -34,7 +34,6 @@ def getRobotPosition() -> tuple:
     if rbt_position[0] == "None":
         return (200,200,0)
 
-    # print(rbt_position)
 
     x = float(rbt_position[1][:-1])
     y = float(rbt_position[3][:-2])
