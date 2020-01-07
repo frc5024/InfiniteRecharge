@@ -8,10 +8,11 @@ import frc.lib5k.roborio.FPGAClock;
 import frc.lib5k.utils.ObjectCounter;
 import frc.lib5k.utils.RobotLogger;
 import frc.lib5k.utils.telemetry.ComponentTelemetry;
-
+ 
 /**
  * Simulate an encoder.
  */
+@Deprecated(since="2020")
 public class MockEncoder extends EncoderBase implements Loggable {
 
     /* Telemetry */
@@ -51,7 +52,7 @@ public class MockEncoder extends EncoderBase implements Loggable {
     }
 
     @Override
-    public int getRawTicks() {
+    public int getSensorReading() {
         return ticks;
     }
 

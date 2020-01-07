@@ -96,9 +96,10 @@ public class RobotConstants {
             public static final boolean LEFT_SENSOR_PHASE = false;
             public static final boolean RIGHT_SENSOR_PHASE = true;
 
-
             /* Ticks per revolution of the encoder */
-            public static final int PULSES_PER_REVOLUTION = 1440; //(isCompBot())? 4096 : 1440;
+
+            public static final int PULSES_PER_REVOLUTION = 1440; // (isCompBot())? 4096 : 1440;
+
         }
 
         /**
@@ -112,6 +113,8 @@ public class RobotConstants {
             public static final double DRIVEBASE_LENGTH = Units.inchesToMeters(28.0);
 
             public static final double GEAR_RATIO = 8.45;
+
+            public static final int MOTOR_MAX_RPM = 5330; // For cim motors
 
         }
     }

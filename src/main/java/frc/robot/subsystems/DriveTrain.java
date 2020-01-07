@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
@@ -107,6 +108,18 @@ public class DriveTrain extends SubsystemBase implements Loggable {
         m_rightEncoder = m_rightGearbox.getEncoder(RobotConstants.DriveTrain.Encoders.RIGHT_ENCODER_SLOT,
                 RobotConstants.DriveTrain.Encoders.RIGHT_SENSOR_PHASE);
 
+        // Set up encoder simulation if robot is not real
+        if (RobotBase.isSimulation()) {
+            m_leftEncoder.initSimulationDevice(m_leftGearbox, RobotConstants.DriveTrain.Encoders.PULSES_PER_REVOLUTION,
+                    RobotConstants.DriveTrain.Measurements.GEAR_RATIO,
+                    RobotConstants.DriveTrain.Measurements.MOTOR_MAX_RPM);
+
+            m_rightEncoder.initSimulationDevice(m_rightGearbox,
+                    RobotConstants.DriveTrain.Encoders.PULSES_PER_REVOLUTION,
+                    RobotConstants.DriveTrain.Measurements.GEAR_RATIO,
+                    RobotConstants.DriveTrain.Measurements.MOTOR_MAX_RPM);
+        }
+
         // Create odometry object
         m_odometry = new DifferentialDriveOdometry(NavX.getInstance().getRotation());
 
@@ -132,14 +145,6 @@ public class DriveTrain extends SubsystemBase implements Loggable {
     @Override
     public void periodic() {
 
-        /* Handle odometry updates */
-
-        // Get the current robot heading
-        Rotation2d heading = NavX.getInstance().getRotation();
-
-        // Calculate the robot pose
-        m_robotPose = m_odometry.update(heading, getLeftMeters(), getRightMeters());
-
         /* Handle motor outputs for each mode */
         switch (m_currentDriveMode) {
         case OPEN_LOOP:
@@ -157,6 +162,18 @@ public class DriveTrain extends SubsystemBase implements Loggable {
             // the outputs to 0
             setOpenLoop(new DriveSignal(0, 0));
         }
+
+        /* Handle encoder updates */
+        m_leftEncoder.update();
+        m_rightEncoder.update();
+
+        /* Handle odometry updates */
+
+        // Get the current robot heading
+        Rotation2d heading = Rotation2d.fromDegrees(NavX.getInstance().getHeading());
+
+        // Calculate the robot pose
+        m_robotPose = m_odometry.update(heading, getLeftMeters(), getRightMeters());
 
     }
 
@@ -279,8 +296,10 @@ public class DriveTrain extends SubsystemBase implements Loggable {
      * @return Left distance
      */
     public double getLeftMeters() {
+
         return m_leftEncoder.getMeters(RobotConstants.DriveTrain.Encoders.PULSES_PER_REVOLUTION,
                 RobotConstants.DriveTrain.Measurements.WHEEL_CIRCUMFERENCE);
+
     }
 
     /**
@@ -289,8 +308,10 @@ public class DriveTrain extends SubsystemBase implements Loggable {
      * @return Right distance
      */
     public double getRightMeters() {
+
         return m_rightEncoder.getMeters(RobotConstants.DriveTrain.Encoders.PULSES_PER_REVOLUTION,
                 RobotConstants.DriveTrain.Measurements.WHEEL_CIRCUMFERENCE);
+
     }
 
     /**
