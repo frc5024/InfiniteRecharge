@@ -17,7 +17,7 @@ public class VictorEncoder extends EncoderBase {
     }
 
     @Override
-    public int getRawTicks() {
+    public int getSensorReading() {
         return victor.getSelectedSensorPosition();
     }
 

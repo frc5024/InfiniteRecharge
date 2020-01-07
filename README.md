@@ -209,3 +209,11 @@ Then, run the following in the project root:
 This comes from [HERE](https://www.chiefdelphi.com/t/frc-roborio-imaging-wont-update-firmware-or-format-target/370145).
 
 > Does your computer name have a dash in it? If so, try renaming it. Several teams have reported issues similar to this.
+
+### Getting an Xbox360 controller to work on a linux host during simulation
+
+To get the controller connected:
+
+ - Plug it in
+ - Run `sudo xboxdrv --silent`
+ - Start the simulation

@@ -77,7 +77,7 @@ public class RobotConstants {
             public static final int RIGHT_ENCODER_SLOT = 1;
 
             /* Ticks per revolution of the encoder */
-            public static final int TICKS_PER_REVOLUTION = 4096;
+            public static final int TICKS_PER_REVOLUTION = 1440;
         }
 
         /**
@@ -91,6 +91,8 @@ public class RobotConstants {
             public static final double DRIVEBASE_LENGTH = Units.inchesToMeters(28.0);
 
             public static final double GEAR_RATIO = 8.45;
+
+            public static final int MOTOR_MAX_RPM = 5330; // For cim motors
 
         }
     }

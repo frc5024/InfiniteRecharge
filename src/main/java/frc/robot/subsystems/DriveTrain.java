@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
@@ -103,6 +104,17 @@ public class DriveTrain extends SubsystemBase {
         m_leftEncoder = m_leftGearbox.getEncoder(RobotConstants.DriveTrain.Encoders.LEFT_ENCODER_SLOT, false);
         m_rightEncoder = m_rightGearbox.getEncoder(RobotConstants.DriveTrain.Encoders.RIGHT_ENCODER_SLOT, true);
 
+        // Set up encoder simulation if robot is not real
+        if (RobotBase.isSimulation()) {
+            m_leftEncoder.initSimulationDevice(m_leftGearbox, RobotConstants.DriveTrain.Encoders.TICKS_PER_REVOLUTION,
+                    RobotConstants.DriveTrain.Measurements.GEAR_RATIO,
+                    RobotConstants.DriveTrain.Measurements.MOTOR_MAX_RPM);
+
+            m_rightEncoder.initSimulationDevice(m_rightGearbox, RobotConstants.DriveTrain.Encoders.TICKS_PER_REVOLUTION,
+                    RobotConstants.DriveTrain.Measurements.GEAR_RATIO,
+                    RobotConstants.DriveTrain.Measurements.MOTOR_MAX_RPM);
+        }
+
         // Create odometry object
         m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(NavX.getInstance().getHeading()));
 
@@ -128,13 +140,7 @@ public class DriveTrain extends SubsystemBase {
     @Override
     public void periodic() {
 
-        /* Handle odometry updates */
-
-        // Get the current robot heading
-        Rotation2d heading = Rotation2d.fromDegrees(NavX.getInstance().getHeading());
-
-        // Calculate the robot pose
-        m_robotPose = m_odometry.update(heading, getLeftMeters(), getRightMeters());
+        
 
         /* Handle motor outputs for each mode */
         switch (m_currentDriveMode) {
@@ -153,6 +159,18 @@ public class DriveTrain extends SubsystemBase {
             // the outputs to 0
             setOpenLoop(new DriveSignal(0, 0));
         }
+
+        /* Handle encoder updates */
+        m_leftEncoder.update();
+        m_rightEncoder.update();
+
+        /* Handle odometry updates */
+
+        // Get the current robot heading
+        Rotation2d heading = Rotation2d.fromDegrees(NavX.getInstance().getHeading());
+
+        // Calculate the robot pose
+        m_robotPose = m_odometry.update(heading, getLeftMeters(), getRightMeters());
 
     }
 
@@ -275,8 +293,12 @@ public class DriveTrain extends SubsystemBase {
      * @return Left distance
      */
     public double getLeftMeters() {
-        return m_leftEncoder.getMeters(RobotConstants.DriveTrain.Encoders.TICKS_PER_REVOLUTION,
-                RobotConstants.DriveTrain.Measurements.WHEEL_CIRCUMFERENCE);
+        // return
+        // m_leftEncoder.getMeters(RobotConstants.DriveTrain.Encoders.TICKS_PER_REVOLUTION,
+        // RobotConstants.DriveTrain.Measurements.WHEEL_CIRCUMFERENCE);
+        return 0.0;
+
+        // TODO: fix this
     }
 
     /**
@@ -285,8 +307,10 @@ public class DriveTrain extends SubsystemBase {
      * @return Right distance
      */
     public double getRightMeters() {
-        return m_rightEncoder.getMeters(RobotConstants.DriveTrain.Encoders.TICKS_PER_REVOLUTION,
-                RobotConstants.DriveTrain.Measurements.WHEEL_CIRCUMFERENCE);
+        // return
+        // m_rightEncoder.getMeters(RobotConstants.DriveTrain.Encoders.TICKS_PER_REVOLUTION,
+        // RobotConstants.DriveTrain.Measurements.WHEEL_CIRCUMFERENCE);
+        return 0.0;
     }
 
     /**
