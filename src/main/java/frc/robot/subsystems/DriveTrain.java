@@ -99,10 +99,6 @@ public class DriveTrain extends SubsystemBase {
         m_leftGearbox.setInverted(false);
         m_rightGearbox.setInverted(true);
 
-        // Set sensor phases
-        // m_leftGearbox.getMaster().setSensorPhase(false);
-        // m_rightGearbox.getMaster().setSensorPhase(false);
-
         // Get encoders
         m_leftEncoder = m_leftGearbox.getEncoder(RobotConstants.DriveTrain.Encoders.LEFT_ENCODER_SLOT, false);
         m_rightEncoder = m_rightGearbox.getEncoder(RobotConstants.DriveTrain.Encoders.RIGHT_ENCODER_SLOT, true);
