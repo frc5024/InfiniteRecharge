@@ -42,8 +42,8 @@ public abstract class EncoderBase implements PeriodicComponent {
         m_simDevice = SimDevice.create("EncoderBase", s_instanceCount + 1);
 
         if (m_simDevice != null) {
-            m_simTicks = m_simDevice.createDouble("Ticks", false, 0.0);
-            m_simRotations = m_simDevice.createDouble("Rotations", false, 0.0);
+            m_simTicks = m_simDevice.createDouble("Ticks", true, 0.0);
+            m_simRotations = m_simDevice.createDouble("Rotations", true, 0.0);
         }
 
         // Move to next instance
@@ -86,7 +86,7 @@ public abstract class EncoderBase implements PeriodicComponent {
      * @return Meters traveled
      */
     public double getMeters(int tpr, double wheel_circumference) {
-        return (((double) getTicks() / tpr) * wheel_circumference);// / 100.0;
+        return (((double) getTicks() / tpr) * wheel_circumference);
     }
 
     /**
@@ -98,7 +98,7 @@ public abstract class EncoderBase implements PeriodicComponent {
      * @return Meters traveled in last cycle
      */
     public double getMetersPerCycle(int tpr, double wheel_circumference) {
-        return (((double) getSpeed() / tpr) * wheel_circumference);// / 100.0;
+        return (((double) getSpeed() / tpr) * wheel_circumference);
     }
 
     /**

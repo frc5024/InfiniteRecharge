@@ -12,6 +12,7 @@ import frc.lib5k.utils.telemetry.ComponentTelemetry;
 /**
  * Simulate an encoder.
  */
+@Deprecated(since="2020")
 public class MockEncoder extends EncoderBase implements Loggable {
 
     /* Telemetry */
