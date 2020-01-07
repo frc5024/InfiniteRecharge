@@ -154,8 +154,6 @@ public class DriveTrain extends SubsystemBase {
             setOpenLoop(new DriveSignal(0, 0));
         }
 
-        System.out.println(String.format("%d, %d", m_leftEncoder.getTicks(), m_rightEncoder.getTicks()));
-
     }
 
     /**
