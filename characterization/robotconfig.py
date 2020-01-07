@@ -26,7 +26,7 @@
     # Whether the left encoder is inverted
     "leftEncoderInverted": False,
     # Whether the right encoder is inverted:
-    "rightEncoderInverted": False,
+    "rightEncoderInverted": True,
     # Your gyro type (one of "NavX", "Pigeon", "ADXRS450", "AnalogGyro", or "None")
     "gyroType": "NavX",
     # Whatever you put into the constructor of your gyro
@@ -39,6 +39,7 @@
     # "" (NavX using default SPI, ADXRS450 using onboard CS0, or no gyro)
     "gyroPort": "SPI.Port.kMXP",
 }
+
 
 
 

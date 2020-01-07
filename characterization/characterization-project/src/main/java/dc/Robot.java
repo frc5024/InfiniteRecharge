@@ -74,7 +74,7 @@ public class Robot extends TimedRobot {
 
     rightMaster = new WPI_TalonSRX(4);
     rightMaster.setInverted(false);
-    rightMaster.setSensorPhase(false);
+    rightMaster.setSensorPhase(true);
     rightMaster.setNeutralMode(NeutralMode.Brake);
 
     WPI_TalonSRX leftSlave0 = new WPI_TalonSRX(1);
