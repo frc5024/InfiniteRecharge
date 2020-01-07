@@ -73,6 +73,15 @@ public class Robot extends TimedRobot {
 	}
 
 	@Override
+	public void robotPeriodic() {
+		
+		// Publish telemetry data to smartdashboard if setting enabled
+		if (RobotConstants.PUBLISH_SD_TELEMETRY) {
+			m_driveTrain.updateTelemetry();
+		}
+	}
+
+	@Override
 	public void autonomousInit() {
 		logger.log("Robot", "Autonomous started");
 
