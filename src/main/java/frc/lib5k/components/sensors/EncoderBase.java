@@ -86,7 +86,7 @@ public abstract class EncoderBase implements PeriodicComponent {
      * @return Meters traveled
      */
     public double getMeters(int tpr, double wheel_circumference) {
-        return (((double) getTicks() / tpr) * wheel_circumference) / 100.0;
+        return (((double) getTicks() / tpr) * wheel_circumference);// / 100.0;
     }
 
     /**
@@ -98,7 +98,7 @@ public abstract class EncoderBase implements PeriodicComponent {
      * @return Meters traveled in last cycle
      */
     public double getMetersPerCycle(int tpr, double wheel_circumference) {
-        return (((double) getSpeed() / tpr) * wheel_circumference) / 100.0;
+        return (((double) getSpeed() / tpr) * wheel_circumference);// / 100.0;
     }
 
     /**
