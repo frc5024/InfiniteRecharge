@@ -4,6 +4,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SPI.Port;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 
 /**
  * A wrapper for the AHRS / NavX gyroscope
@@ -66,6 +67,15 @@ public class NavX extends AHRS {
      */
     public double getWrappedAngle() {
         return getAngle() % 360;
+    }
+
+    /**
+     * Get the NavX heading as a Rotation2d object
+     * 
+     * @return Heading
+     */
+    public Rotation2d getRotation() {
+        return Rotation2d.fromDegrees(getHeading());
     }
 
 }

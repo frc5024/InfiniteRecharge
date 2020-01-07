@@ -90,6 +90,7 @@ Here are the links to the multiple documentation sources for this project
  - [Robot javadoc](https://cs.5024.ca/InfiniteRecharge/)
  - [General FRC documentation](https://docs.wpilib.org/en/latest/)
  - [WPILib API](https://first.wpi.edu/FRC/roborio/release/docs/java/index.html)
+ - [NavX API](https://www.kauailabs.com/public_files/navx-mxp/apidocs/java/com/kauailabs/navx/frc/AHRS.html)
  - [CTRE documentation](https://phoenix-documentation.readthedocs.io/en/latest/index.html)
  - [CTRE API](http://www.ctr-electronics.com/downloads/api/java/html/index.html)
  - [Limelight documentation](http://docs.limelightvision.io/en/latest/)

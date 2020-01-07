@@ -1,14 +1,26 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.util.Units;
+import frc.lib5k.roborio.RR_HAL;
 
 /**
  * All constants and configuration for the robot should be stored here
  */
 public class RobotConstants {
 
+    /**
+     * Method for checking if the current robot is not MiniBot
+     * 
+     * @return Is it a competition robot
+     */
+    public static boolean isCompBot() {
+        return !RR_HAL.getRobotName().equals("MiniBot");
+    }
+
+    public static final boolean PUBLISH_SD_TELEMETRY = true;
+
     public static class Autonomous {
-        
+
         /**
          * Number of seconds to wait before robot is allowed to score
          */
@@ -49,6 +61,10 @@ public class RobotConstants {
          */
         public static class MotorControllers {
 
+            /* Motor inversions */
+            public static final boolean LEFT_SIDE_INVERTED = false;
+            public static final boolean RIGHT_SIDE_INVERTED = true;
+
             /* Left side Talons */
             public static final int LEFT_FRONT_TALON = 1;
             public static final int LEFT_REAR_TALON = 2;
@@ -76,8 +92,14 @@ public class RobotConstants {
             public static final int LEFT_ENCODER_SLOT = 1;
             public static final int RIGHT_ENCODER_SLOT = 1;
 
+            /* Encoder phases */
+            public static final boolean LEFT_SENSOR_PHASE = false;
+            public static final boolean RIGHT_SENSOR_PHASE = true;
+
             /* Ticks per revolution of the encoder */
-            public static final int TICKS_PER_REVOLUTION = 1440;
+
+            public static final int PULSES_PER_REVOLUTION = 1440; // (isCompBot())? 4096 : 1440;
+
         }
 
         /**

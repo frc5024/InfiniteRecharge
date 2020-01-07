@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib5k.components.drive.DifferentialDriveCalculation;
 import frc.lib5k.components.drive.InputUtils;
@@ -14,6 +15,7 @@ import frc.lib5k.components.drive.InputUtils.ScalingMode;
 import frc.lib5k.components.gyroscopes.NavX;
 import frc.lib5k.components.motors.TalonSRXCollection;
 import frc.lib5k.components.sensors.EncoderBase;
+import frc.lib5k.interfaces.Loggable;
 import frc.lib5k.utils.RobotLogger;
 import frc.robot.RobotConstants;
 import frc.lib5k.kinematics.DriveSignal;
@@ -21,7 +23,7 @@ import frc.lib5k.kinematics.DriveSignal;
 /**
  * The DriveTrain handles all robot movement.
  */
-public class DriveTrain extends SubsystemBase {
+public class DriveTrain extends SubsystemBase implements Loggable {
     private static RobotLogger logger = RobotLogger.getInstance();
     private static DriveTrain s_instance = null;
 
@@ -97,26 +99,29 @@ public class DriveTrain extends SubsystemBase {
         m_rightGearbox.setMasterMotorSafety(false);
 
         // Set motor inversions
-        m_leftGearbox.setInverted(false);
-        m_rightGearbox.setInverted(true);
+        m_leftGearbox.setInverted(RobotConstants.DriveTrain.MotorControllers.LEFT_SIDE_INVERTED);
+        m_rightGearbox.setInverted(RobotConstants.DriveTrain.MotorControllers.RIGHT_SIDE_INVERTED);
 
         // Get encoders
-        m_leftEncoder = m_leftGearbox.getEncoder(RobotConstants.DriveTrain.Encoders.LEFT_ENCODER_SLOT, false);
-        m_rightEncoder = m_rightGearbox.getEncoder(RobotConstants.DriveTrain.Encoders.RIGHT_ENCODER_SLOT, true);
+        m_leftEncoder = m_leftGearbox.getEncoder(RobotConstants.DriveTrain.Encoders.LEFT_ENCODER_SLOT,
+                RobotConstants.DriveTrain.Encoders.LEFT_SENSOR_PHASE);
+        m_rightEncoder = m_rightGearbox.getEncoder(RobotConstants.DriveTrain.Encoders.RIGHT_ENCODER_SLOT,
+                RobotConstants.DriveTrain.Encoders.RIGHT_SENSOR_PHASE);
 
         // Set up encoder simulation if robot is not real
         if (RobotBase.isSimulation()) {
-            m_leftEncoder.initSimulationDevice(m_leftGearbox, RobotConstants.DriveTrain.Encoders.TICKS_PER_REVOLUTION,
+            m_leftEncoder.initSimulationDevice(m_leftGearbox, RobotConstants.DriveTrain.Encoders.PULSES_PER_REVOLUTION,
                     RobotConstants.DriveTrain.Measurements.GEAR_RATIO,
                     RobotConstants.DriveTrain.Measurements.MOTOR_MAX_RPM);
 
-            m_rightEncoder.initSimulationDevice(m_rightGearbox, RobotConstants.DriveTrain.Encoders.TICKS_PER_REVOLUTION,
+            m_rightEncoder.initSimulationDevice(m_rightGearbox,
+                    RobotConstants.DriveTrain.Encoders.PULSES_PER_REVOLUTION,
                     RobotConstants.DriveTrain.Measurements.GEAR_RATIO,
                     RobotConstants.DriveTrain.Measurements.MOTOR_MAX_RPM);
         }
 
         // Create odometry object
-        m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(NavX.getInstance().getHeading()));
+        m_odometry = new DifferentialDriveOdometry(NavX.getInstance().getRotation());
 
     }
 
@@ -139,8 +144,6 @@ public class DriveTrain extends SubsystemBase {
      */
     @Override
     public void periodic() {
-
-        
 
         /* Handle motor outputs for each mode */
         switch (m_currentDriveMode) {
@@ -293,12 +296,10 @@ public class DriveTrain extends SubsystemBase {
      * @return Left distance
      */
     public double getLeftMeters() {
-        // return
-        // m_leftEncoder.getMeters(RobotConstants.DriveTrain.Encoders.TICKS_PER_REVOLUTION,
-        // RobotConstants.DriveTrain.Measurements.WHEEL_CIRCUMFERENCE);
-        return 0.0;
 
-        // TODO: fix this
+        return m_leftEncoder.getMeters(RobotConstants.DriveTrain.Encoders.PULSES_PER_REVOLUTION,
+                RobotConstants.DriveTrain.Measurements.WHEEL_CIRCUMFERENCE);
+
     }
 
     /**
@@ -307,10 +308,10 @@ public class DriveTrain extends SubsystemBase {
      * @return Right distance
      */
     public double getRightMeters() {
-        // return
-        // m_rightEncoder.getMeters(RobotConstants.DriveTrain.Encoders.TICKS_PER_REVOLUTION,
-        // RobotConstants.DriveTrain.Measurements.WHEEL_CIRCUMFERENCE);
-        return 0.0;
+
+        return m_rightEncoder.getMeters(RobotConstants.DriveTrain.Encoders.PULSES_PER_REVOLUTION,
+                RobotConstants.DriveTrain.Measurements.WHEEL_CIRCUMFERENCE);
+
     }
 
     /**
@@ -330,6 +331,20 @@ public class DriveTrain extends SubsystemBase {
     public void setPosition(Pose2d pose) {
         logger.log("DriveTrain", String.format("Set odometry position to: %s", pose.toString()));
 
-        m_odometry.resetPosition(pose, Rotation2d.fromDegrees(NavX.getInstance().getHeading()));
+        m_odometry.resetPosition(pose, NavX.getInstance().getRotation());
+    }
+
+    @Override
+    public void logStatus() {
+        logger.log("DriveTrain",
+                String.format("Pose: %s, Signal: %s", getPosition().toString(), m_currentSignal.toString()));
+
+    }
+
+    @Override
+    public void updateTelemetry() {
+
+        SmartDashboard.putString("[DriveTrain] pose", getPosition().toString());
+
     }
 }
