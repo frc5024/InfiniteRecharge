@@ -70,7 +70,6 @@ public class NavX extends AHRS {
     }
 
     private void updateSimData() {
-        
 
         // Ensure sim is running
         if (m_simDevice != null) {
@@ -84,7 +83,7 @@ public class NavX extends AHRS {
             double rightDiff = rightReading - m_simSensorReadings[1];
 
             // Calculate angle
-            double omega = (leftDiff - rightDiff) / m_simDrivebase.getWidthMeters();
+            double omega = ((leftDiff - rightDiff) / m_simDrivebase.getWidthMeters() * 20);
 
             // Set last readings
             m_simSensorReadings[0] = leftReading;
@@ -128,7 +127,7 @@ public class NavX extends AHRS {
     @Override
     public double getRate() {
 
-        if  (m_simAngle != null ) {
+        if (m_simAngle != null) {
             return m_simRate.get() * (inverted ? -1.0 : 1.0);
         }
 
