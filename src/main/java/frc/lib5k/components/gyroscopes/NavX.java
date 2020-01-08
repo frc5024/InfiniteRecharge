@@ -21,7 +21,7 @@ public class NavX extends AHRS {
 
     /* Simulation */
     private final double ROTATION_SPEED_GAIN = 30;
-    private final double SIMULATION_PERIOD = 0.01;
+    private final double SIMULATION_PERIOD = 0.02;
     private Port port;
     private IDifferentialDrivebase m_simDrivebase;
     private double[] m_simSensorReadings = new double[2];
