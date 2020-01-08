@@ -87,7 +87,6 @@ public class Robot extends TimedRobot {
 			m_driveTrain.updateTelemetry();
 		}
 
-		System.out.println(NavX.getInstance().getRate());
 	}
 
 	@Override
