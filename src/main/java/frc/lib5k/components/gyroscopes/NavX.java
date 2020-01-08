@@ -20,6 +20,7 @@ public class NavX extends AHRS {
     private boolean inverted = false;
 
     /* Simulation */
+    private final double ROTATION_SPEED_GAIN = 30;
     private final double SIMULATION_PERIOD = 0.01;
     private Port port;
     private IDifferentialDrivebase m_simDrivebase;
@@ -83,7 +84,7 @@ public class NavX extends AHRS {
             double rightDiff = rightReading - m_simSensorReadings[1];
 
             // Calculate angle
-            double omega = ((leftDiff - rightDiff) / m_simDrivebase.getWidthMeters() * 20);
+            double omega = ((leftDiff - rightDiff) / m_simDrivebase.getWidthMeters() * ROTATION_SPEED_GAIN);
 
             // Set last readings
             m_simSensorReadings[0] = leftReading;

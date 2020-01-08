@@ -1,6 +1,8 @@
 import pygame
 from networktables import NetworkTables
 import sys
+import math
+
 print("Starting fieldsim")
 
 # Init pygame
@@ -22,7 +24,7 @@ rbt_size = (50,50)
 rbt  = pygame.Surface(rbt_size)
 
 # Others
-distance_mul = round(1228 / 52.43) 
+distance_mul = round(1228 / 48) 
 
 # image loading
 field = pygame.image.load(sys.argv[1])
@@ -32,7 +34,7 @@ def getRobotPosition() -> tuple:
     rbt_position = sd.getString("[DriveTrain] pose", "None").split(" ")
 
     if rbt_position[0] == "None":
-        return (200,200,0)
+        return (200,200,45)
 
 
     x = float(rbt_position[1][:-1])
@@ -40,6 +42,28 @@ def getRobotPosition() -> tuple:
     theta = float(rbt_position[-1][:-2])
 
     return (x * distance_mul,y*distance_mul, theta)
+
+def drawRegularPolygon(surface, color, theta, x, y, w,h):
+    x -= w/2
+    y-= h/2
+
+    hw = w/2
+    hh = h/2
+
+    # Rect points
+    points = [
+        (-hw,-hh),
+        (hw,-hh),
+        (hw,hh),
+        (-hw,hh)
+    ]
+
+    rotated_point = [pygame.math.Vector2(p).rotate(theta) for p in points]
+
+    vCenter = pygame.math.Vector2((x ,y ))
+    rect_points = [(vCenter + p) for p in rotated_point]
+
+    pygame.draw.polygon(surface, color, rect_points)
 
 
 while True:
@@ -58,12 +82,14 @@ while True:
 
     # Draw the "robot"
     x,y,theta = getRobotPosition()
-    pygame.draw.rect(gameDisplay,blue,(x -rbt_size[0] / 2 ,y - rbt_size[1]/2, rbt_size[0] , rbt_size[1]))
 
-    # r_rbt = pygame.transform.rotate(rbt, theta)
+
+    y += (635/2)
+    x += (80 + rbt_size[1] / 2) 
+
+    drawRegularPolygon(gameDisplay, blue, theta, x,y, rbt_size[0], rbt_size[1])
         
 
-    # gameDisplay.blit(r_rbt, (x+rbt_size[0]/2,y+rbt_size[1]/2))
     # Update the screen
     pygame.display.update()
     clock.tick(60)
