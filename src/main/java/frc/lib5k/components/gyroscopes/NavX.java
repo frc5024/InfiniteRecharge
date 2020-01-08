@@ -92,7 +92,7 @@ public class NavX extends AHRS {
 
             // Publish readings
             m_simAngle.set(m_simAngle.get() + omega);
-            m_simRate.set(omega * 100);
+            m_simRate.set(omega);
         }
 
     }
