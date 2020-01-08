@@ -21,11 +21,11 @@ grey = (98,98,98)
 white = (255,255,255)
 
 # Robot size
-rbt_size = (80,80)
+rbt_size = (60,60)
 rbt  = pygame.Surface(rbt_size)
 
 # Others
-distance_mul = round(1228 / 48) 
+distance_mul = round(1228 / 16)  # Image width / aprox field width (meters)
 
 # image loading
 field = pygame.image.load(sys.argv[1])
@@ -38,7 +38,7 @@ def getRobotPosition() -> tuple:
 
     if rbt_position[0] == "None":
         # return (200,20,90)
-        return (0,0,0)
+        return (100,0,45)
 
 
     x = float(rbt_position[1][:-1])
@@ -70,8 +70,8 @@ def drawRegularPolygon(surface, color, theta, x, y, w,h):
     pygame.draw.polygon(surface, color, rect_points)
 
 def drawRobot(x,y,theta):
-    rbt = pygame.transform.rotate(rbt_surf, theta)
-    gameDisplay.blit(rbt, (x - (rbt_size[0] / 2),y - (rbt_size[1] / 2)))
+    rbt = pygame.transform.rotate(rbt_surf, -theta)
+    gameDisplay.blit(rbt, (x - (rbt.get_width() / 2),y - (rbt.get_height() / 2)))
 
 
 while True:
