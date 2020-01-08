@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib5k.components.drive.DifferentialDriveCalculation;
@@ -35,6 +36,8 @@ public class DriveTrain extends SubsystemBase implements Loggable {
         VOLTAGE // Voltage control
 
     }
+
+    
 
     // Keep track of the current DriveMode
     private DriveMode m_currentDriveMode = DriveMode.OPEN_LOOP;
@@ -70,6 +73,9 @@ public class DriveTrain extends SubsystemBase implements Loggable {
      * Pose2d for keeping track of robot position on the field
      */
     private Pose2d m_robotPose = new Pose2d();
+
+    private double m_lastLeftMeters, m_lastRightMeters, m_leftMPS, m_rightMPS = 0;
+
 
     /**
      * DriveTrain constructor.
@@ -166,6 +172,14 @@ public class DriveTrain extends SubsystemBase implements Loggable {
         /* Handle encoder updates */
         m_leftEncoder.update();
         m_rightEncoder.update();
+
+        // Determine wheel speeds
+        m_leftMPS = (getLeftMeters()- m_lastLeftMeters) * 50;
+        m_rightMPS = (getRightMeters()- m_lastRightMeters) * 50;
+
+        // set last distances
+        m_lastLeftMeters = getLeftMeters();
+        m_lastRightMeters = getRightMeters();
 
         /* Handle odometry updates */
 
@@ -332,6 +346,10 @@ public class DriveTrain extends SubsystemBase implements Loggable {
         logger.log("DriveTrain", String.format("Set odometry position to: %s", pose.toString()));
 
         m_odometry.resetPosition(pose, NavX.getInstance().getRotation());
+    }
+
+    public DifferentialDriveWheelSpeeds getWheelSpeeds(){
+        return new DifferentialDriveWheelSpeeds(m_leftMPS, m_rightMPS);
     }
 
     @Override

@@ -126,24 +126,26 @@ public class RobotConstants {
      */
     public static class ControlGains {
 
-        //Feedforward Gains
+        // Feedforward Gains
         public static final double ksVolts = 2.37;
         public static final double kvVoltsSecondsPerMeter = 1.8;
         public static final double kaVoltsSecondsSquaredPerMeter = 0.0231;
 
-        //Optimal Control Gain
+        // Optimal Control Gain
         public static final double kPDriveVel = 0.478;
 
-        //DifferentialDriveKinematics allows for the use of the track length
+        // DifferentialDriveKinematics allows for the use of the track length
         public static final double kTrackWidthMeters = 0.1524;
-        public static final DifferentialDriveKinematics kDriveKinematics = 
-            new DifferentialDriveKinematics(kTrackWidthMeters); 
+        public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
+                kTrackWidthMeters);
 
-        //Max Trajectory of Velocity and Acceleration
+        // Max Trajectory of Velocity and Acceleration
         public static final double kMaxSpeedMetersPerSecond = 3; // This value will most likely need to be changed
-        public static final double kMaxAccelerationMetersPerSecondSquared = 3; // This value will most likely need to be changed
+        public static final double kMaxAccelerationMetersPerSecondSquared = 3; // This value will most likely need to be
+                                                                               // changed
 
-        //Ramsete Parameters (Not sure if this is nessacary for trajectory and may need changes)
+        // Ramsete Parameters (Not sure if this is nessacary for trajectory and may need
+        // changes)
         public static final double kRamseteB = 2; // in meters
         public static final double kRamseteZeta = .7; // in Seconds
 
