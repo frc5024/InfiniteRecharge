@@ -96,11 +96,11 @@ public class RobotConstants {
 
             /* Encoder phases */
             public static final boolean LEFT_SENSOR_PHASE = false;
-            public static final boolean RIGHT_SENSOR_PHASE = true;
+            public static final boolean RIGHT_SENSOR_PHASE = false;
 
             /* Ticks per revolution of the encoder */
 
-            public static final int PULSES_PER_REVOLUTION = 1440; // (isCompBot())? 4096 : 1440;
+            public static final int PULSES_PER_REVOLUTION = 360; // (isCompBot())? 4096 : 1440;
 
         }
 

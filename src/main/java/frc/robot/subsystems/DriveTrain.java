@@ -37,8 +37,6 @@ public class DriveTrain extends SubsystemBase implements Loggable {
 
     }
 
-    
-
     // Keep track of the current DriveMode
     private DriveMode m_currentDriveMode = DriveMode.OPEN_LOOP;
 
@@ -75,7 +73,6 @@ public class DriveTrain extends SubsystemBase implements Loggable {
     private Pose2d m_robotPose = new Pose2d();
 
     private double m_lastLeftMeters, m_lastRightMeters, m_leftMPS, m_rightMPS = 0;
-
 
     /**
      * DriveTrain constructor.
@@ -174,8 +171,8 @@ public class DriveTrain extends SubsystemBase implements Loggable {
         m_rightEncoder.update();
 
         // Determine wheel speeds
-        m_leftMPS = (getLeftMeters()- m_lastLeftMeters) * 50;
-        m_rightMPS = (getRightMeters()- m_lastRightMeters) * 50;
+        m_leftMPS = (getLeftMeters() - m_lastLeftMeters) * 50;
+        m_rightMPS = (getRightMeters() - m_lastRightMeters) * 50;
 
         // set last distances
         m_lastLeftMeters = getLeftMeters();
@@ -348,8 +345,9 @@ public class DriveTrain extends SubsystemBase implements Loggable {
         m_odometry.resetPosition(pose, NavX.getInstance().getRotation());
     }
 
-    public DifferentialDriveWheelSpeeds getWheelSpeeds(){
+    public DifferentialDriveWheelSpeeds getWheelSpeeds() {
         return new DifferentialDriveWheelSpeeds(m_leftMPS, m_rightMPS);
+
     }
 
     @Override
