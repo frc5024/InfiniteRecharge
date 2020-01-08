@@ -6,6 +6,7 @@ import edu.wpi.first.hal.SimDevice;
 import edu.wpi.first.hal.SimDouble;
 import edu.wpi.first.hal.SimValue;
 import edu.wpi.first.wpilibj.SpeedController;
+import frc.lib5k.control.SlewLimiter;
 import frc.lib5k.interfaces.PeriodicComponent;
 import frc.lib5k.roborio.FPGAClock;
 
@@ -30,13 +31,15 @@ public abstract class EncoderBase implements PeriodicComponent {
     private SimDouble m_simTicks;
     private SimDouble m_simRotations;
     private static int s_instanceCount = 0;
+    private SlewLimiter m_simSlew;
 
-    public void initSimulationDevice(SpeedController controller, int tpr, double gearbox_ratio, double max_rpm) {
+    public void initSimulationDevice(SpeedController controller, int tpr, double gearbox_ratio, double max_rpm, double ramp_time) {
         // Set locals
         this.controller = controller;
         this.tpr = tpr;
         this.gearbox_ratio = gearbox_ratio;
         this.max_rpm = max_rpm;
+        this.m_simSlew = new SlewLimiter(ramp_time);
 
         // Init sim device
         m_simDevice = SimDevice.create("EncoderBase", s_instanceCount + 1);
@@ -153,7 +156,7 @@ public abstract class EncoderBase implements PeriodicComponent {
             last_time = current_time;
 
             // Calc encoder position
-            double rpm = (controller.get() * max_rpm) / gearbox_ratio;
+            double rpm = (m_simSlew.feed(controller.get()) * max_rpm) / gearbox_ratio;
             double revs = (rpm / 60.0) * dt; // RPM -> RPS -> Multiply by seconds to find rotations since last update
             m_simTicks.set((int) (m_simTicks.get() + (revs * tpr)));
             m_simRotations.set((m_simRotations.get() + revs));

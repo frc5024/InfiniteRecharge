@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
@@ -73,6 +74,12 @@ public class Robot extends TimedRobot {
 		// Create and publish an autonomous chooser
 		m_autonChooser = new Chooser();
 		m_autonChooser.publishOptions();
+
+		// Simulate main gyroscope
+		if (RobotBase.isSimulation()) {
+			logger.log("Robot", "Starting NavX simulation");
+			NavX.getInstance().initDrivebaseSimulation(m_driveTrain);
+		}
 	}
 
 	@Override
@@ -82,6 +89,7 @@ public class Robot extends TimedRobot {
 		if (RobotConstants.PUBLISH_SD_TELEMETRY) {
 			m_driveTrain.updateTelemetry();
 		}
+
 	}
 
 	@Override

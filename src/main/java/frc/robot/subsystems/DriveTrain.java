@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib5k.components.drive.DifferentialDriveCalculation;
+import frc.lib5k.components.drive.IDifferentialDrivebase;
 import frc.lib5k.components.drive.InputUtils;
 import frc.lib5k.components.drive.InputUtils.ScalingMode;
 import frc.lib5k.components.gyroscopes.NavX;
@@ -24,7 +25,7 @@ import frc.lib5k.kinematics.DriveSignal;
 /**
  * The DriveTrain handles all robot movement.
  */
-public class DriveTrain extends SubsystemBase implements Loggable {
+public class DriveTrain extends SubsystemBase implements Loggable, IDifferentialDrivebase {
     private static RobotLogger logger = RobotLogger.getInstance();
     private static DriveTrain s_instance = null;
 
@@ -115,12 +116,14 @@ public class DriveTrain extends SubsystemBase implements Loggable {
         if (RobotBase.isSimulation()) {
             m_leftEncoder.initSimulationDevice(m_leftGearbox, RobotConstants.DriveTrain.Encoders.PULSES_PER_REVOLUTION,
                     RobotConstants.DriveTrain.Measurements.GEAR_RATIO,
-                    RobotConstants.DriveTrain.Measurements.MOTOR_MAX_RPM);
+                    RobotConstants.DriveTrain.Measurements.MOTOR_MAX_RPM,
+                    RobotConstants.DriveTrain.Simulation.ENCODER_RAMP_RATE);
 
             m_rightEncoder.initSimulationDevice(m_rightGearbox,
                     RobotConstants.DriveTrain.Encoders.PULSES_PER_REVOLUTION,
                     RobotConstants.DriveTrain.Measurements.GEAR_RATIO,
-                    RobotConstants.DriveTrain.Measurements.MOTOR_MAX_RPM);
+                    RobotConstants.DriveTrain.Measurements.MOTOR_MAX_RPM,
+                    RobotConstants.DriveTrain.Simulation.ENCODER_RAMP_RATE);
         }
 
         // Create odometry object
@@ -201,6 +204,9 @@ public class DriveTrain extends SubsystemBase implements Loggable {
 
         // Compute a DriveSignal from inputs
         DriveSignal signal = DifferentialDriveCalculation.semiConstCurve(speed, rotation);
+
+        // TODO: I think this feels better
+        // signal = DifferentialDriveCalculation.normalize(signal);
 
         // Set the signal
         setOpenLoop(signal);
@@ -306,6 +312,7 @@ public class DriveTrain extends SubsystemBase implements Loggable {
      * 
      * @return Left distance
      */
+    @Override
     public double getLeftMeters() {
 
         return m_leftEncoder.getMeters(RobotConstants.DriveTrain.Encoders.PULSES_PER_REVOLUTION,
@@ -318,11 +325,17 @@ public class DriveTrain extends SubsystemBase implements Loggable {
      * 
      * @return Right distance
      */
+    @Override
     public double getRightMeters() {
 
         return m_rightEncoder.getMeters(RobotConstants.DriveTrain.Encoders.PULSES_PER_REVOLUTION,
                 RobotConstants.DriveTrain.Measurements.WHEEL_CIRCUMFERENCE);
 
+    }
+
+    @Override
+    public double getWidthMeters() {
+        return RobotConstants.DriveTrain.Measurements.DRIVEBASE_WIDTH;
     }
 
     /**
