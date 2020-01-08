@@ -37,7 +37,6 @@ def getRobotPosition() -> tuple:
     rbt_position = sd.getString("[DriveTrain] pose", "None").split(" ")
 
     if rbt_position[0] == "None":
-        # return (200,20,90)
         return (100,0,45)
 
 
