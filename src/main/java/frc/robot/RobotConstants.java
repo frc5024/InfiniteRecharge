@@ -58,6 +58,10 @@ public class RobotConstants {
      */
     public static class DriveTrain {
 
+        public static class Simulation {
+            public static final double ENCODER_RAMP_RATE = 0.12;
+        }
+
         /**
          * Motor controller IDs
          */
