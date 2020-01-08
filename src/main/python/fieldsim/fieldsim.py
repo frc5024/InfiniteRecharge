@@ -17,10 +17,11 @@ sd = NetworkTables.getTable('SmartDashboard')
 
 # Colors
 blue = (0,0,180)
+grey = (98,98,98)
 white = (255,255,255)
 
 # Robot size
-rbt_size = (50,50)
+rbt_size = (80,80)
 rbt  = pygame.Surface(rbt_size)
 
 # Others
@@ -28,13 +29,16 @@ distance_mul = round(1228 / 48)
 
 # image loading
 field = pygame.image.load(sys.argv[1])
+rbt_surf = pygame.image.load("images/robot-sprite.png").convert_alpha()
+rbt_surf = pygame.transform.scale(rbt_surf, rbt_size)
 
 def getRobotPosition() -> tuple:
 
     rbt_position = sd.getString("[DriveTrain] pose", "None").split(" ")
 
     if rbt_position[0] == "None":
-        return (200,200,45)
+        # return (200,20,90)
+        return (0,0,0)
 
 
     x = float(rbt_position[1][:-1])
@@ -65,6 +69,10 @@ def drawRegularPolygon(surface, color, theta, x, y, w,h):
 
     pygame.draw.polygon(surface, color, rect_points)
 
+def drawRobot(x,y,theta):
+    rbt = pygame.transform.rotate(rbt_surf, theta)
+    gameDisplay.blit(rbt, (x - (rbt_size[0] / 2),y - (rbt_size[1] / 2)))
+
 
 while True:
 
@@ -83,12 +91,12 @@ while True:
     # Draw the "robot"
     x,y,theta = getRobotPosition()
 
-
+    # Shift position to match real field positioning
     y += (635/2)
-    x += (80 + rbt_size[1] / 2) 
+    x += (60 + rbt_size[1] / 2) 
 
-    drawRegularPolygon(gameDisplay, blue, theta, x,y, rbt_size[0], rbt_size[1])
-        
+    # Draw the robot
+    drawRobot(x,y,theta)
 
     # Update the screen
     pygame.display.update()
