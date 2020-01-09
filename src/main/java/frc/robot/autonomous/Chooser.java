@@ -91,7 +91,7 @@ public class Chooser {
         // Test path following
         SequentialCommandGroup path = PathGenerator.generate(new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0.0)),
                 List.of(new Translation2d(1, 1), new Translation2d(2, -1)), new Pose2d(3, 0, new Rotation2d(0)),
-                new PathGenerator.SpeedConstraint(0.4, 0.4));
+                new PathGenerator.SpeedConstraint(0.8, 1.0));
 
         outputCommand.addCommands(path.withTimeout(3));
         // /* Start building command based on params */

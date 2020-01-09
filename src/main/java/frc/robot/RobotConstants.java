@@ -100,7 +100,7 @@ public class RobotConstants {
 
             /* Encoder phases */
             public static final boolean LEFT_SENSOR_PHASE = false;
-            public static final boolean RIGHT_SENSOR_PHASE = false;
+            public static final boolean RIGHT_SENSOR_PHASE = true;
 
             /* Ticks per revolution of the encoder */
 

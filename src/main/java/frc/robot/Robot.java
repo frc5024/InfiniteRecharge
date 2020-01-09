@@ -2,13 +2,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.lib5k.components.drive.IDifferentialDrivebase;
 import frc.lib5k.components.gyroscopes.NavX;
 import frc.lib5k.roborio.FaultReporter;
 import frc.lib5k.utils.RobotLogger;
@@ -78,7 +76,7 @@ public class Robot extends TimedRobot {
 		// Simulate main gyroscope
 		if (RobotBase.isSimulation()) {
 			logger.log("Robot", "Starting NavX simulation");
-			NavX.getInstance().initDrivebaseSimulation(m_driveTrain);
+			NavX.getInstance().initDrivebaseSimulation((IDifferentialDrivebase) m_driveTrain);
 		}
 	}
 
@@ -107,6 +105,7 @@ public class Robot extends TimedRobot {
 		}
 
 		// Determine robot starting position
+		m_driveTrain.setPosition(new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0.0)));
 		m_driveTrain.setPosition(m_autonChooser.getRobotAutoStartPosition());
 
 		// Enable brakes on the DriveTrain
