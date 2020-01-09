@@ -11,6 +11,7 @@ import frc.lib5k.components.motors.interfaces.IRampRateController;
 import frc.lib5k.components.motors.interfaces.IVoltageOutputController;
 import frc.lib5k.control.TimedSlewLimiter;
 import frc.lib5k.interfaces.Loggable;
+import frc.lib5k.roborio.RR_HAL;
 import frc.lib5k.utils.RobotLogger;
 import frc.lib5k.utils.RobotLogger.Level;
 import frc.lib5k.utils.telemetry.ComponentTelemetry;
@@ -89,7 +90,7 @@ public class SparkCollection extends SpeedControllerGroup
     public void setVoltage(double volts) {
 
         // Determine Robot bus voltage
-        double busVoltage = RobotController.getBatteryVoltage();
+        double busVoltage = RR_HAL.getSimSafeVoltage();
 
         // Just stop the motor if the bus is at 0V
         // Many things would go wrong otherwise (do you really want a div-by-zero error
@@ -111,7 +112,7 @@ public class SparkCollection extends SpeedControllerGroup
     public double getEstimatedVoltage() {
 
         // Determine Robot bus voltage
-        double busVoltage = RobotController.getBatteryVoltage();
+        double busVoltage = RR_HAL.getSimSafeVoltage();
 
         // Convert percent output to voltage
         double voltage_estimate = get() * busVoltage;

@@ -129,6 +129,10 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
         // Create odometry object
         m_odometry = new DifferentialDriveOdometry(NavX.getInstance().getRotation());
 
+        // Zero encoders
+        m_leftEncoder.zero();
+        m_rightEncoder.zero();
+
     }
 
     /**
@@ -161,7 +165,7 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
         case VOLTAGE:
             // ets the left and right gearbox
             m_leftGearbox.setVoltage(m_currentSignal.getL());
-            m_rightGearbox.set(m_currentSignal.getR());
+            m_rightGearbox.setVoltage(m_currentSignal.getR());
             break;
         default:
             // This code should never run, but if it does, we set the mode to OPEN_LOOP, and
@@ -187,7 +191,8 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
         Rotation2d heading = Rotation2d.fromDegrees(NavX.getInstance().getHeading());
 
         // Calculate the robot pose
-        m_robotPose = m_odometry.update(heading, getLeftMeters(), getRightMeters());
+        m_odometry.update(heading, getLeftMeters(), getRightMeters());
+        m_robotPose = m_odometry.getPoseMeters();
 
     }
 
@@ -355,10 +360,20 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
     public void setPosition(Pose2d pose) {
         logger.log("DriveTrain", String.format("Set odometry position to: %s", pose.toString()));
 
+        // Zero encoders (Important)
+        m_leftEncoder.zero();
+        m_rightEncoder.zero();
+
+        // Reset gyro
+        // NavX.getInstance().reset();
+
+        // Reset odometry
         m_odometry.resetPosition(pose, NavX.getInstance().getRotation());
+
     }
 
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+        // System.out.println("" + m_leftMPS + "|" + m_rightMPS);
         return new DifferentialDriveWheelSpeeds(m_leftMPS, m_rightMPS);
 
     }

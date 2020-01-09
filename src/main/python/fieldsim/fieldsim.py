@@ -35,6 +35,7 @@ rbt_surf = pygame.transform.scale(rbt_surf, rbt_size)
 def getRobotPosition() -> tuple:
 
     rbt_position = sd.getString("[DriveTrain] pose", "None").split(" ")
+    print(rbt_position)
 
     if rbt_position[0] == "None":
         return (100,0,45)

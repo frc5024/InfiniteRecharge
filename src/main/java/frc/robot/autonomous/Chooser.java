@@ -1,6 +1,5 @@
 package frc.robot.autonomous;
 
-import java.util.List;
 
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -8,6 +7,7 @@ import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -15,6 +15,9 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.lib5k.utils.RobotLogger;
 import frc.robot.RobotConstants;
 import frc.robot.autonomous.actions.LogCommand;
+import frc.robot.autonomous.helpers.EasyTrajectory;
+import frc.robot.autonomous.helpers.PathGenerator;
+import frc.robot.autonomous.helpers.SpeedConstraint;
 import frc.robot.subsystems.DriveTrain;
 
 /**
@@ -89,11 +92,12 @@ public class Chooser {
         outputCommand.addCommands(new LogCommand("Starting autonomous actions"));
 
         // Test path following
-        SequentialCommandGroup path = PathGenerator.generate(new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0.0)),
-                List.of(new Translation2d(1, 1), new Translation2d(2, -1)), new Pose2d(3, 0, new Rotation2d(0)),
-                new PathGenerator.SpeedConstraint(0.4, 0.4));
+        SequentialCommandGroup path = PathGenerator.generate(
+                new EasyTrajectory(new Pose2d(0, 0, new Rotation2d(0)),
+                        new Pose2d(3, 0, Rotation2d.fromDegrees(0))),
+                new SpeedConstraint(1.0, 1.0));
 
-        outputCommand.addCommands(path.withTimeout(3));
+        outputCommand.addCommands(path);
         // /* Start building command based on params */
 
         // // Track what we have done
