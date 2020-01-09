@@ -12,6 +12,7 @@ import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.util.WPILibVersion;
 
 /**
@@ -104,8 +105,9 @@ public class RR_HAL {
     }
 
     /**
-     * Returns the name of the robot
-     * if the name cannot be found, returns Unknown Robot
+     * Returns the name of the robot if the name cannot be found, returns Unknown
+     * Robot
+     * 
      * @return robot name
      */
     public static String getRobotName() {
@@ -129,5 +131,25 @@ public class RR_HAL {
         } catch (Exception e) {
             return "Unknown Robot";
         }
+    }
+
+    /**
+     * Get the robot voltage, but return 12.0v if the robot is running in
+     * simulation, and the "real" voltage is set to 0.0v (this solves allwpilib PR
+     * #2224)
+     * 
+     * @return Robot voltage
+     */
+    public static double getSimSafeVoltage() {
+
+        // If simulation and 0.0v
+        if (RobotBase.isSimulation() && RobotController.getBatteryVoltage() == 0.0) {
+
+            // Return max voltage
+            return 12.0;
+        }
+
+        // Otherwise, return real voltage
+        return RobotController.getBatteryVoltage();
     }
 }

@@ -20,6 +20,7 @@ import frc.lib5k.components.motors.motorsensors.TalonEncoder;
 import frc.lib5k.components.sensors.EncoderBase;
 import frc.lib5k.components.sensors.IEncoderProvider;
 import frc.lib5k.interfaces.Loggable;
+import frc.lib5k.roborio.RR_HAL;
 import frc.lib5k.utils.Mathutils;
 import frc.lib5k.utils.RobotLogger;
 import frc.lib5k.utils.RobotLogger.Level;
@@ -120,11 +121,22 @@ public class TalonSRXCollection extends SpeedControllerGroup implements IMotorCo
 
     }
 
+    private double getControllerVoltage() {
+        if (m_simDevice != null) {
+
+            // Determine sim-safe voltage
+            return RR_HAL.getSimSafeVoltage();
+        } else {
+
+            // Determine TalonSRX input bus voltage
+            return master.getBusVoltage();
+        }
+    }
+
     @Override
     public void setVoltage(double volts) {
 
-        // Determine TalonSRX input bus voltage
-        double busVoltage = master.getBusVoltage();
+        double busVoltage = getControllerVoltage();
 
         // Just stop the motor if the bus is at 0V
         // Many things would go wrong otherwise (do you really want a div-by-zero error
@@ -144,6 +156,10 @@ public class TalonSRXCollection extends SpeedControllerGroup implements IMotorCo
 
     @Override
     public double getEstimatedVoltage() {
+        if (m_simDevice != null) {
+            return get() * getControllerVoltage();
+        }
+
         return master.getMotorOutputVoltage();
 
     }
