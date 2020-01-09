@@ -29,7 +29,8 @@ public class DifferentialDriveCalculation {
     }
 
     /**
-     * Calculate a percent motor output from speed and rotation inputs
+     * Calculate a percent motor output from speed and rotation inputs using
+     * "semi-constant curvature" calculation
      * 
      * @param speed    Desired speed
      * @param rotation Desired rotation
@@ -48,12 +49,12 @@ public class DifferentialDriveCalculation {
         }
 
         // Calculate direct speed conversion (rate-based turning)
-        double rate_l = speed + rotation;
-        double rate_r = speed - rotation;
+        double rate_l = (speed + rotation);
+        double rate_r = (speed - rotation);
 
         // Calculate constant-curvature speeds
-        double curv_l = speed + Math.abs(speed) * rotation;
-        double curv_r = speed - Math.abs(speed) * rotation;
+        double curv_l = (speed + Math.abs(speed) * rotation);
+        double curv_r = (speed - Math.abs(speed) * rotation);
 
         // Determine average speeds
         double avg_l = (rate_l + curv_l) / 2;
@@ -65,6 +66,42 @@ public class DifferentialDriveCalculation {
 
         // Create a DriveSignal from motor speeds
         DriveSignal signal = new DriveSignal(avg_l, avg_r);
+
+
+        // Return the drive signal
+        return signal;
+    }
+
+    /**
+     * Calculate a percent motor output from speed and rotation inputs using "arcade
+     * calculation"
+     * 
+     * @param speed    Desired speed
+     * @param rotation Desired rotation
+     * @return Computed DriveSignal
+     */
+    public static DriveSignal arcade(double speed, double rotation) {
+
+        // Stop speed from being NaN
+        if (Double.isNaN(speed)) {
+            speed = 0.0000001;
+        }
+
+        // Stop speed from being NaN
+        if (Double.isNaN(rotation)) {
+            rotation = 0.0000001;
+        }
+
+        // Calculate direct speed conversion (rate-based turning)
+        double l = (speed + rotation);
+        double r = (speed - rotation);
+
+        // Clamp motor outputs
+        l = Mathutils.clamp(l, -1., 1.);
+        r = Mathutils.clamp(r, -1., 1.);
+
+        // Create a DriveSignal from motor speeds
+        DriveSignal signal = new DriveSignal(l, r);
 
         // Normalize the signal
         signal = normalize(signal);

@@ -113,12 +113,14 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
         if (RobotBase.isSimulation()) {
             m_leftEncoder.initSimulationDevice(m_leftGearbox, RobotConstants.DriveTrain.Encoders.PULSES_PER_REVOLUTION,
                     RobotConstants.DriveTrain.Measurements.GEAR_RATIO,
-                    RobotConstants.DriveTrain.Measurements.MOTOR_MAX_RPM);
+                    RobotConstants.DriveTrain.Measurements.MOTOR_MAX_RPM,
+                    RobotConstants.DriveTrain.Simulation.ENCODER_RAMP_RATE);
 
             m_rightEncoder.initSimulationDevice(m_rightGearbox,
                     RobotConstants.DriveTrain.Encoders.PULSES_PER_REVOLUTION,
                     RobotConstants.DriveTrain.Measurements.GEAR_RATIO,
-                    RobotConstants.DriveTrain.Measurements.MOTOR_MAX_RPM);
+                    RobotConstants.DriveTrain.Measurements.MOTOR_MAX_RPM,
+                    RobotConstants.DriveTrain.Simulation.ENCODER_RAMP_RATE);
         }
 
         // Create odometry object
@@ -191,6 +193,9 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
 
         // Compute a DriveSignal from inputs
         DriveSignal signal = DifferentialDriveCalculation.semiConstCurve(speed, rotation);
+
+        // TODO: I think this feels better
+        // signal = DifferentialDriveCalculation.normalize(signal);
 
         // Set the signal
         setOpenLoop(signal);

@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.util.Units;
 import frc.lib5k.roborio.RR_HAL;
 
@@ -25,6 +26,7 @@ public class RobotConstants {
          * Number of seconds to wait before robot is allowed to score
          */
         public static final double SCORE_LATE_DELAY = 5.0;
+
     }
 
     /**
@@ -55,6 +57,10 @@ public class RobotConstants {
      * Constants regarding the DriveTrain
      */
     public static class DriveTrain {
+
+        public static class Simulation {
+            public static final double ENCODER_RAMP_RATE = 0.12;
+        }
 
         /**
          * Motor controller IDs
@@ -117,6 +123,34 @@ public class RobotConstants {
             public static final int MOTOR_MAX_RPM = 5330; // For cim motors
 
         }
+    }
+
+    /**
+     * Control Gains Measurements
+     */
+    public static class ControlGains {
+
+        //Feedforward Gains
+        public static final double ksVolts = 2.37;
+        public static final double kvVoltsSecondsPerMeter = 1.8;
+        public static final double kaVoltsSecondsSquaredPerMeter = 0.0231;
+
+        //Optimal Control Gain
+        public static final double kPDriveVel = 0.478;
+
+        //DifferentialDriveKinematics allows for the use of the track length
+        public static final double kTrackWidthMeters = 0.1524;
+        public static final DifferentialDriveKinematics kDriveKinematics = 
+            new DifferentialDriveKinematics(kTrackWidthMeters); 
+
+        //Max Trajectory of Velocity and Acceleration
+        public static final double kMaxSpeedMetersPerSecond = 3; // This value will most likely need to be changed
+        public static final double kMaxAccelerationMetersPerSecondSquared = 3; // This value will most likely need to be changed
+
+        //Ramsete Parameters (Not sure if this is nessacary for trajectory and may need changes)
+        public static final double kRamseteB = 2; // in meters
+        public static final double kRamseteZeta = .7; // in Seconds
+
     }
 
 }

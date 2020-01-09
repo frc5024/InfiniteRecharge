@@ -9,6 +9,7 @@ import edu.wpi.first.hal.SimBoolean;
 import edu.wpi.first.hal.SimDevice;
 import edu.wpi.first.hal.SimDouble;
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 
 import frc.lib5k.components.motors.interfaces.ICurrentController;
@@ -138,6 +139,7 @@ public class TalonSRXCollection extends SpeedControllerGroup implements IMotorCo
 
         double busVoltage = getControllerVoltage();
 
+
         // Just stop the motor if the bus is at 0V
         // Many things would go wrong otherwise (do you really want a div-by-zero error
         // on your drivetrain?)
@@ -157,7 +159,9 @@ public class TalonSRXCollection extends SpeedControllerGroup implements IMotorCo
     @Override
     public double getEstimatedVoltage() {
         if (m_simDevice != null) {
+
             return get() * getControllerVoltage();
+
         }
 
         return master.getMotorOutputVoltage();
