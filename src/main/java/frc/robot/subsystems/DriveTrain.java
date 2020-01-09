@@ -165,7 +165,7 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
         case VOLTAGE:
             // ets the left and right gearbox
             m_leftGearbox.setVoltage(m_currentSignal.getL());
-            m_rightGearbox.setVoltage(m_currentSignal.getR());
+            m_rightGearbox.setVoltage(-m_currentSignal.getR());
             break;
         default:
             // This code should never run, but if it does, we set the mode to OPEN_LOOP, and
@@ -372,6 +372,7 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
     }
 
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+        // System.out.println("" + m_leftMPS + "|" + m_rightMPS);
         return new DifferentialDriveWheelSpeeds(m_leftMPS, m_rightMPS);
 
     }

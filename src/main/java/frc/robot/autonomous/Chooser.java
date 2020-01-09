@@ -89,11 +89,17 @@ public class Chooser {
         outputCommand.addCommands(new LogCommand("Starting autonomous actions"));
 
         // Test path following
-        SequentialCommandGroup path = PathGenerator.generate(new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0.0)),
-                List.of(new Translation2d(1, 1), new Translation2d(2, -1)), new Pose2d(3, 0, new Rotation2d(0)),
-                new PathGenerator.SpeedConstraint(0.8, 1.0));
+        SequentialCommandGroup path = PathGenerator.generate(new Pose2d(0, 0, new Rotation2d(0)),
+        // Pass through these two interior waypoints, making an 's' curve path
+        List.of(
+            new Translation2d(1, 1),
+            new Translation2d(2, -1)
+        ),
+        // End 3 meters straight ahead of where we started, facing forward
+        new Pose2d(3, 0, new Rotation2d(0)),
+                new PathGenerator.SpeedConstraint(1.0, 1.0));
 
-        outputCommand.addCommands(path.withTimeout(3));
+        outputCommand.addCommands(path);
         // /* Start building command based on params */
 
         // // Track what we have done
