@@ -1,6 +1,5 @@
 package frc.robot.autonomous;
 
-
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
@@ -92,12 +91,12 @@ public class Chooser {
         outputCommand.addCommands(new LogCommand("Starting autonomous actions"));
 
         // Test path following
-        SequentialCommandGroup path = PathGenerator.generate(
-                new EasyTrajectory(new Pose2d(0, 0, new Rotation2d(0)),
-                        new Pose2d(3, 0, Rotation2d.fromDegrees(0))),
-                new SpeedConstraint(1.0, 1.0));
+        outputCommand.addCommands(PathGenerator.generate(
+                new EasyTrajectory(new Pose2d(0, 0, new Rotation2d(0)), new Pose2d(3, 0, Rotation2d.fromDegrees(0))),
+                new SpeedConstraint(1.0, 1.0)));
 
-        outputCommand.addCommands(path);
+        outputCommand.addCommands(PathGenerator.generateInPlaceRotation(Rotation2d.fromDegrees(90), 1));
+
         // /* Start building command based on params */
 
         // // Track what we have done

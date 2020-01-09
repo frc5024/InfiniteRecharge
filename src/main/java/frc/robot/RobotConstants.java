@@ -135,10 +135,15 @@ public class RobotConstants {
         public static final double kvVoltsSecondsPerMeter = 1.8;
         public static final double kaVoltsSecondsSquaredPerMeter = 0.0231;
 
-        // Optimal Control Gain
+        // Optimal Control Gain for driving
         public static final double kPDriveVel = 0.68;//0.478;
         public static final double kIDriveVel = 100.0;
         public static final double kDDriveVel = 0.005;
+
+        // Optimal Control Gain for turning
+        public static final double kPTurnVel = 0.68;
+        public static final double kITurnVel = 0.0;
+        public static final double kDTurnVel = 0.0;
 
         // Closest: 3.34m
 
