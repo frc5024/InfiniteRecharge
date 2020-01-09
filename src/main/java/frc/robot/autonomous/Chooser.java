@@ -90,8 +90,10 @@ public class Chooser {
         outputCommand.addCommands(new LogCommand("Starting autonomous actions"));
 
         // Test path following
-        SequentialCommandGroup path = PathGenerator.generate(new Pose2d(0, 0, new Rotation2d(0)),
-                new Pose2d(Units.inchesToMeters(120), 0, Rotation2d.fromDegrees(0)), new PathGenerator.SpeedConstraint(1.0, 1.0));
+        SequentialCommandGroup path = PathGenerator.generate(
+                new PathGenerator.EasyTrajectory(new Pose2d(0, 0, new Rotation2d(0)),
+                        new Pose2d(3, 0, Rotation2d.fromDegrees(0))),
+                new PathGenerator.SpeedConstraint(1.0, 1.0));
 
         outputCommand.addCommands(path);
         // /* Start building command based on params */
