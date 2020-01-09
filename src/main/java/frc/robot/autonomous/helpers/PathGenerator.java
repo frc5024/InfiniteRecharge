@@ -66,6 +66,13 @@ public class PathGenerator {
 
 	}
 
+	/**
+	 * Generate a rotation controller command
+	 * 
+	 * @param desiredHeading Desired robot heading at the end of the command
+	 * @param epsilon Allowed error in rotation
+	 * @return Turning command
+	 */
 	public static SequentialCommandGroup generateInPlaceRotation(Rotation2d desiredHeading, double epsilon) {
 
 		// Create a PIDController for turning control
