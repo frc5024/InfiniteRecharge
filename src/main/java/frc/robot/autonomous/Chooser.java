@@ -132,15 +132,20 @@ public class Chooser {
                     new Pose2d(3.1, -3.79, Rotation2d.fromDegrees(90)),
 
                     // Interior point
-                    new Translation2d(0, 0.3),
+                    new Translation2d(0, 0.2),
 
                     // End point
-                    new Pose2d(5.2, -4.0, Rotation2d.fromDegrees(0)),
+                    new Pose2d(5.3, -4.1, Rotation2d.fromDegrees(0)),
 
                     // Constraints on movement
                     new SpeedConstraint(1.0, 1.0), false));
 
             // Near the goal
+            // outputCommand.addCommands(new LinePath(new Pose2d(5.2, -4.0,
+            // Rotation2d.fromDegrees(0)),
+            // new Pose2d(1.8, -3.5, Rotation2d.fromDegrees(-180)), new SpeedConstraint(1,
+            // 1), true));
+
             outputCommand.addCommands(new LinePath(new Pose2d(5.2, -4.0, Rotation2d.fromDegrees(0)),
                     new Pose2d(1.8, -3.5, Rotation2d.fromDegrees(-180)), new SpeedConstraint(1, 1), true));
 
@@ -152,6 +157,7 @@ public class Chooser {
 
             outputCommand.addCommands(new LinePath(new Pose2d(1.2, -3.1, Rotation2d.fromDegrees(0)),
                     new Pose2d(0, -2.3, Rotation2d.fromDegrees(180)), new SpeedConstraint(1, 1), true));
+
         }
 
         // /* Start building command based on params */
