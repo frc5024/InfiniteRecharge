@@ -19,6 +19,16 @@ import frc.robot.autonomous.helpers.SpeedConstraint;
 import frc.robot.subsystems.DriveTrain;
 
 public class PathGenerator {
+	
+	/**
+	 * Generate a path following command group from a trajectory 
+	 * 
+	 * @param t Trajectory to follow
+	 * @return generated path following command
+	 */
+	public static SequentialCommandGroup generate(EasyTrajectory t) {
+		return generate(t, new SpeedConstraint(1.0, 1.0));
+	}
 
 	/**
 	 * Generate a path following command group from a trajectory and a constraint
