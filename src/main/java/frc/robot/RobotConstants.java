@@ -104,7 +104,7 @@ public class RobotConstants {
 
             /* Ticks per revolution of the encoder */
 
-            public static final int PULSES_PER_REVOLUTION = 2880;//1440; // (isCompBot())? 4096 : 1440;
+            public static final int PULSES_PER_REVOLUTION = 1024;//2880;//1440; // (isCompBot())? 4096 : 1440;
 
         }
 
@@ -136,14 +136,14 @@ public class RobotConstants {
         public static final double kaVoltsSecondsSquaredPerMeter = 0.0231;
 
         // Optimal Control Gain for driving
-        public static final double kPDriveVel = 0.68;//0.478;
+        public static final double kPDriveVel = 0.478;//0.68;//0.478;
         public static final double kIDriveVel = 0.0;
         public static final double kDDriveVel = 0.005;
 
         // Optimal Control Gain for turning
-        public static final double kPTurnVel = 0.68;
-        public static final double kITurnVel = 0.0;
-        public static final double kDTurnVel = 0.0;
+        public static final double kPTurnVel = 0.008;
+        public static final double kITurnVel = 0.000;
+        public static final double kDTurnVel = 0.000;
 
         // Closest: 3.34m
 

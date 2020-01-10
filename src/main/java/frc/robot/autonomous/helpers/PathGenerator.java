@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.lib5k.components.gyroscopes.NavX;
 import frc.lib5k.kinematics.DriveSignal;
 import frc.robot.RobotConstants;
 import frc.robot.autonomous.helpers.EasyTrajectory;
@@ -70,10 +71,10 @@ public class PathGenerator {
 	 * Generate a rotation controller command
 	 * 
 	 * @param desiredHeading Desired robot heading at the end of the command
-	 * @param epsilon Allowed error in rotation
+	 * @param epsilon        Allowed error in rotation
 	 * @return Turning command
 	 */
-	public static SequentialCommandGroup generateInPlaceRotation(Rotation2d desiredHeading, double epsilon) {
+	public static SequentialCommandGroup generateInPlaceRotation(double desiredHeading, double epsilon) {
 
 		// Create a PIDController for turning control
 		PIDController turnController = new PIDController(RobotConstants.ControlGains.kPTurnVel,
@@ -85,10 +86,22 @@ public class PathGenerator {
 		// Create a command that will rotate the drivebase to an angle with a PID
 		// controller
 		PIDCommand rotateCommand = new PIDCommand(turnController, () -> {
-			return DriveTrain.getInstance().getPosition().getRotation().getDegrees();
-		}, desiredHeading.getDegrees(), (output) -> {
+			return NavX.getInstance().getAngle();
+		},  desiredHeading, (output) -> {
 			DriveTrain.getInstance().setOpenLoop(new DriveSignal(output, -output));
-		}, DriveTrain.getInstance());
+		}, DriveTrain.getInstance()) {
+			@Override
+			public void execute() {
+				super.execute();
+
+				if (m_controller.atSetpoint()) {
+					System.out.println("Ended turning");
+					end(false);
+					cancel();
+				}
+			}
+		};
+		
 
 		// Return the command
 		return rotateCommand.andThen(DriveTrain.getInstance()::stop);
