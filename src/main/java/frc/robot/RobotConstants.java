@@ -104,7 +104,7 @@ public class RobotConstants {
 
             /* Ticks per revolution of the encoder */
 
-            public static final int PULSES_PER_REVOLUTION = 1440; // (isCompBot())? 4096 : 1440;
+            public static final int PULSES_PER_REVOLUTION = 1024;//2880;//1440; // (isCompBot())? 4096 : 1440;
 
         }
 
@@ -130,24 +130,36 @@ public class RobotConstants {
      */
     public static class ControlGains {
 
-        //Feedforward Gains
+        // Feedforward Gains
         public static final double ksVolts = 2.37;
         public static final double kvVoltsSecondsPerMeter = 1.8;
         public static final double kaVoltsSecondsSquaredPerMeter = 0.0231;
 
-        //Optimal Control Gain
-        public static final double kPDriveVel = 0.478;
+        // Optimal Control Gain for driving
+        public static final double kPDriveVel = 0.478;//0.68;//0.478;
+        public static final double kIDriveVel = 0.0;
+        public static final double kDDriveVel = 0.005;
 
-        //DifferentialDriveKinematics allows for the use of the track length
+        // Optimal Control Gain for turning
+        public static final double kPTurnVel = 0.008;
+        public static final double kITurnVel = 0.000;
+        public static final double kDTurnVel = 0.000;
+
+        // Closest: 3.34m
+
+        // DifferentialDriveKinematics allows for the use of the track length
         public static final double kTrackWidthMeters = 0.1524;
-        public static final DifferentialDriveKinematics kDriveKinematics = 
-            new DifferentialDriveKinematics(kTrackWidthMeters); 
+        public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
+        //DriveTrain.Measurements.DRIVEBASE_WIDTH);
+                kTrackWidthMeters);
 
-        //Max Trajectory of Velocity and Acceleration
+        // Max Trajectory of Velocity and Acceleration
         public static final double kMaxSpeedMetersPerSecond = 3; // This value will most likely need to be changed
-        public static final double kMaxAccelerationMetersPerSecondSquared = 3; // This value will most likely need to be changed
+        public static final double kMaxAccelerationMetersPerSecondSquared = 3; // This value will most likely need to be
+                                                                               // changed
 
-        //Ramsete Parameters (Not sure if this is nessacary for trajectory and may need changes)
+        // Ramsete Parameters (Not sure if this is nessacary for trajectory and may need
+        // changes)
         public static final double kRamseteB = 2; // in meters
         public static final double kRamseteZeta = .7; // in Seconds
 

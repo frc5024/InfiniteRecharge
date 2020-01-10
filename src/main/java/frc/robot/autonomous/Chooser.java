@@ -1,9 +1,12 @@
 package frc.robot.autonomous;
 
 import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -11,6 +14,9 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.lib5k.utils.RobotLogger;
 import frc.robot.RobotConstants;
 import frc.robot.autonomous.actions.LogCommand;
+import frc.robot.autonomous.helpers.EasyTrajectory;
+import frc.robot.autonomous.helpers.PathGenerator;
+import frc.robot.autonomous.helpers.SpeedConstraint;
 import frc.robot.subsystems.DriveTrain;
 
 /**
@@ -84,88 +90,102 @@ public class Chooser {
         // Add a log command
         outputCommand.addCommands(new LogCommand("Starting autonomous actions"));
 
-        /* Start building command based on params */
+        // Test path following
+        outputCommand.addCommands(PathGenerator.generate(
+                new EasyTrajectory(new Pose2d(0, 0, new Rotation2d(0)), new Pose2d(2, 0, Rotation2d.fromDegrees(0))),
+                new SpeedConstraint(1.0, 1.0)));
 
-        // Track what we have done
-        boolean hasGottenBalls = false;
+        outputCommand.addCommands(PathGenerator.generateInPlaceRotation(90, 2.0));
 
-        // Handle late scoring
-        late_score: if (m_scoreDelay.getSelected() == ScoringDelay.LATE) {
+        // /* Start building command based on params */
 
-            // If we are not going to score, and we are going to pick up balls, we can skip
-            // the delay. This will trigger the second "pick up balls" action
-            if (!m_shouldScore.getSelected() && m_getExtraCells.getSelected()) {
-                outputCommand.addCommands(new LogCommand("Skipping autonomous delay, and going to get some balls"));
+        // // Track what we have done
+        // boolean hasGottenBalls = false;
 
-                break late_score;
-            }
+        // // Handle late scoring
+        // late_score: if (m_scoreDelay.getSelected() == ScoringDelay.LATE) {
 
-            // If we are picking up balls, and scoring, go do it
-            if (m_getExtraCells.getSelected()) {
+        // // If we are not going to score, and we are going to pick up balls, we can
+        // skip
+        // // the delay. This will trigger the second "pick up balls" action
+        // if (!m_shouldScore.getSelected() && m_getExtraCells.getSelected()) {
+        // outputCommand.addCommands(new LogCommand("Skipping autonomous delay, and
+        // going to get some balls"));
 
-                outputCommand.addCommands(new LogCommand("Going to pick up some balls"));
+        // break late_score;
+        // }
 
-                /**
-                 * TODO: ball pickup
-                 * 
-                 * We will go to the trench, and pick up balls until we have gotten 2 (max
-                 * capacity), or time runs out.
-                 * 
-                 * Make sure that curves are calculated for each possible start point here
-                 */
+        // // If we are picking up balls, and scoring, go do it
+        // if (m_getExtraCells.getSelected()) {
 
-                // Return to the initiation line, just in front of the right side start point
-                outputCommand.addCommands(new LogCommand("Returning to initiation line for next action"));
+        // outputCommand.addCommands(new LogCommand("Going to pick up some balls"));
 
-                // TODO: handle logic
+        // /**
+        // * TODO: ball pickup
+        // *
+        // * We will go to the trench, and pick up balls until we have gotten 2 (max
+        // * capacity), or time runs out.
+        // *
+        // * Make sure that curves are calculated for each possible start point here
+        // */
 
-                // Force-disable the "get balls" setting, so we won't do it again later
-                hasGottenBalls = true;
-            }
+        // // Return to the initiation line, just in front of the right side start point
+        // outputCommand.addCommands(new LogCommand("Returning to initiation line for
+        // next action"));
 
-            // Ensure we have waited enough time before going to score
-            outputCommand.addCommands(new LogCommand(String.format("Waiting for match timer to reach the scoring delay time (%.2f)", RobotConstants.Autonomous.SCORE_LATE_DELAY)));
-            outputCommand.addCommands(new WaitUntilCommand(RobotConstants.Autonomous.SCORE_LATE_DELAY));
+        // // TODO: handle logic
 
-        }
+        // // Force-disable the "get balls" setting, so we won't do it again later
+        // hasGottenBalls = true;
+        // }
 
-        // Handle scoring
-        if (m_shouldScore.getSelected()) {
+        // // Ensure we have waited enough time before going to score
+        // outputCommand.addCommands(new LogCommand(String.format("Waiting for match
+        // timer to reach the scoring delay time (%.2f)",
+        // RobotConstants.Autonomous.SCORE_LATE_DELAY)));
+        // outputCommand.addCommands(new
+        // WaitUntilCommand(RobotConstants.Autonomous.SCORE_LATE_DELAY));
 
-            // Get the robot to the correct position to score
-            outputCommand.addCommands(new LogCommand("Getting into position to score"));
+        // }
 
-            // TODO: get to scoring position
+        // // Handle scoring
+        // if (m_shouldScore.getSelected()) {
 
-            // Score balls
-            // TODO: score
+        // // Get the robot to the correct position to score
+        // outputCommand.addCommands(new LogCommand("Getting into position to score"));
 
-            // If we are going to pick up balls, and have not already, return to our
-            // starting position
-            if (m_getExtraCells.getSelected() && !hasGottenBalls) {
-                outputCommand.addCommands(new LogCommand("Returning to initiation line to get ready to grab balls"));
+        // // TODO: get to scoring position
 
-                // TODO: get to start position with curve again
-            }
+        // // Score balls
+        // // TODO: score
 
-        }
+        // // If we are going to pick up balls, and have not already, return to our
+        // // starting position
+        // if (m_getExtraCells.getSelected() && !hasGottenBalls) {
+        // outputCommand.addCommands(new LogCommand("Returning to initiation line to get
+        // ready to grab balls"));
 
-        // Handle getting balls
-        if (m_getExtraCells.getSelected()) {
-            outputCommand.addCommands(new LogCommand("Going to pickup some balls"));
+        // // TODO: get to start position with curve again
+        // }
 
-            /**
-             * TODO: ball pickup
-             * 
-             * We will go to the trench, and pick up balls until we have gotten 3 (new max
-             * capacity), or time runs out.
-             * 
-             * Make sure that curves are calculated for each possible start point here
-             */
+        // }
 
-            // Force-disable the "get balls" setting, so we won't do it again later
-            hasGottenBalls = true;
-        }
+        // // Handle getting balls
+        // if (m_getExtraCells.getSelected()) {
+        // outputCommand.addCommands(new LogCommand("Going to pickup some balls"));
+
+        // /**
+        // * TODO: ball pickup
+        // *
+        // * We will go to the trench, and pick up balls until we have gotten 3 (new max
+        // * capacity), or time runs out.
+        // *
+        // * Make sure that curves are calculated for each possible start point here
+        // */
+
+        // // Force-disable the "get balls" setting, so we won't do it again later
+        // hasGottenBalls = true;
+        // }
 
         return outputCommand;
     }
