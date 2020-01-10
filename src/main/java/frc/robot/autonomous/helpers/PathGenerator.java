@@ -94,14 +94,18 @@ public class PathGenerator {
 			public void execute() {
 				super.execute();
 
-				if (m_controller.atSetpoint()) {
-					System.out.println("Ended turning");
-					end(false);
-					cancel();
-				}
+				// if (m_controller.atSetpoint()) {
+				// 	System.out.println("Ended turning");
+				// 	super.cancel();
+				// }
+			}
+
+			@Override
+			public boolean isFinished(){
+				return m_controller.atSetpoint();
 			}
 		};
-		
+
 
 		// Return the command
 		return rotateCommand.andThen(DriveTrain.getInstance()::stop);
