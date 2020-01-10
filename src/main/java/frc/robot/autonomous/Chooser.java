@@ -145,8 +145,13 @@ public class Chooser {
                     new Pose2d(1.8, -3.5, Rotation2d.fromDegrees(-180)), new SpeedConstraint(1, 1), true));
 
             // Move back to the goal
-            outputCommand.addCommands(new LinePath(new Pose2d(1.8, -3.5, Rotation2d.fromDegrees(0)),
-                    new Pose2d(0, -2.6, Rotation2d.fromDegrees(180)), new SpeedConstraint(1, 1), true));
+            // outputCommand.addCommands(new LinePath(new Pose2d(1.8, -3.5,
+            // Rotation2d.fromDegrees(0)),
+            // new Pose2d(0, -2.6, Rotation2d.fromDegrees(180)), new SpeedConstraint(1, 1),
+            // true));
+
+            outputCommand.addCommands(new LinePath(new Pose2d(1.2, -3.1, Rotation2d.fromDegrees(0)),
+                    new Pose2d(0, -2.3, Rotation2d.fromDegrees(180)), new SpeedConstraint(1, 1), true));
         }
 
         // /* Start building command based on params */
