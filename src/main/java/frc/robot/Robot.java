@@ -79,6 +79,8 @@ public class Robot extends TimedRobot {
 			logger.log("Robot", "Starting NavX simulation");
 			NavX.getInstance().initDrivebaseSimulation((IDifferentialDrivebase) m_driveTrain);
 		}
+
+		m_driveTrain.setPosition(m_autonChooser.getRobotAutoStartPosition());
 	}
 
 	@Override

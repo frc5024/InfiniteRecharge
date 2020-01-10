@@ -12,8 +12,12 @@ import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.lib5k.utils.RobotLogger;
+import frc.robot.FieldConstants;
 import frc.robot.RobotConstants;
+import frc.robot.autonomous.actions.LinePath;
 import frc.robot.autonomous.actions.LogCommand;
+import frc.robot.autonomous.actions.TrapezoidPath;
+import frc.robot.autonomous.actions.TrianglePath;
 import frc.robot.autonomous.actions.TurnToCommand;
 import frc.robot.autonomous.helpers.EasyTrajectory;
 import frc.robot.autonomous.helpers.PathGenerator;
@@ -43,7 +47,8 @@ public class Chooser {
     public Chooser() {
 
         // Positions
-        m_positionChooser.setDefaultOption("Line right", AutonomousStartpoints.SECTOR_LINE_RIGHT);
+        m_positionChooser.setDefaultOption("45degs drive demo", AutonomousStartpoints.ZERO);
+        m_positionChooser.addOption("Auton full right demo", AutonomousStartpoints.SECTOR_LINE_RIGHT);
 
         // Scoring
         m_shouldScore.setDefaultOption("Score balls", true);
@@ -91,34 +96,58 @@ public class Chooser {
         // Add a log command
         outputCommand.addCommands(new LogCommand("Starting autonomous actions"));
 
-        outputCommand.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 2.0));
+        // Determine auto to run
+        if (getRobotAutoStartPosition().equals(AutonomousStartpoints.ZERO)) {
 
-        // Test path following
-        outputCommand.addCommands(PathGenerator.generate(
-                new EasyTrajectory(new Pose2d(0, 0, new Rotation2d(0)), new Pose2d(2, 0, Rotation2d.fromDegrees(0))),
-                new SpeedConstraint(1.0, 1.0)));
+            outputCommand.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 2.0));
 
-        // outputCommand.addCommands(PathGenerator.generateInPlaceRotation(45, 2.0));
-        outputCommand.addCommands(new TurnToCommand(Rotation2d.fromDegrees(45), 2.0));
+            // Test path following
+            outputCommand.addCommands(PathGenerator.generate(new EasyTrajectory(new Pose2d(0, 0, new Rotation2d(0)),
+                    new Pose2d(2, 0, Rotation2d.fromDegrees(0))), new SpeedConstraint(1.0, 1.0)));
 
-        outputCommand.addCommands(PathGenerator.generate(
-                new EasyTrajectory(new Pose2d(2, 0, new Rotation2d(45)), new Pose2d(3, 1, Rotation2d.fromDegrees(45))),
-                new SpeedConstraint(1.0, 1.0)));
+            // outputCommand.addCommands(PathGenerator.generateInPlaceRotation(45, 2.0));
+            outputCommand.addCommands(new TurnToCommand(Rotation2d.fromDegrees(45), 2.0));
 
-        // outputCommand.addCommands(PathGenerator.generate(new EasyTrajectory(
-        // // Start
-        // new Pose2d(0, 0, new Rotation2d(0)),
-        // // End
-        // new Pose2d(3.5, 0, new Rotation2d(0)),
-        // // In points
-        // new Translation2d(0.5, 0.5), new Translation2d(1.0, 0.0), new
-        // Translation2d(1.5, 0.5),
-        // new Translation2d(2.0, 0.0), new Translation2d(2.5, 0.5))));
+            outputCommand.addCommands(PathGenerator.generate(new EasyTrajectory(new Pose2d(2, 0, new Rotation2d(45)),
+                    new Pose2d(3, 1, Rotation2d.fromDegrees(45))), new SpeedConstraint(1.0, 1.0)));
 
-        // outputCommand.addCommands(PathGenerator.generate(
-        // new EasyTrajectory(new Pose2d(2, 0, new Rotation2d(45)), new Pose2d(3, 0.5,
-        // Rotation2d.fromDegrees(45))),
-        // new SpeedConstraint(1.0, 1.0)));
+            // Example trapezoid
+            // outputCommand.addCommands(new TrapezoidPath(new Pose2d(0, 0,
+            // Rotation2d.fromDegrees(0)),
+            // new Translation2d(1, 1), new Translation2d(2, 1), new Pose2d(3, 0,
+            // Rotation2d.fromDegrees(0)),
+            // new SpeedConstraint(1.0, 1.0)));
+        } else if (getRobotAutoStartPosition().equals(AutonomousStartpoints.SECTOR_LINE_RIGHT)) {
+
+            // Example full auto
+
+            // Constants
+            double halfField = FieldConstants.FIELD_WIDTH / 2;
+            double halfRobotWidth = RobotConstants.DriveTrain.Measurements.DRIVEBASE_WIDTH / 2;
+            double halfRobotLength = RobotConstants.DriveTrain.Measurements.DRIVEBASE_LENGTH / 2;
+
+            // Get balls
+            outputCommand.addCommands(new TrianglePath(
+                    // Start position
+                    new Pose2d(3.1, -3.79, Rotation2d.fromDegrees(90)),
+
+                    // Interior point
+                    new Translation2d(0, 0.3),
+
+                    // End point
+                    new Pose2d(5.2, -4.0, Rotation2d.fromDegrees(0)),
+
+                    // Constraints on movement
+                    new SpeedConstraint(1.0, 1.0), false));
+
+            // Near the goal
+            outputCommand.addCommands(new LinePath(new Pose2d(5.2, -4.0, Rotation2d.fromDegrees(0)),
+                    new Pose2d(1.8, -3.5, Rotation2d.fromDegrees(-180)), new SpeedConstraint(1, 1), true));
+
+            // Move back to the goal
+            outputCommand.addCommands(new LinePath(new Pose2d(1.8, -3.5, Rotation2d.fromDegrees(0)),
+                    new Pose2d(0, -2.6, Rotation2d.fromDegrees(180)), new SpeedConstraint(1, 1), true));
+        }
 
         // /* Start building command based on params */
 
@@ -223,5 +252,6 @@ public class Chooser {
         logger.log("Chooser", "Reading autonomous position");
 
         return m_positionChooser.getSelected();
+
     }
 }
