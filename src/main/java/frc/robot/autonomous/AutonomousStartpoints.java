@@ -16,6 +16,8 @@ import frc.robot.RobotConstants;
  */
 public class AutonomousStartpoints {
 
+    public static final Pose2d ZERO = new Pose2d(0, 0, Rotation2d.fromDegrees(0));
+
     /**
      * This auton startpoint is where the robot is sitting just past the opposing
      * side's sector line, against the right wall, facing towards the centre line of
