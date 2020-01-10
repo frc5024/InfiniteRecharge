@@ -64,7 +64,7 @@ public class Robot extends TimedRobot {
 
 		// Reset & calibrate the robot gyroscope
 		NavX.getInstance().reset();
-		NavX.getInstance().setInverted(true);
+		NavX.getInstance().setInverted(false);
 
 		// Reset the drivetrain pose
 		// m_driveTrain.setPosition(new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0.0)));
