@@ -158,6 +158,8 @@ public class Chooser {
             outputCommand.addCommands(new LinePath(new Pose2d(1.2, -3.1, Rotation2d.fromDegrees(0)),
                     new Pose2d(0, -2.3, Rotation2d.fromDegrees(180)), new SpeedConstraint(1, 1), true));
 
+                    outputCommand.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 2.0));
+
         }
 
         // /* Start building command based on params */

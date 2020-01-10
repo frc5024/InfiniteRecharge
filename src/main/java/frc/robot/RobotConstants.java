@@ -154,7 +154,7 @@ public class RobotConstants {
                 kTrackWidthMeters);
 
         // Max Trajectory of Velocity and Acceleration
-        public static final double kMaxSpeedMetersPerSecond = 4; // This value will most likely need to be changed
+        public static final double kMaxSpeedMetersPerSecond = 4.8; // This value will most likely need to be changed
         public static final double kMaxAccelerationMetersPerSecondSquared = 3.5; // This value will most likely need to be
                                                                                // changed
 
