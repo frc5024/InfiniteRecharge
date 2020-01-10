@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.lib5k.utils.RobotLogger;
 import frc.robot.FieldConstants;
 import frc.robot.RobotConstants;
+import frc.robot.autonomous.actions.LinePath;
 import frc.robot.autonomous.actions.LogCommand;
 import frc.robot.autonomous.actions.TrapezoidPath;
 import frc.robot.autonomous.actions.TrianglePath;
@@ -138,15 +139,62 @@ public class Chooser {
                 new Pose2d(3.1, -3.79, Rotation2d.fromDegrees(90)),
 
                 // Interior point
-                new Translation2d(0, 0.5),
+                new Translation2d(0, 0.3),
 
                 // End point
-                new Pose2d(5.1, -3.6, Rotation2d.fromDegrees(0)),
+                new Pose2d(5.2, -4.0, Rotation2d.fromDegrees(0)),
 
                 // Constraints on movement
-                new SpeedConstraint(1.0, 1.0)));
-        
-        outputCommand.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 1.0));
+                new SpeedConstraint(1.0, 1.0), false));
+
+        // Straighten the robot
+        // outputCommand.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 3.0));
+
+        // Move back to the goal
+        // outputCommand.addCommands(new TrianglePath(
+        // // Start point
+        // new Pose2d(5.1, -3.15, Rotation2d.fromDegrees(0)),
+
+        // // Midway point 1
+        // new Translation2d(-0.5, 0.8),
+
+        // // End point
+        // new Pose2d(0.8, -1, Rotation2d.fromDegrees(0)),
+
+        // // Constraint
+        // new SpeedConstraint(1.0, 1.0), false));
+
+        outputCommand.addCommands(new LinePath(new Pose2d(5.2, -4.0, Rotation2d.fromDegrees(0)),
+                new Pose2d(1.8, -3.5, Rotation2d.fromDegrees(-180)), new SpeedConstraint(1, 1), true));
+
+        // Move back to the goal
+        outputCommand.addCommands(new LinePath(new Pose2d(1.8, -3.5, Rotation2d.fromDegrees(0)),
+                new Pose2d(0, -2.6, Rotation2d.fromDegrees(180)), new SpeedConstraint(1, 1), true));
+        // outputCommand.addCommands(new TrianglePath(
+        //         // Start point
+        //         new Pose2d(1.8, -3.5, Rotation2d.fromDegrees(0)),
+
+        //         // Midway point 1
+        //         new Translation2d(-0.6, 2.4),
+
+        //         // End point
+        //         new Pose2d(halfRobotLength, -1, Rotation2d.fromDegrees(-180)),
+
+        //         // Constraint
+        //         new SpeedConstraint(1.0, 1.0), true));
+
+        // outputCommand.addCommands(new TrianglePath(
+        // // Start position
+        // new Pose2d(5.1, -3.6, Rotation2d.fromDegrees(0)),
+
+        // // Interior point
+        // new Translation2d(-3, 0.5),
+
+        // // End point
+        // new Pose2d(2, -3.6, Rotation2d.fromDegrees(0)),
+
+        // // Constraints on movement
+        // new SpeedConstraint(1.0, 1.0), true));
 
         // /* Start building command based on params */
 

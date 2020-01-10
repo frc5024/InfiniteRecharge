@@ -25,6 +25,7 @@ rbt  = pygame.Surface(rbt_size)
 
 # Others
 distance_mul = round(1228 / 16)  # Image width / aprox field width (meters)
+width_stretch = 0.89
 
 # image loading
 field_base = pygame.image.load("images/2020field-base.png")
@@ -45,7 +46,7 @@ def getRobotPosition() -> tuple:
     y = float(rbt_position[3][:-2])
     theta = float(rbt_position[-1][:-2])
 
-    return (x * distance_mul,y*distance_mul, theta)
+    return (x * distance_mul,y*distance_mul * width_stretch, theta)
 
 def drawRegularPolygon(surface, color, theta, x, y, w,h):
     x -= w/2
