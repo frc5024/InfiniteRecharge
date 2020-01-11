@@ -102,6 +102,8 @@ public class PanelManipulator extends SubsystemBase {
 
     public void outputTelemetry() {
 
+        String color = "";
+
         // Read sensor info
         Color detectedColor = getSensedColor();
 
@@ -113,27 +115,31 @@ public class PanelManipulator extends SubsystemBase {
         // Log which color is being sensed.
         if(ColorUtils.epsilonEquals(getSensedColor(), new Color(red), m_threshold.getValue().getDouble()) ) {
 
-            logger.log("RED");
+            color = "RED";
 
         }
 
-        if(ColorUtils.epsilonEquals(getSensedColor(), new Color(blue), m_threshold.getValue().getDouble())) {
+        if(ColorUtils.epsilonEquals(getSensedColor(), new Color(blue), m_threshold.getValue().getDouble()) ) {
 
-            logger.log("BLUE");
-        
-        }
 
-        if(ColorUtils.epsilonEquals(getSensedColor(), new Color(green), m_threshold.getValue().getDouble())) {
-
-            logger.log("GREEN");
+            color = "BLUE";
 
         }
 
-        if(ColorUtils.epsilonEquals(getSensedColor(), new Color(yellow), m_threshold.getValue().getDouble())) {
+        if(ColorUtils.epsilonEquals(getSensedColor(), new Color(green), m_threshold.getValue().getDouble()) ) {
+
+            color = "GREEN";
+        }
+
+        if(ColorUtils.epsilonEquals(getSensedColor(), new Color(yellow), m_threshold.getValue().getDouble()) ) {
             
-            logger.log("YELLOW");
+            color = "YELLOW";
 
         }
+
+        SmartDashboard.putString("Color:", color);
+        SmartDashboard.putString("Offset Color", offsetColorString(color));
+ 
     }
 
     /**
@@ -161,6 +167,23 @@ public class PanelManipulator extends SubsystemBase {
         }
 
         return null;
+    }
+
+    public String offsetColorString(String colorString) {
+        if(colorString == "RED"){
+            return "BLUE";
+        }
+        if(colorString == "BLUE") {
+            return "RED";
+        }
+        if(colorString == "YELLOW") {
+            return "GREEN";
+        }
+        if(colorString == "GREEN") {
+            return "YELLOW";
+        }
+
+        return "NOTHING";
     }
 
     public double spinWheelTurns(int turns) {

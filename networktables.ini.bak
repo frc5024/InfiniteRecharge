@@ -1,3 +1,3 @@
 [NetworkTables Storage 3.0]
 string "/Preferences/.type"="RobotPreferences"
-double "/Preferences/Color threshold"=125.46
+double "/Preferences/Color threshold"=61.2
