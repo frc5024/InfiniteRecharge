@@ -47,7 +47,7 @@ public class Chooser {
     public Chooser() {
 
         // Positions
-        m_positionChooser.setDefaultOption("45degs drive demo", AutonomousStartpoints.ZERO);
+        m_positionChooser.setDefaultOption("Full auton demo", AutonomousStartpoints.ZERO);
         // m_positionChooser.addOption("Auton full right demo",
         // AutonomousStartpoints.SECTOR_LINE_RIGHT);
 
@@ -97,47 +97,9 @@ public class Chooser {
         // Add a log command
         outputCommand.addCommands(new LogCommand("Starting autonomous actions"));
 
-        // Determine auto to run
-        // if (getRobotAutoStartPosition().equals(AutonomousStartpoints.ZERO)) {
-
-        // outputCommand.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 2.0));
-
-        // // Test path following
-        // outputCommand.addCommands(PathGenerator.generate(
-        // new EasyTrajectory(new Pose2d(0, 0, new Rotation2d(0)), new Pose2d(2, 0,
-        // Rotation2d.fromDegrees(0))),
-        // new SpeedConstraint(1.0, 1.0)));
-
-        // // outputCommand.addCommands(PathGenerator.generateInPlaceRotation(45, 2.0));
-        // outputCommand.addCommands(new TurnToCommand(Rotation2d.fromDegrees(45),
-        // 2.0));
-
-        // outputCommand.addCommands(PathGenerator.generate(
-        // new EasyTrajectory(new Pose2d(2, 0, new Rotation2d(45)), new Pose2d(3, 1,
-        // Rotation2d.fromDegrees(45))),
-        // new SpeedConstraint(1.0, 1.0)));
-
-        // outputCommand.addCommands(new TrianglePath(new Pose2d(0, 0, new
-        // Rotation2d(0)), new Translation2d(2, 0),
-        // new Pose2d(3, -1, Rotation2d.fromDegrees(45)), new SpeedConstraint(1.0, 1.0),
-        // false));
-
-        // // Example trapezoid
-        // // outputCommand.addCommands(new TrapezoidPath(new Pose2d(0, 0,
-        // // Rotation2d.fromDegrees(0)),
-        // // new Translation2d(1, 1), new Translation2d(2, 1), new Pose2d(3, 0,
-        // // Rotation2d.fromDegrees(0)),
-        // // new SpeedConstraint(1.0, 1.0)));
-        // } else if
-        // (getRobotAutoStartPosition().equals(AutonomousStartpoints.SECTOR_LINE_RIGHT))
-        // {
-
         // Example full auto
 
         // Constants
-        double halfField = FieldConstants.FIELD_WIDTH / 2;
-        double halfRobotWidth = RobotConstants.DriveTrain.Measurements.DRIVEBASE_WIDTH / 2;
-        double halfRobotLength = RobotConstants.DriveTrain.Measurements.DRIVEBASE_LENGTH / 2;
 
         outputCommand.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 2.0));
 
@@ -156,69 +118,6 @@ public class Chooser {
                 new Pose2d(-1.3, 1.0, Rotation2d.fromDegrees(180)), new SpeedConstraint(1, 1), false));
 
         outputCommand.addCommands(new TurnToCommand(Rotation2d.fromDegrees(180), 2.0));
-
-        // Get balls
-        // outputCommand.addCommands(new TrianglePath(
-        // // Start position
-        // new Pose2d(3.1, -3.79, Rotation2d.fromDegrees(90)),
-
-        // // Interior point
-        // new Translation2d(0, 0.2),
-
-        // // End point
-        // new Pose2d(5.3, -4.1, Rotation2d.fromDegrees(0)),
-
-        // // Constraints on movement
-        // new SpeedConstraint(1.0, 1.0), false));
-
-        // outputCommand.addCommands(new TrianglePath(
-        // // Start position
-        // new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
-
-        // // Interior point
-        // new Translation2d(0.3, 0),
-
-        // // End point
-        // new Pose2d(0.8, -2, Rotation2d.fromDegrees(-90)),
-
-        // // Constraints on movement
-        // new SpeedConstraint(1.0, 1.0), false));
-
-        // outputCommand.addCommands(new TurnToCommand(Rotation2d.fromDegrees(45),
-        // 2.0));
-
-        // outputCommand.addCommands(new TrapezoidPath(new Pose2d(0.8, -2,
-        // Rotation2d.fromDegrees(45)),
-        // new Translation2d(1, 3), new Translation2d(0, 2), new Pose2d(0, 3,
-        // Rotation2d.fromDegrees(180)),
-        // new SpeedConstraint(1, 1)));
-
-        // Near the goal
-        // outputCommand.addCommands(new LinePath(new Pose2d(5.2, -4.0,
-        // Rotation2d.fromDegrees(0)),
-        // new Pose2d(1.8, -3.5, Rotation2d.fromDegrees(-180)), new SpeedConstraint(1,
-        // 1), true));
-
-        // outputCommand.addCommands(new LinePath(new Pose2d(5.2, -4.0,
-        // Rotation2d.fromDegrees(0)),
-        // new Pose2d(1.8, -3.5, Rotation2d.fromDegrees(-180)), new SpeedConstraint(1,
-        // 1), true));
-
-        // // Move back to the goal
-        // // outputCommand.addCommands(new LinePath(new Pose2d(1.8, -3.5,
-        // // Rotation2d.fromDegrees(0)),
-        // // new Pose2d(0, -2.6, Rotation2d.fromDegrees(180)), new SpeedConstraint(1,
-        // 1),
-        // // true));
-
-        // outputCommand.addCommands(new LinePath(new Pose2d(1.2, -3.1,
-        // Rotation2d.fromDegrees(0)),
-        // new Pose2d(0, -2.3, Rotation2d.fromDegrees(180)), new SpeedConstraint(1, 1),
-        // true));
-
-        // outputCommand.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 2.0));
-
-        // }
 
         // /* Start building command based on params */
 

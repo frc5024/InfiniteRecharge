@@ -9,15 +9,62 @@ import frc.robot.RobotConstants;
 import frc.robot.subsystems.DriveTrain;
 
 /**
- * Command for handling autonomous turning
+ * Command for handling autonomous turning with PID solve
  */
 public class TurnToCommand extends CommandBase {
 
+    // Default epsilon if not set in constructor
+    private static final double DEFAULT_EPSILON = 2.0;
+
+    // Hard cap percentage on turn speed
+    private static final double TURN_SPEED_HARD_CAP = 0.8;
+
+    // Number of cycles to wait before declaring this command "done"
+    private static final int MIN_CYCLES = 5;
+
+    // PID controller for angle solves
     private PIDController m_controller;
+
+    // Angle setpoint
     private Rotation2d setpoint;
 
+    // Counter for controller rest cycles (Thanks 1114 for this idea)
     private int cycles = 0;
 
+    /**
+     * Turn to a field-relative angle
+     * 
+     * @param setpoint Desired angle in degrees (field-relative)
+     */
+    public TurnToCommand(double angleDegs) {
+        this(angleDegs, DEFAULT_EPSILON);
+    }
+
+    /**
+     * Turn to a field-relative angle
+     * 
+     * @param setpoint Desired angle in degrees (field-relative)
+     * @param epsilon  Allowed error (in degrees)
+     */
+    public TurnToCommand(double angleDegs, double epsilon) {
+        this(Rotation2d.fromDegrees(angleDegs), epsilon);
+    }
+
+    /**
+     * Turn to a field-relative angle
+     * 
+     * @param setpoint Desired angle as rotation vector (field-relative)
+     */
+    public TurnToCommand(Rotation2d setpoint) {
+        this(setpoint, DEFAULT_EPSILON);
+    }
+
+    /**
+     * Turn to a field-relative angle
+     * 
+     * @param setpoint Desired angle as rotation vector (field-relative)
+     * @param epsilon  Allowed error (in degrees)
+     */
     public TurnToCommand(Rotation2d setpoint, double epsilon) {
 
         // Set locals
@@ -66,9 +113,11 @@ public class TurnToCommand extends CommandBase {
         // Get the system output
         double output = m_controller.calculate(error, 0.0);
 
+        // Clamp the output
         output = Mathutils.clamp(output, -1.0, 1.0);
 
-        output *= 0.8;
+        // Hard cap the turn speed
+        output *= TURN_SPEED_HARD_CAP;
 
         // Send output data to motors
         DriveTrain.getInstance().setOpenLoop(new DriveSignal(output, -output));
@@ -90,7 +139,8 @@ public class TurnToCommand extends CommandBase {
     @Override
     public boolean isFinished() {
 
-        // If we reached the setpoint, we are finished
-        return cycles > 5;
+        // If we reached the setpoint, and are at it for at least n cycles, we have
+        // finished
+        return cycles > MIN_CYCLES;
     }
 }
