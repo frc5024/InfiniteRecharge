@@ -19,25 +19,25 @@ import frc.robot.autonomous.helpers.SpeedConstraint;
  */
 public class LinePath extends SequentialCommandGroup {
 
-    /**      
-     * Generate a Line  from a start to end pose
+    /**
+     * Generate a LinePath from a start to end pose
      * 
-     * @param start       Starting pose (field-relative)
-     * @param end         Desired ending pose ( field-relative)
+     * @param start Starting pose (field-relative)
+     * @param end   Desired ending pose ( field-relative)
      */
-    public LinePath(Pose2d start, Pose2d end){
+    public LinePath(Pose2d start, Pose2d end) {
         this(start, end, false);
     }
-    
-    /**      
-     * Generate a Line  from a start to end pose
+
+    /**
+     * Generate a LinePath from a start to end pose
      * 
-     * @param start       Starting pose (field-relative)
-     * @param end         Desired ending pose ( field-relative)
-     * @param reversed    Should the path be driven backwards?
+     * @param start    Starting pose (field-relative)
+     * @param end      Desired ending pose ( field-relative)
+     * @param reversed Should the path be driven backwards?
      */
     public LinePath(Pose2d start, Pose2d end, boolean reversed) {
-        this(start, end, new SpeedConstraint(1,1), reversed);
+        this(start, end, new SpeedConstraint(1, 1), reversed);
     }
 
     /**
