@@ -16,6 +16,7 @@ import frc.robot.commands.DriveControl;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.PanelManipulator;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -34,6 +35,8 @@ public class Robot extends TimedRobot {
 	private DriveTrain m_driveTrain = DriveTrain.getInstance();
 	private Intake m_intake = Intake.getInstance();
 	private Climber m_climber = Climber.getInstance();
+	private PanelManipulator m_Manipulator = PanelManipulator.getInstance();
+
 
 	/* Robot Commands */
 	private CommandBase m_autonomousCommand;
@@ -54,11 +57,12 @@ public class Robot extends TimedRobot {
 
 		// Register all subsystems
 		logger.log("Robot", "Registering Subsystems", Level.kRobot);
-
+		
 		m_driveTrain.setDefaultCommand(m_driveControl);
 		m_intake.register();
 		m_climber.register();
 
+		m_Manipulator.register();
 		// Start the logger
 		logger.start(0.02);
 

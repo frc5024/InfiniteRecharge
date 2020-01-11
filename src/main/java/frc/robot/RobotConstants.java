@@ -167,4 +167,13 @@ public class RobotConstants {
 
     }
 
+    public static class PanelManipulator {
+
+        /**
+         * Threshold for color comparison
+         */
+        public static final double DEFAULT_COLOR_THRESHOLD = 20;
+
+    }
+
 }

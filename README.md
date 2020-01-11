@@ -116,8 +116,8 @@ https://raw.githubusercontent.com/wpilibsuite/allwpilib/master/wpilibNewCommands
 https://raw.githubusercontent.com/wpilibsuite/allwpilib/master/wpilibOldCommands/WPILibOldCommands.json
 https://www.kauailabs.com/dist/frc/2020/navx_frc.json
 http://devsite.ctr-electronics.com/maven/release/com/ctre/phoenix/Phoenix-latest.json
-http://www.revrobotics.com/content/sw/max/sdk/REVRobotics.json
 https://dev.imjac.in/maven/jaci/pathfinder/PathfinderOLD-latest.json
+http://revrobotics.com/content/sw/color-sensor-v3/sdk/REVColorSensorV3.json
 ```
 
 These should auto-update each time the project is built.

@@ -1,8 +1,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.util.Color8Bit;
 
-import java.awt.*;
 
 public class GameData {
     private static GameData s_instance = null;
@@ -55,17 +55,17 @@ public class GameData {
      *
      * @return a Color object
      */
-    public Color getControlColor() {
+    public Color8Bit getControlColor() {
 
         switch (DriverStation.getInstance().getGameSpecificMessage()) {
             case "R":
-                return new Color(255, 0, 0);
+                return new Color8Bit(255, 0, 0);
             case "G":
-                return new Color(0, 255, 0);
+                return new Color8Bit(0, 255, 0);
             case "B":
-                return new Color(0, 255, 255);
+                return new Color8Bit(0, 255, 255);
             case "Y":
-                return new Color(255, 255, 0);
+                return new Color8Bit(255, 255, 0);
             default:
                 return null;
         }
