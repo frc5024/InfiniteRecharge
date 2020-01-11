@@ -19,5 +19,5 @@ public interface IEncoderProvider {
      * @param id Encoder ID
      * @return Encoder
      */
-    public EncoderBase getEncoder(int id);
+    public EncoderBase getEncoder(int id, boolean phase);
 }

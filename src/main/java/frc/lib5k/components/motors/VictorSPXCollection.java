@@ -173,17 +173,19 @@ public class VictorSPXCollection extends SpeedControllerGroup implements IMotorC
     }
 
     @Override
-    public EncoderBase getEncoder(int id) {
+    public EncoderBase getEncoder(int id, boolean phase) {
         // Clamp the ID to the number of slaved + 1 (the master)
         id = (int) Mathutils.clamp(id, 0, slaves.length);
 
         // Check if the ID is for the master
         if (id == 0) {
+            master.setSensorPhase(phase);
             return new VictorEncoder(master);
         }
 
         // Otherwise, get the encoder from the list of slaves
-        return new VictorEncoder(slaves[id]);
+        slaves[id - 1].setSensorPhase(phase);
+        return new VictorEncoder(slaves[id - 1]);
     }
 
     /**

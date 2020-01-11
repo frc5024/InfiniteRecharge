@@ -8,6 +8,7 @@ The source and tooling behind [FRC](https://www.firstinspires.org/robotics/frc) 
  - [Building the project](#building-the-project)
  - [Code deployment](#deployment)
  - [Documentation](#documentation)
+ - [Using FieldSim](docs/FieldSim.md)
  - [Vendor Libraries](#vendor-libraries)
  - [Networking](#networking)
  - [Game resources](#frc-game-resources)
@@ -90,6 +91,7 @@ Here are the links to the multiple documentation sources for this project
  - [Robot javadoc](https://cs.5024.ca/InfiniteRecharge/)
  - [General FRC documentation](https://docs.wpilib.org/en/latest/)
  - [WPILib API](https://first.wpi.edu/FRC/roborio/release/docs/java/index.html)
+ - [NavX API](https://www.kauailabs.com/public_files/navx-mxp/apidocs/java/com/kauailabs/navx/frc/AHRS.html)
  - [CTRE documentation](https://phoenix-documentation.readthedocs.io/en/latest/index.html)
  - [CTRE API](http://www.ctr-electronics.com/downloads/api/java/html/index.html)
  - [Limelight documentation](http://docs.limelightvision.io/en/latest/)
@@ -203,3 +205,23 @@ Then, run the following in the project root:
 .\gradlew.bat installAllTools
 
 ```
+
+### FRC roboRIO Imaging Won’t Update Firmware or Format Target
+
+This comes from [HERE](https://www.chiefdelphi.com/t/frc-roborio-imaging-wont-update-firmware-or-format-target/370145).
+
+> Does your computer name have a dash in it? If so, try renaming it. Several teams have reported issues similar to this.
+
+### Getting an Xbox360 controller to work on a linux host during simulation
+
+To get the controller connected:
+
+ - Plug it in
+ - Run `sudo xboxdrv --silent`
+ - Start the simulation
+
+### Using a steam controller for simulation
+
+For linux, the [sc-controller](https://github.com/kozec/sc-controller) project works great for mapping a steam controller to an xbox controller. An sc-controller binary is stored in the project at `tools/linux/sc-controller`
+
+On windows, use the "default controller mode" setting in the steam controller settings.

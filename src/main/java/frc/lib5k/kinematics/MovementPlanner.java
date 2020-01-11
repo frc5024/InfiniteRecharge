@@ -62,7 +62,7 @@ public class MovementPlanner {
         double maxTurn = constraints.getMaxTurn();
         if (turnModifier > maxTurn) {
             turnModifier = maxTurn;
-        } else if (turnModifier < -maxTurn) {
+        } else if (turnModifier < -maxTurn) { 
             turnModifier = -maxTurn;
         }
 

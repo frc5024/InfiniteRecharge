@@ -17,7 +17,7 @@ public class TalonEncoder extends EncoderBase {
     }
 
     @Override
-    public int getRawTicks() {
+    public int getSensorReading() {
         return talon.getSelectedSensorPosition();
     }
 
