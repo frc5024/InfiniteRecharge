@@ -100,13 +100,17 @@ public class Chooser {
         // Example full auto
 
         // Constants
+        
+        // outputCommand.addCommands(new LinePath(new Pose2d(0,0, Rotation2d.fromDegrees(0)),new Pose2d(1,0, Rotation2d.fromDegrees(0))));
+        // outputCommand.addCommands(new TurnToCommand(160));
+
 
         outputCommand.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 2.0));
 
         outputCommand.addCommands(new LinePath(new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
                 new Pose2d(3.6, 0.2, Rotation2d.fromDegrees(0)), new SpeedConstraint(1, 1), false));
 
-        outputCommand.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 2.0));
+        outputCommand.addCommands(new TurnToCommand(Rotation2d.fromDegrees(30), 2.0));
         outputCommand.addCommands(new TurnToCommand(Rotation2d.fromDegrees(165), 2.0));
 
         outputCommand.addCommands(new LinePath(new Pose2d(3.6, 0.2, Rotation2d.fromDegrees(165)),
@@ -115,7 +119,7 @@ public class Chooser {
         outputCommand.addCommands(new TurnToCommand(Rotation2d.fromDegrees(180), 2.0));
 
         outputCommand.addCommands(new LinePath(new Pose2d(1.3, 1.1, Rotation2d.fromDegrees(180)),
-                new Pose2d(-1.3, 1.0, Rotation2d.fromDegrees(180)), new SpeedConstraint(1, 1), false));
+                new Pose2d(-1.3, 0.8, Rotation2d.fromDegrees(180)), new SpeedConstraint(1, 1), false));
 
         outputCommand.addCommands(new TurnToCommand(Rotation2d.fromDegrees(180), 2.0));
 

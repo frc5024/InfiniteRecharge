@@ -17,7 +17,7 @@ public class TurnToCommand extends CommandBase {
     private static final double DEFAULT_EPSILON = 2.0;
 
     // Hard cap percentage on turn speed
-    private static final double TURN_SPEED_HARD_CAP = 0.8;
+    private static final double TURN_SPEED_HARD_CAP = 1.0;
 
     // Number of cycles to wait before declaring this command "done"
     private static final int MIN_CYCLES = 5;
