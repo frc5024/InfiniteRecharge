@@ -57,7 +57,7 @@ public class PathGenerator {
 
 		// Creates constrains for motor controller voltage
 		DifferentialDriveVoltageConstraint voltageConstraint = new DifferentialDriveVoltageConstraint(feedforward,
-				RobotConstants.ControlGains.kDriveKinematics, 10.5);
+				RobotConstants.ControlGains.kDriveKinematics, 10);
 
 		// Creates configuration for trajectory
 		TrajectoryConfig config = new TrajectoryConfig(
