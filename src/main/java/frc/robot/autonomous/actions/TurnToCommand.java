@@ -16,6 +16,8 @@ public class TurnToCommand extends CommandBase {
     private PIDController m_controller;
     private Rotation2d setpoint;
 
+    private int cycles = 0;
+
     public TurnToCommand(Rotation2d setpoint, double epsilon) {
 
         // Set locals
@@ -38,6 +40,9 @@ public class TurnToCommand extends CommandBase {
 
         // Reset the controller
         m_controller.reset();
+
+        // Reset the cycle count
+        cycles = 0;
     }
 
     private double getError() {
@@ -61,8 +66,18 @@ public class TurnToCommand extends CommandBase {
         // Get the system output
         double output = m_controller.calculate(error, 0.0);
 
+        output = Mathutils.clamp(output, -1.0, 1.0);
+
+        output *= 0.8;
+
         // Send output data to motors
         DriveTrain.getInstance().setOpenLoop(new DriveSignal(output, -output));
+
+        // Increase cycle count
+        if (m_controller.atSetpoint()) {
+            System.out.println(cycles);
+            cycles++;
+        }
     }
 
     @Override
@@ -76,6 +91,6 @@ public class TurnToCommand extends CommandBase {
     public boolean isFinished() {
 
         // If we reached the setpoint, we are finished
-        return m_controller.atSetpoint();
+        return cycles > 5;
     }
 }
