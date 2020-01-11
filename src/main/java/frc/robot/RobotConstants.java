@@ -138,12 +138,12 @@ public class RobotConstants {
         // Optimal Control Gain for driving
         public static final double kPDriveVel = 0.478;//0.68;//0.478;
         public static final double kIDriveVel = 0.0;
-        public static final double kDDriveVel = 0.005;
+        public static final double kDDriveVel = 0.008;
 
         // Optimal Control Gain for turning
-        public static final double kPTurnVel = 0.008;
+        public static final double kPTurnVel = 0.05;
         public static final double kITurnVel = 0.000;
-        public static final double kDTurnVel = 0.000;
+        public static final double kDTurnVel = 0.008; // 6
 
         // Closest: 3.34m
 
@@ -155,7 +155,7 @@ public class RobotConstants {
 
         // Max Trajectory of Velocity and Acceleration
         public static final double kMaxSpeedMetersPerSecond = 3; // This value will most likely need to be changed
-        public static final double kMaxAccelerationMetersPerSecondSquared = 3; // This value will most likely need to be
+        public static final double kMaxAccelerationMetersPerSecondSquared = 3.5; // This value will most likely need to be
                                                                                // changed
 
         // Ramsete Parameters (Not sure if this is nessacary for trajectory and may need

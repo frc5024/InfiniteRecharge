@@ -12,8 +12,13 @@ import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.lib5k.utils.RobotLogger;
+import frc.robot.FieldConstants;
 import frc.robot.RobotConstants;
+import frc.robot.autonomous.actions.LinePath;
 import frc.robot.autonomous.actions.LogCommand;
+import frc.robot.autonomous.actions.TrapezoidPath;
+import frc.robot.autonomous.actions.TrianglePath;
+import frc.robot.autonomous.actions.TurnToCommand;
 import frc.robot.autonomous.helpers.EasyTrajectory;
 import frc.robot.autonomous.helpers.PathGenerator;
 import frc.robot.autonomous.helpers.SpeedConstraint;
@@ -42,7 +47,9 @@ public class Chooser {
     public Chooser() {
 
         // Positions
-        m_positionChooser.setDefaultOption("Line right", AutonomousStartpoints.SECTOR_LINE_RIGHT);
+        m_positionChooser.setDefaultOption("Full auton demo", AutonomousStartpoints.ZERO);
+        // m_positionChooser.addOption("Auton full right demo",
+        // AutonomousStartpoints.SECTOR_LINE_RIGHT);
 
         // Scoring
         m_shouldScore.setDefaultOption("Score balls", true);
@@ -90,21 +97,27 @@ public class Chooser {
         // Add a log command
         outputCommand.addCommands(new LogCommand("Starting autonomous actions"));
 
-        // Test path following
-        outputCommand.addCommands(PathGenerator.generate(
-                new EasyTrajectory(new Pose2d(0, 0, new Rotation2d(0)), new Pose2d(2, 0, Rotation2d.fromDegrees(0))),
-                new SpeedConstraint(1.0, 1.0)));
+        // Example full auto
 
-        outputCommand.addCommands(PathGenerator.generateInPlaceRotation(45, 2.0));
+        // Constants
 
-        outputCommand.addCommands(PathGenerator.generate(
-                new EasyTrajectory(new Pose2d(2, 0, new Rotation2d(45)), new Pose2d(3, 1, Rotation2d.fromDegrees(45))),
-                new SpeedConstraint(1.0, 1.0)));
+        outputCommand.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 2.0));
 
-        // outputCommand.addCommands(PathGenerator.generate(
-        // new EasyTrajectory(new Pose2d(2, 0, new Rotation2d(45)), new Pose2d(3, 0.5,
-        // Rotation2d.fromDegrees(45))),
-        // new SpeedConstraint(1.0, 1.0)));
+        outputCommand.addCommands(new LinePath(new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
+                new Pose2d(3.6, 0.2, Rotation2d.fromDegrees(0)), new SpeedConstraint(1, 1), false));
+
+        outputCommand.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 2.0));
+        outputCommand.addCommands(new TurnToCommand(Rotation2d.fromDegrees(165), 2.0));
+
+        outputCommand.addCommands(new LinePath(new Pose2d(3.6, 0.2, Rotation2d.fromDegrees(165)),
+                new Pose2d(1.5, 1.1, Rotation2d.fromDegrees(180)), new SpeedConstraint(1, 1), false));
+
+        outputCommand.addCommands(new TurnToCommand(Rotation2d.fromDegrees(180), 2.0));
+
+        outputCommand.addCommands(new LinePath(new Pose2d(1.3, 1.1, Rotation2d.fromDegrees(180)),
+                new Pose2d(-1.3, 1.0, Rotation2d.fromDegrees(180)), new SpeedConstraint(1, 1), false));
+
+        outputCommand.addCommands(new TurnToCommand(Rotation2d.fromDegrees(180), 2.0));
 
         // /* Start building command based on params */
 
@@ -209,5 +222,6 @@ public class Chooser {
         logger.log("Chooser", "Reading autonomous position");
 
         return m_positionChooser.getSelected();
+
     }
 }

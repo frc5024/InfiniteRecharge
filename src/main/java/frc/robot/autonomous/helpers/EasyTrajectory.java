@@ -10,7 +10,7 @@ public class EasyTrajectory {
 
     /* Trajectory points */
     private Pose2d[] points;
-    private Translation2d inner1, inner2;
+    private Translation2d[] innerPoints;
 
     /**
      * Trajectory type
@@ -46,9 +46,9 @@ public class EasyTrajectory {
     /**
      * Create a trajectory from a list of points
      * 
-     * @param points Array of poses
+     * @param points Array of poses (Must have at least 2 poses)
      */
-    public EasyTrajectory(Pose2d[] points) {
+    public EasyTrajectory(Pose2d... points) {
 
         // Ensure there are enough points
         assert points.length >= 2;
@@ -67,8 +67,21 @@ public class EasyTrajectory {
      */
     public EasyTrajectory(Pose2d start, Translation2d a, Translation2d b, Pose2d end) {
         this.points = new Pose2d[] { start, end };
-        this.inner1 = a;
-        this.inner2 = b;
+        this.innerPoints = new Translation2d[]   {  a , b };
+        this.isQuintic = false;
+    }
+    
+    /**
+     * Create a cubic spline trajectory from start, end, and s-curve points
+     * 
+     * @param start Start pose
+     * @param a     First interior translation
+     * @param b     Second interior translation
+     * @param end   End pose
+     */
+    public EasyTrajectory(Pose2d start, Pose2d end, Translation2d ... innerPoints) {
+        this.points = new Pose2d[] { start, end };
+        this.innerPoints = innerPoints;
         this.isQuintic = false;
     }
 
@@ -88,6 +101,6 @@ public class EasyTrajectory {
      * @return Interior points
      */
     public List<Translation2d> getInteriorPoints() {
-        return List.of(this.inner1, this.inner2);
+        return Arrays.asList(innerPoints);
     }
 }
