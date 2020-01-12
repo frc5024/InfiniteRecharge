@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Shooter extends SubsystemBase {
     public static Shooter s_instance = null;
 
+    private static final double DEFAULT_RPM_EPSILON = 50;
+
     private Shooter() {
 
     }
@@ -24,6 +26,23 @@ public class Shooter extends SubsystemBase {
 
         return s_instance;
 
+    }
+
+    @Override
+    public void periodic() {
+
+    }
+    
+    public void setVoltage(double voltage) {
+        
+    }
+
+    public void setRPM(double rmp) {
+        setRPM(rmp, DEFAULT_RPM_EPSILON);
+    }
+
+    public void setRPM(double rpm, double epsilon) {
+        
     }
 
 }
