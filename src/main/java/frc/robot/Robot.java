@@ -13,11 +13,8 @@ import frc.lib5k.utils.RobotLogger;
 import frc.lib5k.utils.RobotLogger.Level;
 import frc.robot.autonomous.Chooser;
 import frc.robot.commands.DriveControl;
-import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.PanelManipulator;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Superstructure;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -34,10 +31,7 @@ public class Robot extends TimedRobot {
 
 	/* Robot Subsystems */
 	private DriveTrain m_driveTrain = DriveTrain.getInstance();
-	private Intake m_intake = Intake.getInstance();
-	private Climber m_climber = Climber.getInstance();
-	private PanelManipulator m_Manipulator = PanelManipulator.getInstance();
-	private Shooter m_shooter = Shooter.getInstance();
+	private Superstructure m_superstructure = Superstructure.getInstance();
 
 	/* Robot Commands */
 	private CommandBase m_autonomousCommand;
@@ -58,13 +52,9 @@ public class Robot extends TimedRobot {
 
 		// Register all subsystems
 		logger.log("Robot", "Registering Subsystems", Level.kRobot);
-
 		m_driveTrain.setDefaultCommand(m_driveControl);
-		m_intake.register();
-		m_climber.register();
-		m_shooter.register();
+		m_superstructure.register();
 
-		m_Manipulator.register();
 		// Start the logger
 		logger.start(0.02);
 
