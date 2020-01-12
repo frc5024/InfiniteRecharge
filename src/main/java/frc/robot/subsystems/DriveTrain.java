@@ -23,7 +23,7 @@ import frc.robot.RobotConstants;
 import frc.lib5k.kinematics.DriveSignal;
 
 /**
- * The DriveTrain handles all robot movement.
+ * The robot subsystem in charge of localization, and drivebase movement.
  */
 public class DriveTrain extends SubsystemBase implements Loggable, IDifferentialDrivebase {
     private static RobotLogger logger = RobotLogger.getInstance();

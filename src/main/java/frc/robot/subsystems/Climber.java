@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
- * Robot climber subsystem
+ * Robot subsystem in charge of endgame climbing
  */
 public class Climber extends SubsystemBase {
     public static Climber s_instance = null;

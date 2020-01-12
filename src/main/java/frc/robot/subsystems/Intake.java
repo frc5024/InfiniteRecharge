@@ -3,13 +3,13 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
- * Robot Intake subsystem
+ * Robot subsystem in charge of acquiring and securing balls
  */
 public class Intake extends SubsystemBase {
     public static Intake m_instance = null;
 
     private Intake() {
-        
+
     }
 
     /**

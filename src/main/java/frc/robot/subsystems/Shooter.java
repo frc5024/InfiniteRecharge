@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
- * Robot Shooter subsystem
+ * Robot subsystem in charge of shooting balls into the field goals
  */
 public class Shooter extends SubsystemBase {
     public static Shooter s_instance = null;
