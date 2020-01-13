@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib5k.components.drive.IDifferentialDrivebase;
@@ -120,6 +121,9 @@ public class Robot extends TimedRobot {
 
 		// Enable brakes on the DriveTrain
 		m_driveTrain.setBrakes(true);
+
+		// Stop livewindow spam
+		LiveWindow.disableAllTelemetry();
 	}
 
 	@Override
@@ -146,6 +150,9 @@ public class Robot extends TimedRobot {
 			m_driveControl.schedule();
 		}
 
+		// Stop livewindow spam
+		LiveWindow.disableAllTelemetry();
+
 	}
 
 	@Override
@@ -170,6 +177,12 @@ public class Robot extends TimedRobot {
 
 		// Run all scheduled WPILib commands
 		CommandScheduler.getInstance().run();
+	}
+
+	@Override
+	public void testInit() {
+		// Stop all commands
+		CommandScheduler.getInstance().cancelAll();
 	}
 
 }
