@@ -34,6 +34,7 @@ public class Superstructure extends SubsystemBase {
         INTAKE, // Intaking balls
         SHOOT, // Shooting balls
         PANEL, // Manipulating panel
+        CLIMB, // Climbing the truss
     }
 
     /* State trackers */
