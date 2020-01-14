@@ -21,18 +21,20 @@ public class PanelManipulator extends SubsystemBase {
     RobotLogger logger = RobotLogger.getInstance();
     private static PanelManipulator s_instance = null;
 
+    /**
+     * Color sensor interface
+     */
     private ColorSensor5k m_colorSensor = new ColorSensor5k(I2C.Port.kOnboard);
 
     /* Color thresholding */
     private NetworkTableEntry m_threshold;
     private Color8Bit red = new Color8Bit(255, 0, 0);
-    private Color8Bit green =  new Color8Bit(0, 255, 0);
+    private Color8Bit green = new Color8Bit(0, 255, 0);
     private Color8Bit blue = new Color8Bit(0, 255, 255);
-    private Color8Bit yellow =  new Color8Bit(255, 255, 0);
+    private Color8Bit yellow = new Color8Bit(255, 255, 0);
     private double m_lastThreshold = 0.0;
 
     private PanelManipulator() {
-
 
         // Find the stored color threshold value
         double storedThreshold = Preferences.getInstance().getDouble("Color threshold",
@@ -45,6 +47,11 @@ public class PanelManipulator extends SubsystemBase {
 
     }
 
+    /**
+     * Get the PanelManipulator instance
+     * 
+     * @return Instance
+     */
     public static PanelManipulator getInstance() {
         if (s_instance == null) {
             s_instance = new PanelManipulator();
@@ -56,6 +63,8 @@ public class PanelManipulator extends SubsystemBase {
 
     @Override
     public void periodic() {
+
+        /* Update the threshold from Shuffleboard */
 
         // Check the threshold value, and compare to the last
         double thresh = m_threshold.getDouble(RobotConstants.PanelManipulator.DEFAULT_COLOR_THRESHOLD);
@@ -69,16 +78,13 @@ public class PanelManipulator extends SubsystemBase {
             m_lastThreshold = thresh;
         }
 
-       
-
-        // TODO: remove this after development
-        outputTelemetry();
-
     }
 
     /**
      * z
-     * @return a boolean that if the control color is the same as the sensed color, it will return true. else false.
+     * 
+     * @return a boolean that if the control color is the same as the sensed color,
+     *         it will return true. else false.
      */
     public boolean isSensedColorCorrect() {
 
@@ -91,103 +97,127 @@ public class PanelManipulator extends SubsystemBase {
         }
 
         // Check equality
-        return m_colorSensor.isReadingEqual(wantedColor,
-                m_threshold.getDouble(RobotConstants.PanelManipulator.DEFAULT_COLOR_THRESHOLD));
+        return getColor().equals(wantedColor);
+    }
+
+    /**
+     * Get the field color seen by the sensor (black if none)
+     * 
+     * @return Sensed color (corrected to match field colors)
+     */
+    public Color getColor() {
+
+        double threshold = m_threshold.getDouble(RobotConstants.PanelManipulator.DEFAULT_COLOR_THRESHOLD);
+
+        // Red
+        if (m_colorSensor.isReadingEqual(this.red, threshold)) {
+            return new Color(this.red);
+        }
+
+        // Yellow
+        if (m_colorSensor.isReadingEqual(this.yellow, threshold)) {
+            return new Color(this.yellow);
+        }
+
+        // Green
+        if (m_colorSensor.isReadingEqual(this.green, threshold)) {
+            return new Color(this.green);
+        }
+
+        // Blue
+        if (m_colorSensor.isReadingEqual(this.blue, threshold)) {
+            return new Color(this.blue);
+        }
+
+        return Color.kBlack;
 
     }
 
+    /**
+     * Get the exact sensed color from the sensor
+     * 
+     * @return Sensed raw color
+     */
     public Color getSensedColor() {
         return m_colorSensor.getColor();
     }
 
-    public void outputTelemetry() {
-
-        String color = "";
+    /**
+     * Update the telemetry data
+     */
+    public void updateTelemetry() {
 
         // Read sensor info
-        Color detectedColor = getSensedColor();
+        Color rawColor = getSensedColor();
 
         // Publish sensor info*
-        SmartDashboard.putNumber("Red", detectedColor.red);
-        SmartDashboard.putNumber("Green", detectedColor.green);
-        SmartDashboard.putNumber("Blue", detectedColor.blue);
+        SmartDashboard.putNumber("Raw Red", rawColor.red);
+        SmartDashboard.putNumber("Raw Green", rawColor.green);
+        SmartDashboard.putNumber("Raw Blue", rawColor.blue);
 
         // Log which color is being sensed.
-        if(ColorUtils.epsilonEquals(getSensedColor(), new Color(red), m_threshold.getValue().getDouble()) ) {
+        Color reading = getColor();
 
-            color = "RED";
+        SmartDashboard.putString("Closest Color", getColorString(reading));
+        SmartDashboard.putString("Offset Color", getColorString(offsetSensedColor(reading)));
 
-        }
-
-        if(ColorUtils.epsilonEquals(getSensedColor(), new Color(blue), m_threshold.getValue().getDouble()) ) {
-
-
-            color = "BLUE";
-
-        }
-
-        if(ColorUtils.epsilonEquals(getSensedColor(), new Color(green), m_threshold.getValue().getDouble()) ) {
-
-            color = "GREEN";
-        }
-
-        if(ColorUtils.epsilonEquals(getSensedColor(), new Color(yellow), m_threshold.getValue().getDouble()) ) {
-            
-            color = "YELLOW";
-
-        }
-
-        SmartDashboard.putString("Color:", color);
-        SmartDashboard.putString("Offset Color", offsetColorString(color));
- 
     }
 
     /**
      * Offsets the color by the color that is at a 90 degree angle.
-     * @param sensedColor
-     * @return 
+     * 
+     * @param c Sensed color
+     * @return Offset color
      */
-    public Color offsetSensedColor(Color8Bit sensedColor) {
-        Color c = new Color(sensedColor);
+    public Color offsetSensedColor(Color c) {
 
-        if(c == new Color(red)) {
+        if (c.equals(new Color(red))) {
             return new Color(blue);
         }
 
-        if(c == new Color(blue)) {
+        if (c.equals(new Color(blue))) {
             return new Color(red);
         }
 
-        if(c == new Color(yellow)) {
+        if (c.equals(new Color(yellow))) {
             return new Color(green);
         }
 
-        if(c == new Color(green)) {
+        if (c.equals(new Color(green))) {
             return new Color(yellow);
         }
 
         return null;
     }
 
-    public String offsetColorString(String colorString) {
-        if(colorString == "RED"){
-            return "BLUE";
-        }
-        if(colorString == "BLUE") {
+    /**
+     * Convert a color to it's string
+     * 
+     * @param c Color
+     * @return String of color name
+     */
+    public String getColorString(Color c) {
+
+        if (c.equals(red)) {
             return "RED";
         }
-        if(colorString == "YELLOW") {
-            return "GREEN";
-        }
-        if(colorString == "GREEN") {
+
+        if (c.equals(yellow)) {
             return "YELLOW";
         }
 
-        return "NOTHING";
+        if (c.equals(green)) {
+            return "GREEN";
+        }
+
+        if (c.equals(blue)) {
+            return "BLUE";
+        }
+
+        return "NONE";
     }
 
     public double spinWheelTurns(int turns) {
-
 
         return 0.0;
 
@@ -196,6 +226,6 @@ public class PanelManipulator extends SubsystemBase {
     public double spinWheelColors(int numberOfColorChanges) {
 
         return 0.0;
-        
+
     }
 }
