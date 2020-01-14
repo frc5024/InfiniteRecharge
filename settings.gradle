@@ -25,3 +25,7 @@ pluginManagement {
         }
     }
 }
+
+rootProject.name = 'RaiderRobotics2020'
+
+include 'robot', 'characterization'
