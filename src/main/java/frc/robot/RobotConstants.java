@@ -141,9 +141,11 @@ public class RobotConstants {
         public static final double kDDriveVel = 0.008;
 
         // Optimal Control Gain for turning
-        public static final double kPTurnVel = 0.05;
-        public static final double kITurnVel = 0.000;
-        public static final double kDTurnVel = 0.008; // 6
+        public static final double kPTurnVel = 0.0268;
+        public static final double kITurnVel = 0.1;
+        public static final double kDTurnVel = 0.0066; // 6
+
+        // P = 0.027 I = 0.1 D = 0.006
 
         // Closest: 3.34m
 
@@ -162,6 +164,15 @@ public class RobotConstants {
         // changes)
         public static final double kRamseteB = 2; // in meters
         public static final double kRamseteZeta = .7; // in Seconds
+
+    }
+
+    public static class PanelManipulator {
+
+        /**
+         * Threshold for color comparison
+         */
+        public static final double DEFAULT_COLOR_THRESHOLD = 20;
 
     }
 

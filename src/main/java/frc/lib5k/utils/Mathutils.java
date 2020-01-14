@@ -87,5 +87,9 @@ public class Mathutils {
     public static boolean epsilonEquals(double a, double b, double epsilon) {
         return (a - epsilon <= b) && (a + epsilon >= b);
     }
+    
+    public static double map(double value, double input_low, double input_high, double output_low, double output_high) {
+        return (value - input_low) * (output_high - output_low) / (input_high - input_low) + output_low;
+    }
 
 }
