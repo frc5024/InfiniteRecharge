@@ -2,8 +2,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib5k.components.drive.IDifferentialDrivebase;
@@ -36,7 +34,7 @@ public class Robot extends TimedRobot {
 	private DriveTrain m_driveTrain = DriveTrain.getInstance();
 	private Intake m_intake = Intake.getInstance();
 	private Climber m_climber = Climber.getInstance();
-	private PanelManipulator m_Manipulator = PanelManipulator.getInstance();
+	private PanelManipulator m_panelManipulator = PanelManipulator.getInstance();
 	private Shooter m_shooter = Shooter.getInstance();
 
 
