@@ -1,0 +1,8 @@
+
+task uploadVisionCFG{
+    println "Upload to Limelight"
+}
+
+task downloadVisionCFG{
+    println "Download from Limelight"
+}
