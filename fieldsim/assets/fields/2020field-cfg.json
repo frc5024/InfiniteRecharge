@@ -1,0 +1,18 @@
+{
+    "assets": {
+        "base": "2020field-base.png",
+        "top": "2020field-top.png"
+    },
+    "size": {
+        "width": 1228,
+        "height": 635
+    },
+    "pose_mapping": {
+        "x": 76.75,
+        "y": 0.89
+    },
+    "origin_offset": {
+        "x": 60,
+        "y": 317.5
+    }
+}
