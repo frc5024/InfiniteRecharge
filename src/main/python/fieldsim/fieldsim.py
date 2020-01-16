@@ -1,6 +1,5 @@
 import pygame
 from networktables import NetworkTables
-import sys
 import math
 
 print("Starting fieldsim")
@@ -26,18 +25,20 @@ rbt  = pygame.Surface(rbt_size)
 
 # Others
 distance_mul = round(1228 / 16)  # Image width / aprox field width (meters)
+width_stretch = 0.89
 
 # image loading
-field = pygame.image.load(sys.argv[1])
+field_base = pygame.image.load("images/2020field-base.png")
+field_top = pygame.image.load("images/2020field-top.png").convert_alpha()
 rbt_surf = pygame.image.load("images/robot-sprite.png").convert_alpha()
 rbt_surf = pygame.transform.scale(rbt_surf, rbt_size)
 
 def getRobotPosition() -> tuple:
 
     rbt_position = sd.getString("[DriveTrain] pose", "None").split(" ")
+    print(rbt_position)
 
     if rbt_position[0] == "None":
-        # return (200,20,90)
         return (100,0,45)
 
 
@@ -45,7 +46,7 @@ def getRobotPosition() -> tuple:
     y = float(rbt_position[3][:-2])
     theta = float(rbt_position[-1][:-2])
 
-    return (x * distance_mul,y*distance_mul, theta)
+    return (x * distance_mul,y*distance_mul * width_stretch, theta)
 
 def drawRegularPolygon(surface, color, theta, x, y, w,h):
     x -= w/2
@@ -86,7 +87,7 @@ while True:
     gameDisplay.fill(white)
 
     # Draw the field
-    gameDisplay.blit(field, (0,0))
+    gameDisplay.blit(field_base, (0,0))
 
     # Draw the "robot"
     x,y,theta = getRobotPosition()
@@ -97,6 +98,10 @@ while True:
 
     # Draw the robot
     drawRobot(x,y,theta)
+
+
+    # Add top of field
+    gameDisplay.blit(field_top, (0,0))
 
     # Update the screen
     pygame.display.update()

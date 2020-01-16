@@ -21,6 +21,8 @@ public class LogCommand extends InstantCommand {
 
     @Override
     public void execute() {
+
+        // Log the message
         RobotLogger.getInstance().log(msg);
     }
 }

@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * Robot climber subsystem
  */
 public class Climber extends SubsystemBase {
-    public static Climber m_instance = null;
+    public static Climber s_instance = null;
 
     private Climber() {
 
@@ -18,11 +18,11 @@ public class Climber extends SubsystemBase {
      * @return Climber Instance
      */
     public static Climber getInstance() {
-        if (m_instance == null) {
-            m_instance = new Climber();
+        if (s_instance == null) {
+            s_instance = new Climber();
         }
 
-        return m_instance;
+        return s_instance;
 
     }
 

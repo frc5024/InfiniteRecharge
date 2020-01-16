@@ -5,6 +5,8 @@ public class Mathutils {
     public static void main(String[] args) {
         System.out.println(getWrappedError(270, 0.0));
         System.out.println(getWrappedError(0.0, 270.0));
+        System.out.println(wpiAngleTo5k(-90));
+        System.out.println(wpiAngleTo5k(90));
     }
 
     /**
@@ -48,6 +50,22 @@ public class Mathutils {
     }
 
     /**
+     * Convert from the [-180-180] angles used by WPILib to the [0-360] angles used
+     * by lib5k
+     * 
+     * @param angle Angle
+     * @return Angle
+     */
+    public static double wpiAngleTo5k(double angle) {
+        if (angle < 0) {
+            return 360 + angle;
+        } else {
+            return angle;
+        }
+
+    }
+
+    /**
      * Returns value clamped between low and high boundaries.
      *
      * @param value Value to clamp.
@@ -68,6 +86,10 @@ public class Mathutils {
      */
     public static boolean epsilonEquals(double a, double b, double epsilon) {
         return (a - epsilon <= b) && (a + epsilon >= b);
+    }
+    
+    public static double map(double value, double input_low, double input_high, double output_low, double output_high) {
+        return (value - input_low) * (output_high - output_low) / (input_high - input_low) + output_low;
     }
 
 }

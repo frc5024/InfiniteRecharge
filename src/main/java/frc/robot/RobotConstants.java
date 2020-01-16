@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.util.Units;
 import frc.lib5k.roborio.RR_HAL;
 
@@ -25,6 +26,7 @@ public class RobotConstants {
          * Number of seconds to wait before robot is allowed to score
          */
         public static final double SCORE_LATE_DELAY = 5.0;
+
     }
 
     /**
@@ -55,6 +57,10 @@ public class RobotConstants {
      * Constants regarding the DriveTrain
      */
     public static class DriveTrain {
+
+        public static class Simulation {
+            public static final double ENCODER_RAMP_RATE = 0.12;
+        }
 
         /**
          * Motor controller IDs
@@ -98,7 +104,7 @@ public class RobotConstants {
 
             /* Ticks per revolution of the encoder */
 
-            public static final int PULSES_PER_REVOLUTION = 1440; // (isCompBot())? 4096 : 1440;
+            public static final int PULSES_PER_REVOLUTION = 1024;//2880;//1440; // (isCompBot())? 4096 : 1440;
 
         }
 
@@ -117,6 +123,57 @@ public class RobotConstants {
             public static final int MOTOR_MAX_RPM = 5330; // For cim motors
 
         }
+    }
+
+    /**
+     * Control Gains Measurements
+     */
+    public static class ControlGains {
+
+        // Feedforward Gains
+        public static final double ksVolts = 2.37;
+        public static final double kvVoltsSecondsPerMeter = 1.8;
+        public static final double kaVoltsSecondsSquaredPerMeter = 0.0231;
+
+        // Optimal Control Gain for driving
+        public static final double kPDriveVel = 0.478;//0.68;//0.478;
+        public static final double kIDriveVel = 0.0;
+        public static final double kDDriveVel = 0.008;
+
+        // Optimal Control Gain for turning
+        public static final double kPTurnVel = 0.0268;
+        public static final double kITurnVel = 0.1;
+        public static final double kDTurnVel = 0.0066; // 6
+
+        // P = 0.027 I = 0.1 D = 0.006
+
+        // Closest: 3.34m
+
+        // DifferentialDriveKinematics allows for the use of the track length
+        public static final double kTrackWidthMeters = 0.1524;
+        public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
+        //DriveTrain.Measurements.DRIVEBASE_WIDTH);
+                kTrackWidthMeters);
+
+        // Max Trajectory of Velocity and Acceleration
+        public static final double kMaxSpeedMetersPerSecond = 3; // This value will most likely need to be changed
+        public static final double kMaxAccelerationMetersPerSecondSquared = 3.5; // This value will most likely need to be
+                                                                               // changed
+
+        // Ramsete Parameters (Not sure if this is nessacary for trajectory and may need
+        // changes)
+        public static final double kRamseteB = 2; // in meters
+        public static final double kRamseteZeta = .7; // in Seconds
+
+    }
+
+    public static class PanelManipulator {
+
+        /**
+         * Threshold for color comparison
+         */
+        public static final double DEFAULT_COLOR_THRESHOLD = 20;
+
     }
 
 }
