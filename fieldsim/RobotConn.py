@@ -38,6 +38,7 @@ class Robot(object):
 
     _size: tuple
     _surf: pygame.surface.Surface
+    connected: bool = False
 
     def __init__(self, size: (int, int)):
         self._size = size
@@ -56,7 +57,10 @@ class Robot(object):
 
         # If no pose found, place the robot on the screen at an angle
         if rbt_position[0] == "None":
+            self.connected = False
             return (3, 0, 45)
+        else:
+            self.connected = True
 
         # Parse pose data
         x = float(rbt_position[1][:-1])
@@ -73,8 +77,8 @@ class Robot(object):
         # Map the coords
         x = field.getMappedX(pose[0]) + (self._size[1] / 2)
         y = field.getMappedY(pose[1])
-        
-        print((x,y))
+
+        # print((x, y))
 
         # Transform the sprite based on theta
         rot_sprite = pygame.transform.rotate(self._surf, pose[2] * -1)
