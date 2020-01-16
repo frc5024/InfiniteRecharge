@@ -39,4 +39,17 @@ public class ColorSensor5k extends ColorSensorV3 {
         return ColorUtils.epsilonEquals(getColor(), c, eps);
     }
 
+    /**
+     * Return a sensed colour without the weird magnitude.
+     */
+
+     public Color8Bit getSensedColor() {
+        int r = getRed();
+        int g = getGreen();
+        int b = getBlue();
+        return new Color8Bit(r, g, b);
+    }
+
+
+
 }

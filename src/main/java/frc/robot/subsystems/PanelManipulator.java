@@ -96,16 +96,12 @@ public class PanelManipulator extends SubsystemBase {
 
     }
 
-    public Color getSensedColor() {
-        return m_colorSensor.getColor();
-    }
-
     public void outputTelemetry() {
 
         String color = "";
 
         // Read sensor info
-        Color detectedColor = getSensedColor();
+        Color8Bit detectedColor = m_colorSensor.getSensedColor(); 
 
         // Publish sensor info*
         SmartDashboard.putNumber("Red", detectedColor.red);
@@ -113,25 +109,25 @@ public class PanelManipulator extends SubsystemBase {
         SmartDashboard.putNumber("Blue", detectedColor.blue);
 
         // Log which color is being sensed.
-        if(ColorUtils.epsilonEquals(getSensedColor(), new Color(red), m_threshold.getValue().getDouble()) ) {
+        if(ColorUtils.epsilonEquals(detectedColor, red, m_threshold.getValue().getDouble()) ) {
 
             color = "RED";
 
         }
 
-        if(ColorUtils.epsilonEquals(getSensedColor(), new Color(blue), m_threshold.getValue().getDouble()) ) {
+        if(ColorUtils.epsilonEquals(detectedColor, blue, m_threshold.getValue().getDouble()) ) {
 
 
             color = "BLUE";
 
         }
 
-        if(ColorUtils.epsilonEquals(getSensedColor(), new Color(green), m_threshold.getValue().getDouble()) ) {
+        if(ColorUtils.epsilonEquals(detectedColor, green, m_threshold.getValue().getDouble()) ) {
 
             color = "GREEN";
         }
 
-        if(ColorUtils.epsilonEquals(getSensedColor(), new Color(yellow), m_threshold.getValue().getDouble()) ) {
+        if(ColorUtils.epsilonEquals(detectedColor, yellow, m_threshold.getValue().getDouble()) ) {
             
             color = "YELLOW";
 
