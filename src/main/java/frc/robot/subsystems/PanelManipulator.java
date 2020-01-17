@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib5k.components.ColorSensor5k;
@@ -25,10 +24,7 @@ public class PanelManipulator extends SubsystemBase {
 
     /* Color thresholding */
     private NetworkTableEntry m_threshold;
-    private Color8Bit red = new Color8Bit(255, 0, 0);
-    private Color8Bit green =  new Color8Bit(0, 255, 0);
-    private Color8Bit blue = new Color8Bit(0, 255, 255);
-    private Color8Bit yellow =  new Color8Bit(255, 255, 0);
+    
     private double m_lastThreshold = 0.0;
 
     private PanelManipulator() {
@@ -109,33 +105,32 @@ public class PanelManipulator extends SubsystemBase {
         SmartDashboard.putNumber("Blue", detectedColor.blue);
 
         // Log which color is being sensed.
-        if(ColorUtils.epsilonEquals(detectedColor, red, m_threshold.getValue().getDouble()) ) {
+        if(ColorUtils.epsilonEquals(detectedColor, RobotConstants.PanelManipulator.redGameColor, m_threshold.getValue().getDouble()) ) {
 
             color = "RED";
 
         }
 
-        if(ColorUtils.epsilonEquals(detectedColor, blue, m_threshold.getValue().getDouble()) ) {
+        if(ColorUtils.epsilonEquals(detectedColor, RobotConstants.PanelManipulator.blueGameColor, m_threshold.getValue().getDouble()) ) {
 
 
             color = "BLUE";
 
         }
 
-        if(ColorUtils.epsilonEquals(detectedColor, green, m_threshold.getValue().getDouble()) ) {
+        if(ColorUtils.epsilonEquals(detectedColor, RobotConstants.PanelManipulator.greenGameColor, m_threshold.getValue().getDouble()) ) {
 
             color = "GREEN";
         }
 
-        if(ColorUtils.epsilonEquals(detectedColor, yellow, m_threshold.getValue().getDouble()) ) {
+        if(ColorUtils.epsilonEquals(detectedColor, RobotConstants.PanelManipulator.yellowGameColor, m_threshold.getValue().getDouble()) ) {
             
             color = "YELLOW";
-
+ 
         }
 
         SmartDashboard.putString("Color:", color);
-        SmartDashboard.putString("Offset Color", offsetColorString(color));
- 
+         
     }
 
     /**
@@ -143,55 +138,37 @@ public class PanelManipulator extends SubsystemBase {
      * @param sensedColor
      * @return 
      */
-    public Color offsetSensedColor(Color8Bit sensedColor) {
-        Color c = new Color(sensedColor);
+    public Color8Bit offsetSensedColor(Color8Bit sensedColor) {
 
-        if(c == new Color(red)) {
-            return new Color(blue);
+        if(sensedColor == RobotConstants.PanelManipulator.redGameColor) {
+            return RobotConstants.PanelManipulator.blueGameColor;
         }
 
-        if(c == new Color(blue)) {
-            return new Color(red);
+        if(sensedColor == RobotConstants.PanelManipulator.blueGameColor) {
+            return RobotConstants.PanelManipulator.redGameColor; 
         }
 
-        if(c == new Color(yellow)) {
-            return new Color(green);
+        if(sensedColor == RobotConstants.PanelManipulator.yellowGameColor) {
+            return RobotConstants.PanelManipulator.greenGameColor;
         }
 
-        if(c == new Color(green)) {
-            return new Color(yellow);
+        if(sensedColor == RobotConstants.PanelManipulator.greenGameColor) {
+            return RobotConstants.PanelManipulator.yellowGameColor;
         }
 
         return null;
     }
 
-    public String offsetColorString(String colorString) {
-        if(colorString == "RED"){
-            return "BLUE";
-        }
-        if(colorString == "BLUE") {
-            return "RED";
-        }
-        if(colorString == "YELLOW") {
-            return "GREEN";
-        }
-        if(colorString == "GREEN") {
-            return "YELLOW";
-        }
-
-        return "NOTHING";
-    }
-
-    public double spinWheelTurns(int turns) {
-
-
-        return 0.0;
-
-    }
-
-    public double spinWheelColors(int numberOfColorChanges) {
-
-        return 0.0;
-        
+    /**
+     * Stats for moving the Control Panel.
+     * 
+     */
+    private enum SpinnerStates {
+        IDLE,
+        START,
+        ROTATION,
+        POSITION,
+        STOP,
+        ERROR
     }
 }

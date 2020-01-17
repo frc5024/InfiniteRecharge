@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj.util.Units;
 import frc.lib5k.roborio.RR_HAL;
 
@@ -171,6 +172,14 @@ public class RobotConstants {
          * Threshold for color comparison
          */
         public static final double DEFAULT_COLOR_THRESHOLD = 20;
+
+        /**
+         * Game Colors
+         */
+        public static Color8Bit redGameColor    = new Color8Bit(255, 0, 0);
+        public static Color8Bit greenGameColor  = new Color8Bit(0, 255, 0);
+        public static Color8Bit blueGameColor   = new Color8Bit(0, 255, 255);
+        public static Color8Bit yellowGameColor = new Color8Bit(255, 255, 0);
 
     }
 
