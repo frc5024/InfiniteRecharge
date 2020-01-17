@@ -13,9 +13,9 @@ import frc.robot.autonomous.Chooser;
 import frc.robot.commands.DriveControl;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Intake;
+// import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.PanelManipulator;
-import frc.robot.subsystems.Shooter;
+// import frc.robot.subsystems.Shooter;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -32,10 +32,10 @@ public class Robot extends TimedRobot {
 
 	/* Robot Subsystems */
 	private DriveTrain m_driveTrain = DriveTrain.getInstance();
-	private Intake m_intake = Intake.getInstance();
+	// private Intake m_intake = Intake.getInstance();
 	private Climber m_climber = Climber.getInstance();
 	private PanelManipulator m_panelManipulator = PanelManipulator.getInstance();
-	private Shooter m_shooter = Shooter.getInstance();
+	// private Shooter m_shooter = Shooter.getInstance();
 
 
 	/* Robot Commands */
@@ -59,10 +59,10 @@ public class Robot extends TimedRobot {
 		logger.log("Robot", "Registering Subsystems", Level.kRobot);
 
 		m_driveTrain.setDefaultCommand(m_driveControl);
-		m_intake.register();
+		// m_intake.register();
 		m_climber.register();
 		m_panelManipulator.register();
-		m_shooter.register();
+		// m_shooter.register();
 
 
 		// Start the logger
