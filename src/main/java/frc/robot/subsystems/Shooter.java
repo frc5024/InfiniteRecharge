@@ -1,5 +1,9 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
@@ -10,8 +14,13 @@ public class Shooter extends SubsystemBase {
 
     private static final double DEFAULT_RPM_EPSILON = 50;
 
-    private Shooter() {
+    private WPI_TalonSRX m_tempTalon = new WPI_TalonSRX(5);
 
+    private Shooter() {
+        // addChild(m_tempTalon);
+
+        m_tempTalon.enableVoltageCompensation(true);
+        m_tempTalon.setNeutralMode(NeutralMode.Coast);
     }
 
     /**
@@ -30,7 +39,7 @@ public class Shooter extends SubsystemBase {
 
     @Override
     public void periodic() {
-
+        SmartDashboard.putNumber("Shooter Voltage", m_tempTalon.getMotorOutputVoltage());
     }
     
     public void setVoltage(double voltage) {

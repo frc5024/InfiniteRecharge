@@ -198,6 +198,10 @@ public class PanelManipulator extends SubsystemBase {
      */
     public String getColorString(Color c) {
 
+        if (c == null) {
+            return "NONE";
+        }
+
         if (c.equals(red)) {
             return "RED";
         }
