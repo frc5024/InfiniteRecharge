@@ -2,8 +2,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib5k.components.drive.IDifferentialDrivebase;
@@ -13,9 +11,9 @@ import frc.lib5k.utils.RobotLogger;
 import frc.lib5k.utils.RobotLogger.Level;
 import frc.robot.autonomous.Chooser;
 import frc.robot.commands.DriveControl;
+import frc.robot.subsystems.CellSuperstructure;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.PanelManipulator;
 
 /**
@@ -33,10 +31,9 @@ public class Robot extends TimedRobot {
 
 	/* Robot Subsystems */
 	private DriveTrain m_driveTrain = DriveTrain.getInstance();
-	private Intake m_intake = Intake.getInstance();
 	private Climber m_climber = Climber.getInstance();
-	private PanelManipulator m_Manipulator = PanelManipulator.getInstance();
-
+	private PanelManipulator m_panelManipulator = PanelManipulator.getInstance();
+	private CellSuperstructure m_cellSuperstructure = CellSuperstructure.getInstance();
 
 	/* Robot Commands */
 	private CommandBase m_autonomousCommand;
@@ -57,12 +54,12 @@ public class Robot extends TimedRobot {
 
 		// Register all subsystems
 		logger.log("Robot", "Registering Subsystems", Level.kRobot);
-		
-		m_driveTrain.setDefaultCommand(m_driveControl);
-		m_intake.register();
-		m_climber.register();
 
-		m_Manipulator.register();
+		m_driveTrain.setDefaultCommand(m_driveControl);
+		m_climber.register();
+		m_panelManipulator.register();
+		m_cellSuperstructure.register();
+
 		// Start the logger
 		logger.start(0.02);
 
@@ -89,10 +86,11 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotPeriodic() {
-		
+
 		// Publish telemetry data to smartdashboard if setting enabled
 		if (RobotConstants.PUBLISH_SD_TELEMETRY) {
 			m_driveTrain.updateTelemetry();
+			m_panelManipulator.updateTelemetry();
 		}
 
 	}
@@ -169,6 +167,5 @@ public class Robot extends TimedRobot {
 		// Run all scheduled WPILib commands
 		CommandScheduler.getInstance().run();
 	}
-
 
 }
