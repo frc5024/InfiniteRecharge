@@ -176,4 +176,42 @@ public class RobotConstants {
 
     }
 
+    /**
+     * Constants regarding the intake
+     */
+    public static class Intake {
+
+        /**
+         * Motor controller IDs
+         */
+        public static class MotorControllers {
+
+            public static final int INTAKE_ACTUATOR_TALON = 5;
+            public static final int INTAKE_ROLLER_TALON = 6;
+
+        }
+
+        /**
+         * Sensors DIO ports
+         */
+        public static class Sensors {
+
+            public static final int INTAKE_HALL_BOTTOM = 0;
+            public static final int INTAKE_HALL_TOP = 1;
+        }
+
+    }
+
+    /**
+     * Constants regarding the hopper
+     */
+    public static class Hopper {
+
+        // Motor
+        public static final int HOPPER_BELT_MOTOR = 7;
+        // Sensors
+        public static final int HOPPER_LINEBREAK_BOTTOM = 2;
+        public static final int HOPPER_LINEBREAK_TOP = 3;
+    }
+
 }
