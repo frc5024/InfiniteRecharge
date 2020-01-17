@@ -17,7 +17,6 @@ public class Shooter extends SubsystemBase {
     private WPI_TalonSRX m_tempTalon = new WPI_TalonSRX(5);
 
     private Shooter() {
-        // addChild(m_tempTalon);
 
         m_tempTalon.enableVoltageCompensation(true);
         m_tempTalon.setNeutralMode(NeutralMode.Coast);
