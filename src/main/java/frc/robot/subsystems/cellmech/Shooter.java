@@ -1,12 +1,12 @@
 package frc.robot.subsystems.cellmech;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib5k.control.JRADController;
+import frc.lib5k.simulation.wrappers.SimTalon;
 import frc.lib5k.utils.Mathutils;
 import frc.robot.RobotConstants;
 
@@ -19,7 +19,7 @@ public class Shooter extends SubsystemBase {
     /**
      * Shooter motor controller
      */
-    private WPI_TalonSRX m_motorController = new WPI_TalonSRX(RobotConstants.Shooter.MOTOR_ID);
+    private SimTalon m_motorController = new SimTalon(RobotConstants.Shooter.MOTOR_ID);
 
     /**
      * System states
@@ -162,11 +162,10 @@ public class Shooter extends SubsystemBase {
 
         if (newState) {
             // Disable voltage compensation to allow velocity controllers to take control
-            m_motorController.enableVoltageCompensation(true);
+            m_motorController.enableVoltageCompensation(false);
 
             // Configure the spinup controller
             m_spinupController.reset();
-            m_spinupController.setTolerance(RobotConstants.Shooter.VOLTAGE_EPSILON);
         }
 
         // Get the current motor output voltage
@@ -175,6 +174,9 @@ public class Shooter extends SubsystemBase {
         // Calculate the motor output
         double motorOutput = m_spinupController.calculate(voltage, this.output);
 
+        // Accumulate the output
+        motorOutput += voltage;
+
         // Disallow reverse motor output
         motorOutput = Mathutils.clamp(motorOutput, 0, 12);
 
@@ -182,10 +184,10 @@ public class Shooter extends SubsystemBase {
         m_motorController.setVoltage(motorOutput);
 
         // Switch to HOLD state if spinup complete
-        if (m_spinupController.atSetpoint()) {
+        if (Mathutils.epsilonEquals(voltage, this.output, RobotConstants.Shooter.VOLTAGE_EPSILON)) {
 
             // Move to next state
-            m_systemState = SystemState.HOLD;
+            this.m_systemState = SystemState.HOLD;
         }
     }
 
@@ -196,8 +198,13 @@ public class Shooter extends SubsystemBase {
      */
     private void handleSpinDown(boolean newState) {
 
-        // TODO: Use encoder to detect velocity, and do a smooth spindown
-        m_motorController.set(0);
+        if (newState) {
+
+            // Set a large ramp rate to the motor, and "stop" it. This should slow down
+            // gradually
+            m_motorController.configOpenloopRamp(0.8);
+            m_motorController.set(0);
+        }
 
         m_systemState = SystemState.IDLE;
 
@@ -214,6 +221,7 @@ public class Shooter extends SubsystemBase {
 
             // Set the JRAD setpoint
             m_holdController.setSetpoint(this.output);
+            System.out.println("HOLDING!!!!!!!!!!!!!!!!!!!!!!!!");
         }
 
         // Get the current motor output voltage
@@ -222,8 +230,12 @@ public class Shooter extends SubsystemBase {
         // Calculate the motor output
         double motorOutput = m_holdController.calculate(voltage);
 
+        motorOutput += voltage;
+
         // Disallow reverse motor output
-        motorOutput = Mathutils.clamp(motorOutput, 0, 12);
+        // motorOutput = Mathutils.clamp(motorOutput, 0, 12);
+
+        System.out.println(motorOutput);
 
         // Set the motor output
         m_motorController.setVoltage(motorOutput);

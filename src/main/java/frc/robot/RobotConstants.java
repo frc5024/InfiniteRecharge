@@ -186,17 +186,17 @@ public class RobotConstants {
 
         public static final double VOLTAGE_EPSILON = 0.2;
 
-        public static final double MAX_VOLTAGE = 10;
+        public static final double MAX_VOLTAGE = 12;
 
         /* Shooter spinup PID */
-        public static final double kPVel = 0.35;
+        public static final double kPVel = 0.38;
         public static final double kIVel = 0.0;
         public static final double kDVel = 0.0;
 
         /* Shooter hold Gains */
-        public static final double kJ = 0.2;
+        public static final double kJ = 0.0;
         public static final double kF = 0.0;
-        public static final double kLoadRatio = 1.0;
+        public static final double kLoadRatio = 0.1;
     }
 
 }

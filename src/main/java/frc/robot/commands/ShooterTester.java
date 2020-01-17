@@ -9,11 +9,21 @@ import frc.robot.subsystems.cellmech.Shooter;
  */
 public class ShooterTester extends CommandBase {
 
+    boolean last = true;
+
     @Override
     public void execute() {
 
+        boolean current = OI.getInstance().shouldShoot();
+
+        if (current == last) {
+            return;
+        }
+
+        last = current;
+
         // Set shooting mode
-        if (OI.getInstance().shouldShoot()) {
+        if (current) {
             Shooter.getInstance().setOutputPercent(0.85);
         } else {
             Shooter.getInstance().stop();
