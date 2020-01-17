@@ -199,6 +199,8 @@ public class Shooter extends SubsystemBase {
         // TODO: Use encoder to detect velocity, and do a smooth spindown
         m_motorController.set(0);
 
+        m_systemState = SystemState.IDLE;
+
     }
 
     /**
