@@ -213,8 +213,12 @@ public class RobotConstants {
         // Sensors
         public static final int HOPPER_LINEBREAK_BOTTOM = 2;
         public static final int HOPPER_LINEBREAK_TOP = 3;
+        // Belt speed during shooting
+        public static final double SHOOTER_FEED_SPEED = 0.5;
+        // how many times the belt gearbox output rotates to move 1 inch
+        public static final double REVOLUTIONS_PER_INCH = 2;
     }
-    
+
     public static class Shooter {
 
         /**
