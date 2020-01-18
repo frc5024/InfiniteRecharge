@@ -3,6 +3,7 @@ package frc.lib5k.components.limelight;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpiutil.net.PortForwarder;
 
 /**
  * Limelight interface tool
@@ -71,6 +72,10 @@ public class Limelight {
 
     public Limelight(boolean is_portrait) {
         this.portrait = is_portrait;
+    }
+
+    public void enablePortforwarding(String hostname) {
+        PortForwarder.add(5801, hostname, 5801);
     }
 
     /**

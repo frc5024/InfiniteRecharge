@@ -161,8 +161,14 @@ public class Shooter extends SubsystemBase {
     private void handleSpinUp(boolean newState) {
 
         if (newState) {
+
+            // Disable motor brakes
+            m_motorController.setNeutralMode(NeutralMode.Coast);
+
             // Disable voltage compensation to allow velocity controllers to take control
             m_motorController.enableVoltageCompensation(false);
+
+            m_motorController.configOpenloopRamp(0.3);
 
             // Configure the spinup controller
             m_spinupController.reset();
@@ -202,7 +208,8 @@ public class Shooter extends SubsystemBase {
 
             // Set a large ramp rate to the motor, and "stop" it. This should slow down
             // gradually
-            m_motorController.configOpenloopRamp(0.8);
+            m_motorController.configOpenloopRamp(1.5);
+            m_motorController.setNeutralMode(NeutralMode.Brake);
             m_motorController.set(0);
         }
 
@@ -220,25 +227,27 @@ public class Shooter extends SubsystemBase {
         if (newState) {
 
             // Set the JRAD setpoint
-            m_holdController.setSetpoint(this.output);
+            // m_holdController.setSetpoint(this.output);
             System.out.println("HOLDING!!!!!!!!!!!!!!!!!!!!!!!!");
+
+            m_motorController.enableVoltageCompensation(false);
         }
 
-        // Get the current motor output voltage
-        double voltage = m_motorController.getMotorOutputVoltage();
+        // // Get the current motor output voltage
+        // double voltage = m_motorController.getMotorOutputVoltage();
 
-        // Calculate the motor output
-        double motorOutput = m_holdController.calculate(voltage);
+        // // Calculate the motor output
+        // double motorOutput = m_holdController.calculate(voltage);
 
-        motorOutput += voltage;
+        // motorOutput += voltage;
 
-        // Disallow reverse motor output
-        // motorOutput = Mathutils.clamp(motorOutput, 0, 12);
+        // // Disallow reverse motor output
+        // // motorOutput = Mathutils.clamp(motorOutput, 0, 12);
 
-        System.out.println(motorOutput);
+        // System.out.println(motorOutput);
 
         // Set the motor output
-        m_motorController.setVoltage(motorOutput);
+        m_motorController.setVoltage(this.output);
 
     }
 
