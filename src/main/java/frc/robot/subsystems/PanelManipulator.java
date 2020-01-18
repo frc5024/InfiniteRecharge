@@ -1,17 +1,18 @@
 package frc.robot.subsystems;
 
-import java.util.Map;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.ColorMatch;
+import com.revrobotics.ColorMatchResult;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib5k.components.ColorSensor5k;
-import frc.lib5k.utils.ColorUtils;
+import frc.lib5k.components.sensors.ColorSensor.ColorSensorMeasurementRate;
+import frc.lib5k.components.sensors.ColorSensor.ColorSensorResolution;
+import frc.lib5k.components.sensors.ColorSensor.GainFactor;
 import frc.lib5k.utils.RobotLogger;
 import frc.robot.GameData;
 import frc.robot.RobotConstants;
@@ -20,25 +21,30 @@ public class PanelManipulator extends SubsystemBase {
     RobotLogger logger = RobotLogger.getInstance();
     private static PanelManipulator s_instance = null;
 
+    // Physical devices
     private ColorSensor5k m_colorSensor = new ColorSensor5k(I2C.Port.kOnboard);
+    private WPI_TalonSRX m_spinnerMotor = new WPI_TalonSRX(RobotConstants.PanelManipulator.SPINNER_MOTOR_ID);
 
-    /* Color thresholding */
-    private NetworkTableEntry m_threshold;
-    
-    private double m_lastThreshold = 0.0;
+    // Color matching class.
+    private final ColorMatch m_colorMatcher = new ColorMatch();
+
+    // Colors taken from the example code. 
+    private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
+    private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
+    private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
+    private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
+  
+    // Boolean for detecting correct colors.
+    private boolean isCorrectColor;    
 
     private PanelManipulator() {
 
-
-        // Find the stored color threshold value
-        double storedThreshold = Preferences.getInstance().getDouble("Color threshold",
-                RobotConstants.PanelManipulator.DEFAULT_COLOR_THRESHOLD);
-        logger.log("PanelManipulator", String.format("Loaded color threshold: %.2f", storedThreshold));
-
-        // Get the threshold value container
-        m_threshold = Shuffleboard.getTab("Panel Manipulator").add("Color Threshold", storedThreshold)
-                .withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 255)).getEntry();
-
+        m_colorMatcher.addColorMatch(kBlueTarget);
+        m_colorMatcher.addColorMatch(kGreenTarget);
+        m_colorMatcher.addColorMatch(kRedTarget);
+        m_colorMatcher.addColorMatch(kYellowTarget); 
+        
+        m_colorSensor.configureColorSensor(ColorSensorResolution.kColorSensorRes13bit, ColorSensorMeasurementRate.kColorRate25ms, GainFactor.kGain18x);
     }
 
     public static PanelManipulator getInstance() {
@@ -53,84 +59,72 @@ public class PanelManipulator extends SubsystemBase {
     @Override
     public void periodic() {
 
-        // Check the threshold value, and compare to the last
-        double thresh = m_threshold.getDouble(RobotConstants.PanelManipulator.DEFAULT_COLOR_THRESHOLD);
+        double prox = m_colorSensor.getProx();
+        SmartDashboard.putNumber("Proximity:", prox);
 
-        if (thresh != m_lastThreshold) {
-
-            // Write to preferences
-            Preferences.getInstance().putDouble("Color threshold", thresh);
-
-            // Set the last threshold
-            m_lastThreshold = thresh;
+        if(prox > 160) {
+            isCorrectColor = isSensedColorCorrect();
+            outputTelemetry();
+        } else {
+            isCorrectColor = false;
         }
-
-       
-
-        // TODO: remove this after development
-        outputTelemetry();
 
     }
 
     /**
-     * z
-     * @return a boolean that if the control color is the same as the sensed color, it will return true. else false.
+     * Gets the game color for that match.
+     * Checks the detected color. If they match, they should return true.
+     * If anything else, return false.
+     * 
+     * @return 
      */
     public boolean isSensedColorCorrect() {
 
         // Read the color wanted by FMS
         Color8Bit wantedColor = GameData.getInstance().getControlColor();
+        Color wantColor;
+        Color detectedColor = m_colorSensor.getColor();
+        ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
 
-        // Ensure a color has been requested
-        if (wantedColor == null) {
+        if(wantedColor == null) {
             return false;
+        } else {
+            wantColor = new Color(wantedColor);
         }
 
-        // Check equality
-        return m_colorSensor.isReadingEqual(wantedColor,
-                m_threshold.getDouble(RobotConstants.PanelManipulator.DEFAULT_COLOR_THRESHOLD));
+        if (match.color == offsetColor(wantColor)) {
+            return true;
+        } else {
+            return false;
+        }       
 
     }
 
     public void outputTelemetry() {
 
-        String color = "";
 
-        // Read sensor info
-        Color8Bit detectedColor = m_colorSensor.getSensedColor(); 
+        Color detectedColor = m_colorSensor.getColor();
+        String colorString;
+        ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
 
-        // Publish sensor info*
+        if (match.color == kBlueTarget) {
+            colorString = "Blue";
+          } else if (match.color == kRedTarget) {
+            colorString = "Red";
+          } else if (match.color == kGreenTarget) {
+            colorString = "Green";
+          } else if (match.color == kYellowTarget) {
+            colorString = "Yellow";
+          } else {
+            colorString = "Unknown";
+          }
+
         SmartDashboard.putNumber("Red", detectedColor.red);
         SmartDashboard.putNumber("Green", detectedColor.green);
         SmartDashboard.putNumber("Blue", detectedColor.blue);
-
-        // Log which color is being sensed.
-        if(ColorUtils.epsilonEquals(detectedColor, RobotConstants.PanelManipulator.redGameColor, m_threshold.getValue().getDouble()) ) {
-
-            color = "RED";
-
-        }
-
-        if(ColorUtils.epsilonEquals(detectedColor, RobotConstants.PanelManipulator.blueGameColor, m_threshold.getValue().getDouble()) ) {
-
-
-            color = "BLUE";
-
-        }
-
-        if(ColorUtils.epsilonEquals(detectedColor, RobotConstants.PanelManipulator.greenGameColor, m_threshold.getValue().getDouble()) ) {
-
-            color = "GREEN";
-        }
-
-        if(ColorUtils.epsilonEquals(detectedColor, RobotConstants.PanelManipulator.yellowGameColor, m_threshold.getValue().getDouble()) ) {
-            
-            color = "YELLOW";
- 
-        }
-
-        SmartDashboard.putString("Color:", color);
-         
+        SmartDashboard.putNumber("Confidence", match.confidence);
+        SmartDashboard.putString("Detected Color", colorString);
+                
     }
 
     /**
@@ -138,22 +132,19 @@ public class PanelManipulator extends SubsystemBase {
      * @param sensedColor
      * @return 
      */
-    public Color8Bit offsetSensedColor(Color8Bit sensedColor) {
+    public Color offsetColor(Color color) {
 
-        if(sensedColor == RobotConstants.PanelManipulator.redGameColor) {
-            return RobotConstants.PanelManipulator.blueGameColor;
+        if(color == kBlueTarget) {
+            return kRedTarget;
         }
-
-        if(sensedColor == RobotConstants.PanelManipulator.blueGameColor) {
-            return RobotConstants.PanelManipulator.redGameColor; 
+        if(color == kRedTarget) {
+            return kBlueTarget;
         }
-
-        if(sensedColor == RobotConstants.PanelManipulator.yellowGameColor) {
-            return RobotConstants.PanelManipulator.greenGameColor;
+        if(color == kGreenTarget) {
+            return kYellowTarget;
         }
-
-        if(sensedColor == RobotConstants.PanelManipulator.greenGameColor) {
-            return RobotConstants.PanelManipulator.yellowGameColor;
+        if(color == kYellowTarget) {
+            return kGreenTarget;
         }
 
         return null;
@@ -163,7 +154,7 @@ public class PanelManipulator extends SubsystemBase {
      * Stats for moving the Control Panel.
      * 
      */
-    private enum SpinnerStates {
+    private enum SPINNER {
         IDLE,
         START,
         ROTATION,

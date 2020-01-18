@@ -92,4 +92,8 @@ public class Mathutils {
         return (value - input_low) * (output_high - output_low) / (input_high - input_low) + output_low;
     }
 
+    // f(x) = log(x/min) / log(max/min)
+    public static double logmap(double value, double min, double max) {
+        return (Math.log(value / min) / Math.log(max/min));
+    }
 }
