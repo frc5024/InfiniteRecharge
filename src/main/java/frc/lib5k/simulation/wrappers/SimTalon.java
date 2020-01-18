@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.hal.SimDevice;
 import edu.wpi.first.hal.SimDouble;
+import edu.wpi.first.wpilibj.RobotBase;
 import frc.lib5k.roborio.RR_HAL;
 
 public class SimTalon extends WPI_TalonSRX {
@@ -43,11 +44,19 @@ public class SimTalon extends WPI_TalonSRX {
 
     @Override
     public double getMotorOutputVoltage() {
-        return get() * RR_HAL.getSimSafeVoltage();
+        if(RobotBase.isSimulation()){
+            return get() * RR_HAL.getSimSafeVoltage();
+        }
+        
+        return super.getMotorOutputVoltage();
     }
 
     @Override
     public void setVoltage(double outputVolts) {
-        set(outputVolts / RR_HAL.getSimSafeVoltage());
+        if(RobotBase.isSimulation()){
+            set(outputVolts / RR_HAL.getSimSafeVoltage());
+        }else{
+            super.setVoltage(outputVolts);
+        }
     }
 }
