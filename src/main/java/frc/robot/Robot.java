@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib5k.components.drive.IDifferentialDrivebase;
 import frc.lib5k.components.gyroscopes.NavX;
+import frc.lib5k.components.limelight.Limelight;
 import frc.lib5k.roborio.FaultReporter;
 import frc.lib5k.utils.RobotLogger;
 import frc.lib5k.utils.RobotLogger.Level;
@@ -85,6 +86,9 @@ public class Robot extends TimedRobot {
 		}
 
 		m_driveTrain.setPosition(m_autonChooser.getRobotAutoStartPosition());
+
+		// Enable limelight portforwarding
+		new Limelight().enablePortforwarding("10.50.24.11");
 	}
 
 	@Override
