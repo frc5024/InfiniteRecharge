@@ -133,6 +133,8 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
         m_leftEncoder.zero();
         m_rightEncoder.zero();
 
+        // Set ramp rate
+        setRampRate(0.12);
     }
 
     /**
@@ -297,6 +299,9 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
         logger.log("DriveTrain", "Stopping DriveTrain");
 
         setOpenLoop(new DriveSignal(0, 0));
+
+        // Set ramp rate
+        setRampRate(0.12);
     }
 
     /**

@@ -123,6 +123,7 @@ public class RobotConstants {
             public static final int MOTOR_MAX_RPM = 5330; // For cim motors
 
         }
+
     }
 
     /**
@@ -144,6 +145,8 @@ public class RobotConstants {
         public static final double kPTurnVel = 0.0268;
         public static final double kITurnVel = 0.1;
         public static final double kDTurnVel = 0.0066; // 6
+
+        public static final double kRP = 0.05;
 
         // P = 0.027 I = 0.1 D = 0.006
 
