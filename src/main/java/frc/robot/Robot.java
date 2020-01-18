@@ -11,11 +11,11 @@ import frc.lib5k.utils.RobotLogger;
 import frc.lib5k.utils.RobotLogger.Level;
 import frc.robot.autonomous.Chooser;
 import frc.robot.commands.DriveControl;
+import frc.robot.commands.ShooterTester;
+import frc.robot.subsystems.CellSuperstructure;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.PanelManipulator;
-import frc.robot.subsystems.Shooter;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -32,15 +32,14 @@ public class Robot extends TimedRobot {
 
 	/* Robot Subsystems */
 	private DriveTrain m_driveTrain = DriveTrain.getInstance();
-	private Intake m_intake = Intake.getInstance();
 	private Climber m_climber = Climber.getInstance();
 	private PanelManipulator m_panelManipulator = PanelManipulator.getInstance();
-	private Shooter m_shooter = Shooter.getInstance();
-
+	private CellSuperstructure m_cellSuperstructure = CellSuperstructure.getInstance();
 
 	/* Robot Commands */
 	private CommandBase m_autonomousCommand;
 	private DriveControl m_driveControl;
+	private ShooterTester m_shooterTester;
 
 	private Chooser m_autonChooser;
 
@@ -54,16 +53,15 @@ public class Robot extends TimedRobot {
 		// Create control commands
 		logger.log("Robot", "Constructing Commands", Level.kRobot);
 		m_driveControl = new DriveControl();
+		m_shooterTester = new ShooterTester();
 
 		// Register all subsystems
 		logger.log("Robot", "Registering Subsystems", Level.kRobot);
 
 		m_driveTrain.setDefaultCommand(m_driveControl);
-		m_intake.register();
 		m_climber.register();
 		m_panelManipulator.register();
-		m_shooter.register();
-
+		m_cellSuperstructure.register();
 
 		// Start the logger
 		logger.start(0.02);
@@ -145,6 +143,10 @@ public class Robot extends TimedRobot {
 		// Start the teleop commands
 		if (m_driveControl != null) {
 			m_driveControl.schedule();
+		}
+
+		if (m_shooterTester != null) {
+			m_shooterTester.schedule();
 		}
 
 	}

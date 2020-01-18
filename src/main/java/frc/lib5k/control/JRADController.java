@@ -23,6 +23,7 @@ public class JRADController {
     private double setpoint, lastVoltage;
     private Timer m_timer;
     private double m_prevTime = 0;
+    // private double m_pre
 
     /**
      * Create a JRAD controller.
@@ -66,7 +67,7 @@ public class JRADController {
         double dt = curTime - m_prevTime;
 
         // Calculate the next voltage
-        double nextVoltage = kF * setpoint + lastVoltage + kJ * dt * (kLoadRatio * setpoint - voltage);
+        double nextVoltage = kF * setpoint  + kJ * dt * (kLoadRatio * setpoint - voltage);
 
         // Set the previous time
         m_prevTime = curTime;
