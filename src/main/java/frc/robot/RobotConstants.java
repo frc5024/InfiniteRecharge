@@ -104,7 +104,7 @@ public class RobotConstants {
 
             /* Ticks per revolution of the encoder */
 
-            public static final int PULSES_PER_REVOLUTION = 1024;//2880;//1440; // (isCompBot())? 4096 : 1440;
+            public static final int PULSES_PER_REVOLUTION = 1024;// 2880;//1440; // (isCompBot())? 4096 : 1440;
 
         }
 
@@ -136,7 +136,7 @@ public class RobotConstants {
         public static final double kaVoltsSecondsSquaredPerMeter = 0.0231;
 
         // Optimal Control Gain for driving
-        public static final double kPDriveVel = 0.478;//0.68;//0.478;
+        public static final double kPDriveVel = 0.478;// 0.68;//0.478;
         public static final double kIDriveVel = 0.0;
         public static final double kDDriveVel = 0.008;
 
@@ -152,13 +152,14 @@ public class RobotConstants {
         // DifferentialDriveKinematics allows for the use of the track length
         public static final double kTrackWidthMeters = 0.1524;
         public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
-        //DriveTrain.Measurements.DRIVEBASE_WIDTH);
+                // DriveTrain.Measurements.DRIVEBASE_WIDTH);
                 kTrackWidthMeters);
 
         // Max Trajectory of Velocity and Acceleration
         public static final double kMaxSpeedMetersPerSecond = 3; // This value will most likely need to be changed
-        public static final double kMaxAccelerationMetersPerSecondSquared = 3.5; // This value will most likely need to be
-                                                                               // changed
+        public static final double kMaxAccelerationMetersPerSecondSquared = 3.5; // This value will most likely need to
+                                                                                 // be
+                                                                                 // changed
 
         // Ramsete Parameters (Not sure if this is nessacary for trajectory and may need
         // changes)
@@ -212,6 +213,28 @@ public class RobotConstants {
         // Sensors
         public static final int HOPPER_LINEBREAK_BOTTOM = 2;
         public static final int HOPPER_LINEBREAK_TOP = 3;
+    }
+    
+    public static class Shooter {
+
+        /**
+         * Shooter motor
+         */
+        public static final int MOTOR_ID = 5;
+
+        public static final double VOLTAGE_EPSILON = 0.2;
+
+        public static final double MAX_VOLTAGE = 12;
+
+        /* Shooter spinup PID */
+        public static final double kPVel = 0.38;
+        public static final double kIVel = 0.0;
+        public static final double kDVel = 0.0;
+
+        /* Shooter hold Gains */
+        public static final double kJ = 0.0;
+        public static final double kF = 0.0;
+        public static final double kLoadRatio = 0.1;
     }
 
 }
