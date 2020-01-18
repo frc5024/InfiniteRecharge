@@ -22,7 +22,7 @@ public class VisionAlign extends CommandBase{
     private static final int MIN_CYCLES = 5;
 
     //Limelight for targeting
-    private Limelight m_limelight = Limelight.getInstance();
+    private Limelight m_limelight;
 
     // PID controller for angle solves
     private PIDController m_controller;
@@ -40,6 +40,7 @@ public class VisionAlign extends CommandBase{
 
         if(m_limelight.isTargetVisible()){
 
+            m_limelight = new Limelight();
             double targetRotation = getTargetRotation();
             align(Rotation2d.fromDegrees(targetRotation));
         }
@@ -55,6 +56,7 @@ public class VisionAlign extends CommandBase{
 
         if(m_limelight.isTargetVisible()){
 
+            m_limelight = new Limelight();
             double targetRotation = getTargetRotation();
             align(Rotation2d.fromDegrees(targetRotation));
         }else{
