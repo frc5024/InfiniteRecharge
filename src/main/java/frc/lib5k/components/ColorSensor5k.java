@@ -1,17 +1,17 @@
 package frc.lib5k.components;
 
 
+import com.revrobotics.ColorSensorV3;
+
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
-import frc.lib5k.components.sensors.ColorSensor;
 import frc.lib5k.utils.ColorUtils;
-import frc.lib5k.utils.Mathutils;
 
 /**
  * Extensions to the REV ColorSensor V3
  */
-public class ColorSensor5k extends ColorSensor {
+public class ColorSensor5k extends ColorSensorV3 {
 
     public ColorSensor5k(Port port) {
         super(port);
@@ -53,17 +53,15 @@ public class ColorSensor5k extends ColorSensor {
 
 
     /**
-     * Return the proximity of the sensor. 
+     * Return the proximity of the sensor.
+     * Math to convert for 0-2047 to 1-10cm
      */
-    public double getProx() {
-        double proximity = this.getProximity();
-
-        // input_low = 0
-        // input high = 2047
-        // output low = 1cm
-        // output high = 10cm
-        return proximity;
+    @Override
+    public int getProximity() {
 
 
+        return super.getProximity();
     }
+
+    
 }

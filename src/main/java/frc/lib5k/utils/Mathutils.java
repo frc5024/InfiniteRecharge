@@ -88,12 +88,19 @@ public class Mathutils {
         return (a - epsilon <= b) && (a + epsilon >= b);
     }
     
+
+    /**
+     * 
+     * 
+     * 
+     * @param value
+     * @param input_low
+     * @param input_high
+     * @param output_low
+     * @param output_high
+     */
     public static double map(double value, double input_low, double input_high, double output_low, double output_high) {
         return (value - input_low) * (output_high - output_low) / (input_high - input_low) + output_low;
     }
 
-    // f(x) = log(x/min) / log(max/min)
-    public static double logmap(double value, double min, double max) {
-        return (Math.log(value / min) / Math.log(max/min));
-    }
 }

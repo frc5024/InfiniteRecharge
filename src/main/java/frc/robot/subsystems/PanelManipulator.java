@@ -10,9 +10,6 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib5k.components.ColorSensor5k;
-import frc.lib5k.components.sensors.ColorSensor.ColorSensorMeasurementRate;
-import frc.lib5k.components.sensors.ColorSensor.ColorSensorResolution;
-import frc.lib5k.components.sensors.ColorSensor.GainFactor;
 import frc.lib5k.utils.RobotLogger;
 import frc.robot.GameData;
 import frc.robot.RobotConstants;
@@ -43,8 +40,7 @@ public class PanelManipulator extends SubsystemBase {
         m_colorMatcher.addColorMatch(kGreenTarget);
         m_colorMatcher.addColorMatch(kRedTarget);
         m_colorMatcher.addColorMatch(kYellowTarget); 
-        
-        m_colorSensor.configureColorSensor(ColorSensorResolution.kColorSensorRes13bit, ColorSensorMeasurementRate.kColorRate25ms, GainFactor.kGain18x);
+
     }
 
     public static PanelManipulator getInstance() {

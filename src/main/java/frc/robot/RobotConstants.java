@@ -174,10 +174,10 @@ public class RobotConstants {
         /**
          * Game Colors
          */
-        public static Color8Bit redGameColor    = new Color8Bit(255, 0, 0);
-        public static Color8Bit greenGameColor  = new Color8Bit(0, 255, 0);
-        public static Color8Bit blueGameColor   = new Color8Bit(0, 255, 255);
-        public static Color8Bit yellowGameColor = new Color8Bit(255, 255, 0);
+        public static Color8Bit RED_COLOR    = new Color8Bit(255, 0, 0);
+        public static Color8Bit GREEN_COLOR  = new Color8Bit(0, 255, 0);
+        public static Color8Bit BLUE_COLOR   = new Color8Bit(0, 255, 255);
+        public static Color8Bit YELLOW_COLOR = new Color8Bit(255, 255, 0);
 
     }
 
