@@ -24,6 +24,11 @@ public class OI {
     private Toggle m_driveTrainInvertToggle = new Toggle();
 
     /**
+     * Toggle for keeping track of shooting
+     */
+    private Toggle m_shouldShootToggle = new Toggle();
+
+    /**
      * Force the use of getInstance() by setting this class private
      */
     private OI() {
@@ -78,6 +83,11 @@ public class OI {
         // Feed X button press into a toggle. This will flip the toggle value every time
         // the button is pressed
         return m_driveTrainInvertToggle.feed(m_driverController.getXButtonPressed());
+    }
+
+    public boolean shouldShoot() {
+        // TODO: replace this with an operator control
+        return m_shouldShootToggle.feed(m_driverController.getAButtonPressed());
     }
 
 }

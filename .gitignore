@@ -182,3 +182,6 @@ bin/
 
 # Characterization ignore
 characterization/characterization-project/build/
+
+# Python
+__pycache__

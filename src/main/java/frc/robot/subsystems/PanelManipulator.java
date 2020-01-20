@@ -18,7 +18,10 @@ public class PanelManipulator extends SubsystemBase {
     RobotLogger logger = RobotLogger.getInstance();
     private static PanelManipulator s_instance = null;
 
-    // Physical devices
+
+    /**
+    * Physical Devices
+    */
     private ColorSensor5k m_colorSensor = new ColorSensor5k(I2C.Port.kOnboard);
     private WPI_TalonSRX m_spinnerMotor = new WPI_TalonSRX(RobotConstants.PanelManipulator.SPINNER_MOTOR_ID);
 
@@ -36,6 +39,7 @@ public class PanelManipulator extends SubsystemBase {
 
     private PanelManipulator() {
 
+
         m_colorMatcher.addColorMatch(kBlueTarget);
         m_colorMatcher.addColorMatch(kGreenTarget);
         m_colorMatcher.addColorMatch(kRedTarget);
@@ -43,6 +47,11 @@ public class PanelManipulator extends SubsystemBase {
 
     }
 
+    /**
+     * Get the PanelManipulator instance
+     * 
+     * @return Instance
+     */
     public static PanelManipulator getInstance() {
         if (s_instance == null) {
             s_instance = new PanelManipulator();
@@ -74,6 +83,7 @@ public class PanelManipulator extends SubsystemBase {
      * 
      * @return 
      */
+
     public boolean isSensedColorCorrect() {
 
         // Read the color wanted by FMS
@@ -121,12 +131,14 @@ public class PanelManipulator extends SubsystemBase {
         SmartDashboard.putNumber("Confidence", match.confidence);
         SmartDashboard.putString("Detected Color", colorString);
                 
+
     }
 
     /**
      * Offsets the color by the color that is at a 90 degree angle.
-     * @param sensedColor
-     * @return 
+     * 
+     * @param c Sensed color
+     * @return Offset color
      */
     public Color offsetColor(Color color) {
 
@@ -157,5 +169,17 @@ public class PanelManipulator extends SubsystemBase {
         POSITION,
         STOP,
         ERROR
+
+
+    public double spinWheelTurns(int turns) {
+
+        return 0.0;
+
+    }
+
+    public double spinWheelColors(int numberOfColorChanges) {
+
+        return 0.0;
+
     }
 }

@@ -3,24 +3,26 @@ package frc.robot.autonomous.actions;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.lib5k.components.limelight.Limelight;
+import frc.lib5k.components.limelight.LimelightTarget;
 import frc.lib5k.kinematics.DriveSignal;
 import frc.lib5k.utils.Mathutils;
 import frc.robot.RobotConstants;
 import frc.robot.subsystems.DriveTrain;
 
-/**
- * Command for handling autonomous turning with PID solve
- */
-public class TurnToCommand extends CommandBase {
+public class VisionAlign extends CommandBase{
 
-    // Default epsilon if not set in constructor
-    private static final double DEFAULT_EPSILON = 2.0;
+    // Epsilon
+    private static final double EPSILON = 2.0;
 
     // Hard cap percentage on turn speed
     private static final double TURN_SPEED_HARD_CAP = 1.0;
 
     // Number of cycles to wait before declaring this command "done"
     private static final int MIN_CYCLES = 5;
+
+    //Limelight for targeting
+    private Limelight m_limelight;
 
     // PID controller for angle solves
     private PIDController m_controller;
@@ -32,64 +34,71 @@ public class TurnToCommand extends CommandBase {
     private int cycles = 0;
 
     /**
-     * Turn to a field-relative angle
-     * 
-     * @param setpoint Desired angle in degrees (field-relative)
-     */
-    public TurnToCommand(double angleDegs) {
-        this(angleDegs, DEFAULT_EPSILON);
+     * Turn to align with Limelight target if it exists.
+    */
+    public VisionAlign(){
+
+        if(m_limelight.isTargetVisible()){
+
+            m_limelight = new Limelight();
+            double targetRotation = getTargetRotation();
+            align(Rotation2d.fromDegrees(targetRotation));
+        }
     }
 
     /**
-     * Turn to a field-relative angle
+     * Turn to align with Limelight target if it exists.
+     * If none exists, turn to a default rotation.
      * 
-     * @param setpoint Desired angle in degrees (field-relative)
-     * @param epsilon  Allowed error (in degrees)
-     */
-    public TurnToCommand(double angleDegs, double epsilon) {
-        this(Rotation2d.fromDegrees(angleDegs), epsilon);
-    }
+     * @param defaultRotation Default rotation, in degrees.
+    */
+    public VisionAlign(double defaultRotation){
 
-    /**
-     * Turn to a field-relative angle
-     * 
-     * @param setpoint Desired angle as rotation vector (field-relative)
-     */
-    public TurnToCommand(Rotation2d setpoint) {
-        this(setpoint, DEFAULT_EPSILON);
-    }
+        if(m_limelight.isTargetVisible()){
 
-    /**
-     * Turn to a field-relative angle
-     * 
-     * @param setpoint Desired angle as rotation vector (field-relative)
-     * @param epsilon  Allowed error (in degrees)
-     */
-    public TurnToCommand(Rotation2d setpoint, double epsilon) {
+            m_limelight = new Limelight();
+            double targetRotation = getTargetRotation();
+            align(Rotation2d.fromDegrees(targetRotation));
+        }else{
 
-        // Set locals
-        this.setpoint = setpoint;
-
-        // Set up the PID controller
-        m_controller = new PIDController(RobotConstants.ControlGains.kPTurnVel, RobotConstants.ControlGains.kITurnVel,
-                RobotConstants.ControlGains.kDTurnVel);
-
-        // Set controller limits
-        m_controller.setTolerance(epsilon);
-
-        // Set the setpoint to 0, so we can calculate by error
-        m_controller.setSetpoint(0.0);
-
+            //Default rotation
+            align(Rotation2d.fromDegrees(defaultRotation));
+        }
     }
 
     @Override
-    public void initialize() {
-
+    public void initialize(){
         // Reset the controller
         m_controller.reset();
 
         // Reset the cycle count
         cycles = 0;
+    }
+
+    private void align(Rotation2d setpoint){
+
+        this.setpoint = setpoint;
+
+        // Set up the PID controller
+        m_controller = new PIDController(RobotConstants.ControlGains.kPTurnVel, RobotConstants.ControlGains.kITurnVel,
+        RobotConstants.ControlGains.kDTurnVel);
+
+        // Set controller limits
+        m_controller.setTolerance(EPSILON);
+
+        // Set the setpoint to 0, so we can calculate by error
+        m_controller.setSetpoint(0.0);
+    }
+
+    private double getTargetRotation(){
+        LimelightTarget target = m_limelight.getTarget();
+
+        double px = target.getX();
+        double nx = (1/160) * (px - 159.5);
+        double vpw = 2.0*Math.tan(59.6/2);
+        double x = vpw/2 * nx;
+        double ax = Math.atan2(1,x);
+        return ax;
     }
 
     private double getError() {
@@ -105,8 +114,7 @@ public class TurnToCommand extends CommandBase {
     }
 
     @Override
-    public void execute() {
-
+    public void execute(){
         // Determine system error
         double error = getError();
 
@@ -130,8 +138,7 @@ public class TurnToCommand extends CommandBase {
     }
 
     @Override
-    public void end(boolean interrupted) {
-
+    public void end(boolean interrupted){
         // Stop the drivetrain
         DriveTrain.getInstance().stop();
     }
