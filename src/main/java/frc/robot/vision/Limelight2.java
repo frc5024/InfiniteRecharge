@@ -68,7 +68,7 @@ public class Limelight2 {
 
     }
 
-    public Limelight2 getInstance() {
+    public static Limelight2 getInstance() {
         if (s_instance == null) {
             s_instance = new Limelight2();
         }
