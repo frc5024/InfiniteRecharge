@@ -34,7 +34,7 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
      */
     public enum DriveMode {
         OPEN_LOOP, // Open loop control (percent output control)
-        VOLTAGE // Voltage control
+        VOLTAGE, // Voltage control
 
     }
 
@@ -73,7 +73,7 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
      */
     private Pose2d m_robotPose = new Pose2d();
 
-    private double m_lastLeftMeters, m_lastRightMeters, m_leftMPS, m_rightMPS = 0;
+    private double m_lastLeftMeters, m_lastRightMeters, m_leftMPS, m_rightMPS = 0;Function<Double,Double>
 
     /**
      * DriveTrain constructor.

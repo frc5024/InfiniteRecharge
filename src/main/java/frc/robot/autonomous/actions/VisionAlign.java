@@ -93,11 +93,11 @@ public class VisionAlign extends CommandBase{
     private double getTargetRotation(){
         LimelightTarget target = m_limelight.getTarget();
 
-        double px = target.getX();
-        double nx = (1/160) * (px - 159.5);
-        double vpw = 2.0*Math.tan(59.6/2);
-        double x = vpw/2 * nx;
-        double ax = Math.atan2(1,x);
+        // double px = target.getX();
+        // double nx = (1/160) * (px - 159.5);
+        // double vpw = 2.0*Math.tan(59.6/2);
+        // double x = vpw/2 * nx;
+        // double ax = Math.atan2(1,x);
         return ax;
     }
 
