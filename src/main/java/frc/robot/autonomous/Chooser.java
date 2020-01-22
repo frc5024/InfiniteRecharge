@@ -12,6 +12,7 @@ import frc.robot.autonomous.actions.LogCommand;
 import frc.robot.autonomous.paths.AutonomousPath;
 import frc.robot.autonomous.paths.slow.SlowRight;
 import frc.robot.autonomous.paths.slow.SlowRightHalffield;
+import frc.robot.autonomous.paths.test.TestPathing;
 import frc.robot.autonomous.paths.test.TestReverse;
 import frc.robot.subsystems.DriveTrain;
 
@@ -34,6 +35,7 @@ public class Chooser {
 
         // Paths
         m_pathChooser.addOption("Backwards test", new TestReverse());
+        m_pathChooser.addOption("Path test", new TestPathing());
         m_pathChooser.addOption("Right side slow (half-field shot)", new SlowRightHalffield());
         m_pathChooser.setDefaultOption("Right side slow", new SlowRight());
 

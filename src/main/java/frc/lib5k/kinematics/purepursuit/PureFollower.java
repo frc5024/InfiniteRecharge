@@ -210,11 +210,13 @@ public class PureFollower {
         rotation *= m_RP;
 
         // Determine speed
-        double speed = m_controller.calculate(distance, 0.0);
+        double speed = m_controller.calculate(-distance, 0.0);
 
         // Convert Speed/Rotation to L/R
         double L = speed + Math.abs(speed) * rotation;
         double R = speed - Math.abs(speed) * rotation;
+
+        System.out.println(L + " " + R);
 
         // Return a DriveSignal with new movement data
         return new DriveSignal(L, R);
