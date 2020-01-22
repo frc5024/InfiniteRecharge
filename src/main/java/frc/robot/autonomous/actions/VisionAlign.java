@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.vision.Limelight2;
+import frc.robot.vision.Limelight2.LEDMode;
 
 public class VisionAlign extends CommandBase {
 
@@ -52,6 +53,10 @@ public class VisionAlign extends CommandBase {
 
         // Reset the cycle count
         cycles = 0;
+
+        // Enable Limelight vision tracking
+        m_limelight.enableVision(true);
+        m_limelight.setLED(LEDMode.ON);
     }
 
     @Override
@@ -79,6 +84,9 @@ public class VisionAlign extends CommandBase {
     public void end(boolean interrupted) {
         // Stop the drivetrain
         DriveTrain.getInstance().stop();
+
+        // Disable Limelight LED
+        m_limelight.setLED(LEDMode.OFF);
     }
 
     @Override
