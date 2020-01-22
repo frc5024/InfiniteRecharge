@@ -34,7 +34,7 @@ public class Limelight2 {
     private NetworkTable m_table;
 
     /* Camera data */
-    private boolean m_hasTarget;
+    private boolean m_hasTarget, m_isPortrait;
     private double m_angleX, m_angleY, m_area, m_skew;
 
     private Limelight2() {
@@ -86,12 +86,26 @@ public class Limelight2 {
     }
 
     /**
+     * Get the current target, or null if no target
+     * 
+     * @return Current target
+     */
+    public LimelightTarget getTarget() {
+        // Handle no target
+        if (!hasTarget()) {
+            return null;
+        }
+
+        return new LimelightTarget(getXAngle(), getYAngle(), getArea(), getSkew());
+    }
+
+    /**
      * Get horizontal target angle [from -29.8 t0 29.8 degrees]
      * 
      * @return Target angle
      */
     public double getXAngle() {
-        return m_angleX;
+        return (m_isPortrait) ? m_angleY : m_angleX;
     }
 
     /**
@@ -100,7 +114,7 @@ public class Limelight2 {
      * @return Target angle
      */
     public double getYAngle() {
-        return m_angleY;
+        return (m_isPortrait) ? m_angleX : m_angleY;
     }
 
     /**
@@ -119,6 +133,15 @@ public class Limelight2 {
      */
     public double getSkew() {
         return m_skew;
+    }
+
+    /**
+     * Set camera portrait mode
+     * 
+     * @param isPortrait Is camera in portrait mode?
+     */
+    public void setPortrait(boolean isPortrait) {
+        m_isPortrait = isPortrait;
     }
 
     /**

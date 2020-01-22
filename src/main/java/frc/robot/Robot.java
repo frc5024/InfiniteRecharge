@@ -17,6 +17,9 @@ import frc.robot.subsystems.CellSuperstructure;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.PanelManipulator;
+import frc.robot.vision.Limelight2;
+import frc.robot.vision.TargetTracker;
+import frc.robot.vision.Limelight2.LEDMode;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -87,8 +90,12 @@ public class Robot extends TimedRobot {
 
 		m_driveTrain.setPosition(m_autonChooser.getRobotAutoStartPosition());
 
-		// Enable limelight portforwarding
-		new Limelight().enablePortforwarding("10.50.24.11");
+		// Connect to, and configure Limelight
+		Limelight2.getInstance().setPortrait(true);
+		Limelight2.getInstance().setLED(LEDMode.OFF);
+		Limelight2.getInstance().enableVision(true);
+		TargetTracker.getInstance().register();
+		TargetTracker.getInstance().enableTargetChecking(false);
 	}
 
 	@Override

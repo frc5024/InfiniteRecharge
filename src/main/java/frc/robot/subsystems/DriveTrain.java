@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
@@ -18,8 +19,10 @@ import frc.lib5k.components.gyroscopes.NavX;
 import frc.lib5k.components.motors.TalonSRXCollection;
 import frc.lib5k.components.sensors.EncoderBase;
 import frc.lib5k.interfaces.Loggable;
+import frc.lib5k.utils.Mathutils;
 import frc.lib5k.utils.RobotLogger;
 import frc.robot.RobotConstants;
+import frc.robot.vision.LimelightTarget;
 import frc.lib5k.kinematics.DriveSignal;
 
 /**
@@ -73,7 +76,15 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
      */
     private Pose2d m_robotPose = new Pose2d();
 
+    /**
+     * Velocity tracking vars
+     */
     private double m_lastLeftMeters, m_lastRightMeters, m_leftMPS, m_rightMPS = 0;
+
+    /**
+     * In-place drivebase rotation controller
+     */
+    private PIDController m_turnController;
 
     /**
      * DriveTrain constructor.
@@ -125,6 +136,11 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
                     RobotConstants.DriveTrain.Measurements.MOTOR_MAX_RPM,
                     RobotConstants.DriveTrain.Simulation.ENCODER_RAMP_RATE);
         }
+
+        // Configure turning PID controller
+        m_turnController = new PIDController(RobotConstants.ControlGains.kPTurnVel,
+                RobotConstants.ControlGains.kITurnVel, RobotConstants.ControlGains.kDTurnVel);
+        m_turnController.reset();
 
         // Create odometry object
         m_odometry = new DifferentialDriveOdometry(NavX.getInstance().getRotation());
@@ -217,6 +233,72 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
 
         // Set the signal
         setOpenLoop(signal);
+
+    }
+
+    /**
+     * Turn the drivebase to face an angle
+     * 
+     * @param degrees Desired angle
+     * @param eps     Acceptable error
+     * @return Is facing angle?
+     */
+    public boolean face(double degrees, double eps) {
+        return face(Rotation2d.fromDegrees(degrees), eps);
+    }
+
+    /**
+     * Turn the drivebase to face a Limelihgt target
+     * 
+     * @param target Target to face
+     * @param eps    Acceptable error
+     * @return Is facing angle?
+     */
+    public boolean face(LimelightTarget target, double eps) {
+        return face(target.getRotation(), eps);
+    }
+
+    /**
+     * Turn the drivebase to face an angle
+     * 
+     * @param rot Desired angle
+     * @param eps Acceptable error
+     * @return Is facing angle?
+     */
+    public boolean face(Rotation2d rot, double eps) {
+
+        // Set PID controller epsilon
+        m_turnController.setTolerance(eps);
+        m_turnController.setSetpoint(0);
+
+        // Convert the WPILib angles to Lib5K-compatible angles
+        double setpointAngle = Mathutils.wpiAngleTo5k(rot.getDegrees());
+        double drivebaseAngle = Mathutils.wpiAngleTo5k(getPosition().getRotation().getDegrees());
+
+        // Find error between angles
+        double error = Mathutils.getWrappedError(drivebaseAngle, setpointAngle);
+
+        // Calculate turn force
+        double force = m_turnController.calculate(error, 0.0);
+
+        // Clamp turn force
+        force = Mathutils.clamp(force, -1.0, 1.0);
+
+        // Set motor command
+        setOpenLoop(new DriveSignal(force, -force));
+
+        // Handle reset after completed turn
+        if (m_turnController.atSetpoint()) {
+
+            // Reset PID controller
+            m_turnController.reset();
+
+            // Return the "finished" status
+            return true;
+        }
+
+        // If this is reached, we have not yet met the target
+        return false;
 
     }
 
