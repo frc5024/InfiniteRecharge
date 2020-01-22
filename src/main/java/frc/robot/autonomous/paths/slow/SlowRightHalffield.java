@@ -18,7 +18,7 @@ public class SlowRightHalffield extends AutonomousPath {
 
     @Override
     public Pose2d getStartingPose() {
-        return AutonomousStartpoints.SECTOR_LINE_RIGHT;
+        return new Pose2d(AutonomousStartpoints.SECTOR_LINE_RIGHT, Rotation2d.fromDegrees(0));
     }
 
     @Override
