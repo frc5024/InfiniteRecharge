@@ -1,10 +1,13 @@
 package frc.lib5k.kinematics.purepursuit;
 
-import java.util.Arrays;
-
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
+import frc.lib5k.kinematics.DriveSignal;
 
+/**
+ * A Pure Pursuit path following implementation
+ */
 public class PureFollower {
 
     // Path to follow
@@ -13,9 +16,28 @@ public class PureFollower {
     // Lookahead distance
     private double m_lookahead;
 
-    public PureFollower(Path path, double lookahead) {
+    // Tracker for path completeion
+    private boolean isFinished = false;
+
+    // PID controller for speed
+    private PIDController m_controller;
+
+    // Rotational P gain
+    private double m_RP;
+
+    /**
+     * Create a PureFollower
+     * 
+     * @param path        Path to follow
+     * @param movementPID Robot movement PID
+     * @param rotationP   Robot path control P Gain
+     * @param lookahead   Lookahead distance
+     */
+    public PureFollower(Path path, PIDController movementPID, double rotationP, double lookahead) {
         this.path = path;
         this.m_lookahead = lookahead;
+        this.m_controller = movementPID;
+        this.m_RP = rotationP;
 
     }
 
@@ -120,5 +142,82 @@ public class PureFollower {
         }
 
         return output;
+    }
+
+    /**
+     * Reset the follower
+     */
+    public void reset() {
+        isFinished = false;
+        m_controller.reset();
+    }
+
+    /**
+     * Has the robot reached it's goal?
+     * 
+     * @return Goal reached?
+     */
+    public boolean atEnd() {
+        return isFinished;
+    }
+
+    /**
+     * Calculate drivebase outputs based on robot location
+     * 
+     * @param robot   Robot position on the field
+     * @param epsilon End position epsilon
+     * @return Drivebase signal
+     */
+    public DriveSignal follow(Pose2d robot, double epsilon) {
+
+        // Determine out next target
+        Translation2d target = getLookaheadPose(robot);
+
+        // Only calculate if the target exists
+        if (target == null) {
+            // Set path completion to True
+            isFinished = true;
+
+            // Return an empty driveSignal
+            return new DriveSignal(0, 0);
+        }
+
+        // Calculate movement delta
+        Translation2d delta = new Translation2d(target.getX() - robot.getTranslation().getX(),
+                target.getY() - robot.getTranslation().getY());
+
+        // Determine distance from the target to the robot
+        double distance = 2 * Math.sqrt(Math.pow(delta.getX(), 2) + Math.pow(delta.getY(), 2));
+
+        // Handle the robot reaching it's goal
+        if (distance < epsilon) {
+            // Set path completion to True
+            isFinished = true;
+
+            // Return an empty driveSignal
+            return new DriveSignal(0, 0);
+        }
+
+        /* Handle robot movement command */
+
+        // Determine rotational error
+        double rotation = Math.toDegrees(Math.atan2(delta.getY(), target.getX()));
+
+        // Adjust by the robot's rotation
+        rotation += robot.getRotation().getDegrees();
+
+        // Adjust by Rotation P
+        rotation *= m_RP;
+
+        // Determine speed
+        double speed = m_controller.calculate(distance, 0.0);
+
+        // Convert Speed/Rotation to L/R
+        double L = speed + Math.abs(speed) * rotation;
+        double R = speed - Math.abs(speed) * rotation;
+
+        // Return a DriveSignal with new movement data
+        return new DriveSignal(L, R);
+
     }
 }
