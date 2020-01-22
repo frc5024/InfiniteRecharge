@@ -78,7 +78,6 @@ public class TurnToCommand extends CommandBase {
 
         // Handle drive and settle
         if (DriveTrain.getInstance().face(setpoint, epsilon)) {
-            System.out.println(cycles);
             cycles++;
         }
     }

@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.autonomous.AutonomousStartpoints;
 import frc.robot.autonomous.actions.LinePath;
 import frc.robot.autonomous.actions.TurnToCommand;
+import frc.robot.autonomous.actions.VisionAlign;
 import frc.robot.autonomous.helpers.SpeedConstraint;
 import frc.robot.autonomous.paths.AutonomousPath;
 
@@ -43,7 +44,7 @@ public class SlowRightHalffield extends AutonomousPath {
 
         // Aim at goal
         // VisionAlignOrAngle
-        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(-15), 2.0));
+        output.addCommands(new VisionAlign(Rotation2d.fromDegrees(-15), 2.0));
 
         // Return the command
         return output;

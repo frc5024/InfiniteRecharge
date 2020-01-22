@@ -46,6 +46,9 @@ public class VisionAlign extends CommandBase {
     public VisionAlign(Rotation2d defaultRotation, double epsilon) {
         this.fallback = defaultRotation;
         this.epsilon = epsilon;
+
+        // Connect to limelight
+        m_limelight = Limelight2.getInstance();
     }
 
     @Override
