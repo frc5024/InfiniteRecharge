@@ -14,24 +14,15 @@ public class Path {
     // Amount of spacing between points during the "fill in" operation
     private static final double POINT_SPACING = Units.inchesToMeters(6.0);
 
-    // Path smoothness
-    private double m_smoothness;
-
     // Path points
     private ArrayList<Pose2d> m_points;
-
-    public Path(Pose2d... waypoints) {
-        this(DEFAULT_SMOOTHNESS, waypoints);
-    }
 
     /**
      * Create a motion path from points
      * 
-     * @param smoothness Path smoothness (Should be between 0 and 1)
-     * @param waypoints  Path waypoints to follow
+     * @param waypoints Path waypoints to follow
      */
-    public Path(double smoothness, Pose2d... waypoints) {
-        this.m_smoothness = smoothness;
+    public Path(Pose2d... waypoints) {
         this.m_points = new ArrayList<>();
 
         // Fill in extra points
@@ -62,5 +53,36 @@ public class Path {
 
         // Add the last point to the points list
         m_points.add(waypoints[i + 1]);
+    }
+
+    /**
+     * Smooth out a path with a smoothing factor
+     * 
+     * @return This object (for use in builder syntax)
+     */
+    public Path smooth() {
+        return smooth(DEFAULT_SMOOTHNESS);
+    }
+
+    /**
+     * Smooth out a path with a smoothing factor
+     * 
+     * @param smoothness Path smoothness (Should be between 0 and 1)
+     * @return This object (for use in builder syntax)
+     */
+    public Path smooth(double smoothness) {
+
+        // TODO: implement smoothing
+
+        return this;
+    }
+
+    /**
+     * Get array of poses
+     * 
+     * @return Poses
+     */
+    public Pose2d[] getPoses() {
+        return m_points.toArray(new Pose2d[m_points.size()]);
     }
 }
