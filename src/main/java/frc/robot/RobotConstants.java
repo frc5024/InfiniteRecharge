@@ -27,6 +27,11 @@ public class RobotConstants {
          */
         public static final double SCORE_LATE_DELAY = 5.0;
 
+        // Vision-based distance P Gain
+        public static final double VISION_DISTANCE_KP = -0.1;
+
+        public static final double AUTO_TARGET_DISTANCE_EPSILON = 5.0;
+
     }
 
     /**
@@ -146,6 +151,7 @@ public class RobotConstants {
         public static final double kITurnVel = 0.1;
         public static final double kDTurnVel = 0.0066; // 6
 
+        // Basic P control for encoder-only distance driving
         public static final double kRP = 0.05;
 
         // P = 0.027 I = 0.1 D = 0.006
@@ -155,7 +161,6 @@ public class RobotConstants {
         // DifferentialDriveKinematics allows for the use of the track length
         public static final double kTrackWidthMeters = 0.1524;
         public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
-                // DriveTrain.Measurements.DRIVEBASE_WIDTH);
                 kTrackWidthMeters);
 
         // Max Trajectory of Velocity and Acceleration

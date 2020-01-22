@@ -303,6 +303,34 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
     }
 
     /**
+     * Automatically get to an optimal scoring position based on a limelight target
+     * input
+     * 
+     * @param target Limelight target
+     * @return Is in an optimal scoring position?
+     */
+    public boolean autoTarget(LimelightTarget target) {
+
+        // We must be facing the target to get to it
+        if (!face(target, 3.0)) {
+            return false;
+        }
+
+        // Determine drive throttle from a super simple P calculation
+        double throttle = target.ty * RobotConstants.Autonomous.VISION_DISTANCE_KP;
+
+        // Clamp the throttle
+        throttle = Mathutils.clamp(throttle, -1.0, 1.0);
+
+        // Send motor command
+        setOpenLoop(new DriveSignal(throttle, throttle));
+
+        // Return if we are in range
+        return Mathutils.epsilonEquals(target.ty, 0.0, RobotConstants.Autonomous.AUTO_TARGET_DISTANCE_EPSILON);
+
+    }
+
+    /**
      * Set the Open loop control signal. The values of this signal should be in the
      * rage of [-1.0-1.0]
      * 
