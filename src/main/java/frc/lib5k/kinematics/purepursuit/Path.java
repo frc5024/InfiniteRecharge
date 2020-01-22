@@ -82,7 +82,7 @@ public class Path {
      * 
      * @return Poses
      */
-    public Pose2d[] getPoses() {
-        return m_points.toArray(new Pose2d[m_points.size()]);
+    public ArrayList<Pose2d> getPoses() {
+        return m_points;
     }
 }
