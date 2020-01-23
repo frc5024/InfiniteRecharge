@@ -200,8 +200,13 @@ public class PureFollower {
 
         /* Handle robot movement command */
 
+        double speed = 0.5;
+
+        double dist = distance / 2;
+        Translation2d nPose = new Translation2d((delta.getX() / dist) * speed, (delta.getY() / dist) * speed);
+
         // Determine rotational error
-        double rotation = Math.toDegrees(Math.atan2(delta.getY(), target.getX()));
+        double rotation = Math.toDegrees(Math.atan2(nPose.getY(), nPose.getX()));
 
         // Adjust by the robot's rotation
         rotation += robot.getRotation().getDegrees();
@@ -210,7 +215,7 @@ public class PureFollower {
         rotation *= m_RP;
 
         // Determine speed
-        double speed = m_controller.calculate(-distance, 0.0);
+        // double speed = m_controller.calculate(-(distance / 2), 0.0);
 
         // Convert Speed/Rotation to L/R
         double L = speed + rotation;
