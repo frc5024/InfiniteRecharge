@@ -7,6 +7,7 @@ import frc.robot.autonomous.AutonomousStartpoints;
 import frc.robot.autonomous.actions.DriveDistance;
 import frc.robot.autonomous.actions.LinePath;
 import frc.robot.autonomous.actions.TurnToCommand;
+import frc.robot.autonomous.actions.VisionAlign;
 import frc.robot.autonomous.helpers.SpeedConstraint;
 import frc.robot.autonomous.paths.AutonomousPath;
 
@@ -47,8 +48,8 @@ public class SlowRight extends AutonomousPath {
 
         output.addCommands(new DriveDistance(-4, 0.1, 0.65));
 
-        // Final alignment (should eventually be powered by the limelight)
-        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 2.0));
+        // Final alignment
+        output.addCommands(new VisionAlign(Rotation2d.fromDegrees(0), 2.0));
 
         // Return the command
         return output;
