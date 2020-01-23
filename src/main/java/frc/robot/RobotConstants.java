@@ -50,6 +50,7 @@ public class RobotConstants {
          * HID device id of the driver's Xbox controller
          */
         public static final int DRIVER_CONTROLLER_ID = 0;
+        public static final int OPERATOR_CONTROLLER_ID = 1;
 
     }
 
@@ -200,6 +201,16 @@ public class RobotConstants {
         public static final double kJ = 0.0;
         public static final double kF = 0.0;
         public static final double kLoadRatio = 0.1;
+    }
+
+    /**
+     * Constants regarding the Climber
+     */
+    public static class Climber {
+        /*Climber Talon*/
+        public static final int CLIMBER_TALON = 9; // PLACEHOLDER VALUE, THIS COULD ALSO END UP BEING A SERVO
+        public static final int HIGH_HALLEFFECT = 0; // PLACEHOLDER VALUE
+        public static final int LOW_HALLEFFECT = 1; // PLACEHOLDER VALUE   
     }
 
 }

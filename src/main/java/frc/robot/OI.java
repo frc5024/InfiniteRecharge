@@ -15,6 +15,7 @@ public class OI {
      * Robot driver Xbox controller interface object
      */
     private XboxController m_driverController = new XboxController(RobotConstants.HumanInputs.DRIVER_CONTROLLER_ID);
+    private XboxController m_operatorController = new XboxController(RobotConstants.HumanInputs.OPERATOR_CONTROLLER_ID);
 
     /* Toggles and modifiers */
 
@@ -90,4 +91,26 @@ public class OI {
         return m_shouldShootToggle.feed(m_driverController.getAButtonPressed());
     }
 
+    /**
+     * Ejects the climber for the high climb
+     */
+    public void highClimb() {
+
+    }
+
+    /**
+     * Ejects the climber for the low climb
+     */
+    public void lowClimb() {
+        
+    }
+
+    /**
+     * Retracts the climber motor
+     */
+    public double retractClimb() {
+        double speed = 0.0; 
+        speed -= m_operatorController.getTriggerAxis(GenericHID.Hand.kLeft);
+        return speed;
+    }
 }

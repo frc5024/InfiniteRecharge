@@ -1,6 +1,9 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.Servo;
+
+import frc.robot.RobotConstants;
 
 /**
  * Robot climber subsystem
@@ -8,8 +11,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Climber extends SubsystemBase {
     public static Climber s_instance = null;
 
-    private Climber() {
+    /**
+     * Servo motor on the robot
+     */
+    private Servo m_climbServo;
 
+    private Climber() {
+        m_climbServo = new Servo(RobotConstants.Climber.CLIMBER_TALON);
     }
 
     /**
