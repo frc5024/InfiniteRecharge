@@ -14,8 +14,7 @@ public class TestPathing extends AutonomousPath {
         SequentialCommandGroup output = new SequentialCommandGroup();
 
         // Create a test path
-        Path path = new Path(new Pose2d(), new Pose2d(1.0, 0.0, Rotation2d.fromDegrees(0)),
-                new Pose2d(2.0, 1.0, Rotation2d.fromDegrees(45)), new Pose2d(3.0, 0.0, Rotation2d.fromDegrees(0)));
+        Path path = new Path(new Pose2d(), new Pose2d(1.0, 1.0, Rotation2d.fromDegrees(0)));
         
         // Add the path command
         output.addCommands(new FollowPath(path, 1.0, 0.1));

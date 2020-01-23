@@ -154,6 +154,9 @@ public class RobotConstants {
         // Basic P control for encoder-only distance driving
         public static final double kRP = 0.05;
 
+        // PurePursuit Rotational P gain
+        public static final double K_PURE_RP = 0.009;
+
         // P = 0.027 I = 0.1 D = 0.006
 
         // Closest: 3.34m

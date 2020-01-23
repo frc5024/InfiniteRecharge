@@ -23,7 +23,7 @@ public class FollowPath extends CommandBase {
         // Create a follower
         m_follower = new PureFollower(path, new PIDController(RobotConstants.ControlGains.kPDriveVel,
                 RobotConstants.ControlGains.kIDriveVel, RobotConstants.ControlGains.kDDriveVel),
-                RobotConstants.ControlGains.kRP, lookahead);
+                RobotConstants.ControlGains.K_PURE_RP, lookahead);
     }
 
     @Override

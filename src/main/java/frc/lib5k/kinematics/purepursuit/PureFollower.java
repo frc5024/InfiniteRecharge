@@ -213,8 +213,8 @@ public class PureFollower {
         double speed = m_controller.calculate(-distance, 0.0);
 
         // Convert Speed/Rotation to L/R
-        double L = speed + Math.abs(speed) * rotation;
-        double R = speed - Math.abs(speed) * rotation;
+        double L = speed + rotation;
+        double R = speed - rotation;
 
         System.out.println(L + " " + R);
 
