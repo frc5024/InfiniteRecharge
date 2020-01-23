@@ -34,7 +34,7 @@ public class Chooser {
     public Chooser() {
 
         // Paths
-        m_pathChooser.setDefaultOption("Score Right Test", new ScoreRight());
+        m_pathChooser.setDefaultOption("Score Right", new ScoreRight());
         m_pathChooser.addOption("Backwards test", new TestReverse());
         m_pathChooser.addOption("Right side slow (half-field shot)", new SlowRightHalffield());
         m_pathChooser.addOption("Right side slow", new SlowRight());

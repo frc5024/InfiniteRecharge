@@ -6,9 +6,11 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.autonomous.AutonomousStartpoints;
 import frc.robot.autonomous.actions.LinePath;
 import frc.robot.autonomous.actions.TurnToCommand;
+import frc.robot.autonomous.actions.VisionAlign;
 import frc.robot.autonomous.helpers.SpeedConstraint;
 import frc.robot.autonomous.paths.AutonomousPath;
 import frc.robot.autonomous.actions.DriveDistance;
+import frc.robot.autonomous.actions.DriveToCommand;
 
 /**
  * Slow path starting on the right of the line
@@ -17,7 +19,7 @@ public class ScoreRight extends AutonomousPath {
 
     @Override
     public Pose2d getStartingPose() {
-        return new Pose2d(AutonomousStartpoints.SECTOR_LINE_GOAL, Rotation2d.fromDegrees(0));
+        return new Pose2d(AutonomousStartpoints.SECTOR_LINE_GOAL, Rotation2d.fromDegrees(180));
     }
 
 
@@ -33,32 +35,38 @@ public class ScoreRight extends AutonomousPath {
         
 
         // Ensure robot is facing the correct angle at the start
-        output.addCommands(new TurnToCommand(0));
+        output.addCommands(new TurnToCommand((180), 2));
 
-        // Drives backwards 2.5 meters
-        output.addCommands(new DriveDistance(-2.4, .01, 1));
+
+        // aligns to target
+        output.addCommands(new VisionAlign(Rotation2d.fromDegrees(180), 2.0));
 
         // This is where the ball shooting would happen
         
         // Rotates to face the trench
-        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(-8), 2));
+        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(-45), 2));
 
-        // Drives Forward
-        output.addCommands(new LinePath(new Pose2d(startx - 2.4, starty, Rotation2d.fromDegrees(-8)),
-                new Pose2d(startx + 1, starty - 2, Rotation2d.fromDegrees(-8)), false));
+        // Drives towards trench
+        // output.addCommands(new LinePath(new Pose2d(startx, starty, Rotation2d.fromDegrees(-45)),
+        //         new Pose2d(startx + 1.4, starty - 1.4, Rotation2d.fromDegrees(-45)), false));
 
+        output.addCommands(new DriveToCommand(new Pose2d(startx + 1.4, starty - 1.4, Rotation2d.fromDegrees(-45)),
+                 new SpeedConstraint(.5, 1), false));
 
         // Rotates to face balls
-        // output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 5));
+        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 2));
 
-        output.addCommands(new LinePath(new Pose2d(startx + 1, starty - 2, Rotation2d.fromDegrees(0)),
-        new Pose2d(startx + 2, starty - 2, Rotation2d.fromDegrees(0)), new SpeedConstraint(.5, .5), false));
-        // Drives into the ball
-        // output.addCommands(new LinePath(new Pose2d(startx + 1, starty - 2, Rotation2d.fromDegrees(0)),
-        //                 new Pose2d(startx + 3, starty - 2, Rotation2d.fromDegrees(0)),
-        //                 false));
+        // Drives over balls
+        // output.addCommands(new LinePath(new Pose2d(startx + 1.4, starty - 1.4, Rotation2d.fromDegrees(0)),
+        //          new Pose2d(startx + 3, starty - 1.4, Rotation2d.fromDegrees(0)), 
+        //          new SpeedConstraint(.5, .5) ,false));
+        output.addCommands(new DriveToCommand(new Pose2d(startx + 3, starty - 1.6, Rotation2d.fromDegrees(0)),
+                new SpeedConstraint(0.3, 0.6), false));
 
-        // Return the command
+
+
+        
+        
         return output;
     }
 
