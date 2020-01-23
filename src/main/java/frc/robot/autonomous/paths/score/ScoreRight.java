@@ -49,8 +49,10 @@ public class ScoreRight extends AutonomousPath {
 
 
         // Rotates to face balls
-        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 1));
+        // output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 5));
 
+        output.addCommands(new LinePath(new Pose2d(startx + 1, starty - 2, Rotation2d.fromDegrees(0)),
+        new Pose2d(startx + 2, starty - 2, Rotation2d.fromDegrees(0)), new SpeedConstraint(.5, .5), false));
         // Drives into the ball
         // output.addCommands(new LinePath(new Pose2d(startx + 1, starty - 2, Rotation2d.fromDegrees(0)),
         //                 new Pose2d(startx + 3, starty - 2, Rotation2d.fromDegrees(0)),
