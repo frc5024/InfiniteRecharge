@@ -64,12 +64,12 @@ public class PanelManipulator extends SubsystemBase {
     @Override
     public void periodic() {
 
-        double prox = m_colorSensor.getProx();
+        double prox = m_colorSensor.getProximity();
         SmartDashboard.putNumber("Proximity:", prox);
 
         if(prox > 160) {
             isCorrectColor = isSensedColorCorrect();
-            outputTelemetry();
+            updateTelemetry();
         } else {
             isCorrectColor = false;
         }
@@ -106,7 +106,7 @@ public class PanelManipulator extends SubsystemBase {
 
     }
 
-    public void outputTelemetry() {
+    public void updateTelemetry() {
 
 
         Color detectedColor = m_colorSensor.getColor();
@@ -169,6 +169,7 @@ public class PanelManipulator extends SubsystemBase {
         POSITION,
         STOP,
         ERROR
+    }
 
 
     public double spinWheelTurns(int turns) {
