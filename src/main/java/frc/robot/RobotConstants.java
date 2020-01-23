@@ -155,7 +155,7 @@ public class RobotConstants {
         public static final double kRP = 0.05;
 
         // PurePursuit Rotational P gain
-        public static final double K_PURE_RP = 0.005;
+        public static final double K_PURE_RP = 0.003;
 
         // P = 0.027 I = 0.1 D = 0.006
 

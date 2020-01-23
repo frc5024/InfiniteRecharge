@@ -3,6 +3,7 @@ package frc.lib5k.kinematics.purepursuit;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
+import frc.lib5k.components.drive.DifferentialDriveCalculation;
 import frc.lib5k.kinematics.DriveSignal;
 
 /**
@@ -223,8 +224,11 @@ public class PureFollower {
 
         System.out.println(L + " " + R);
 
+        // Construct the signal
+        DriveSignal signal = new DriveSignal(L, R);
+
         // Return a DriveSignal with new movement data
-        return new DriveSignal(L, R);
+        return DifferentialDriveCalculation.normalize(signal);
 
     }
 }
