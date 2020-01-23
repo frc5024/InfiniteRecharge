@@ -44,7 +44,8 @@ public class SlowRightHalffield extends AutonomousPath {
 
         // Aim at goal
         // VisionAlignOrAngle
-        output.addCommands(new VisionAlign(Rotation2d.fromDegrees(-15), 2.0));
+        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(50), 20));
+        output.addCommands(new VisionAlign(Rotation2d.fromDegrees(165), 2.0));
 
         // Return the command
         return output;
