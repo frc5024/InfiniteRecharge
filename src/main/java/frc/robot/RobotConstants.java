@@ -147,7 +147,7 @@ public class RobotConstants {
         public static final double kDDriveVel = 0.008;
 
         // Optimal Control Gain for turning
-        public static final double kPTurnVel = 0.0268;
+        public static final double kPTurnVel = 0.0125;
         public static final double kITurnVel = 0.1;
         public static final double kDTurnVel = 0.0066; // 6
 

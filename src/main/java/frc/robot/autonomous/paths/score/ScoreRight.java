@@ -3,6 +3,7 @@ package frc.robot.autonomous.paths.score;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.autonomous.AutonomousStartpoints;
 import frc.robot.autonomous.actions.LinePath;
 import frc.robot.autonomous.actions.TurnToCommand;
@@ -19,7 +20,7 @@ public class ScoreRight extends AutonomousPath {
 
     @Override
     public Pose2d getStartingPose() {
-        return new Pose2d(AutonomousStartpoints.SECTOR_LINE_GOAL, Rotation2d.fromDegrees(180));
+        return new Pose2d(AutonomousStartpoints.SECTOR_LINE_GOAL, Rotation2d.fromDegrees(-180));
     }
 
 
@@ -35,14 +36,12 @@ public class ScoreRight extends AutonomousPath {
         
 
         // Ensure robot is facing the correct angle at the start
-        output.addCommands(new TurnToCommand((180), 2));
+        output.addCommands(new TurnToCommand((-180), 2));
 
-
-        // aligns to target
-        output.addCommands(new VisionAlign(Rotation2d.fromDegrees(180), 2.0));
 
         // This is where the ball shooting would happen
-        
+        output.addCommands(new WaitCommand(3));
+
         // Rotates to face the trench
         output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(-45), 2));
 
@@ -60,7 +59,7 @@ public class ScoreRight extends AutonomousPath {
         // output.addCommands(new LinePath(new Pose2d(startx + 1.4, starty - 1.4, Rotation2d.fromDegrees(0)),
         //          new Pose2d(startx + 3, starty - 1.4, Rotation2d.fromDegrees(0)), 
         //          new SpeedConstraint(.5, .5) ,false));
-        output.addCommands(new DriveToCommand(new Pose2d(startx + 3, starty - 1.6, Rotation2d.fromDegrees(0)),
+        output.addCommands(new DriveToCommand(new Pose2d(startx + 4, starty - 1.8, Rotation2d.fromDegrees(0)),
                 new SpeedConstraint(0.3, 0.6), false));
 
 
