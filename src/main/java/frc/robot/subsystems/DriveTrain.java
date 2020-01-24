@@ -283,7 +283,7 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
 
         // Clamp turn force
         force = Mathutils.clamp(force, -1.0, 1.0);
-
+        force *= 0.9;
         // Set motor command
         setOpenLoop(new DriveSignal(force, -force));
 
