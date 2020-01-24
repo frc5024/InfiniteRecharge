@@ -237,17 +237,6 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
     }
 
     /**
-     * Turn the drivebase to face an angle
-     * 
-     * @param degrees Desired angle
-     * @param eps     Acceptable error
-     * @return Is facing angle?
-     */
-    public boolean face(double degrees, double eps) {
-        return face(Rotation2d.fromDegrees(degrees), eps);
-    }
-
-    /**
      * Turn the drivebase to face a Limelihgt target
      * 
      * @param target Target to face
@@ -255,7 +244,15 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
      * @return Is facing angle?
      */
     public boolean face(LimelightTarget target, double eps) {
-        return face(target.getRotation(), eps);
+
+        double targetAngle = Mathutils.wpiAngleTo5k(target.getRotation().getDegrees());
+        // double drivebaseAngle =
+        // Mathutils.wpiAngleTo5k(getPosition().getRotation().getDegrees());
+
+        // Add them
+        // targetAngle += drivebaseAngle;
+        System.out.println(Mathutils.getWrappedError(0.0, targetAngle));
+        return face(Mathutils.getWrappedError(0.0, targetAngle), eps);
     }
 
     /**
@@ -267,16 +264,20 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
      */
     public boolean face(Rotation2d rot, double eps) {
 
-        // Set PID controller epsilon
-        m_turnController.setTolerance(eps);
-        m_turnController.setSetpoint(0);
-
         // Convert the WPILib angles to Lib5K-compatible angles
         double setpointAngle = Mathutils.wpiAngleTo5k(rot.getDegrees());
         double drivebaseAngle = Mathutils.wpiAngleTo5k(getPosition().getRotation().getDegrees());
 
         // Find error between angles
         double error = Mathutils.getWrappedError(drivebaseAngle, setpointAngle);
+
+        return face(error, eps);
+    }
+
+    public boolean face(double error, double eps) {
+        // Set PID controller epsilon
+        m_turnController.setTolerance(eps);
+        m_turnController.setSetpoint(0);
 
         // Calculate turn force
         double force = m_turnController.calculate(error, 0.0);
@@ -312,7 +313,7 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
     public boolean autoTarget(LimelightTarget target) {
 
         // We must be facing the target to get to it
-        if (!face(target, 3.0)) {
+        if (!face(target, 4.0)) {
             return false;
         }
 

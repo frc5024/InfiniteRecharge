@@ -47,7 +47,8 @@ public class Limelight2 {
 
         /* Add NT listeners */
         m_table.addEntryListener("tv", (table, key, entry, value, flags) -> {
-            m_hasTarget = value.getBoolean();
+            m_hasTarget = (value.getDouble() == 0.0) ? false : true;
+            
         }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
         m_table.addEntryListener("tx", (table, key, entry, value, flags) -> {

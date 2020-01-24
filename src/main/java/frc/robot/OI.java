@@ -90,4 +90,8 @@ public class OI {
         return m_shouldShootToggle.feed(m_driverController.getAButtonPressed());
     }
 
+    public boolean shouldAutoAim(){
+        return m_driverController.getYButton();
+    }
+
 }
