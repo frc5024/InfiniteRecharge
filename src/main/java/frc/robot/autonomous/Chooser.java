@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.lib5k.utils.RobotLogger;
 import frc.robot.autonomous.actions.LogCommand;
 import frc.robot.autonomous.paths.AutonomousPath;
+import frc.robot.autonomous.paths.score.ScoreCenter;
 import frc.robot.autonomous.paths.score.ScoreRight;
 import frc.robot.autonomous.paths.slow.SlowRight;
 import frc.robot.autonomous.paths.slow.SlowRightHalffield;
@@ -35,11 +36,12 @@ public class Chooser {
     public Chooser() {
 
         // Paths
-        m_pathChooser.setDefaultOption("Score Right", new ScoreRight());
+        m_pathChooser.setDefaultOption("Center Score", new ScoreCenter());
         m_pathChooser.addOption("Backwards test", new TestReverse());
         m_pathChooser.addOption("Test PID", new TestPID());
         m_pathChooser.addOption("Right side slow (half-field shot)", new SlowRightHalffield());
         m_pathChooser.addOption("Right side slow", new SlowRight());
+        m_pathChooser.addOption("Score Right", new ScoreRight());
 
         // Scoring
         m_shouldScore.setDefaultOption("Score balls", true);

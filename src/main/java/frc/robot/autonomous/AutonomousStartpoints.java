@@ -37,6 +37,12 @@ public class AutonomousStartpoints {
                 - Units.inchesToMeters(8),
                 -1.5 - Units.inchesToMeters(8) 
         );
+
+        public static final Translation2d SECTOR_LINE_CENTER = new Translation2d(
+                Units.inchesToMeters(120) - (RobotConstants.DriveTrain.Measurements.DRIVEBASE_LENGTH / 2)
+                - Units.inchesToMeters(8),
+                0 
+        ); 
         // Units.inchesToMeters(120) - (RobotConstants.DriveTrain.Measurements.DRIVEBASE_LENGTH / 2)
         // - Units.inchesToMeters(8),
         // ((FieldConstants.FIELD_WIDTH / 2) - RobotConstants.DriveTrain.Measurements.DRIVEBASE_WIDTH / 2
