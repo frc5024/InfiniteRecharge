@@ -50,8 +50,8 @@ public class Climber extends SubsystemBase {
     /**
      * Ejects the climber 
      */
-    public void ejectClimber() {
-        m_climbServo.set(5); //TEST VALUE, THE LOWER THE NUMBER, THE HIGHER THE HEIGHT OF THE CLIMBER 
+    public void ejectClimber(double speed) {
+        m_climbServo.set(speed); //TEST VALUE, THE LOWER THE NUMBER, THE HIGHER THE HEIGHT OF THE CLIMBER 
     }
 
     /**

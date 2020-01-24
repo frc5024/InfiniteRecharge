@@ -91,18 +91,15 @@ public class OI {
         return m_shouldShootToggle.feed(m_driverController.getAButtonPressed());
     }
 
-    public void ejectClimber() {
+    public double ejectClimber() {
         if (m_operatorController.getStartButtonPressed()) {
-            
+            return 5; //The lower the value, the higher the climber will shoot
         }
+        else return 10; //This shouldn't happen
     }
 
-    /**
-     * Retracts the climber once it has fully ejected
-     * @param speed The speed of the servo
-     * @return The speed of the servo
-     */
-    public double retractClimber(double speed) {
+    public double retractClimber() {
+        double speed = 0.0;
         speed -= m_operatorController.getTriggerAxis(GenericHID.Hand.kLeft);
         return speed;
     }

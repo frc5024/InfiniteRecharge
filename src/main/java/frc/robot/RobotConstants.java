@@ -207,8 +207,7 @@ public class RobotConstants {
      * Constants regarding the Climber
      */
     public static class Climber {
-        /*Climber Talon*/
-        public static final int CLIMBER_SERVO = 9; // PLACEHOLDER VALUE, THIS COULD ALSO END UP BEING A SERVO
+        public static final int CLIMBER_TALON = 9; // PLACEHOLDER VALUE
         public static final int HIGH_HALLEFFECT = 0; // PLACEHOLDER VALUE
         public static final int LOW_HALLEFFECT = 1; // PLACEHOLDER VALUE   
     }

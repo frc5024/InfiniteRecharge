@@ -26,6 +26,8 @@ public class ClimbSystem extends CommandBase {
 
     @Override
     public void execute() {
+        Climber.getInstance().ejectClimber(m_oi.ejectClimber());
+        Climber.getInstance().retractClimber(m_oi.retractClimber());       
     }
 
     @Override
