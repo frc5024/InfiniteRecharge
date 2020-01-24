@@ -1,5 +1,6 @@
 package frc.robot.subsystems.cellmech;
 
+import com.ctre.phoenix.Logger;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -8,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib5k.control.JRADController;
 import frc.lib5k.simulation.wrappers.SimTalon;
 import frc.lib5k.utils.Mathutils;
+import frc.lib5k.utils.RobotLogger;
 import frc.robot.RobotConstants;
 
 /**
@@ -15,6 +17,12 @@ import frc.robot.RobotConstants;
  */
 public class Shooter extends SubsystemBase {
     public static Shooter s_instance = null;
+
+    //Wind-up time
+    private long windUpStartTime, windUpEndTime, windUpTotalTime;
+
+    //Logger
+    RobotLogger logger = RobotLogger.getInstance();
 
     /**
      * Shooter motor controller
@@ -162,6 +170,9 @@ public class Shooter extends SubsystemBase {
 
         if (newState) {
 
+            // Reset wind-up
+            windUpStartTime = System.currentTimeMillis();
+
             // Disable motor brakes
             m_motorController.setNeutralMode(NeutralMode.Coast);
 
@@ -225,10 +236,11 @@ public class Shooter extends SubsystemBase {
     private void handleHold(boolean newState) {
 
         if (newState) {
-
+            windUpEndTime = System.currentTimeMillis();
+            windUpTotalTime = windUpEndTime-windUpStartTime;
             // Set the JRAD setpoint
             // m_holdController.setSetpoint(this.output);
-            System.out.println("HOLDING!!!!!!!!!!!!!!!!!!!!!!!!");
+            logger.log("[Shooter] Holding. Spin-Up took " + (windUpTotalTime/1000.0) + " seconds.");
 
             m_motorController.enableVoltageCompensation(false);
         }

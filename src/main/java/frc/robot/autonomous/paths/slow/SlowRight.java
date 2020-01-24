@@ -4,8 +4,10 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.autonomous.AutonomousStartpoints;
+import frc.robot.autonomous.actions.DriveDistance;
 import frc.robot.autonomous.actions.LinePath;
 import frc.robot.autonomous.actions.TurnToCommand;
+import frc.robot.autonomous.actions.VisionAlign;
 import frc.robot.autonomous.helpers.SpeedConstraint;
 import frc.robot.autonomous.paths.AutonomousPath;
 
@@ -14,9 +16,10 @@ import frc.robot.autonomous.paths.AutonomousPath;
  */
 public class SlowRight extends AutonomousPath {
 
+   
     @Override
     public Pose2d getStartingPose() {
-        return AutonomousStartpoints.SECTOR_LINE_RIGHT;
+        return new Pose2d(AutonomousStartpoints.SECTOR_LINE_RIGHT, Rotation2d.fromDegrees(0));
     }
 
     @Override
@@ -33,26 +36,21 @@ public class SlowRight extends AutonomousPath {
         output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 2.0));
 
         // Get to the front of the balls
-        output.addCommands(new LinePath(getStartingPose(),
-                new Pose2d(startx + 3.6, starty + 0.2, Rotation2d.fromDegrees(0)), new SpeedConstraint(1, 1), false));
+        output.addCommands(new LinePath(getStartingPose(), new Pose2d(startx + 1.9, starty, Rotation2d.fromDegrees(0)),
+                new SpeedConstraint(1, 1), false));
+
+        // Slowly drive through the balls while intaking
+        output.addCommands(new LinePath(new Pose2d(startx + 2.1, starty, Rotation2d.fromDegrees(0)),
+                new Pose2d(startx + 3.1, starty + 0.0, Rotation2d.fromDegrees(0)), new SpeedConstraint(0.3, 0.9),
+                false));
 
         // Turn to face the goal
-        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(30), 2.0));
-        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(165), 2.0));
+        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(-15), 2.0));
 
-        // Get part way to the goal
-        output.addCommands(new LinePath(new Pose2d(startx + 3.6, starty + 0.2, Rotation2d.fromDegrees(165)),
-                new Pose2d(startx + 1.5, starty + 1.1, Rotation2d.fromDegrees(180)), new SpeedConstraint(1, 1), false));
+        output.addCommands(new DriveDistance(-4, 0.1, 0.65));
 
-        // Re-align
-        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(180), 2.0));
-
-        // Get the rest of the way to the goal
-        output.addCommands(new LinePath(new Pose2d(startx + 1.3, starty + 1.1, Rotation2d.fromDegrees(180)),
-                new Pose2d(startx - 1.3, starty + 0.8, Rotation2d.fromDegrees(180)), new SpeedConstraint(1, 1), false));
-
-        // Final alignment (should eventually be powered by the limelight)
-        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(180), 2.0));
+        // Final alignment
+        output.addCommands(new VisionAlign(Rotation2d.fromDegrees(0), 2.0));
 
         // Return the command
         return output;
