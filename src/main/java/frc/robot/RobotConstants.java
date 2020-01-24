@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.util.Units;
 import frc.lib5k.roborio.RR_HAL;
@@ -147,9 +148,9 @@ public class RobotConstants {
         public static final double kDDriveVel = 0.008;
 
         // Optimal Control Gain for turning
-        public static final double kPTurnVel = 0.0125;
-        public static final double kITurnVel = 0.1;
-        public static final double kDTurnVel = 0.0066; // 6
+        public static final double kPTurnVel = 0.027; // 0.0275
+        public static final double kITurnVel = 0.01; // 0.01
+        public static final double kDTurnVel = 0.0066; // 0.0066
 
         // Basic P control for encoder-only distance driving
         public static final double kRP = 0.05;
@@ -157,6 +158,11 @@ public class RobotConstants {
         // P = 0.027 I = 0.1 D = 0.006
 
         // Closest: 3.34m
+
+        // PID Controller
+        public static PIDController turningPIDController = new PIDController(kPTurnVel, kITurnVel, kDTurnVel);
+
+        public static PIDController drivePidController = new PIDController(kPTurnVel, kITurnVel, kDTurnVel);
 
         // DifferentialDriveKinematics allows for the use of the track length
         public static final double kTrackWidthMeters = 0.1524;
