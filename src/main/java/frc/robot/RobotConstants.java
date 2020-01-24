@@ -190,25 +190,20 @@ public class RobotConstants {
      */
     public static class Intake {
 
-        /**
-         * Motor controller IDs
-         */
-        public static class MotorControllers {
+        // Motor controller IDs
+        public static final int INTAKE_ACTUATOR_TALON = 5;
+        public static final int INTAKE_ROLLER_TALON = 6;
 
-            public static final int INTAKE_ACTUATOR_TALON = 5;
-            public static final int INTAKE_ROLLER_TALON = 6;
+        // Sensors DIO ports
+        public static final int INTAKE_HALL_BOTTOM = 0;
+        public static final int INTAKE_HALL_TOP = 1;
 
-        }
+        // PID values
+        public static final double kPArm = 0.011111111111;
+        public static final double kIArm = 0.0;
+        public static final double kDArm = 0.0;
 
-        /**
-         * Sensors DIO ports
-         */
-        public static class Sensors {
-
-            public static final int INTAKE_HALL_BOTTOM = 0;
-            public static final int INTAKE_HALL_TOP = 1;
-        }
-
+        public static final double ARM_TICKS_PER_DEGREE = 1000;
     }
 
     /**

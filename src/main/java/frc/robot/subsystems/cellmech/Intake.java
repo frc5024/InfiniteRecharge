@@ -3,8 +3,11 @@ package frc.robot.subsystems.cellmech;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib5k.components.motors.TalonHelper;
+import frc.lib5k.components.motors.motorsensors.TalonEncoder;
+import frc.lib5k.components.sensors.EncoderBase;
 import frc.robot.RobotConstants;
 
 /**
@@ -17,6 +20,16 @@ public class Intake extends SubsystemBase {
      * Motor that moves intake up and down
      */
     private WPI_TalonSRX m_intakeActuator;
+
+    /**
+     * Encoder for arm actuation movement
+     */
+    private EncoderBase m_intakeActuatorEncoder;
+
+    /**
+     * PID controller for intake arm
+     */
+    private PIDController m_armPIDController;
 
     /**
      * Motor that drives the roller
@@ -53,16 +66,20 @@ public class Intake extends SubsystemBase {
     private Intake() {
 
         // Construct motor controllers
-        m_intakeActuator = new WPI_TalonSRX(RobotConstants.Intake.MotorControllers.INTAKE_ACTUATOR_TALON);
-        m_intakeRoller = new WPI_TalonSRX(RobotConstants.Intake.MotorControllers.INTAKE_ROLLER_TALON);
+        m_intakeActuator = new WPI_TalonSRX(RobotConstants.Intake.INTAKE_ACTUATOR_TALON);
+        m_intakeRoller = new WPI_TalonSRX(RobotConstants.Intake.INTAKE_ROLLER_TALON);
 
         // Set voltage limiting
         TalonHelper.configCurrentLimit(m_intakeActuator, 34, 32, 30, 0);
         TalonHelper.configCurrentLimit(m_intakeRoller, 34, 32, 30, 0);
 
         // Construct sensors
-        m_bottomHall = new DigitalInput(RobotConstants.Intake.Sensors.INTAKE_HALL_BOTTOM);
-        m_topHall = new DigitalInput(RobotConstants.Intake.Sensors.INTAKE_HALL_TOP);
+        m_bottomHall = new DigitalInput(RobotConstants.Intake.INTAKE_HALL_BOTTOM);
+        m_topHall = new DigitalInput(RobotConstants.Intake.INTAKE_HALL_TOP);
+        m_intakeActuatorEncoder = new TalonEncoder(m_intakeActuator);
+
+        // Construct PID controller
+        m_armPIDController = new PIDController(RobotConstants.Intake.kPArm, RobotConstants.Intake.kIArm, RobotConstants.Intake.kDArm);
     }
 
     /**
@@ -77,6 +94,15 @@ public class Intake extends SubsystemBase {
 
         return s_instance;
 
+    }
+
+    /**
+     * Set the state of the intake
+     * 
+     * @param state desired state of the intake
+     */
+    public void setState(SystemState state) {
+        m_systemState = state;
     }
 
     @Override
@@ -108,6 +134,10 @@ public class Intake extends SubsystemBase {
             default:
                 m_systemState = SystemState.IDLE;
         }
+
+        if(m_topHall.get()) {
+            m_intakeActuatorEncoder.zero();
+        }  
     }
 
     /**
@@ -122,7 +152,7 @@ public class Intake extends SubsystemBase {
             setArmSpeed(0.0);
 
             // Stop roller
-            m_intakeRoller.set(0.0);
+            setRollerSpeed(0.0);
 
         }
     }
@@ -135,13 +165,12 @@ public class Intake extends SubsystemBase {
     private void handleLower(boolean newState) {
         if (newState) {
 
-            // Set arm to move down
-            setArmSpeed(0.5);
-
             // Stop roller
-            m_intakeRoller.set(0.0);
+            setRollerSpeed(0.0);
 
         }
+
+        moveArmTo(90);
     }
 
     /**
@@ -152,13 +181,14 @@ public class Intake extends SubsystemBase {
     private void handleIntake(boolean newState) {
         if (newState) {
 
-            // Set arm to move down
-            setArmSpeed(0.5);
-
             // Set roller to take in cells
-            m_intakeRoller.set(0.8);
+            setRollerSpeed(0.8);
+
+            m_armPIDController.reset();
 
         }
+
+        moveArmTo(90);
     }
 
     /**
@@ -173,7 +203,7 @@ public class Intake extends SubsystemBase {
             setArmSpeed(0.5);
 
             // Set roller to take in cells
-            m_intakeRoller.set(-0.8);
+            setRollerSpeed(-0.8);
 
         }
     }
@@ -186,13 +216,27 @@ public class Intake extends SubsystemBase {
     private void handleRaising(boolean newState) {
         if (newState) {
 
-            // Set arm to move up
-            setArmSpeed(-0.5);
+            setRollerSpeed(0.0);
 
-            // Stop roller
-            m_intakeRoller.set(0.0);
+            m_armPIDController.reset();
 
         }
+
+        // Set arm to move up
+        moveArmTo(0);
+         
+    }
+
+    /**
+     * Use PID to move arm
+     * 
+     * @param angle either 0 or 90
+     */
+    public void moveArmTo(double desiredAngle) {
+        // calculate theoretical current angle
+        double currentAngle = ((double)m_intakeActuatorEncoder.getTicks()) / RobotConstants.Intake.ARM_TICKS_PER_DEGREE;
+        // set motor output to PID output
+        setArmSpeed(m_armPIDController.calculate(currentAngle, desiredAngle));
     }
 
     /**
@@ -200,14 +244,14 @@ public class Intake extends SubsystemBase {
      * 
      * @param speed desired speed of the arm -1.0 to 1.0
      */
-    private void setArmSpeed(double speed) {
+    public void setArmSpeed(double speed) {
 
         // if moving down, only move if bottom hall not active
-        if (speed > 0.0) {
-            if (m_bottomHall.get()) {
-                speed = 0.0;
-            }
-        }
+        // if (speed > 0.0) {
+        //     if (m_bottomHall.get()) {
+        //         speed = 0.0;
+        //     }
+        // }
 
         // if moving up, only move if top hall not active
         if (speed < 0.0) {
@@ -220,4 +264,12 @@ public class Intake extends SubsystemBase {
 
     }
 
+    /**
+     * Sets the speed of the roller wheel
+     * 
+     * @param speed desired speed of the roller -1.0 to 1.0
+     */
+    public void setRollerSpeed(double speed) {
+        m_intakeRoller.set(speed);
+    }
 }

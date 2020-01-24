@@ -96,6 +96,15 @@ public class Hopper extends SubsystemBase {
 
     }
 
+    /**
+     * Set the state of the hopper
+     * 
+     * @param state desired state of the hopper
+     */
+    public void setState(SystemState state) {
+        m_systemState = state;
+    }
+
     @Override
     public void periodic() {
 
@@ -179,7 +188,7 @@ public class Hopper extends SubsystemBase {
         if (newState) {
 
             // Stop belt
-            m_hopperBelt.set(0.0);
+            setBeltSpeed(0.0);
 
         }
     }
@@ -193,7 +202,7 @@ public class Hopper extends SubsystemBase {
         if (newState) {
 
             // Stop belt
-            m_hopperBelt.set(0.0);
+            setBeltSpeed(0.0);
 
         }
 
@@ -221,7 +230,7 @@ public class Hopper extends SubsystemBase {
             m_ticksAtStartOfIntake = m_hopperEncoder.getTicks();
 
             // Start belt
-            m_hopperBelt.set(0.5);
+            setBeltSpeed(0.5);
 
         }
         // if belt has gone 8 inches, set state to ready to intake
@@ -239,7 +248,7 @@ public class Hopper extends SubsystemBase {
         if (newState) {
 
             // Reverse belt
-            m_hopperBelt.set(-0.8);
+            setBeltSpeed(-0.8);
 
         }
     }
@@ -254,7 +263,7 @@ public class Hopper extends SubsystemBase {
         if (newState) {
 
             // Start belt
-            m_hopperBelt.set(0.5);
+            setBeltSpeed(0.5);
 
         }
 
@@ -272,7 +281,7 @@ public class Hopper extends SubsystemBase {
         if (newState) {
 
             // Start belt
-            m_hopperBelt.set(-0.5);
+            setBeltSpeed(-0.5);
 
         }
 
@@ -291,7 +300,7 @@ public class Hopper extends SubsystemBase {
         if (newState) {
 
             // Start belt
-            m_hopperBelt.set(RobotConstants.Hopper.SHOOTER_FEED_SPEED);
+            setBeltSpeed(RobotConstants.Hopper.SHOOTER_FEED_SPEED);
 
         }
 
@@ -300,6 +309,18 @@ public class Hopper extends SubsystemBase {
         }
     }
 
+     /**
+     * Sets the speed of the hopper belt
+     * 
+     * @param speed desired speed of the belt -1.0 to 1.0
+     */
+    public void setBeltSpeed(double speed) {
+        m_hopperBelt.set(speed);
+    }
+
+    /**
+     * @return current amount of cells in the hopper
+     */
     public double getCellCount() {
         return m_cellCount;
     }
