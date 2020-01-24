@@ -200,6 +200,9 @@ public class Shooter extends SubsystemBase {
         // Set the motor output
         m_motorController.setVoltage(motorOutput);
 
+        // TODO: Remove this
+        this.m_systemState = SystemState.HOLD;
+
         // Switch to HOLD state if spinup complete
         if (Mathutils.epsilonEquals(voltage, this.output, RobotConstants.Shooter.VOLTAGE_EPSILON)) {
 
