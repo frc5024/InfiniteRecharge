@@ -16,7 +16,7 @@ public class Climber extends SubsystemBase {
      * Servo motor on the robot
      */
     private Servo m_climbServo;
-
+     
     /**
      * Hall effect sensors on the climbers
      */
@@ -26,7 +26,7 @@ public class Climber extends SubsystemBase {
     private Climber() {
     
         /*Climb Servo */
-        m_climbServo = new Servo(RobotConstants.Climber.CLIMBER_TALON);
+        m_climbServo = new Servo(RobotConstants.Climber.CLIMBER_SERVO);
     
         /*Low and High Halleffect sensors */
         m_lowHalleffect = new DigitalInput(RobotConstants.Climber.LOW_HALLEFFECT);
@@ -47,21 +47,17 @@ public class Climber extends SubsystemBase {
 
     }
 
-    public void lowClimb() {
-        /**
-         * If the lower hall effect sensor gets triggered
-         */
-        if (m_lowHalleffect.get()) {
-
-        }
+    /**
+     * Ejects the climber 
+     */
+    public void ejectClimber() {
+        m_climbServo.set(5); //TEST VALUE, THE LOWER THE NUMBER, THE HIGHER THE HEIGHT OF THE CLIMBER 
     }
 
-    public void highClimb() {
-        /**
-         * If the higher hall effect sensor gets triggered
-         */
-        if (m_highHalleffect.get()) {
-            
-        }
+    /**
+     * Retracts the climber
+     */
+    public double retractClimber(double speed) {
+        return speed;
     }
 }
