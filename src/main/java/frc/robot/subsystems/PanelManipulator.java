@@ -1,6 +1,6 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import frc.lib5k.simulation.wrappers.SimTalon;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 
@@ -23,19 +23,26 @@ public class PanelManipulator extends SubsystemBase {
     * Physical Devices
     */
     private ColorSensor5k m_colorSensor = new ColorSensor5k(I2C.Port.kOnboard);
-    private WPI_TalonSRX m_spinnerMotor = new WPI_TalonSRX(RobotConstants.PanelManipulator.SPINNER_MOTOR_ID);
+    private SimTalon m_spinnerMotor = new SimTalon(RobotConstants.PanelManipulator.SPINNER_MOTOR_ID);
 
     // Color matching class.
     private final ColorMatch m_colorMatcher = new ColorMatch();
+
 
     // Colors taken from the example code. 
     private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
     private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
     private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
     private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
-  
-    // Boolean for detecting correct colors.
-    private boolean isCorrectColor;    
+
+    // Booleans
+    boolean doneCount = false;
+    boolean inRange = false;  
+
+    //
+    private Color currentColor;
+    private Color lastColor;
+
 
     private PanelManipulator() {
 
@@ -67,12 +74,24 @@ public class PanelManipulator extends SubsystemBase {
         double prox = m_colorSensor.getProximity();
         SmartDashboard.putNumber("Proximity:", prox);
 
-        if(prox > 160) {
-            isCorrectColor = isSensedColorCorrect();
-            updateTelemetry();
-        } else {
-            isCorrectColor = false;
-        }
+
+        // Check the proximity.
+        inRange = (prox >= 200 ? true : false); 
+
+        int colorCount = 0;
+        SmartDashboard.putNumber("Color Count:", colorCount);
+
+        if(inRange && !doneCount) {
+
+            m_spinnerMotor.set(0.1);
+
+            currentColor = m_colorMatcher.matchClosestColor(m_colorSensor.getSensedColor()).color;
+
+            if(currentColor != lastColor) {
+                currentColor = lastColor;
+                colorCount++;
+            }
+        } 
 
     }
 
@@ -156,31 +175,5 @@ public class PanelManipulator extends SubsystemBase {
         }
 
         return null;
-    }
-
-    /**
-     * Stats for moving the Control Panel.
-     * 
-     */
-    private enum SPINNER {
-        IDLE,
-        START,
-        ROTATION,
-        POSITION,
-        STOP,
-        ERROR
-    }
-
-
-    public double spinWheelTurns(int turns) {
-
-        return 0.0;
-
-    }
-
-    public double spinWheelColors(int numberOfColorChanges) {
-
-        return 0.0;
-
     }
 }

@@ -43,18 +43,27 @@ public class ColorSensor5k extends ColorSensorV3 {
     /**
      * Return a sensed colour without the weird magnitude.
      */
-
-     public Color8Bit getSensedColor() {
+    public Color8Bit getSensedColor8Bit() {
         int r = getRed();
         int g = getGreen();
         int b = getBlue();
         return new Color8Bit(r, g, b);
     }
 
+    /**
+     * Returns a Color objects instead of a Color8Bit.
+     * @return
+     */
+    public Color getSensedColor() {
+        int r = getRed();
+        int g = getGreen();
+        int b = getGreen();
+        return new Color(r, g, b);
+    }
 
     /**
      * Return the proximity of the sensor.
-     * Math to convert for 0-2047 to 1-10cm
+     * Math to convert for 0-2047 to 0-10cm
      */
     @Override
     public int getProximity() {
