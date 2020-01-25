@@ -90,4 +90,11 @@ public class OI {
         return m_shouldShootToggle.feed(m_driverController.getAButtonPressed());
     }
 
+    public boolean unlockPanelManipulator() {
+        return m_driverController.getBButton();
+    }
+
+    
+    
+
 }

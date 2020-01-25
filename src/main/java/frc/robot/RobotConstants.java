@@ -192,7 +192,7 @@ public class RobotConstants {
         /**
          * Shooter motor
          */
-        public static final int MOTOR_ID = 5;
+        public static final int MOTOR_ID = 6;
 
         public static final double VOLTAGE_EPSILON = 0.2;
 

@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import frc.lib5k.simulation.wrappers.SimTalon;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,12 +13,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib5k.components.ColorSensor5k;
 import frc.lib5k.utils.RobotLogger;
 import frc.robot.GameData;
+import frc.robot.OI;
 import frc.robot.RobotConstants;
+import frc.robot.GameData.Stage;
+
 
 public class PanelManipulator extends SubsystemBase {
     RobotLogger logger = RobotLogger.getInstance();
     private static PanelManipulator s_instance = null;
-
 
     /**
     * Physical Devices
@@ -28,29 +31,38 @@ public class PanelManipulator extends SubsystemBase {
     // Color matching class.
     private final ColorMatch m_colorMatcher = new ColorMatch();
 
-
-    // Colors taken from the example code. 
+    // Color Data
     private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
     private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
     private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
     private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
 
-    // Booleans
-    boolean doneCount = false;
-    boolean inRange = false;  
+    // States
+    private ControlState currentState;
+    private ControlState lastState;
 
-    //
+    // SaveData vars;
     private Color currentColor;
     private Color lastColor;
+    private boolean inRange;
+    private boolean isUnlocked = unlockPanelManipulator();
+    private boolean doneRotations;
+    private boolean donePosition;
+    private int colorCount;
+    private int rotations;
+    private double proximity;
 
 
     private PanelManipulator() {
-
 
         m_colorMatcher.addColorMatch(kBlueTarget);
         m_colorMatcher.addColorMatch(kGreenTarget);
         m_colorMatcher.addColorMatch(kRedTarget);
         m_colorMatcher.addColorMatch(kYellowTarget); 
+
+        m_spinnerMotor.setNeutralMode(NeutralMode.Coast);
+        m_spinnerMotor.enableVoltageCompensation(true);
+        m_spinnerMotor.configOpenloopRamp(0.5);
 
     }
 
@@ -71,29 +83,62 @@ public class PanelManipulator extends SubsystemBase {
     @Override
     public void periodic() {
 
-        double prox = m_colorSensor.getProximity();
-        SmartDashboard.putNumber("Proximity:", prox);
+        proximity = m_colorSensor.getProximity();
+        currentColor = m_colorMatcher.matchClosestColor(m_colorSensor.getColor()).color;
+        inRange = (proximity > 200) ? true : false;
+
+        if(isUnlocked) {
+            setState(ControlState.INIT);
+        } else {
+            setState(ControlState.IDLE);
+        }
+
+        switch(currentState) {
+            case INIT:
+                if(inRange) {
+                    m_spinnerMotor.set(0.9);
+                    currentState = ControlState.ROTATING;
+                } else {
+                    currentState = ControlState.IDLE;
+                }
+                break;
+            case ROTATING:
+                if(GameData.getInstance().getGameStage() == Stage.STAGE2) {
+
+                    if(currentColor != lastColor) {
+                        colorCount++;
+                        currentColor = lastColor;
+                    }
+                    if(colorCount == 8) {
+                        rotations++;
+                        colorCount = 0;
+                    }
+                    if(rotations < 3) {
+                        currentState = ControlState.IDLE;
+                    }
+                }
+                if(GameData.getInstance().getGameStage() == Stage.STAGE3) {
+                    // COLOR POSITIONING.
 
 
-        // Check the proximity.
-        inRange = (prox >= 200 ? true : false); 
+                }
 
-        int colorCount = 0;
-        SmartDashboard.putNumber("Color Count:", colorCount);
+                break;
 
-        if(inRange && !doneCount) {
+            case ERROR:
 
-            m_spinnerMotor.set(0.1);
+                m_spinnerMotor.stopMotor();
+                break;
 
-            currentColor = m_colorMatcher.matchClosestColor(m_colorSensor.getSensedColor()).color;
+            case IDLE:
 
-            if(currentColor != lastColor) {
-                currentColor = lastColor;
-                colorCount++;
-            }
-        } 
+                m_spinnerMotor.stopMotor();
+                break;
+        }
+        
 
     }
+
 
     /**
      * Gets the game color for that match.
@@ -117,13 +162,15 @@ public class PanelManipulator extends SubsystemBase {
             wantColor = new Color(wantedColor);
         }
 
-        if (match.color == offsetColor(wantColor)) {
-            return true;
-        } else {
-            return false;
-        }       
+        // if (match.color == offsetColor(wantColor)) {
+        //     return true;
+        // } else {
+        //     return false;
+        // }       
 
+        return false;
     }
+
 
     public void updateTelemetry() {
 
@@ -132,6 +179,7 @@ public class PanelManipulator extends SubsystemBase {
         String colorString;
         ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
 
+        
         if (match.color == kBlueTarget) {
             colorString = "Blue";
           } else if (match.color == kRedTarget) {
@@ -153,27 +201,16 @@ public class PanelManipulator extends SubsystemBase {
 
     }
 
-    /**
-     * Offsets the color by the color that is at a 90 degree angle.
-     * 
-     * @param c Sensed color
-     * @return Offset color
-     */
-    public Color offsetColor(Color color) {
+    private void setState(ControlState state) {
+        this.currentState = state;
+    }
 
-        if(color == kBlueTarget) {
-            return kRedTarget;
-        }
-        if(color == kRedTarget) {
-            return kBlueTarget;
-        }
-        if(color == kGreenTarget) {
-            return kYellowTarget;
-        }
-        if(color == kYellowTarget) {
-            return kGreenTarget;
-        }
+    private enum ControlState {
 
-        return null;
+        INIT,
+        ROTATING,
+        ERROR,
+        IDLE
+
     }
 }
