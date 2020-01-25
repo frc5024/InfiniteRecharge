@@ -20,7 +20,7 @@ public class ScorePickupRight extends AutonomousPath {
 
     @Override
     public Pose2d getStartingPose() {
-        return new Pose2d(AutonomousStartpoints.SECTOR_LINE_RIGHT, Rotation2d.fromDegrees(125));
+        return new Pose2d(AutonomousStartpoints.SECTOR_LINE_RIGHT, Rotation2d.fromDegrees(156));
     }
 
     @Override
@@ -34,7 +34,7 @@ public class ScorePickupRight extends AutonomousPath {
         double starty = getStartingPose().getTranslation().getY();
 
         // Ensure robot is facing the correct angle at the start
-        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(125), 2.0));
+        output.addCommands(new VisionAlign(Rotation2d.fromDegrees(156), 2.0));
 
         // Shoot Balls
         output.addCommands(new WaitCommand(3));
@@ -43,17 +43,24 @@ public class ScorePickupRight extends AutonomousPath {
         output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 2.0));
 
         // Get to the front of the balls
-        output.addCommands(new DriveToCommand(new Pose2d(startx + 2.0, starty, Rotation2d.fromDegrees(0)),
+        output.addCommands(new DriveToCommand(new Pose2d(startx + 1.6, starty, Rotation2d.fromDegrees(0)),
                 new SpeedConstraint(1, 1), false));
 
         // Slowly drive through the balls while intaking
-        output.addCommands(new DriveToCommand(new Pose2d(startx + 3.1, starty + 0.0, Rotation2d.fromDegrees(0)),
-                new SpeedConstraint(0.3, 0.8), false));
+        output.addCommands(new DriveToCommand(new Pose2d(startx + 3.8, starty, Rotation2d.fromDegrees(0)),
+                 new SpeedConstraint(0.5, 0.5), false));
 
-        // Aim at goal
-        // VisionAlignOrAngle
-        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(50), 20));
-        output.addCommands(new VisionAlign(Rotation2d.fromDegrees(165), 2.0));
+        // Turns around
+        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(180), 2.0));
+
+        // Drives to shooting positon
+        output.addCommands(new DriveToCommand(new Pose2d(startx + 2.4, starty, Rotation2d.fromDegrees(180)),
+                 new SpeedConstraint(1, 1), false));
+        
+        // Aims at target
+        output.addCommands(new VisionAlign(Rotation2d.fromDegrees(167), 2.0)); 
+
+
 
         // Return the command
         return output;

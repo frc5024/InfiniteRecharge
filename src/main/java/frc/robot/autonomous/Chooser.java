@@ -38,13 +38,13 @@ public class Chooser {
     public Chooser() {
 
         // Paths
-        m_pathChooser.setDefaultOption("Center Score", new ScoreCenter());
+        m_pathChooser.setDefaultOption("Right side slow (half-field shot) Test", new ScorePickupRight());
         m_pathChooser.addOption("Backwards test", new TestReverse());
         m_pathChooser.addOption("Test PID", new TestPID());
         m_pathChooser.addOption("Right side slow (half-field shot)", new SlowRightHalffield());
         m_pathChooser.addOption("Right side slow", new SlowRight());
         m_pathChooser.addOption("Score Right", new ScoreRight());
-        m_pathChooser.addOption("Right side slow (half-field shot) Test", new ScorePickupRight());
+        m_pathChooser.addOption("Center Score", new ScoreCenter());
 
         // Scoring
         m_shouldScore.setDefaultOption("Score balls", true);
