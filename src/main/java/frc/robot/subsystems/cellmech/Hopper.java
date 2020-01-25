@@ -347,8 +347,8 @@ public class Hopper extends SubsystemBase {
     /**
      * @return wether or not the hopper has completed it's actions (if it is idle or not)
      */
-    public int getCellCount() {
-        return m_cellCount; 
+    public boolean isDone() {
+        return m_systemState == SystemState.IDLE;
     }
 
     /**
