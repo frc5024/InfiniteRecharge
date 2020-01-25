@@ -139,17 +139,17 @@ public class RobotConstants {
 
         // Feedforward Gains
         public static final double ksVolts = 2.37;
-        public static final double kvVoltsSecondsPerMeter = 1.8;
-        public static final double kaVoltsSecondsSquaredPerMeter = 0.0231;
+        public static final double kvVoltsSecondsPerMeter = 1.73; // 1.8
+        public static final double kaVoltsSecondsSquaredPerMeter = 0.0304; // 0.0231
 
         // Optimal Control Gain for driving
-        public static final double kPDriveVel = 0.478;// 0.68;//0.478;
+        public static final double kPDriveVel = 0.478;// 0.68; //0.478;
         public static final double kIDriveVel = 0.0;
         public static final double kDDriveVel = 0.008;
 
         // Optimal Control Gain for turning
-        public static final double kPTurnVel = 0.027; // 0.0275
-        public static final double kITurnVel = 0.01; // 0.01
+        public static final double kPTurnVel = 0.030; // 0.0275
+        public static final double kITurnVel = 0.12; // 0.01
         public static final double kDTurnVel = 0.0066; // 0.0066
 
         // Basic P control for encoder-only distance driving

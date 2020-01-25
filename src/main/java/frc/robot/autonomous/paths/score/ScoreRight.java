@@ -46,7 +46,7 @@ public class ScoreRight extends AutonomousPath {
         output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(-45), 3));
 
         // Drives towards trench
-        output.addCommands(new DriveToCommand(new Pose2d(startx + 1.4, starty - 1.4, Rotation2d.fromDegrees(-45)),
+        output.addCommands(new DriveToCommand(new Pose2d(startx + 1.4, starty - 1.6, Rotation2d.fromDegrees(-45)),
                  new SpeedConstraint(1, 1), false));
 
         // Rotates to face balls
@@ -56,7 +56,7 @@ public class ScoreRight extends AutonomousPath {
         // output.addCommands(new LinePath(new Pose2d(startx + 1.4, starty - 1.4, Rotation2d.fromDegrees(0)),
         //          new Pose2d(startx + 3, starty - 1.4, Rotation2d.fromDegrees(0)), 
         //          new SpeedConstraint(.5, .5) ,false));
-        output.addCommands(new DriveToCommand(new Pose2d(startx + 4, starty - 1.8, Rotation2d.fromDegrees(0)),
+        output.addCommands(new DriveToCommand(new Pose2d(startx + 5, starty - 2.2, Rotation2d.fromDegrees(0)),
                 new SpeedConstraint(0.3, 0.6), false));
 
 

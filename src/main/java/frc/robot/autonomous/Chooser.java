@@ -1,5 +1,6 @@
 package frc.robot.autonomous;
 
+import edu.wpi.first.wpilibj.SlewRateLimiter;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -14,6 +15,7 @@ import frc.robot.autonomous.paths.score.ScoreCenter;
 import frc.robot.autonomous.paths.score.ScoreRight;
 import frc.robot.autonomous.paths.slow.SlowRight;
 import frc.robot.autonomous.paths.slow.SlowRightHalffield;
+import frc.robot.autonomous.paths.slow.SlowRightTest;
 import frc.robot.autonomous.paths.test.TestReverse;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.autonomous.paths.test.TestPID;
@@ -42,6 +44,7 @@ public class Chooser {
         m_pathChooser.addOption("Right side slow (half-field shot)", new SlowRightHalffield());
         m_pathChooser.addOption("Right side slow", new SlowRight());
         m_pathChooser.addOption("Score Right", new ScoreRight());
+        m_pathChooser.addOption("Right side slow (half-field shot) Test", new SlowRightTest());
 
         // Scoring
         m_shouldScore.setDefaultOption("Score balls", true);
