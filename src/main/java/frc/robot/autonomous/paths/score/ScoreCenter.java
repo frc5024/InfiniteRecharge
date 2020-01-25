@@ -12,7 +12,7 @@ import frc.robot.autonomous.helpers.SpeedConstraint;
 import frc.robot.autonomous.paths.AutonomousPath;
 
 /**
- * Slow path starting on the right of the line
+ * Start on the Center then scores then picks up
  */
 public class ScoreCenter extends AutonomousPath {
 

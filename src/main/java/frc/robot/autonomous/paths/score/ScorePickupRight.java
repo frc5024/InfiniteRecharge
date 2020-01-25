@@ -13,9 +13,10 @@ import frc.robot.autonomous.helpers.SpeedConstraint;
 import frc.robot.autonomous.paths.AutonomousPath;
 
 /**
- * Slow path starting on the right of the line
+ * Scores from the Right side of the starting line
+ * AKA our World Class Auto
  */
-public class SlowRightTest extends AutonomousPath {
+public class ScorePickupRight extends AutonomousPath {
 
     @Override
     public Pose2d getStartingPose() {
