@@ -96,15 +96,6 @@ public class Intake extends SubsystemBase {
 
     }
 
-    /**
-     * Set the state of the intake
-     * 
-     * @param state desired state of the intake
-     */
-    public void setState(SystemState state) {
-        m_systemState = state;
-    }
-
     @Override
     public void periodic() {
 
@@ -232,7 +223,7 @@ public class Intake extends SubsystemBase {
      * 
      * @param angle either 0 or 90
      */
-    public void moveArmTo(double desiredAngle) {
+    private void moveArmTo(double desiredAngle) {
         // calculate theoretical current angle
         double currentAngle = ((double)m_intakeActuatorEncoder.getTicks()) / RobotConstants.Intake.ARM_TICKS_PER_DEGREE;
         // set motor output to PID output
@@ -244,7 +235,7 @@ public class Intake extends SubsystemBase {
      * 
      * @param speed desired speed of the arm -1.0 to 1.0
      */
-    public void setArmSpeed(double speed) {
+    private void setArmSpeed(double speed) {
 
         // if moving down, only move if bottom hall not active
         // if (speed > 0.0) {
@@ -269,7 +260,37 @@ public class Intake extends SubsystemBase {
      * 
      * @param speed desired speed of the roller -1.0 to 1.0
      */
-    public void setRollerSpeed(double speed) {
+    private void setRollerSpeed(double speed) {
         m_intakeRoller.set(speed);
     }
+
+    /**
+     * Set the harvester to unjam
+     */
+    public void unjam() {
+        m_systemState = SystemState.UNJAM;
+    }
+
+    /**
+     * Set the harvester to intake
+     */
+    public void intakeCells() {
+        m_systemState = SystemState.INTAKE;
+    }
+
+    /**
+     * Raise the harvester
+     */
+    public void raise() {
+        m_systemState = SystemState.RAISING;
+    }
+
+    /**
+     * Stop the Harvester
+     */
+    public void stop() {
+        m_systemState = SystemState.IDLE;
+    }
+
+
 }

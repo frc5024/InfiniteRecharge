@@ -28,13 +28,13 @@ public class Hopper extends SubsystemBase {
     private double m_revolutionsPerInch;
 
     /**
-     * Bottom line break 
+     * Bottom line break
      */
     private DigitalInput m_lineBottom;
     private boolean m_lineBottomLastValue;
 
     /**
-     * Top line break 
+     * Top line break
      */
     private DigitalInput m_lineTop;
     private boolean m_lineTopLastValue;
@@ -49,6 +49,7 @@ public class Hopper extends SubsystemBase {
         UNJAM, // spit cells out
         MOVETOTOP, // move top cell in hopper to the top
         MOVETOBOTTOM, // move bottom cell in hopper to the bottom
+        MOVEUPONEPLACE, // move the hopper up 8 inches
         SHOOTING // supply cells to shooter
     }
 
@@ -58,7 +59,10 @@ public class Hopper extends SubsystemBase {
     private SystemState m_systemState = SystemState.IDLE;
     private SystemState m_lastState = null;
 
-    private double m_cellCount = 3;
+    private int m_cellCount = 3;
+
+    private int m_desiredAmountToIntake = 0;
+    private int m_desiredAmountToHaveAfterShooting = 0;
 
     private Hopper() {
         // Construct motor controller
@@ -96,15 +100,6 @@ public class Hopper extends SubsystemBase {
 
     }
 
-    /**
-     * Set the state of the hopper
-     * 
-     * @param state desired state of the hopper
-     */
-    public void setState(SystemState state) {
-        m_systemState = state;
-    }
-
     @Override
     public void periodic() {
 
@@ -118,25 +113,25 @@ public class Hopper extends SubsystemBase {
         if (m_hopperBelt.get() > 0.0) {
 
             // add when cell enters bottom
-            if(bottomValue == true && m_lineBottomLastValue == false) {
+            if (bottomValue == true && m_lineBottomLastValue == false) {
                 m_cellCount += 1;
             }
 
             // subtract when cell exits top
-            if(topValue == false && m_lineTopLastValue == true) {
+            if (topValue == false && m_lineTopLastValue == true) {
                 m_cellCount -= 1;
             }
 
-        // If belt is moving down
+            // If belt is moving down
         } else {
 
             // subtract when cell exits bottom
-            if(bottomValue == false && m_lineBottomLastValue == true) {
+            if (bottomValue == false && m_lineBottomLastValue == true) {
                 m_cellCount -= 1;
             }
 
             // add when cell enters top
-            if(topValue == true && m_lineTopLastValue == false) {
+            if (topValue == true && m_lineTopLastValue == false) {
                 m_cellCount += 1;
             }
 
@@ -150,29 +145,32 @@ public class Hopper extends SubsystemBase {
 
         // Handle states
         switch (m_systemState) {
-            case IDLE:
-                handleIdle(isNewState);
-                break;
-            case INTAKEREADY:
-                handleIntakeReady(isNewState);
-                break;
-            case INTAKING:
-                handleIntaking(isNewState);
-                break;
-            case UNJAM:
-                handleUnjam(isNewState);
-                break;
-            case MOVETOTOP:
-                handleMoveToTop(isNewState);
-                break;
-            case MOVETOBOTTOM:
-                handleMoveToBottom(isNewState);
-                break;
-            case SHOOTING:
-                handleShooting(isNewState);
-                break;
-            default:
-                m_systemState = SystemState.IDLE;
+        case IDLE:
+            handleIdle(isNewState);
+            break;
+        case INTAKEREADY:
+            handleIntakeReady(isNewState);
+            break;
+        case INTAKING:
+            handleIntaking(isNewState);
+            break;
+        case UNJAM:
+            handleUnjam(isNewState);
+            break;
+        case MOVETOTOP:
+            handleMoveToTop(isNewState);
+            break;
+        case MOVETOBOTTOM:
+            handleMoveToBottom(isNewState);
+            break;
+        case MOVEUPONEPLACE:
+            handleMoveUpOnePlace(isNewState);
+            break;
+        case SHOOTING:
+            handleShooting(isNewState);
+            break;
+        default:
+            m_systemState = SystemState.IDLE;
         }
 
         m_lineBottomLastValue = m_lineBottom.get();
@@ -210,10 +208,12 @@ public class Hopper extends SubsystemBase {
         boolean bottomValue = m_lineBottom.get();
 
         if (bottomValue == true && m_lineBottomLastValue == false) {
-            m_systemState = SystemState.INTAKING;
+            if (m_cellCount < m_desiredAmountToIntake) {
+                m_systemState = SystemState.INTAKING;
+            }
         }
-        
-        if(m_cellCount>=5) {
+
+        if (m_cellCount >= 5 || m_cellCount == m_desiredAmountToIntake) {
             m_systemState = SystemState.IDLE;
         }
     }
@@ -234,7 +234,7 @@ public class Hopper extends SubsystemBase {
 
         }
         // if belt has gone 8 inches, set state to ready to intake
-        if ( m_hopperEncoder.getTicks() - m_ticksAtStartOfIntake >= (4096 * m_revolutionsPerInch) * 8 ) {
+        if (m_hopperEncoder.getTicks() - m_ticksAtStartOfIntake >= (4096 * m_revolutionsPerInch) * 8) {
             m_systemState = SystemState.INTAKEREADY;
         }
     }
@@ -253,7 +253,6 @@ public class Hopper extends SubsystemBase {
         }
     }
 
-    
     /**
      * move top cell to top of hopper
      * 
@@ -286,11 +285,31 @@ public class Hopper extends SubsystemBase {
         }
 
         if (m_lineBottom.get()) {
+            m_systemState = SystemState.MOVEUPONEPLACE;
+        }
+    }
+
+    /**
+     * move cells up 8 inches
+     * 
+     * @param newState Is this state new?
+     */
+    private void handleMoveUpOnePlace(boolean newState) {
+        if (newState) {
+
+            // get number of ticks at start of intake
+            m_ticksAtStartOfIntake = m_hopperEncoder.getTicks();
+
+            // Start belt
+            setBeltSpeed(0.5);
+
+        }
+        // if belt has gone 8 inches, set state to ready to intake
+        if (m_hopperEncoder.getTicks() - m_ticksAtStartOfIntake >= (4096 * m_revolutionsPerInch) * 8) {
             m_systemState = SystemState.IDLE;
         }
     }
 
-    
     /**
      * provide cells for shooting
      * 
@@ -304,25 +323,81 @@ public class Hopper extends SubsystemBase {
 
         }
 
-        if (m_cellCount == 0) {
+        if (m_cellCount == 0 || m_cellCount == m_desiredAmountToHaveAfterShooting) {
             m_systemState = SystemState.IDLE;
         }
     }
 
-     /**
+    /**
      * Sets the speed of the hopper belt
      * 
      * @param speed desired speed of the belt -1.0 to 1.0
      */
-    public void setBeltSpeed(double speed) {
+    private void setBeltSpeed(double speed) {
         m_hopperBelt.set(speed);
     }
 
     /**
      * @return current amount of cells in the hopper
      */
-    public double getCellCount() {
+    public int getCellCount() {
         return m_cellCount;
+    }
+
+    /**
+     * @return wether or not the hopper has completed it's actions (if it is idle or not)
+     */
+    public int getCellCount() {
+        return m_cellCount; 
+    }
+
+    /**
+     * Stop shooting and get remaining cells back to the bottom
+     */
+    public void interruptShooting() {
+        m_systemState = SystemState.MOVETOBOTTOM;
+    }
+
+    /**
+     * Supply cells to shooter until there are none left
+     */
+    public void supplyCellsToShooter(int amountToSupply) {
+        // limit amount to supply to what we have
+        amountToSupply = amountToSupply > m_cellCount ? m_cellCount : amountToSupply;
+        // make sure amount isn't negative
+        amountToSupply = amountToSupply < 0 ? 0 : amountToSupply;
+        // set amount to end up with after shooting
+        m_desiredAmountToHaveAfterShooting = m_cellCount - amountToSupply;
+        // start feeding cells
+        m_systemState = SystemState.SHOOTING;
+    }
+
+    /**
+     * Set the hopper to unjam
+     */
+    public void unjam() {
+        m_systemState = SystemState.UNJAM;
+    }
+
+    /**
+     * Set the hopper to intake
+     */
+    public void startIntake(int amountToTakeIn) {
+        // make sure amount isn't negative
+        amountToTakeIn = amountToTakeIn < 0 ? 0 : amountToTakeIn;
+        // set desired amount
+        m_desiredAmountToIntake = amountToTakeIn + m_cellCount;
+        // limit desired amount to 5 or below
+        m_desiredAmountToIntake = m_desiredAmountToIntake > 5 ? 5 : m_desiredAmountToIntake;
+        // start intaking
+        m_systemState = SystemState.INTAKEREADY;
+    }
+
+    /**
+     * Stop the hopper
+     */
+    public void stop() {
+        m_systemState = SystemState.IDLE;
     }
 
 }
