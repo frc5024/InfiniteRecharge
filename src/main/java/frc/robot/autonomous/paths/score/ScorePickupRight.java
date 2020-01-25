@@ -40,7 +40,7 @@ public class ScorePickupRight extends AutonomousPath {
         output.addCommands(new WaitCommand(3));
 
         // Turns to balls
-        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 2.0));
+        // output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 2.0));
 
         // Get to the front of the balls
         output.addCommands(new DriveToCommand(new Pose2d(startx + 1.6, starty, Rotation2d.fromDegrees(0)),
@@ -51,7 +51,7 @@ public class ScorePickupRight extends AutonomousPath {
                  new SpeedConstraint(0.5, 0.5), false));
 
         // Turns around
-        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(180), 2.0));
+        //output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(180), 2.0));
 
         // Drives to shooting positon
         output.addCommands(new DriveToCommand(new Pose2d(startx + 2.4, starty, Rotation2d.fromDegrees(180)),
