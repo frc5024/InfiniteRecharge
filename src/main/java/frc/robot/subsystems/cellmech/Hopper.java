@@ -123,7 +123,7 @@ public class Hopper extends SubsystemBase {
             }
 
             // If belt is moving down
-        } else {
+        } else if (m_hopperBelt.get() < 0.0) {
 
             // subtract when cell exits bottom
             if (bottomValue == false && m_lineBottomLastValue == true) {

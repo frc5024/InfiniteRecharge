@@ -79,16 +79,4 @@ public class CellSuperstructure extends SubsystemBase {
 
         // TODO: fancy statemachine stuff happens here
     }
-
-    // TODO delete
-    public void intakeStuff(int count) {
-        m_intake.intakeCells();
-        m_hopper.startIntake(count);
-    }
-
-    // TODO delete
-    public void stopStuff() {
-        m_intake.stop();
-        m_hopper.stop();
-    }
 }

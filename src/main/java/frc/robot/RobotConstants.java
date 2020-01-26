@@ -192,7 +192,11 @@ public class RobotConstants {
 
         // Motor controller IDs
         public static final int INTAKE_ACTUATOR_TALON = 5;
-        public static final int INTAKE_ROLLER_TALON = 6;
+        public static final int INTAKE_ROLLER_TALON_LEFT = 6;
+        public static final int INTAKE_ROLLER_TALON_RIGHT = 7;
+
+        public static final boolean INTAKE_ROLLER_TALON_LEFT_INVERTED = false;
+        public static final boolean INTAKE_ROLLER_TALON_RIGHT_INVERTED = false;
 
         // Sensors DIO ports
         public static final int INTAKE_HALL_BOTTOM = 0;
