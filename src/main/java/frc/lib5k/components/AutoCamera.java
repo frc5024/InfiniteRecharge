@@ -37,6 +37,19 @@ public class AutoCamera {
     }
 
     /**
+     * Set camera visable
+     * @param show
+     */
+    public void showCamera(boolean show) {
+        if (show) {
+            m_UsbCamera.setExposureAuto();
+        } else {
+            m_UsbCamera.setExposureManual(0);
+        }
+
+    }
+
+    /**
      * Set the camera resolution and framerate
      * 
      * @param height Height in pixels

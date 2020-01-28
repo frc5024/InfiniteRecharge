@@ -218,9 +218,16 @@ public class RobotConstants {
      * Constants regarding the Climber
      */
     public static class Climber {
+        public static final int PIN_RELEASE_SOLENOID = 0;
         public static final int MOTOR_CONTROLLER_ID = 9; // PLACEHOLDER VALUE
         public static final int HIGH_HALL_ID = 2;
         public static final int LOW_HALL_ID = 3;
+    }
+
+    public static class Pneumatics {
+
+        // PCM device ID on CAN network
+        public static final int PCM_CAN_ID = 28;
     }
 
 }
