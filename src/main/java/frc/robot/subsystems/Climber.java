@@ -1,36 +1,84 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.Servo;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.DigitalInput;
-
+import frc.lib5k.components.AutoCamera;
+import frc.lib5k.components.pneumatics.LazySolenoid;
+import frc.lib5k.simulation.wrappers.SimTalon;
+import frc.lib5k.utils.RobotLogger;
 import frc.robot.RobotConstants;
 
 /**
  * Robot climber subsystem
  */
 public class Climber extends SubsystemBase {
-    public static Climber s_instance = null;
+    private static RobotLogger logger = RobotLogger.getInstance();
+    private static Climber s_instance = null;
+
+    // "Pin" for releasing the climber
+    private LazySolenoid m_releasePin;
+
+    // Motor for retracting climber
+    private SimTalon m_liftMotor;
+
+    // Climb camera
+    private AutoCamera m_camera;
+
+    // Hall effect sensors on the climbers
+    private DigitalInput m_lowHall;
+    private DigitalInput m_highHall;
 
     /**
-     * Servo motor on the robot
+     * System states
      */
-    private Servo m_climbServo;
-     
+    private enum SystemState {
+        SERVICE, // Service mode for use in the pits
+        LOCKED, // Climber locked, and sensors disabled
+        DEPLOYING, // Climber deploying
+        RETRACTING, // Climber retracting to setpoint
+    }
+
     /**
-     * Hall effect sensors on the climbers
+     * System positions
      */
-    private DigitalInput m_lowHalleffect;
-    private DigitalInput m_highHalleffect;
+    public enum Position {
+        HIGH_BAR, // High climb bar position
+        LOW_BAR, // Low climb bar position
+        CURRENT, // Hold at current position
+    }
+
+    // System state tracker
+    private SystemState m_state = SystemState.LOCKED;
+    private SystemState m_lastState = SystemState.LOCKED;
+
+    // System wanted position tracker
+    private Position m_wantedPosition = Position.CURRENT;
 
     private Climber() {
-    
-        /*Climb Servo */
-        m_climbServo = new Servo(RobotConstants.Climber.MOTOR_CONTROLLER_ID);
-    
-        /*Low and High Halleffect sensors */
-        m_lowHalleffect = new DigitalInput(RobotConstants.Climber.LOW_HALL_ID);
-        m_highHalleffect = new DigitalInput(RobotConstants.Climber.HIGH_HALL_ID);
+
+        // Climber release
+        m_releasePin = new LazySolenoid(RobotConstants.Pneumatics.PCM_CAN_ID,
+                RobotConstants.Climber.PIN_RELEASE_SOLENOID);
+
+        // Climb motor
+        m_liftMotor = new SimTalon(RobotConstants.Climber.MOTOR_CONTROLLER_ID);
+
+        /* Low and High Hall sensors */
+        m_lowHall = new DigitalInput(RobotConstants.Climber.LOW_HALL_ID);
+        m_highHall = new DigitalInput(RobotConstants.Climber.HIGH_HALL_ID);
+
+        // Set up the camera
+        m_camera = new AutoCamera("Climb camera", 0);
+        m_camera.keepCameraAwake(true);
+        m_camera.showCamera(false);
+
+        // Disable the climb motor's brakes to allow easy servicing
+        m_liftMotor.setNeutralMode(NeutralMode.Coast);
+
+        // Force a CAN message to the solenoid
+        m_releasePin.set(false);
+        m_releasePin.flush();
     }
 
     /**
@@ -47,17 +95,95 @@ public class Climber extends SubsystemBase {
 
     }
 
-    /**
-     * Ejects the climber 
-     */
-    public void ejectClimber(double speed) {
-        m_climbServo.set(speed); //TEST VALUE, THE LOWER THE NUMBER, THE HIGHER THE HEIGHT OF THE CLIMBER 
+    @Override
+    public void periodic() {
+
+        // Determine if this state is new
+        boolean isNewState = false;
+        if (m_state != m_lastState) {
+            isNewState = true;
+        }
+
+        /* Handle states */
+        switch (m_state) {
+        case LOCKED:
+            handleLocked(isNewState);
+            break;
+        case DEPLOYING:
+            handleDeploy(isNewState);
+            break;
+        case RETRACTING:
+            handleRetract(isNewState);
+            break;
+        case SERVICE:
+            handleService(isNewState);
+            break;
+
+        }
+
+    }
+
+    private void handleLocked(boolean isNew) {
+        // If new, set pin to retracted, set motor brake to enabled, set output to 0.0,
+        // turn off the camera
+
+    }
+
+    private void handleDeploy(boolean isNew) {
+        // If new, push out the pin, set motor to 0.0, turn on the camera
+    }
+
+    private void handleRetract(boolean isNew) {
+        // While m_wantedPosition != getPosition()
+        // Pull down
+        // Else, set the state to DEPLOYING to hold the climber in place
+    }
+
+    private void handleService(boolean isNew) {
+        // If new, disable brakes, set motor to 0.0, enable camera, Do NOT TOUCH THE PIN
     }
 
     /**
-     * Retracts the climber
+     * Lock the climber
      */
-    public double retractClimber(double speed) {
-        return speed;
+    public void lock() {
+        logger.log("Climber", "Locked");
+        m_state = SystemState.LOCKED;
     }
+
+    /**
+     * Unlock the climber
+     */
+    public void unlock() {
+        logger.log("Climber", "Unlocked");
+        m_state = SystemState.DEPLOYING;
+
+    }
+
+    /**
+     * Set the desired position for the climber. "CURRENT" will hold it in place
+     * 
+     * @param position Desired position
+     */
+    public void setPosition(Position position) {
+        this.m_wantedPosition = position;
+    }
+
+    /**
+     * Get the climber's current position
+     * 
+     * @return Climber's position
+     */
+    public Position getPosition() {
+        /**
+         * TODO:
+         * 
+         * This should work as follows:
+         * 
+         * If either hall sensor is tripped, return the corresponding position,
+         * otherwise, return CURRENT
+         */
+        return Position.CURRENT;
+    }
+
 }
