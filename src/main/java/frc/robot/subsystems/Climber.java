@@ -26,11 +26,11 @@ public class Climber extends SubsystemBase {
     private Climber() {
     
         /*Climb Servo */
-        m_climbServo = new Servo(RobotConstants.Climber.CLIMBER_SERVO);
+        m_climbServo = new Servo(RobotConstants.Climber.MOTOR_CONTROLLER_ID);
     
         /*Low and High Halleffect sensors */
-        m_lowHalleffect = new DigitalInput(RobotConstants.Climber.LOW_HALLEFFECT);
-        m_highHalleffect = new DigitalInput(RobotConstants.Climber.HIGH_HALLEFFECT);
+        m_lowHalleffect = new DigitalInput(RobotConstants.Climber.LOW_HALL_ID);
+        m_highHalleffect = new DigitalInput(RobotConstants.Climber.HIGH_HALL_ID);
     }
 
     /**
