@@ -150,7 +150,7 @@ public class Shooter extends SubsystemBase {
         if (newState) {
 
             // Enable voltage compensation for use during "test mode"
-            m_motorController.enableVoltageCompensation(true);
+            m_motorController.enableVoltageCompensation(false);
 
             // Force-set the motor to 0.0V
             m_motorController.set(0.0);
@@ -200,6 +200,9 @@ public class Shooter extends SubsystemBase {
         // Set the motor output
         m_motorController.setVoltage(motorOutput);
 
+        // TODO: Remove this
+        this.m_systemState = SystemState.HOLD;
+
         // Switch to HOLD state if spinup complete
         if (Mathutils.epsilonEquals(voltage, this.output, RobotConstants.Shooter.VOLTAGE_EPSILON)) {
 
@@ -242,7 +245,7 @@ public class Shooter extends SubsystemBase {
             // m_holdController.setSetpoint(this.output);
             logger.log("[Shooter] Holding. Spin-Up took " + (windUpTotalTime/1000.0) + " seconds.");
 
-            m_motorController.enableVoltageCompensation(false);
+            m_motorController.enableVoltageCompensation(true);
         }
 
         // // Get the current motor output voltage
