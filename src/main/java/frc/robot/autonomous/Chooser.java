@@ -1,5 +1,6 @@
 package frc.robot.autonomous;
 
+import edu.wpi.first.wpilibj.SlewRateLimiter;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -10,9 +11,14 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.lib5k.utils.RobotLogger;
 import frc.robot.autonomous.actions.LogCommand;
 import frc.robot.autonomous.paths.AutonomousPath;
-import frc.robot.autonomous.paths.slow.SlowRight;
+import frc.robot.autonomous.paths.score.ScoreCenter;
+import frc.robot.autonomous.paths.score.ScoreGetBalls;
+import frc.robot.autonomous.paths.score.ScoreRight;
 import frc.robot.autonomous.paths.slow.SlowRightHalffield;
+import frc.robot.autonomous.paths.score.ScorePickupRight;
+import frc.robot.autonomous.paths.test.TestReverse;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.autonomous.paths.test.TestPID;
 
 /**
  * Class for handling autonomous command generation
@@ -32,8 +38,13 @@ public class Chooser {
     public Chooser() {
 
         // Paths
-        m_pathChooser.setDefaultOption("Right side slow (half-field shot)", new SlowRightHalffield());
-        m_pathChooser.addOption("Right side slow", new SlowRight());
+        m_pathChooser.setDefaultOption("Score Get Balls", new ScoreGetBalls());
+        m_pathChooser.addOption("Backwards test", new TestReverse());
+        m_pathChooser.addOption("Test PID", new TestPID());
+        m_pathChooser.addOption("Right side slow (half-field shot)", new SlowRightHalffield());
+        m_pathChooser.addOption("Right side slow (half-field shot) Test", new ScorePickupRight());
+        m_pathChooser.addOption("Center Score", new ScoreCenter());
+        m_pathChooser.addOption("Score Right", new ScoreRight());
 
         // Scoring
         m_shouldScore.setDefaultOption("Score balls", true);
