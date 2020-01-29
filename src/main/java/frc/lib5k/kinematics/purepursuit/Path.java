@@ -63,4 +63,12 @@ public class Path {
         // Add the last point to the points list
         m_points.add(waypoints[i + 1]);
     }
+
+    /**
+     * Get all path poses
+     * @return Poses
+     */
+    public ArrayList<Pose2d> getPoses() {
+        return m_points;
+    }
 }
