@@ -21,9 +21,12 @@ import frc.lib5k.components.sensors.EncoderBase;
 import frc.lib5k.interfaces.Loggable;
 import frc.lib5k.utils.Mathutils;
 import frc.lib5k.utils.RobotLogger;
+import frc.lib5k.utils.RobotLogger.Level;
 import frc.robot.RobotConstants;
 import frc.robot.vision.LimelightTarget;
 import frc.lib5k.kinematics.DriveSignal;
+import frc.lib5k.kinematics.purepursuit.Follower;
+import frc.lib5k.kinematics.purepursuit.Movement;
 
 /**
  * The DriveTrain handles all robot movement.
@@ -32,19 +35,26 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
     private static RobotLogger logger = RobotLogger.getInstance();
     private static DriveTrain s_instance = null;
 
+    private static final double PATH_LOOKAHEAD = 0.4;
+
     /*
      * Drive Control Modes
      */
     public enum DriveMode {
         OPEN_LOOP, // Open loop control (percent output control)
         VOLTAGE, // Voltage control
+        PATH_FOLLOWING, // Following a motion path
 
     }
 
     // Keep track of the current DriveMode
     private DriveMode m_currentDriveMode = DriveMode.OPEN_LOOP;
-
     private DriveSignal m_currentSignal;
+
+    /**
+     * Motion path follower
+     */
+    private Follower m_pathFollower = null;
 
     /**
      * Left side gearbox.
@@ -185,6 +195,10 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
             m_leftGearbox.setVoltage(m_currentSignal.getL());
             m_rightGearbox.setVoltage(m_currentSignal.getR());
             break;
+        case PATH_FOLLOWING:
+            handlePathFollowing();
+            break;
+
         default:
             // This code should never run, but if it does, we set the mode to OPEN_LOOP, and
             // the outputs to 0
@@ -211,6 +225,24 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
         // Calculate the robot pose
         m_odometry.update(heading, getLeftMeters(), getRightMeters());
         m_robotPose = m_odometry.getPoseMeters();
+
+    }
+
+    private void handlePathFollowing() {
+
+        // Ensure we aren't following a null path
+        if (m_pathFollower == null) {
+            logger.log("DriveTrain", "Tried to follow a null path", Level.kWarning);
+
+            // Stop the drivetrain
+            stop();
+        }
+
+        // Calculate the movement data for the current path
+        Movement error = m_pathFollower.calculate(getPosition(), PATH_LOOKAHEAD);
+
+        // Ensure we are facing the point
+        
 
     }
 

@@ -13,6 +13,28 @@ public class Follower {
     }
 
     /**
+     * Set the following path
+     * 
+     * @param path Path to follow
+     */
+    public void setPath(Path path) {
+        this.m_path = path;
+    }
+
+    /**
+     * Return the sign of a number, forcing 0's sign to be +1
+     * 
+     * @param n Number
+     * @return Sign
+     */
+    private double signum(double n) {
+        if (n == 0)
+            return 1;
+        else
+            return Math.signum(n);
+    }
+
+    /**
      * Get the goal pose inside a lookahead
      * 
      * @param robotPose       Robot's pose
