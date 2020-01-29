@@ -91,7 +91,7 @@ public class Robot extends TimedRobot {
 		m_driveTrain.setPosition(m_autonChooser.getRobotAutoStartPosition());
 
 		// Connect to, and configure Limelight
-		Limelight2.getInstance().setPortrait(false);
+		Limelight2.getInstance().setPortrait(true);
 		Limelight2.getInstance().setLED(LEDMode.OFF);
 		Limelight2.getInstance().enableVision(true);
 		TargetTracker.getInstance().register();

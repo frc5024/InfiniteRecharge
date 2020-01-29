@@ -51,7 +51,7 @@ public class DriveControl extends CommandBase {
             }
         } else {
             // Disable vision
-            Limelight2.getInstance().setLED(LEDMode.OFF);
+            // Limelight2.getInstance().setLED(LEDMode.OFF);
         }
 
         // Read driver inputs

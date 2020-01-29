@@ -251,8 +251,8 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
 
         // Add them
         // targetAngle += drivebaseAngle;
-        System.out.println(Mathutils.getWrappedError(0.0, targetAngle));
-        return face(Mathutils.getWrappedError(0.0, targetAngle), eps);
+        System.out.println(Mathutils.getWrappedError(0.0, targetAngle * -1));
+        return face(Mathutils.getWrappedError(0.0, targetAngle * -1), eps);
     }
 
     /**
