@@ -27,6 +27,7 @@ import frc.robot.vision.LimelightTarget;
 import frc.lib5k.kinematics.DriveSignal;
 import frc.lib5k.kinematics.purepursuit.Follower;
 import frc.lib5k.kinematics.purepursuit.Movement;
+import frc.lib5k.kinematics.purepursuit.Path;
 
 /**
  * The DriveTrain handles all robot movement.
@@ -34,8 +35,6 @@ import frc.lib5k.kinematics.purepursuit.Movement;
 public class DriveTrain extends SubsystemBase implements Loggable, IDifferentialDrivebase {
     private static RobotLogger logger = RobotLogger.getInstance();
     private static DriveTrain s_instance = null;
-
-    private static final double PATH_LOOKAHEAD = 0.4;
 
     /*
      * Drive Control Modes
@@ -55,6 +54,7 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
      * Motion path follower
      */
     private Follower m_pathFollower = null;
+    private double m_pathLookahead = 0.4;
 
     /**
      * Left side gearbox.
@@ -239,11 +239,49 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
         }
 
         // Calculate the movement data for the current path
-        Movement error = m_pathFollower.calculate(getPosition(), PATH_LOOKAHEAD);
+        Movement error = m_pathFollower.calculate(getPosition(), m_pathLookahead);
+
+        // Construct arcade-like outputs
+        double force, turn = 0.0;
 
         // Ensure we are facing the point
-        
+        if (!m_turnController.atSetpoint()) {
+            // Turn to face the angle
+            DriveSignal signal = calculateFaceOutputs(error.getHeading().getDegrees(), 3.0);
 
+            // Determine turn from the signal. (the rotational command happens to be equal
+            // to the left output)
+            turn = signal.getL();
+
+        } else {
+            // Reset PID controller
+            m_turnController.reset();
+        }
+
+        // Determine scaling factor for the signal force based on the amount of turning
+        // needed. The more we have to turn, the slower we should drive to the point.
+        double forceScale = Mathutils.clamp((1.0 - Math.abs(error.getHeading().getDegrees() * 0.01)), 0.0, 1.0);
+
+        // Determine the force required with a simple P control
+        force = error.getDistance() * RobotConstants.ControlGains.kPDriveVel * RobotConstants.ControlGains.kMaxSpeedMetersPerSecond * forceScale;
+
+        // TODO: do we need to normalize here?
+
+        System.out.println(force + " " + turn + " " + forceScale);
+
+        // Send motor commands to the drivebase
+        m_leftGearbox.set(force + turn);
+        m_rightGearbox.set(force - turn);
+
+    }
+
+    /**
+     * Get the path follower's error in distance for external setpoint calculations
+     * 
+     * @return Distance error
+     */
+    public double getPathingError() {
+        return m_pathFollower.calculate(getPosition(), m_pathLookahead).getDistance();
     }
 
     /**
@@ -269,25 +307,17 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
     }
 
     /**
-     * Turn the drivebase to face an angle
-     * 
-     * @param degrees Desired angle
-     * @param eps     Acceptable error
-     * @return Is facing angle?
-     */
-    public boolean face(double degrees, double eps) {
-        return face(Rotation2d.fromDegrees(degrees), eps);
-    }
-
-    /**
-     * Turn the drivebase to face a Limelihgt target
+     * Turn the drivebase to face a Limelight target
      * 
      * @param target Target to face
      * @param eps    Acceptable error
      * @return Is facing angle?
      */
     public boolean face(LimelightTarget target, double eps) {
-        return face(target.getRotation(), eps);
+
+        double targetAngle = Mathutils.wpiAngleTo5k(target.getRotation().getDegrees());
+
+        return face(Mathutils.getWrappedError(0.0, targetAngle * -1), eps);
     }
 
     /**
@@ -299,10 +329,6 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
      */
     public boolean face(Rotation2d rot, double eps) {
 
-        // Set PID controller epsilon
-        m_turnController.setTolerance(eps);
-        m_turnController.setSetpoint(0);
-
         // Convert the WPILib angles to Lib5K-compatible angles
         double setpointAngle = Mathutils.wpiAngleTo5k(rot.getDegrees());
         double drivebaseAngle = Mathutils.wpiAngleTo5k(getPosition().getRotation().getDegrees());
@@ -310,14 +336,23 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
         // Find error between angles
         double error = Mathutils.getWrappedError(drivebaseAngle, setpointAngle);
 
-        // Calculate turn force
-        double force = m_turnController.calculate(error, 0.0);
+        return face(error, eps);
+    }
 
-        // Clamp turn force
-        force = Mathutils.clamp(force, -1.0, 1.0);
-        force *= 0.9;
+    /**
+     * Turn the drivebase using a rotational error in degrees
+     * 
+     * @param error Error in degrees
+     * @param eps   Acceptable error
+     * @return Is facing correct angle?
+     */
+    public boolean face(double error, double eps) {
+
+        // Calculate system output
+        DriveSignal signal = calculateFaceOutputs(error, eps);
+
         // Set motor command
-        setOpenLoop(new DriveSignal(force, -force));
+        setOpenLoop(signal);
 
         // Handle reset after completed turn
         if (m_turnController.atSetpoint()) {
@@ -331,6 +366,31 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
 
         // If this is reached, we have not yet met the target
         return false;
+
+    }
+
+    /**
+     * Calculate drivetrain outputs for an angular error. For use in the face()
+     * methods, and for pathing
+     * 
+     * @param error Rotational error in degrees
+     * @param eps   Rotation epsilon
+     * @return Drivetrain signal
+     */
+    private DriveSignal calculateFaceOutputs(double error, double eps) {
+        // Set PID controller epsilon
+        m_turnController.setTolerance(eps);
+        m_turnController.setSetpoint(0);
+
+        // Calculate turn force
+        double force = m_turnController.calculate(error, 0.0);
+
+        // Clamp turn force
+        force = Mathutils.clamp(force, -1.0, 1.0);
+        force *= 0.9;
+
+        // Generate a motor command
+        return new DriveSignal(force, -force);
 
     }
 
@@ -420,6 +480,25 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
      */
     public void setVoltage(double left, double right) {
         setVoltage(new DriveSignal(left, right));
+    }
+
+    /**
+     * Set the path-following path, and enable following
+     * 
+     * @param path Path to set
+     */
+    public void setPath(Path path, double lookahead) {
+        // Set up a path follower if this is the first call
+        if (m_pathFollower == null) {
+            m_pathFollower = new Follower(path);
+        } else {
+            // Set the follower's path
+            m_pathFollower.setPath(path);
+        }
+
+        this.m_pathLookahead = lookahead;
+
+        this.m_currentDriveMode = DriveMode.PATH_FOLLOWING;
     }
 
     /**

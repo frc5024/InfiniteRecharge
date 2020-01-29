@@ -131,13 +131,13 @@ public class Follower {
         Translation2d goal = getGoalPose(robotPose, lookaheadMeters);
 
         // Determine our real error
-        Translation2d error = new Translation2d(robotPose.getTranslation().getX() - goal.getX(),
-                robotPose.getTranslation().getY() - goal.getY());
+        Translation2d error = new Translation2d(goal.getX() - robotPose.getTranslation().getX(),
+                goal.getY() - robotPose.getTranslation().getY());
 
         // Determine our error as robot-friendly arguments
         // This will flip Y, and offset the heading to match out field coordinate
         // system.
-        double heading = Math.atan2(error.getX(), error.getY() * -1) - 90;
+        double heading = Math.atan2(error.getX(), error.getY() * -1) ;
         double distance = Math.hypot(error.getX(), error.getY() * -1);
 
         // Construct a movement object

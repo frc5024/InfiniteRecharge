@@ -19,6 +19,7 @@ import frc.robot.autonomous.paths.score.ScorePickupRight;
 import frc.robot.autonomous.paths.test.TestReverse;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.autonomous.paths.test.TestPID;
+import frc.robot.autonomous.paths.test.TestPathFollowing;
 
 /**
  * Class for handling autonomous command generation
@@ -41,6 +42,7 @@ public class Chooser {
         m_pathChooser.setDefaultOption("Score Get Balls", new ScoreGetBalls());
         m_pathChooser.addOption("Backwards test", new TestReverse());
         m_pathChooser.addOption("Test PID", new TestPID());
+        m_pathChooser.addOption("Test Pathing", new TestPathFollowing());
         m_pathChooser.addOption("Right side slow (half-field shot)", new SlowRightHalffield());
         m_pathChooser.addOption("Right side slow (half-field shot) Test", new ScorePickupRight());
         m_pathChooser.addOption("Center Score", new ScoreCenter());
