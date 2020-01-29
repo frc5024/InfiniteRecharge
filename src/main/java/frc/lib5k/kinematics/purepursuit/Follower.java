@@ -142,7 +142,7 @@ public class Follower {
         // Determine our error as robot-friendly arguments
         // This will flip Y, and offset the heading to match out field coordinate
         // system.
-        double heading = Math.atan2(error.getX(), error.getY() * -1) ;
+        double heading = Math.toDegrees(Math.atan2(error.getX(), error.getY() * -1)) - 90;
         double distance = Math.hypot(error.getX(), error.getY() * -1);
 
         // Construct a movement object

@@ -57,6 +57,9 @@ public class Path {
             for (int j = 0; j < innerCount; j++) {
                 m_points.add(new Pose2d(new Translation2d((startTrans.getX() + (vector.getX() * j)),
                         (startTrans.getY() + (vector.getY() * j))), waypoints[i].getRotation()));
+
+                System.out.println(new Pose2d(new Translation2d((startTrans.getX() + (vector.getX() * j)),
+                        (startTrans.getY() + (vector.getY() * j))), waypoints[i].getRotation()));
             }
         }
 

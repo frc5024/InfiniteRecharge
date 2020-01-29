@@ -252,7 +252,7 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
         turn = signal.getL();
 
         // Disable turning if within epsilon
-        if (Math.abs(error.getDistance()) < 0.1) {
+        if (Math.abs(error.getDistance()) < 0.02) {
             turn = 0.0;
         }
 

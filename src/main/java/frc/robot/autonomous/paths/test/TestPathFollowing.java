@@ -15,8 +15,8 @@ public class TestPathFollowing extends AutonomousPath {
         SequentialCommandGroup output = new SequentialCommandGroup();
 
         output.addCommands(new FollowPath(
-                new Path(new Pose2d(0, 0, Rotation2d.fromDegrees(0)), new Pose2d(2, 1, Rotation2d.fromDegrees(0)),  new Pose2d(3, 0, Rotation2d.fromDegrees(0))), 0.4,
-                0.1));
+                new Path(new Pose2d(0, 0, Rotation2d.fromDegrees(0)), new Pose2d(3, 0, Rotation2d.fromDegrees(0))), 0.4,
+                0.3));
         return output;
     }
 
