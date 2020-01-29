@@ -1,13 +1,14 @@
 package frc.robot.subsystems.cellmech;
 
-import com.ctre.phoenix.Logger;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.revrobotics.CANPIDController;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib5k.control.JRADController;
-import frc.lib5k.simulation.wrappers.SimTalon;
+import frc.lib5k.simulation.wrappers.SimSparkMax;
 import frc.lib5k.utils.Mathutils;
 import frc.lib5k.utils.RobotLogger;
 import frc.robot.RobotConstants;
@@ -27,7 +28,8 @@ public class Shooter extends SubsystemBase {
     /**
      * Shooter motor controller
      */
-    private SimTalon m_motorController = new SimTalon(RobotConstants.Shooter.MOTOR_ID);
+
+    private SimSparkMax m_motorController;
 
     /**
      * System states
@@ -54,7 +56,7 @@ public class Shooter extends SubsystemBase {
     /**
      * Spin-up PID controller
      */
-    private PIDController m_spinupController;
+    private CANPIDController m_spinupController;
 
     /**
      * Flywheel hold controller
@@ -63,12 +65,10 @@ public class Shooter extends SubsystemBase {
 
     private Shooter() {
 
-        // Disable motor brakes
-        m_motorController.setNeutralMode(NeutralMode.Coast);
+        m_motorController = new SimSparkMax(RobotConstants.Shooter.MOTOR_ID, MotorType.kBrushless);
 
         // Configure the rpm controllers
-        m_spinupController = new PIDController(RobotConstants.Shooter.kPVel, RobotConstants.Shooter.kIVel,
-                RobotConstants.Shooter.kDVel);
+        m_spinupController = m_motorController.getPIDController();
         m_holdController = new JRADController(RobotConstants.Shooter.kJ, RobotConstants.Shooter.kF,
                 RobotConstants.Shooter.kLoadRatio);
     }
@@ -90,7 +90,7 @@ public class Shooter extends SubsystemBase {
     @Override
     public void periodic() {
         // Publish controller voltage
-        SmartDashboard.putNumber("Shooter Voltage", m_motorController.getMotorOutputVoltage());
+        SmartDashboard.putNumber("Shooter Velocity", m_motorController.getEncoder().getVelocity());
 
         // Determine if this state is new
         boolean isNewState = false;
@@ -149,9 +149,6 @@ public class Shooter extends SubsystemBase {
 
         if (newState) {
 
-            // Enable voltage compensation for use during "test mode"
-            m_motorController.enableVoltageCompensation(false);
-
             // Force-set the motor to 0.0V
             m_motorController.set(0.0);
 
@@ -173,38 +170,17 @@ public class Shooter extends SubsystemBase {
             // Reset wind-up
             windUpStartTime = System.currentTimeMillis();
 
-            // Disable motor brakes
-            m_motorController.setNeutralMode(NeutralMode.Coast);
-
-            // Disable voltage compensation to allow velocity controllers to take control
-            m_motorController.enableVoltageCompensation(false);
-
-            m_motorController.configOpenloopRamp(0.0);//0.3
+            m_motorController.setOpenLoopRampRate(0);
 
             // Configure the spinup controller
-            m_spinupController.reset();
+            m_spinupController.setReference(output, ControlType.kVelocity);
         }
-
-        // Get the current motor output voltage
-        double voltage = m_motorController.getMotorOutputVoltage();
-
-        // Calculate the motor output
-        double motorOutput = m_spinupController.calculate(voltage, this.output);
-
-        // Accumulate the output
-        motorOutput += voltage;
-
-        // Disallow reverse motor output
-        motorOutput = Mathutils.clamp(motorOutput, 0, 12);
-
-        // Set the motor output
-        m_motorController.setVoltage(motorOutput);
-
+        
         // TODO: Remove this
         this.m_systemState = SystemState.HOLD;
 
         // Switch to HOLD state if spinup complete
-        if (Mathutils.epsilonEquals(voltage, this.output, RobotConstants.Shooter.VOLTAGE_EPSILON)) {
+        if (Mathutils.epsilonEquals(m_motorController.getEncoder().getVelocity(), this.output, RobotConstants.Shooter.RPM_EPSILON)) {
 
             // Move to next state
             this.m_systemState = SystemState.HOLD;
@@ -220,10 +196,7 @@ public class Shooter extends SubsystemBase {
 
         if (newState) {
 
-            // Set a large ramp rate to the motor, and "stop" it. This should slow down
-            // gradually
-            m_motorController.configOpenloopRamp(1.5);
-            m_motorController.setNeutralMode(NeutralMode.Brake);
+            m_motorController.setOpenLoopRampRate(1.3);
             m_motorController.set(0);
         }
 
@@ -245,7 +218,6 @@ public class Shooter extends SubsystemBase {
             // m_holdController.setSetpoint(this.output);
             logger.log("[Shooter] Holding. Spin-Up took " + (windUpTotalTime/1000.0) + " seconds.");
 
-            m_motorController.enableVoltageCompensation(true);
         }
 
         // // Get the current motor output voltage
@@ -275,6 +247,11 @@ public class Shooter extends SubsystemBase {
         // Set the desired voltage
         output = val * RobotConstants.Shooter.MAX_VOLTAGE;
 
+    }
+
+    public void setVelocity(double val){
+        m_systemState = SystemState.SPIN_UP;
+        output = val;
     }
 
     public void stop() {
