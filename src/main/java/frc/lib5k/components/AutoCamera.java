@@ -30,7 +30,7 @@ public class AutoCamera {
     public AutoCamera(String name, int usb_slot) {
         // Create a USBCamera
         m_UsbCamera = CameraServer.getInstance().startAutomaticCapture(name, usb_slot);
-        m_UsbCamera.setVideoMode(VideoMode.PixelFormat.kMJPEG, 320, 240, 15);
+        // m_UsbCamera.setVideoMode(VideoMode.PixelFormat.kMJPEG, 320, 240, 15);
 
         // Add self to shuffleboard
         Shuffleboard.getTab("DriverStation").add(m_UsbCamera);

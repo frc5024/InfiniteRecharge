@@ -126,21 +126,42 @@ public class Climber extends SubsystemBase {
     private void handleLocked(boolean isNew) {
         // If new, set pin to retracted, set motor brake to enabled, set output to 0.0,
         // turn off the camera
-
+        if (isNew) {
+            logger.log("Climber", "Locked");
+            m_releasePin.set(false);
+            m_state = SystemState.RETRACTING;
+            m_liftMotor.set(0.0);
+            m_camera.showCamera(false);
+        }
     }
 
     private void handleDeploy(boolean isNew) {
         // If new, push out the pin, set motor to 0.0, turn on the camera
+        if (isNew) {
+            logger.log("Climber", "Deployed");
+            m_releasePin.set(true);
+            m_state = SystemState.DEPLOYING;
+            m_liftMotor.set(0.0);
+            m_camera.showCamera(false);
+        }
+
     }
 
     private void handleRetract(boolean isNew) {
         // While m_wantedPosition != getPosition()
         // Pull down
         // Else, set the state to DEPLOYING to hold the climber in place
+        while (m_wantedPosition != getPosition()) {
+
+        }
     }
 
     private void handleService(boolean isNew) {
         // If new, disable brakes, set motor to 0.0, enable camera, Do NOT TOUCH THE PIN
+        if (isNew) {
+            m_liftMotor.set(0.0);
+            m_camera.showCamera(true);
+        }
     }
 
     /**

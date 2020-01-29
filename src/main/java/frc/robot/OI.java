@@ -92,10 +92,10 @@ public class OI {
     }
 
     public double ejectClimber() {
-        if (m_operatorController.getStartButtonPressed()) {
+        if (m_operatorController.getStickButtonPressed(GenericHID.Hand.kRight)) {
             return 5; //The lower the value, the higher the climber will shoot
         }
-        else return 10; //This shouldn't happen
+        else return 10; //This shouldn't happen, we just need it for the return value
     }
 
     public double retractClimber() {
