@@ -183,7 +183,14 @@ public class Climber extends SubsystemBase {
          * If either hall sensor is tripped, return the corresponding position,
          * otherwise, return CURRENT
          */
-        return Position.CURRENT;
+
+         if (m_highHall.get()) {
+            return Position.HIGH_BAR;
+         } else if (m_lowHall.get()) {
+             return Position.LOW_BAR;
+         } else {
+            return Position.CURRENT;
+         }
     }
 
 }
