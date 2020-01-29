@@ -244,18 +244,16 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
         // Construct arcade-like outputs
         double force, turn = 0.0;
 
-        // Ensure we are facing the point
-        if (!m_turnController.atSetpoint()) {
-            // Turn to face the angle
-            DriveSignal signal = calculateFaceOutputs(error.getHeading().getDegrees(), 3.0);
+        // Turn to face the angle
+        DriveSignal signal = calculateFaceOutputs(error.getHeading().getDegrees(), 3.0);
 
-            // Determine turn from the signal. (the rotational command happens to be equal
-            // to the left output)
-            turn = signal.getL();
+        // Determine turn from the signal. (the rotational command happens to be equal
+        // to the left output)
+        turn = signal.getL();
 
-        } else {
-            // Reset PID controller
-            m_turnController.reset();
+        // Disable turning if within epsilon
+        if (Math.abs(error.getDistance()) < 0.1) {
+            turn = 0.0;
         }
 
         // Determine scaling factor for the signal force based on the amount of turning
@@ -263,7 +261,8 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
         double forceScale = Mathutils.clamp((1.0 - Math.abs(error.getHeading().getDegrees() * 0.01)), 0.0, 1.0);
 
         // Determine the force required with a simple P control
-        force = error.getDistance() * RobotConstants.ControlGains.kPDriveVel * RobotConstants.ControlGains.kMaxSpeedMetersPerSecond * forceScale;
+        force = error.getDistance() * RobotConstants.ControlGains.kPDriveVel
+                * RobotConstants.ControlGains.kMaxSpeedMetersPerSecond * forceScale;
 
         // TODO: do we need to normalize here?
 

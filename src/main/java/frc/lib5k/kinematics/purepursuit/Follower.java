@@ -130,6 +130,11 @@ public class Follower {
         // Find our next goal
         Translation2d goal = getGoalPose(robotPose, lookaheadMeters);
 
+        // Handle null goal
+        if (goal == null) {
+            return new Movement(0, 0);
+        }
+
         // Determine our real error
         Translation2d error = new Translation2d(goal.getX() - robotPose.getTranslation().getX(),
                 goal.getY() - robotPose.getTranslation().getY());
