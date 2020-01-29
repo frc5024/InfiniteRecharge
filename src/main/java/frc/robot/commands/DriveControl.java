@@ -23,6 +23,9 @@ public class DriveControl extends CommandBase {
     private CubicDeadband m_rotationDeadband = new CubicDeadband(
             RobotConstants.HumanInputs.Deadbands.ROTATION_INPUT_DEADBAND, 0.0);
 
+    // Alignment command
+    private AutoAlign m_alignmentCommand = new AutoAlign();
+
     /**
      * DriveControl constructor
      */
@@ -39,16 +42,19 @@ public class DriveControl extends CommandBase {
         if (m_oi.shouldAutoAim()) {
             // System.out.println("Auto aim");
             // // Enable vision
-            Limelight2.getInstance().setLED(LEDMode.ON);
+            // Limelight2.getInstance().setLED(LEDMode.ON);
 
-            // Get the target
-            LimelightTarget target = Limelight2.getInstance().getTarget();
-            // System.out.println(target);
+            // // Get the target
+            // LimelightTarget target = Limelight2.getInstance().getTarget();
+            // // System.out.println(target);
 
-            if (target != null) {
-                DriveTrain.getInstance().autoTarget(target);
-                return;
-            }
+            // if (target != null) {
+            // DriveTrain.getInstance().autoTarget(target);
+            // return;
+            // }
+
+            m_alignmentCommand.schedule(true);
+            System.out.println("STARGINT");
         } else {
             // Disable vision
             // Limelight2.getInstance().setLED(LEDMode.OFF);

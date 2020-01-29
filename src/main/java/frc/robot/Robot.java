@@ -145,6 +145,7 @@ public class Robot extends TimedRobot {
 
 		// Enable brakes on the DriveTrain
 		m_driveTrain.setBrakes(true);
+		m_driveTrain.setRampRate(0.2);
 
 		// Disable the autonomous command
 		if (m_autonomousCommand != null) {

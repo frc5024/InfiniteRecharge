@@ -89,9 +89,9 @@ public class RobotConstants {
          * Current limiting
          */
         public static class CurrentLimits {
-            public static final int PEAK_AMPS = 35;
-            public static final int HOLD_AMPS = 33;
-            public static final int TIMEOUT_MS = 30;
+            public static final int PEAK_AMPS = 33;
+            public static final int HOLD_AMPS = 30;
+            public static final int TIMEOUT_MS = 15;
         }
 
         /**

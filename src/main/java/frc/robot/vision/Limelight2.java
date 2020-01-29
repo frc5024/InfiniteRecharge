@@ -4,10 +4,14 @@ import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpiutil.net.PortForwarder;
+import frc.lib5k.utils.Mathutils;
 
 public class Limelight2 {
 
     private static Limelight2 s_instance = null;
+
+    // Counter for the number of device users
+    public int users = 0;
 
     public enum CameraMode {
         STANDARD(0), PIP_MAIN(1), PIP_SECONDARY(2);
@@ -48,7 +52,7 @@ public class Limelight2 {
         /* Add NT listeners */
         m_table.addEntryListener("tv", (table, key, entry, value, flags) -> {
             m_hasTarget = (value.getDouble() == 0.0) ? false : true;
-            
+
         }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
         m_table.addEntryListener("tx", (table, key, entry, value, flags) -> {
@@ -75,6 +79,17 @@ public class Limelight2 {
         }
 
         return s_instance;
+    }
+
+    public void use(boolean use) {
+        if (use) {
+            users++;
+        } else {
+            users--;
+        }
+
+        // Clamp user count
+        users = (int) Mathutils.clamp(users, 0.0, 10000.0);
     }
 
     /**
