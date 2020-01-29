@@ -179,7 +179,7 @@ public class Shooter extends SubsystemBase {
             // Disable voltage compensation to allow velocity controllers to take control
             m_motorController.enableVoltageCompensation(false);
 
-            m_motorController.configOpenloopRamp(0.3);
+            m_motorController.configOpenloopRamp(0.0);//0.3
 
             // Configure the spinup controller
             m_spinupController.reset();
