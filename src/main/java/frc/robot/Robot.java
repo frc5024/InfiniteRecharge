@@ -35,7 +35,6 @@ public class Robot extends TimedRobot {
 	RobotLogger logger = RobotLogger.getInstance();
 	FaultReporter m_faultReporter = FaultReporter.getInstance();
 
-
 	/* Robot Subsystems */
 	private DriveTrain m_driveTrain = DriveTrain.getInstance();
 	private Climber m_climber = Climber.getInstance();
@@ -47,7 +46,6 @@ public class Robot extends TimedRobot {
 	private DriveControl m_driveControl;
 	private ShooterTester m_shooterTester;
 	private ClimbProcess m_climbProcess;
-	private ClimbController m_climbController;
 
 	private Chooser m_autonChooser;
 
@@ -63,7 +61,6 @@ public class Robot extends TimedRobot {
 		m_driveControl = new DriveControl();
 		m_shooterTester = new ShooterTester();
 		m_climbProcess = new ClimbProcess();
-		m_climbController = new ClimbController();
 
 		// Register all subsystems
 		logger.log("Robot", "Registering Subsystems", Level.kRobot);
@@ -172,11 +169,11 @@ public class Robot extends TimedRobot {
 
 		if (m_climbProcess != null) {
 			m_climbProcess.schedule();
+
+			// Stop the climber
+			m_climbProcess.killClimbCommand();
 		}
 
-		if (m_climbController != null) {
-			m_climbController.schedule();
-		}
 	}
 
 	@Override
@@ -194,7 +191,8 @@ public class Robot extends TimedRobot {
 		m_driveTrain.setBrakes(false);
 		m_driveTrain.stop();
 
-		// Sets the climber SystemState to SERVICE
+		// Stop the climber
+		m_climbProcess.killClimbCommand();
 
 	}
 

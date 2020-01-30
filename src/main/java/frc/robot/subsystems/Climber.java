@@ -170,12 +170,18 @@ public class Climber extends SubsystemBase {
      */
     public void handleRetract(boolean isNew) {
 
+        // Read the current position
+        Position current = getPosition();
+
         // If we are not at our desired position, get there
-        if (m_wantedPosition != getPosition()) {
+        if (m_wantedPosition != current && m_wantedPosition != Position.CURRENT) {
 
             // Pull down the climber
             m_liftMotor.set(1.0);
 
+        } else {
+            // Hold the motor
+            m_liftMotor.set(0.0);
         }
 
     }
@@ -228,6 +234,7 @@ public class Climber extends SubsystemBase {
      */
     public void setPosition(Position position) {
         this.m_wantedPosition = position;
+        this.m_state = SystemState.RETRACTING;
     }
 
     /**

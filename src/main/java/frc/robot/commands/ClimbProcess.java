@@ -12,19 +12,34 @@ public class ClimbProcess extends CommandBase {
     // Operator interface for reading driver inputs
     private OI m_oi = OI.getInstance();
 
-    private ClimbController m_ClimbController = new ClimbController();
+    private ClimbController m_climbController = new ClimbController();
+
+    @Override
+    public void initialize() {
+
+        // Lock the climber
+        Climber.getInstance().lock();
+    }
 
     @Override
     public void execute() {
         // Pull the pin on the climber
         if (m_oi.shouldEjectClimber()) {
-            m_ClimbController.schedule();
+            m_climbController.schedule();
         }
+
     }
 
     @Override
     public boolean isFinished() {
         // The robot doesn't finish climbing until it is killed
         return false;
+    }
+
+    /**
+     * Kill the climbing command
+     */
+    public void killClimbCommand() {
+        m_climbController.cancel();
     }
 }
