@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib5k.components.drive.IDifferentialDrivebase;
 import frc.lib5k.components.gyroscopes.NavX;
-import frc.lib5k.components.limelight.Limelight;
 import frc.lib5k.roborio.FaultReporter;
 import frc.lib5k.utils.RobotLogger;
 import frc.lib5k.utils.RobotLogger.Level;
@@ -47,7 +46,6 @@ public class Robot extends TimedRobot {
 	private DriveControl m_driveControl;
 	private ShooterTester m_shooterTester;
 	private ClimbProcess m_climbProcess;
-	private ClimbController m_climbController;
 
 	private Chooser m_autonChooser;
 
@@ -63,7 +61,6 @@ public class Robot extends TimedRobot {
 		m_driveControl = new DriveControl();
 		m_shooterTester = new ShooterTester();
 		m_climbProcess = new ClimbProcess();
-		m_climbController = new ClimbController();
 
 		// Register all subsystems
 		logger.log("Robot", "Registering Subsystems", Level.kRobot);
@@ -154,6 +151,7 @@ public class Robot extends TimedRobot {
 
 		// Enable brakes on the DriveTrain
 		m_driveTrain.setBrakes(true);
+		m_driveTrain.setRampRate(0.2);
 
 		// Disable the autonomous command
 		if (m_autonomousCommand != null) {
@@ -171,11 +169,11 @@ public class Robot extends TimedRobot {
 
 		if (m_climbProcess != null) {
 			m_climbProcess.schedule();
+
+			// Stop the climber
+			m_climbProcess.killClimbCommand();
 		}
 
-		if (m_climbController != null) {
-			m_climbController.schedule();
-		}
 	}
 
 	@Override
@@ -193,7 +191,8 @@ public class Robot extends TimedRobot {
 		m_driveTrain.setBrakes(false);
 		m_driveTrain.stop();
 
-		// Sets the climber SystemState to SERVICE
+		// Stop the climber
+		m_climbProcess.killClimbCommand();
 
 	}
 

@@ -1,7 +1,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import frc.lib5k.control.Toggle;
+import frc.robot.subsystems.Climber.Position;
 import edu.wpi.first.wpilibj.GenericHID;
 
 /**
@@ -48,6 +50,11 @@ public class OI {
         return s_instance;
     }
 
+    public void rumbleDriver(double force) {
+        m_driverController.setRumble((force > 1.0) ? RumbleType.kLeftRumble : RumbleType.kRightRumble,
+                (force > 1.0) ? force - 1.0 : force);
+    }
+
     /**
      * Get the robot "throttle" input
      * 
@@ -91,26 +98,22 @@ public class OI {
         return m_shouldShootToggle.feed(m_driverController.getAButtonPressed());
     }
 
-    public boolean ejectClimber() {
+    public boolean shouldEjectClimber() {
         return m_operatorController.getAButtonPressed();
-    }   
-
-    public double retractClimber() {
-        double speed = 0.0;
-        
-        // Use the left trigger to retract the climber
-        speed -= m_operatorController.getTriggerAxis(GenericHID.Hand.kLeft);
-
-        return speed;
     }
 
-    public int getClimbHeight() {
+    public Position getWantedClimbPosition() {
         if (m_operatorController.getPOV() == 0) {
-            return 2;
+            return Position.HIGH_BAR;
         } else if (m_operatorController.getPOV() == 180) {
-            return 1;
+            return Position.LOW_BAR;
         } else {
-            return 0;
+            return Position.CURRENT;
         }
     }
+
+    public boolean shouldAutoAim() {
+        return m_driverController.getYButton();
+    }
+
 }

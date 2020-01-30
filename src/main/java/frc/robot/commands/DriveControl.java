@@ -5,6 +5,9 @@ import frc.lib5k.control.CubicDeadband;
 import frc.robot.OI;
 import frc.robot.RobotConstants;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.vision.Limelight2;
+import frc.robot.vision.LimelightTarget;
+import frc.robot.vision.Limelight2.LEDMode;
 
 /**
  * Default command for controlling the robot drivebase with Xbox controller
@@ -20,6 +23,9 @@ public class DriveControl extends CommandBase {
     private CubicDeadband m_rotationDeadband = new CubicDeadband(
             RobotConstants.HumanInputs.Deadbands.ROTATION_INPUT_DEADBAND, 0.0);
 
+    // Alignment command
+    private AutoAlign m_alignmentCommand = new AutoAlign();
+
     /**
      * DriveControl constructor
      */
@@ -32,6 +38,11 @@ public class DriveControl extends CommandBase {
     @Override
     public void execute() {
 
+        // Handle auto-aim
+        if (m_oi.shouldAutoAim()) {
+
+            m_alignmentCommand.schedule(true);
+        }
 
         // Read driver inputs
         double speed = m_oi.getThrottle();
