@@ -24,7 +24,7 @@ public class ShooterTester extends CommandBase {
 
         // Set shooting mode
         if (current) {
-            Shooter.getInstance().setOutputPercent(0.9);
+            Shooter.getInstance().setOutputPercent(0.85);
         } else {
             Shooter.getInstance().stop();
         }
