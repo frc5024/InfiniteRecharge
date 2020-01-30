@@ -81,9 +81,6 @@ public class Robot extends TimedRobot {
 		// m_driveTrain.setPosition(new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0.0)));
 		m_driveTrain.setRampRate(0.12);
 
-		// Unlocks the climber
-		m_climber.unlock();
-
 		// Create and publish an autonomous chooser
 		m_autonChooser = new Chooser();
 		m_autonChooser.publishOptions();
