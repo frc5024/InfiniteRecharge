@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib5k.components.AutoCamera;
 import frc.lib5k.components.pneumatics.LazySolenoid;
 import frc.lib5k.simulation.wrappers.SimTalon;
@@ -131,11 +132,15 @@ public class Climber extends SubsystemBase {
         m_releasePin.set(bool);
     }
 
+    /**
+     * Used to send driver input to the motor
+     * @param speed the value you want to set the liftmotor
+     */
     public void retractMotor(double speed) {
         m_liftMotor.set(speed);
     }
 
-    private void handleLocked(boolean isNew) {
+    public void handleLocked(boolean isNew) {
         // If new, set pin to retracted, set motor brake to enabled, set output to 0.0,
         // turn off the camera
         if (isNew) {
@@ -147,7 +152,7 @@ public class Climber extends SubsystemBase {
         }
     }
 
-    private void handleDeploy(boolean isNew) {
+    public void handleDeploy(boolean isNew) {
         // If new, push out the pin, set motor to 0.0, turn on the camera
         if (isNew) {
             logger.log("Climber", "Deployed");
@@ -159,7 +164,7 @@ public class Climber extends SubsystemBase {
 
     }
 
-    private void handleRetract(boolean isNew) {
+    public void handleRetract(boolean isNew) {
         // While m_wantedPosition != getPosition()
         // Pull down
         // Else, set the state to DEPLOYING to hold the climber in place
@@ -168,7 +173,7 @@ public class Climber extends SubsystemBase {
         }
     }
 
-    private void handleService(boolean isNew) {
+    public void handleService(boolean isNew) {
         // If new, disable brakes, set motor to 0.0, enable camera, Do NOT TOUCH THE PIN
         if (isNew) {
             m_liftMotor.set(0.0);
@@ -190,7 +195,14 @@ public class Climber extends SubsystemBase {
     public void unlock() {
         logger.log("Climber", "Unlocked");
         m_state = SystemState.DEPLOYING;
+    }
 
+    public boolean isUnlocked() {
+        return m_state == SystemState.DEPLOYING;
+    }
+
+    public void setService() {
+        m_state = SystemState.SERVICE;
     }
 
     /**

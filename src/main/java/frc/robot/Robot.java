@@ -12,6 +12,8 @@ import frc.lib5k.utils.RobotLogger;
 import frc.lib5k.utils.RobotLogger.Level;
 import frc.robot.autonomous.Chooser;
 import frc.robot.commands.DriveControl;
+import frc.robot.commands.ClimbProcess;
+import frc.robot.commands.ClimbController;
 import frc.robot.commands.ShooterTester;
 import frc.robot.subsystems.CellSuperstructure;
 import frc.robot.subsystems.Climber;
@@ -44,6 +46,8 @@ public class Robot extends TimedRobot {
 	private CommandBase m_autonomousCommand;
 	private DriveControl m_driveControl;
 	private ShooterTester m_shooterTester;
+	private ClimbProcess m_climbProcess;
+	private ClimbController m_climbController;
 
 	private Chooser m_autonChooser;
 
@@ -58,6 +62,8 @@ public class Robot extends TimedRobot {
 		logger.log("Robot", "Constructing Commands", Level.kRobot);
 		m_driveControl = new DriveControl();
 		m_shooterTester = new ShooterTester();
+		m_climbProcess = new ClimbProcess();
+		m_climbController = new ClimbController();
 
 		// Register all subsystems
 		logger.log("Robot", "Registering Subsystems", Level.kRobot);
@@ -77,6 +83,9 @@ public class Robot extends TimedRobot {
 		// Reset the drivetrain pose
 		// m_driveTrain.setPosition(new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0.0)));
 		m_driveTrain.setRampRate(0.12);
+
+		// Unlocks the climber
+		m_climber.unlock();
 
 		// Create and publish an autonomous chooser
 		m_autonChooser = new Chooser();
@@ -160,6 +169,13 @@ public class Robot extends TimedRobot {
 			m_shooterTester.schedule();
 		}
 
+		if (m_climbProcess != null) {
+			m_climbProcess.schedule();
+		}
+
+		if (m_climbController != null) {
+			m_climbController.schedule();
+		}
 	}
 
 	@Override
@@ -176,6 +192,8 @@ public class Robot extends TimedRobot {
 		// Disable brakes on the DriveTrain
 		m_driveTrain.setBrakes(false);
 		m_driveTrain.stop();
+
+		// Sets the climber SystemState to SERVICE
 
 	}
 

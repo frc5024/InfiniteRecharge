@@ -92,12 +92,8 @@ public class OI {
     }
 
     public boolean ejectClimber() {
-        if (m_operatorController.getAButtonPressed()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+        return m_operatorController.getAButtonPressed();
+    }   
 
     public double retractClimber() {
         double speed = 0.0;
@@ -106,5 +102,15 @@ public class OI {
         speed -= m_operatorController.getTriggerAxis(GenericHID.Hand.kLeft);
 
         return speed;
+    }
+
+    public int getClimbHeight() {
+        if (m_operatorController.getPOV() == 0) {
+            return 2;
+        } else if (m_operatorController.getPOV() == 180) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 }
