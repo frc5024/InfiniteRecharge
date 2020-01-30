@@ -152,7 +152,7 @@ public class Climber extends SubsystemBase {
         if (isNew) {
 
             // Release the climber spring
-           m_releasePin.set(true);
+            m_releasePin.set(true);
 
             // Disable the motor
             m_liftMotor.set(0.0);
