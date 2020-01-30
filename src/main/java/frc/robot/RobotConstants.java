@@ -155,6 +155,9 @@ public class RobotConstants {
         // Basic P control for encoder-only distance driving
         public static final double kRP = 0.05;
 
+        // Test P for direct angle -> motor calculation
+        public static final double kANGLE_TO_POWER = 0.004;
+
         // P = 0.027 I = 0.1 D = 0.006
 
         // Closest: 3.34m

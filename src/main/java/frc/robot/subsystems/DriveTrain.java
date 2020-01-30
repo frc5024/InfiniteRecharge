@@ -245,11 +245,12 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
         double force, turn = 0.0;
 
         // Turn to face the angle
-        DriveSignal signal = calculateFaceOutputs(error.getHeading().getDegrees(), 3.0);
+        // DriveSignal signal = calculateFaceOutputs(error.getHeading().getDegrees(), 3.0);
+        turn = error.getHeading().getDegrees() * RobotConstants.ControlGains.kANGLE_TO_POWER;
 
         // Determine turn from the signal. (the rotational command happens to be equal
         // to the left output)
-        turn = signal.getL();
+        // turn = signal.getL();
 
         // Disable turning if within epsilon
         if (Math.abs(error.getDistance()) < 0.02) {
@@ -258,19 +259,21 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
 
         // Determine scaling factor for the signal force based on the amount of turning
         // needed. The more we have to turn, the slower we should drive to the point.
-        double forceScale = Mathutils.clamp((1.0 - Math.abs(error.getHeading().getDegrees() * 0.01)), 0.0, 1.0);
+        double forceScale = Mathutils.clamp((1.0 - Math.abs(error.getHeading().getDegrees() * RobotConstants.ControlGains.kANGLE_TO_POWER)), 0.0, 1.0);
 
         // Determine the force required with a simple P control
         force = error.getDistance() * RobotConstants.ControlGains.kPDriveVel
                 * RobotConstants.ControlGains.kMaxSpeedMetersPerSecond * forceScale;
 
         // TODO: do we need to normalize here?
+        DriveSignal output = new DriveSignal(force + turn, force - turn);
+        output = DifferentialDriveCalculation.normalize(output);
 
         System.out.println(force + " " + turn + " " + forceScale);
 
         // Send motor commands to the drivebase
-        m_leftGearbox.set(force + turn);
-        m_rightGearbox.set(force - turn);
+        m_leftGearbox.set(output.getL());
+        m_rightGearbox.set(output.getR());
 
     }
 
