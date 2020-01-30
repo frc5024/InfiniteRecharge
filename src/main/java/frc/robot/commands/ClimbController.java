@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
 import frc.robot.subsystems.Climber;
 
-
 public class ClimbController extends CommandBase {
 
     // Operator interface for reading driver inputs
@@ -17,25 +16,15 @@ public class ClimbController extends CommandBase {
 
     @Override
     public void execute() {
-        int requestedState = m_oi.getClimbHeight();
 
-        switch (requestedState) {
-        case 1:
-            Climber.getInstance().setPosition(Climber.Position.HIGH_BAR);
-            break;
-        case 2:
-            Climber.getInstance().setPosition(Climber.Position.LOW_BAR);
-            break;
-        default:
-            Climber.getInstance().setPosition(Climber.Position.CURRENT);
-            break;
-        }
+        // Tell the climber where to move to
+        Climber.getInstance().setPosition(m_oi.getWantedClimbPosition());
     }
 
     @Override
     public void end(boolean interrupted) {
         // When the climb command finishes, the climber is set back to SERVICE
-        Climber.getInstance().setService();
+        Climber.getInstance().service();
     }
 
     @Override

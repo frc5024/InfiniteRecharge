@@ -5,8 +5,7 @@ import frc.robot.OI;
 import frc.robot.subsystems.Climber;
 
 /**
- * Command for handling the climber with Xbox controller
- * inputs.
+ * Command for handling the climber with Xbox controller inputs.
  */
 public class ClimbProcess extends CommandBase {
 
@@ -15,20 +14,10 @@ public class ClimbProcess extends CommandBase {
 
     private ClimbController m_ClimbController = new ClimbController();
 
-    /**
-     * ClimbProcess constructor
-     */
-    public ClimbProcess() {
-
-    }
-
     @Override
     public void execute() {
-        // SystemState is set to DEPLOYING
-
         // Pull the pin on the climber
-        if (m_oi.ejectClimber()) {
-            System.out.println("Does it work?");
+        if (m_oi.shouldEjectClimber()) {
             m_ClimbController.schedule();
         }
     }

@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib5k.components.AutoCamera;
 import frc.lib5k.components.pneumatics.LazySolenoid;
 import frc.lib5k.simulation.wrappers.SimTalon;
@@ -125,58 +124,75 @@ public class Climber extends SubsystemBase {
     }
 
     /**
-     * Used to pull the pin on the climber
-     * @param bool the value you want to set the solenoid
+     * Handle system locked state
+     * 
+     * @param isNew Is new state?
      */
-    public void setSolenoid(boolean bool) {
-        m_releasePin.set(bool);
+    private void handleLocked(boolean isNew) {
+        if (isNew) {
+
+            // Retract safety pin
+            m_releasePin.set(false);
+
+            // Stop the motor
+            m_liftMotor.setNeutralMode(NeutralMode.Brake);
+            m_liftMotor.set(0.0);
+
+            // Disable the camera
+            m_camera.showCamera(false);
+        }
     }
 
     /**
-     * Used to send driver input to the motor
-     * @param speed the value you want to set the liftmotor
+     * Handle climber deployment
+     * 
+     * @param isNew Is new state?
      */
-    public void retractMotor(double speed) {
-        m_liftMotor.set(speed);
-    }
-
-    public void handleLocked(boolean isNew) {
-        // If new, set pin to retracted, set motor brake to enabled, set output to 0.0,
-        // turn off the camera
+    private void handleDeploy(boolean isNew) {
         if (isNew) {
-            logger.log("Climber", "Locked");
-            m_releasePin.set(false);
-            m_state = SystemState.RETRACTING;
-            m_liftMotor.set(0.0);
-            m_camera.showCamera(false);
-        }
-    }
 
-    public void handleDeploy(boolean isNew) {
-        // If new, push out the pin, set motor to 0.0, turn on the camera
-        if (isNew) {
-            logger.log("Climber", "Deployed");
+            // Release the climber spring
             m_releasePin.set(true);
-            m_state = SystemState.DEPLOYING;
+
+            // Disable the motor
             m_liftMotor.set(0.0);
-            m_camera.showCamera(false);
+
+            // Show the camera feed to the drivers
+            m_camera.showCamera(true);
         }
 
     }
 
+    /**
+     * Handle climber retraction
+     * 
+     * @param isNew
+     */
     public void handleRetract(boolean isNew) {
-        // While m_wantedPosition != getPosition()
-        // Pull down
-        // Else, set the state to DEPLOYING to hold the climber in place
-        while (m_wantedPosition != getPosition()) {
+
+        // If we are not at our desired position, get there
+        if (m_wantedPosition != getPosition()) {
+
+            // Pull down the climber
+            m_liftMotor.set(1.0);
 
         }
+
     }
 
+    /**
+     * Handle service mode
+     * 
+     * @param isNew Is new state?
+     */
     public void handleService(boolean isNew) {
-        // If new, disable brakes, set motor to 0.0, enable camera, Do NOT TOUCH THE PIN
         if (isNew) {
+
+            // Stop, and disable the motor
             m_liftMotor.set(0.0);
+            m_liftMotor.setNeutralMode(NeutralMode.Coast);
+
+            // Enable the camera
             m_camera.showCamera(true);
         }
     }
@@ -197,11 +213,11 @@ public class Climber extends SubsystemBase {
         m_state = SystemState.DEPLOYING;
     }
 
-    public boolean isUnlocked() {
-        return m_state == SystemState.DEPLOYING;
-    }
-
-    public void setService() {
+    /**
+     * Go into service mode
+     */
+    public void service() {
+        logger.log("Climber", "In service mode");
         m_state = SystemState.SERVICE;
     }
 
@@ -221,21 +237,19 @@ public class Climber extends SubsystemBase {
      */
     public Position getPosition() {
         /**
-         * TODO:
-         * 
          * This should work as follows:
          * 
          * If either hall sensor is tripped, return the corresponding position,
          * otherwise, return CURRENT
          */
 
-         if (m_highHall.get()) {
+        if (m_highHall.get()) {
             return Position.HIGH_BAR;
-         } else if (m_lowHall.get()) {
-             return Position.LOW_BAR;
-         } else {
+        } else if (m_lowHall.get()) {
+            return Position.LOW_BAR;
+        } else {
             return Position.CURRENT;
-         }
+        }
     }
 
 }
