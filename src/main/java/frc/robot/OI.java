@@ -91,16 +91,20 @@ public class OI {
         return m_shouldShootToggle.feed(m_driverController.getAButtonPressed());
     }
 
-    public double ejectClimber() {
-        if (m_operatorController.getStickButtonPressed(GenericHID.Hand.kRight)) {
-            return 5; //The lower the value, the higher the climber will shoot
+    public boolean ejectClimber() {
+        if (m_operatorController.getAButtonPressed()) {
+            return true;
+        } else {
+            return false;
         }
-        else return 10; //This shouldn't happen, we just need it for the return value
     }
 
     public double retractClimber() {
         double speed = 0.0;
+        
+        // Use the left trigger to retract the climber
         speed -= m_operatorController.getTriggerAxis(GenericHID.Hand.kLeft);
+
         return speed;
     }
 }

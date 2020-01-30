@@ -7,7 +7,7 @@ import frc.robot.subsystems.Climber;
 
 public class ClimbProcess extends CommandBase {
 
-    // Operator interface object for reading driver inputs
+    // Operator interface for reading driver inputs
     private OI m_oi = OI.getInstance();
 
     /**
@@ -15,29 +15,31 @@ public class ClimbProcess extends CommandBase {
      */
     public ClimbProcess() {
 
-        // Add the Climber as a subsystem requirement
+        // Add the ClimbProcess as a subsystem requirement
         addRequirements(Climber.getInstance());
+
     }
 
     @Override
     public void initialize() {
-
-        // Unlock the climber on initialization
         Climber.getInstance().unlock();
     }
 
     @Override
     public void execute() {
-
-        // Reads the driver inputs
+        // Pull the pin on the climber
+        Climber.getInstance().setSolenoid(m_oi.ejectClimber());
+        
+        // Read driver inputs
+        double speed = m_oi.retractClimber();
 
         // Send control data to the Climber
+        Climber.getInstance().retractMotor(speed);
     }
 
     @Override
     public boolean isFinished() {
-        // When this command is finished, the climber will be put into SERVICE mode
-        
+        Climber.getInstance().lock();
         return true;
     }
 }

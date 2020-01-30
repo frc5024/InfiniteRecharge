@@ -123,6 +123,18 @@ public class Climber extends SubsystemBase {
 
     }
 
+    /**
+     * Used to pull the pin on the climber
+     * @param bool the value you want to set the solenoid
+     */
+    public void setSolenoid(boolean bool) {
+        m_releasePin.set(bool);
+    }
+
+    public void retractMotor(double speed) {
+        m_liftMotor.set(speed);
+    }
+
     private void handleLocked(boolean isNew) {
         // If new, set pin to retracted, set motor brake to enabled, set output to 0.0,
         // turn off the camera
