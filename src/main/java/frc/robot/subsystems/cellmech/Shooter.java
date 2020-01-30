@@ -67,6 +67,8 @@ public class Shooter extends SubsystemBase {
 
         m_motorController = new SimSparkMax(RobotConstants.Shooter.MOTOR_ID, MotorType.kBrushless);
 
+        addChild("SimSparkMax", m_motorController);
+
         // Configure the rpm controllers
         m_spinupController = m_motorController.getPIDController();
         m_holdController = new JRADController(RobotConstants.Shooter.kJ, RobotConstants.Shooter.kF,

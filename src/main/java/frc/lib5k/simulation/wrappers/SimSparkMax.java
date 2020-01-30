@@ -6,12 +6,18 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.hal.SimDevice;
 import edu.wpi.first.hal.SimDouble;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.Sendable;
+import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SendableRegistry;
 import frc.lib5k.roborio.RR_HAL;
 
-public class SimSparkMax extends CANSparkMax {
+public class SimSparkMax extends CANSparkMax implements Sendable {
 
     public SimSparkMax(int deviceID, MotorType type) {
         super(deviceID, type);
+
+        SendableRegistry.addLW(this, "SimSparkMax", deviceID);
 
         // handle simulation device settings
         m_simDevice = SimDevice.create("SimSparkMax", getDeviceId());
@@ -45,10 +51,20 @@ public class SimSparkMax extends CANSparkMax {
 
     @Override
     public void setVoltage(double outputVolts) {
-        if(RobotBase.isSimulation()){
+        if (RobotBase.isSimulation()) {
             set(outputVolts / RR_HAL.getSimSafeVoltage());
-        }else{
+        } else {
             super.setVoltage(outputVolts);
         }
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.setSmartDashboardType("Speed Controller");
+        builder.setSafeState(() -> {
+            set(0.0);
+        });
+        builder.addDoubleProperty("Value", this::get, this::set);
+
     }
 }
