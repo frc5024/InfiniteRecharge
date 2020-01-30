@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib5k.components.ColorSensor5k;
+import frc.lib5k.utils.ColorUtils;
 import frc.lib5k.utils.RobotLogger;
 import frc.robot.GameData;
 import frc.robot.OI;
@@ -45,7 +46,7 @@ public class PanelManipulator extends SubsystemBase {
     private Color currentColor;
     private Color lastColor;
     private boolean inRange;
-    private boolean isUnlocked = unlockPanelManipulator();
+    private boolean isUnlocked = OI.getInstance().unlockPanelManipulator();
     private boolean doneRotations;
     private boolean donePosition;
     private int colorCount;
@@ -95,14 +96,15 @@ public class PanelManipulator extends SubsystemBase {
 
         switch(currentState) {
             case INIT:
-                if(inRange) {
-                    m_spinnerMotor.set(0.9);
-                    currentState = ControlState.ROTATING;
-                } else {
-                    currentState = ControlState.IDLE;
-                }
-                break;
+                
+                checkRange();
+
+            break;
+            
             case ROTATING:
+
+                checkRange();
+
                 if(GameData.getInstance().getGameStage() == Stage.STAGE2) {
 
                     if(currentColor != lastColor) {
@@ -117,12 +119,18 @@ public class PanelManipulator extends SubsystemBase {
                         currentState = ControlState.IDLE;
                     }
                 }
+    
+                // Stage 3 Positional Movement (to a specific color).
                 if(GameData.getInstance().getGameStage() == Stage.STAGE3) {
-                    // COLOR POSITIONING.
 
-
+                    m_spinnerMotor.set(0.5);
+                    
+                    if(ColorUtils.epsilonEquals(new Color(GameData.getInstance().getControlColor()), currentColor, 0.2)) {
+                        currentState = ControlState.IDLE;
+                    }
+                    
                 }
-
+    
                 break;
 
             case ERROR:
@@ -139,6 +147,14 @@ public class PanelManipulator extends SubsystemBase {
 
     }
 
+    public void checkRange() {
+        if(inRange) {
+            setState(ControlState.ROTATING);
+            m_spinnerMotor.set(0.9);
+        } else {
+            setState(ControlState.IDLE);
+        }
+    }
 
     /**
      * Gets the game color for that match.
