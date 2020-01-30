@@ -361,13 +361,9 @@ public class Hopper extends SubsystemBase {
     /**
      * Supply cells to shooter until there are none left
      */
-    public void supplyCellsToShooter(int amountToSupply) {
-        // limit amount to supply to what we have
-        amountToSupply = amountToSupply > m_cellCount ? m_cellCount : amountToSupply;
-        // make sure amount isn't negative
-        amountToSupply = amountToSupply < 0 ? 0 : amountToSupply;
+    public void supplyCellsToShooter(int amountToEndUpWith) {
         // set amount to end up with after shooting
-        m_desiredAmountToHaveAfterShooting = m_cellCount - amountToSupply;
+        m_desiredAmountToHaveAfterShooting = amountToEndUpWith;
         // start feeding cells
         m_systemState = SystemState.SHOOTING;
     }
@@ -382,13 +378,9 @@ public class Hopper extends SubsystemBase {
     /**
      * Set the hopper to intake
      */
-    public void startIntake(int amountToTakeIn) {
-        // make sure amount isn't negative
-        amountToTakeIn = amountToTakeIn < 0 ? 0 : amountToTakeIn;
+    public void startIntake(int amountToEndUpWith) {
         // set desired amount
-        m_desiredAmountToIntake = amountToTakeIn + m_cellCount;
-        // limit desired amount to 5 or below
-        m_desiredAmountToIntake = m_desiredAmountToIntake > 5 ? 5 : m_desiredAmountToIntake;
+        m_desiredAmountToIntake = amountToEndUpWith;
         // start intaking
         m_systemState = SystemState.INTAKEREADY;
     }
@@ -398,6 +390,15 @@ public class Hopper extends SubsystemBase {
      */
     public void stop() {
         m_systemState = SystemState.IDLE;
+    }
+
+    /**
+     * manually control the belt
+     * 
+     * @param speed speed to set the belt to
+     */
+    public void manuallyControlBelt(double speed) {
+        m_hopperBelt.set(speed);
     }
 
 }

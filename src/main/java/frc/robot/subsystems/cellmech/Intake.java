@@ -300,5 +300,22 @@ public class Intake extends SubsystemBase {
         m_systemState = SystemState.IDLE;
     }
 
+    /**
+     * manually control the harvester roller
+     * 
+     * @param speed speed to set the roller to
+     */
+    public void manuallyControlRoller(double speed) {
+        m_intakeRollerLeft.set(speed);
+        m_intakeRollerRight.set(speed);
+    }
 
+    /**
+     * manually control the harvester arm
+     * 
+     * @param speed speed to set the arm to
+     */
+    public void manuallyControlArm(double speed) {
+        m_intakeActuator.set(speed);
+    }
 }
