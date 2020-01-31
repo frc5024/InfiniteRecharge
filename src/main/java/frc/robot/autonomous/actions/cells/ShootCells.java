@@ -3,22 +3,22 @@ package frc.robot.autonomous.actions.cells;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.CellSuperstructure;
 
-public class IntakeCells extends CommandBase {
+public class ShootCells extends CommandBase {
 
     private CellSuperstructure m_cellSuperstructure = CellSuperstructure.getInstance();
 
-    private int m_intakeAmount = 5;
+    private int m_shootAmount = 5;
 
-    public IntakeCells() {
+    public ShootCells() {
         this(5);
     }
-    public IntakeCells(int cellCount) {
-        m_intakeAmount = cellCount;
+    public ShootCells(int cellCount) {
+        m_shootAmount = cellCount;
     }
 
     @Override
     public void initialize() {
-        m_cellSuperstructure.intakeCells(m_intakeAmount);
+        m_cellSuperstructure.shootCells(m_shootAmount);
     }
 
     @Override
