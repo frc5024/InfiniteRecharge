@@ -53,9 +53,11 @@ public class RobotConstants {
         }
 
         /**
-         * HID device id of the driver's Xbox controller
+         * HID device id of the driver ans operator Xbox controllers
          */
         public static final int DRIVER_CONTROLLER_ID = 0;
+        
+        public static final int OPERATOR_CONTROLLER_ID = 1;
 
     }
 
@@ -198,11 +200,9 @@ public class RobotConstants {
 
         // Motor controller IDs
         public static final int INTAKE_ACTUATOR_TALON = 5;
-        public static final int INTAKE_ROLLER_TALON_LEFT = 6;
-        public static final int INTAKE_ROLLER_TALON_RIGHT = 7;
+        public static final int INTAKE_ROLLER_TALON = 6;
 
-        public static final boolean INTAKE_ROLLER_TALON_LEFT_INVERTED = false;
-        public static final boolean INTAKE_ROLLER_TALON_RIGHT_INVERTED = false;
+        public static final boolean INTAKE_ROLLER_TALON_INVERTED = false;
 
         // Sensors DIO ports
         public static final int INTAKE_HALL_BOTTOM = 0;

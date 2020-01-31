@@ -34,8 +34,7 @@ public class Intake extends SubsystemBase {
     /**
      * Motors that drives the roller
      */
-    private WPI_TalonSRX m_intakeRollerLeft;
-    private WPI_TalonSRX m_intakeRollerRight;
+    private WPI_TalonSRX m_intakeRoller;
 
     /**
      * Hall effects sensor at the bottom intake arm position
@@ -68,17 +67,14 @@ public class Intake extends SubsystemBase {
 
         // Construct motor controllers
         m_intakeActuator = new WPI_TalonSRX(RobotConstants.Intake.INTAKE_ACTUATOR_TALON);
-        m_intakeRollerLeft = new WPI_TalonSRX(RobotConstants.Intake.INTAKE_ROLLER_TALON_LEFT);
-        m_intakeRollerRight = new WPI_TalonSRX(RobotConstants.Intake.INTAKE_ROLLER_TALON_RIGHT);
+        m_intakeRoller = new WPI_TalonSRX(RobotConstants.Intake.INTAKE_ROLLER_TALON);
 
         // Invert motors that need to be inverted
-        m_intakeRollerLeft.setInverted(RobotConstants.Intake.INTAKE_ROLLER_TALON_LEFT_INVERTED);
-        m_intakeRollerRight.setInverted(RobotConstants.Intake.INTAKE_ROLLER_TALON_RIGHT_INVERTED);
+        m_intakeRoller.setInverted(RobotConstants.Intake.INTAKE_ROLLER_TALON_INVERTED);
 
         // Set voltage limiting
         TalonHelper.configCurrentLimit(m_intakeActuator, 34, 32, 30, 0);
-        TalonHelper.configCurrentLimit(m_intakeRollerLeft, 34, 32, 30, 0);
-        TalonHelper.configCurrentLimit(m_intakeRollerRight, 34, 32, 30, 0);
+        TalonHelper.configCurrentLimit(m_intakeRoller, 34, 32, 30, 0);
 
         // Construct sensors
         m_bottomHall = new DigitalInput(RobotConstants.Intake.INTAKE_HALL_BOTTOM);
@@ -268,8 +264,7 @@ public class Intake extends SubsystemBase {
      * @param speed desired speed of the roller -1.0 to 1.0
      */
     private void setRollerSpeed(double speed) {
-        m_intakeRollerLeft.set(speed);
-        m_intakeRollerRight.set(speed);
+        m_intakeRoller.set(speed);
     }
 
     /**
@@ -306,8 +301,7 @@ public class Intake extends SubsystemBase {
      * @param speed speed to set the roller to
      */
     public void manuallyControlRoller(double speed) {
-        m_intakeRollerLeft.set(speed);
-        m_intakeRollerRight.set(speed);
+        m_intakeRoller.set(speed);
     }
 
     /**

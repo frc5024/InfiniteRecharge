@@ -13,9 +13,10 @@ public class OI {
     private static OI s_instance = null;
 
     /**
-     * Robot driver Xbox controller interface object
+     * Robot drivers Xbox controller interface object
      */
     private XboxController m_driverController = new XboxController(RobotConstants.HumanInputs.DRIVER_CONTROLLER_ID);
+    private XboxController m_operatorController = new XboxController(RobotConstants.HumanInputs.OPERATOR_CONTROLLER_ID);
 
     /* Toggles and modifiers */
 
@@ -28,6 +29,7 @@ public class OI {
      * Toggle for keeping track of shooting
      */
     private Toggle m_shouldShootToggle = new Toggle();
+
 
     /**
      * Force the use of getInstance() by setting this class private
@@ -93,7 +95,38 @@ public class OI {
 
     public boolean shouldShoot() {
         // TODO: replace this with an operator control
-        return m_shouldShootToggle.feed(m_driverController.getAButtonPressed());
+        return m_shouldShootToggle.feed(m_operatorController.getAButtonPressed());
+    }
+
+    public double getHopperBeltSpeed(){
+        double speed = 0.0;
+
+        speed += m_operatorController.getTriggerAxis(GenericHID.Hand.kRight);
+        speed -= m_operatorController.getTriggerAxis(GenericHID.Hand.kLeft);
+        
+        speed = (Math.abs(speed) < 0.2 ? 0.0 : speed);
+
+        return speed;
+    }
+
+    public double getHarversterRollerSpeed(){
+        double speed = 0.0;
+
+        speed = -m_operatorController.getY(GenericHID.Hand.kRight);
+        
+        speed = (Math.abs(speed) < 0.2 ? 0.0 : speed);
+
+        return speed;
+    }
+
+    public double getHarversterArmSpeed(){
+        double speed = 0.0;
+
+        speed = -m_operatorController.getY(GenericHID.Hand.kLeft);
+        
+        speed = (Math.abs(speed) < 0.2 ? 0.0 : speed);
+
+        return speed;
     }
 
     public boolean shouldAutoAim() {
