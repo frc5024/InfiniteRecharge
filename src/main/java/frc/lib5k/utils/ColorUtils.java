@@ -34,6 +34,14 @@ public class ColorUtils {
         return null;
     }
 
+    public enum FieldColors {
+        RED,
+        YELLOW,
+        BLUE,
+        GREEN
+        
+    }
+
 
 
 }
