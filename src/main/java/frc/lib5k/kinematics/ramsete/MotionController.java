@@ -1,11 +1,8 @@
 package frc.lib5k.kinematics.ramsete;
 
-import java.util.function.Supplier;
-
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.geometry.Twist2d;
-import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import frc.lib5k.kinematics.systemdef.VelocityConstraint;
 import frc.lib5k.kinematics.systemdef.VelocityDefinition;
@@ -79,8 +76,8 @@ public class MotionController {
         return new Twist2d(dx, dy, b.getRotation().getDegrees() - a.getRotation().getDegrees());
     }
 
-    public ChassisSpeeds calculate(Pose2d robotPose, Pose2d goalPose, DifferentialDriveWheelSpeeds speeds,
-            VelocityConstraint constraints) {
+    public DifferentialDriveWheelSpeeds calculate(Pose2d robotPose, Pose2d goalPose,
+            DifferentialDriveWheelSpeeds speeds, VelocityConstraint constraints) {
 
         Twist2d error = getRotatedError(robotPose, goalPose);
 
@@ -115,15 +112,18 @@ public class MotionController {
         // Determine turn rate
         double turn = headingErr * turnP;
 
+        // Determine our max output
+        double maxOutput = constraints.asAbsolute(maxVelocity).maxVelocity;
+
         // Convert inputs to left/right outputs
-        double left = (speed + turn) * maxVelocity.maxVelocity;
-        double right = (speed - turn) * maxVelocity.maxVelocity;
+        double left = (speed + turn) * maxOutput;
+        double right = (speed - turn) * maxOutput;
 
         // Clamp by the maximum velocity
-        left = Mathutils.clamp(left, -maxVelocity.maxVelocity, maxVelocity.maxVelocity);
-        right = Mathutils.clamp(right, -maxVelocity.maxVelocity, maxVelocity.maxVelocity);
+        left = Mathutils.clamp(left, -maxOutput, maxOutput);
+        right = Mathutils.clamp(right, -maxOutput, maxOutput);
 
-        return null;
+        return new DifferentialDriveWheelSpeeds(left, right);
     }
 
 }
