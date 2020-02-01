@@ -15,15 +15,16 @@ import frc.robot.vision.Limelight2.LEDMode;
  */
 public class DriveControl extends CommandBase {
 
-    // Operator interface object for reading driver inputs
+    /** Operator interface object for reading driver inputs */
     private OI m_oi = OI.getInstance();
 
-    // Deadband object for the "rotation" input. More info about deadbands can be
-    // found at: https://en.wikipedia.org/wiki/Deadband
+    /** Deadband object for the "rotation" input. More info about deadbands can be
+     * found at: https://en.wikipedia.org/wiki/Deadband
+     */
     private CubicDeadband m_rotationDeadband = new CubicDeadband(
             RobotConstants.HumanInputs.Deadbands.ROTATION_INPUT_DEADBAND, 0.0);
 
-    // Alignment command
+    /** Alignment command */
     private AutoAlign m_alignmentCommand = new AutoAlign();
 
     /**

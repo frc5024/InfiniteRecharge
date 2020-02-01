@@ -10,7 +10,7 @@ import frc.lib5k.components.sensors.EncoderBase;
 import frc.robot.RobotConstants;
 
 /**
- * The cell hopper subsystem
+ * Robot hopper subsystem
  */
 public class Hopper extends SubsystemBase {
     public static Hopper s_instance = null;
@@ -196,21 +196,22 @@ public class Hopper extends SubsystemBase {
      */
     private void handleIntakeReady(boolean newState) {
         if (newState) {
-
             // Stop belt
             setBeltSpeed(0.0);
-
         }
 
         // cache values of line break sensors
         boolean bottomValue = m_lineBottom.get();
 
+        // if the bottom line break is tripped off for the first time
         if (bottomValue == true && m_lineBottomLastValue == false) {
+            // only intake if the hopper doesn't have the desired amount of cells
             if (m_cellCount < m_desiredAmountToIntake) {
                 m_systemState = SystemState.INTAKING;
             }
         }
 
+        // if the hopper has the desired amount of cells, stop intaking
         if (m_cellCount >= 5 || m_cellCount == m_desiredAmountToIntake) {
             m_systemState = SystemState.IDLE;
         }
@@ -264,6 +265,7 @@ public class Hopper extends SubsystemBase {
 
         }
 
+        // when a cell reaches the top, stop
         if (m_lineTop.get()) {
             m_systemState = SystemState.IDLE;
         }
@@ -282,6 +284,7 @@ public class Hopper extends SubsystemBase {
 
         }
 
+        // when a cell reaches the bottom, stop
         if (m_lineBottom.get()) {
             m_systemState = SystemState.MOVEUPONEPLACE;
         }
@@ -321,6 +324,7 @@ public class Hopper extends SubsystemBase {
 
         }
 
+        // stop one the desired amount is given
         if (m_cellCount == 0 || m_cellCount == m_desiredAmountToHaveAfterShooting) {
             m_systemState = SystemState.IDLE;
         }
@@ -358,6 +362,8 @@ public class Hopper extends SubsystemBase {
 
     /**
      * Supply cells to shooter until there are none left
+     * 
+     * @param amountToEndUpWith amount of cells to have in the hopper after shooting
      */
     public void supplyCellsToShooter(int amountToEndUpWith) {
         // set amount to end up with after shooting

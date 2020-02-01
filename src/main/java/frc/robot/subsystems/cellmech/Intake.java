@@ -16,39 +16,27 @@ import frc.robot.RobotConstants;
 public class Intake extends SubsystemBase {
     public static Intake s_instance = null;
 
-    /**
-     * Motor that moves intake up and down
-     */
+    /** Motor that moves intake up and down */
     private WPI_TalonSRX m_intakeActuator;
 
-    /**
-     * Encoder for arm actuation movement
-     */
+    /** Encoder for arm actuation movement */
     private EncoderBase m_intakeActuatorEncoder;
 
-    /**
-     * PID controller for intake arm
-     */
+    /** PID controller for intake arm */
     private PIDController m_armPIDController;
 
-    /**
-     * Motors that drives the roller
-     */
-    private WPI_TalonSRX m_intakeRoller;
 
-    /**
-     * Hall effects sensor at the bottom intake arm position
-     */
+    /** Motors that drives the roller */
+    private WPI_TalonSRX m_intakeRoller;
+    
+
+    /** Hall effects sensor at the bottom intake arm position */
     private DigitalInput m_bottomHall;
 
-    /**
-     * Hall effects sensor at the top intake arm position
-     */
+    /** Hall effects sensor at the top intake arm position */
     private DigitalInput m_topHall;
 
-    /**
-     * System states
-     */
+    /** System states */
     private enum SystemState {
         IDLE, // System Idle
         LOWER, // Arm moving to bottom hall
@@ -57,10 +45,10 @@ public class Intake extends SubsystemBase {
         RAISING // Arm moving to top hall
     }
 
-    /**
-     * Tracker for intake system state.
-     */
+    /** Tracker for intake system state */
     private SystemState m_systemState = SystemState.IDLE;
+
+    /** Tracker for last intake system state */
     private SystemState m_lastState = null;
 
     private Intake() {
@@ -129,6 +117,7 @@ public class Intake extends SubsystemBase {
                 m_systemState = SystemState.IDLE;
         }
 
+        // Reset encoder if the arm is at the top
         if(m_topHall.get()) {
             m_intakeActuatorEncoder.zero();
         }  
@@ -164,6 +153,7 @@ public class Intake extends SubsystemBase {
 
         }
 
+        // Run PID loop to move arm to 90 degrees
         moveArmTo(90);
     }
 
@@ -182,6 +172,7 @@ public class Intake extends SubsystemBase {
 
         }
 
+        // Run PID loop to move arm to 90 degrees
         moveArmTo(90);
     }
 
@@ -216,7 +207,7 @@ public class Intake extends SubsystemBase {
 
         }
 
-        // Set arm to move up
+        // Run PID loop to move arm to 0 degrees
         moveArmTo(0);
          
     }

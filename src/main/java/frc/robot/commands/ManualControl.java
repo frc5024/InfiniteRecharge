@@ -7,14 +7,18 @@ import frc.robot.subsystems.cellmech.Intake;
 import frc.robot.subsystems.cellmech.Shooter;
 
 /**
- * Test code for the intake/shooter superstructure. This will be replaced soon
+ * Command to manually control the superstructure using a controller on port 2 
  */
 public class ManualControl extends CommandBase {
 
+    /** Instance of intake */
     private Intake m_intake = Intake.getInstance();
+    /** Instance of hopper */
     private Hopper m_hopper = Hopper.getInstance();
+    /** Instance of shooter */
     private Shooter m_shooter = Shooter.getInstance();
 
+    /** Instance of OI */
     private OI m_oi = OI.getInstance();
 
     boolean last = true;
@@ -34,6 +38,7 @@ public class ManualControl extends CommandBase {
             m_shooter.stop();
         }
 
+        // feed speeds into motors
         m_hopper.manuallyControlBelt(m_oi.getHopperBeltSpeed());
 
         m_intake.manuallyControlArm(m_oi.getHarversterArmSpeed());

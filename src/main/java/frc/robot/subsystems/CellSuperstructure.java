@@ -27,9 +27,11 @@ public class CellSuperstructure extends SubsystemBase {
      */
     private RobotLogger logger = RobotLogger.getInstance();
 
-    /* Sub-Subsystems */
+    /* Intake instance */
     private Intake m_intake = Intake.getInstance();
+    /* Hopper instance */
     private Hopper m_hopper = Hopper.getInstance();
+    /* Shooter instance */
     private Shooter m_shooter = Shooter.getInstance();
 
     /* Internal system states */
@@ -40,8 +42,9 @@ public class CellSuperstructure extends SubsystemBase {
         UNJAMING // Unjamming cells
     }
 
-    // Tracker for current system state
+    /** Tracker for intake system state */
     private SystemState m_systemState = SystemState.IDLE;
+    /** Tracker for last intake system state */
     private SystemState m_lastState = null;
 
     /* User requested action */
@@ -52,13 +55,13 @@ public class CellSuperstructure extends SubsystemBase {
         UNJAMING, // Unjamming balls
     }
 
-    // Tracker for user action
+    /** Tracker for what the user wants the superstructure to do */
     private WantedAction m_wantedAction = WantedAction.STOWED;
 
-    // Amount of cells hopper should have after intaking
+    /** Amount of cells hopper should have after intaking */
     private int m_wantedCellsIntake = 5;
 
-    // Amount of cells hopper should have after shooting
+    /** Amount of cells hopper should have after shooting */
     private int m_wantedCellsAfterShot = 0;
 
     private CellSuperstructure() {
@@ -219,7 +222,7 @@ public class CellSuperstructure extends SubsystemBase {
      * @return wether or not the superStructure has completed it's actions (if it is idle or not)
      */
     public boolean isDone() {
-        return m_wantedAction == WantedAction.STOWED;
+        return m_systemState == SystemState.IDLE;
     }
 
     /**
