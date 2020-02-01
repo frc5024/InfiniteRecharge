@@ -2,8 +2,8 @@ package frc.robot.autonomous.actions;
 
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.PoseTracker;
 import frc.robot.autonomous.helpers.SpeedConstraint;
-import frc.robot.subsystems.DriveTrain;
 
 /**
  * A command that will drive the robot from a dynamic pose to an absolute pose
@@ -58,7 +58,7 @@ public class DriveToCommand extends CommandBase {
     @Override
     public void initialize() {
         // Get current robot pose
-        Pose2d current = DriveTrain.getInstance().getPosition();
+        Pose2d current = PoseTracker.getInstance().getRobotPose();
 
         // Generate a LinePath to follow
         m_internalCommand = new LinePath(current, m_goal, m_constraints, m_reversed);

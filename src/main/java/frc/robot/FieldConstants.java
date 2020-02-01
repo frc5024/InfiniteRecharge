@@ -23,4 +23,6 @@ public class FieldConstants {
      * Ball diameter in meters
      */
     public static final double BALL_DISMETER = Units.inchesToMeters(7.0);
+
+    public static final double HEIGHT_OF_TARGET = Units.feetToMeters(7.475);
 }

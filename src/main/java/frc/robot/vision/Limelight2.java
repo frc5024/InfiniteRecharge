@@ -2,6 +2,7 @@ package frc.robot.vision;
 
 import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpiutil.net.PortForwarder;
 import frc.lib5k.utils.Mathutils;
@@ -168,6 +169,15 @@ public class Limelight2 {
     public void setLED(LEDMode mode) {
         m_table.getEntry("ledMode").setNumber(mode.val);
 
+    }
+
+    /**
+     * Gets the Limelights LED mode
+     * 
+     * @return NetworkTableEntry the leds mode
+     */
+    public NetworkTableEntry getLED(){
+        return m_table.getEntry("ledMode");
     }
 
     /**
