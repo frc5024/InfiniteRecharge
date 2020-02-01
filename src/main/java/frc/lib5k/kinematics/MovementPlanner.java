@@ -1,13 +1,13 @@
 package frc.lib5k.kinematics;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import frc.lib5k.control.PIDv2;
 import frc.lib5k.spatial.LocalizationEngine;
 import frc.lib5k.utils.Mathutils;
+import frc.lib5k.wpi.extensions.RRPIDController;
 
 public class MovementPlanner {
-    PIDv2 m_forwardController;
-    PIDv2 m_turnController;
+    RRPIDController m_forwardController;
+    RRPIDController m_turnController;
 
     /**
      * Create a MovementPlanner from two PIDProfiles
@@ -17,16 +17,15 @@ public class MovementPlanner {
      */
     public MovementPlanner(PIDProfile forwardCFG, PIDProfile turnCFG) {
         // Create each PID controller from PIDProfiles
-        m_forwardController = new PIDv2(forwardCFG);
-        m_turnController = new PIDv2(turnCFG);
+        m_forwardController = new RRPIDController(forwardCFG);
+        m_turnController = new RRPIDController(turnCFG);
     }
 
     /**
      * Compute a MovementSegment from the current robot location, and some
      * parameters. To follow a path from the current robot position to the end
      * position, this should be called once every 20ms until the segment is
-     * finished. REMEMBER: a LocalizationEngine instance must exist and be updated
-     * for this to work!
+     * finished.
      * 
      * @param end         Desired FieldPosition to move to
      * @param constraints System output constraints
@@ -39,8 +38,14 @@ public class MovementPlanner {
     public MovementSegment compute(FieldPosition end, DriveConstraints constraints, double turnRate, double epsilon) {
 
         // Configure the output constraints of the PID controllers
-        m_forwardController.setOutputConstraints(-constraints.getMaxVel(), constraints.getMaxVel());
-        m_turnController.setOutputConstraints(-constraints.getMaxTurn(), constraints.getMaxTurn());
+        // m_forwardController.setOutputConstraints(-constraints.getMaxVel(), constraints.getMaxVel());
+        // m_turnController.setOutputConstraints(-constraints.getMaxTurn(), constraints.getMaxTurn());
+
+        // Configure controller setpoints
+        m_forwardController.setSetpoint(0.0);
+        m_forwardController.setTolerance(epsilon);
+        m_turnController.setSetpoint(0.0);
+        m_turnController.setTolerance(epsilon);
 
         // Determine 2D error from end point
         Error2D error = LocalizationEngine.getInstance().getRotatedError(end);
@@ -53,7 +58,6 @@ public class MovementPlanner {
             error.setX(-error.getX());
         }
 
-
         // Increase turning aggression based on path progress
         double turnModifier = (error.getX() * turnRate);
         // turnModifier = 1;
@@ -62,7 +66,7 @@ public class MovementPlanner {
         double maxTurn = constraints.getMaxTurn();
         if (turnModifier > maxTurn) {
             turnModifier = maxTurn;
-        } else if (turnModifier < -maxTurn) { 
+        } else if (turnModifier < -maxTurn) {
             turnModifier = -maxTurn;
         }
 
@@ -92,7 +96,7 @@ public class MovementPlanner {
         boolean finished = false;
         if (constraints.getMinVel() <= 0.5) {
             // Check if the forward PID loop is finished
-            if (m_forwardController.isFinished(epsilon)) {
+            if (m_forwardController.atSetpoint()) {
 
                 // Force-zero all outputs
                 finished = true;
@@ -110,26 +114,8 @@ public class MovementPlanner {
         }
 
         MovementSegment segment = new MovementSegment(speed, turn, finished);
-        System.out.println(error + "" + segment);
         // Return a movementSegment containing the system outputs
         return segment;
-    }
-
-    /**
-     * Publish PIDController objects to Shuffleboard in the "MovementPlanner" tab
-     */
-    public void publishPIDControllers() {
-        publishPIDControllers("MovementPlanner");
-    }
-
-    /**
-     * Publish PIDController objects to Shuffleboard
-     * 
-     * @param tabName Shuffleboard tab name
-     */
-    public void publishPIDControllers(String tabName) {
-        Shuffleboard.getTab(tabName).add("ForwardPID", m_forwardController);
-        Shuffleboard.getTab(tabName).add("TurnPID", m_turnController);
     }
 
     /**
