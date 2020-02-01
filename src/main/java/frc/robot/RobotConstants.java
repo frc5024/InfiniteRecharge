@@ -223,7 +223,6 @@ public class RobotConstants {
         public static final int MOTOR_CONTROLLER_ID = 21; 
         public static final int HIGH_HALL_ID = 2;
         public static final int LOW_HALL_ID = 3;
-        public static final int LINE_BREAK_ID = 1;
     }
 
     public static class Pneumatics {
