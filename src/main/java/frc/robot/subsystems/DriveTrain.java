@@ -21,6 +21,7 @@ import frc.lib5k.components.sensors.EncoderBase;
 import frc.lib5k.interfaces.Loggable;
 import frc.lib5k.utils.Mathutils;
 import frc.lib5k.utils.RobotLogger;
+import frc.robot.PoseTracker;
 import frc.robot.RobotConstants;
 import frc.robot.vision.LimelightTarget;
 import frc.lib5k.kinematics.DriveSignal;
@@ -30,6 +31,7 @@ import frc.lib5k.kinematics.DriveSignal;
  */
 public class DriveTrain extends SubsystemBase implements Loggable, IDifferentialDrivebase {
     private static RobotLogger logger = RobotLogger.getInstance();
+    private static PoseTracker poseTracker = PoseTracker.getInstance();
     private static DriveTrain s_instance = null;
 
     /*
@@ -69,12 +71,12 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
     /**
      * Odometry object for tracking robot position
      */
-    private DifferentialDriveOdometry m_odometry;
+    // private DifferentialDriveOdometry m_odometry;
 
     /**
      * Pose2d for keeping track of robot position on the field
      */
-    private Pose2d m_robotPose = new Pose2d();
+    // private Pose2d m_robotPose = new Pose2d();
 
     /**
      * Velocity tracking vars
@@ -143,7 +145,7 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
         m_turnController.reset();
 
         // Create odometry object
-        m_odometry = new DifferentialDriveOdometry(NavX.getInstance().getRotation());
+        //  m_odometry = new DifferentialDriveOdometry(NavX.getInstance().getRotation());
 
         // Zero encoders
         m_leftEncoder.zero();
@@ -209,8 +211,8 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
         Rotation2d heading = Rotation2d.fromDegrees(NavX.getInstance().getHeading());
 
         // Calculate the robot pose
-        m_odometry.update(heading, getLeftMeters(), getRightMeters());
-        m_robotPose = m_odometry.getPoseMeters();
+        // m_odometry.update(heading, getLeftMeters(), getRightMeters());
+        // m_robotPose = m_odometry.getPoseMeters();
 
     }
 
@@ -266,7 +268,7 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
 
         // Convert the WPILib angles to Lib5K-compatible angles
         double setpointAngle = Mathutils.wpiAngleTo5k(rot.getDegrees());
-        double drivebaseAngle = Mathutils.wpiAngleTo5k(getPosition().getRotation().getDegrees());
+        double drivebaseAngle = Mathutils.wpiAngleTo5k(poseTracker.getRobotPose().getRotation().getDegrees());
 
         // Find error between angles
         double error = Mathutils.getWrappedError(drivebaseAngle, setpointAngle);
@@ -448,7 +450,7 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
      */
     @Override
     public double getRightMeters() {
-
+        
         return m_rightEncoder.getMeters(RobotConstants.DriveTrain.Encoders.PULSES_PER_REVOLUTION,
                 RobotConstants.DriveTrain.Measurements.WHEEL_CIRCUMFERENCE);
 
@@ -459,14 +461,14 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
         return RobotConstants.DriveTrain.Measurements.DRIVEBASE_WIDTH;
     }
 
-    /**
-     * Get the robot's current field-relative position
-     * 
-     * @return Robot position
-     */
-    public Pose2d getPosition() {
-        return m_robotPose;
-    }
+    // /**
+    //  * Get the robot's current field-relative position
+    //  * 
+    //  * @return Robot position
+    //  */
+    // public Pose2d getPosition() {
+    //     return poseTracker.m_robotPose;
+    // }
 
     /**
      * Force-set the robot's position
@@ -484,7 +486,7 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
         // NavX.getInstance().reset();
 
         // Reset odometry
-        m_odometry.resetPosition(pose, NavX.getInstance().getRotation());
+        poseTracker.m_odometry.resetPosition(pose, NavX.getInstance().getRotation());
 
     }
 
@@ -497,14 +499,14 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
     @Override
     public void logStatus() {
         logger.log("DriveTrain",
-                String.format("Pose: %s, Signal: %s", getPosition().toString(), m_currentSignal.toString()));
+                String.format("Pose: %s, Signal: %s", poseTracker.getRobotPose().toString(), m_currentSignal.toString()));
 
     }
 
     @Override
     public void updateTelemetry() {
 
-        SmartDashboard.putString("[DriveTrain] pose", getPosition().toString());
+        SmartDashboard.putString("[DriveTrain] pose", poseTracker.getRobotPose().toString());
 
     }
 }

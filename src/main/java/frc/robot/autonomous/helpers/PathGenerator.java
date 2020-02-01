@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.PoseTracker;
 import frc.robot.RobotConstants;
 import frc.robot.autonomous.helpers.EasyTrajectory;
 import frc.robot.autonomous.helpers.SpeedConstraint;
@@ -79,7 +80,7 @@ public class PathGenerator {
 
 		// returns a new command that follows the trajectory
 		return new RamseteCommand(trajectory, () -> {
-			Pose2d pose = DriveTrain.getInstance().getPosition();
+			Pose2d pose = PoseTracker.getInstance().getRobotPose();
 			return new Pose2d(pose.getTranslation(), new Rotation2d(pose.getRotation().getRadians()));// - ((reversed) ?
 																										// Math.PI :
 																										// 0)));

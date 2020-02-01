@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Ultrasonic.Unit;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.util.Units;
@@ -127,6 +128,7 @@ public class RobotConstants {
             public static final double GEAR_RATIO = 8.45;
 
             public static final int MOTOR_MAX_RPM = 5330; // For cim motors
+ 
 
         }
 
@@ -211,6 +213,15 @@ public class RobotConstants {
         public static final double kJ = 0.0;
         public static final double kF = 0.0;
         public static final double kLoadRatio = 0.1;
+    }
+
+    public static class Camera{
+
+        // Height of camera
+        public static final double CAMERA_HEIGHT = .3; // TODO enter the correct numbers
+
+        // Angle of camera
+        public static final double CAMERA_ANGLE_1 = 25; // TODO enter the correct number
     }
 
 }
