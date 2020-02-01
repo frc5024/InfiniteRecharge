@@ -22,6 +22,16 @@ public class IntakeCells extends CommandBase {
     }
 
     @Override
+    public void execute() {
+        
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        m_cellSuperstructure.stop();
+    }
+
+    @Override
     public boolean isFinished() {
         return m_cellSuperstructure.isDone();
     }

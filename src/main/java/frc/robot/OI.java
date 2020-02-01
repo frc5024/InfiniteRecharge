@@ -17,6 +17,7 @@ public class OI {
      */
     private XboxController m_driverController = new XboxController(RobotConstants.HumanInputs.DRIVER_CONTROLLER_ID);
     private XboxController m_operatorController = new XboxController(RobotConstants.HumanInputs.OPERATOR_CONTROLLER_ID);
+    private XboxController m_testController = new XboxController(2);
 
     /* Toggles and modifiers */
 
@@ -30,6 +31,15 @@ public class OI {
      */
     private Toggle m_shouldShootToggle = new Toggle();
 
+    /**
+     * Toggle for keeping track of running Intake auton
+     */
+    private Toggle m_shouldRunAutoIntakeToggle = new Toggle();
+
+    /**
+     * Toggle for keeping track of running Shoot auton
+     */
+    private Toggle m_shouldRunAutoShootToggle = new Toggle();
 
     /**
      * Force the use of getInstance() by setting this class private
@@ -98,35 +108,43 @@ public class OI {
         return m_shouldShootToggle.feed(m_operatorController.getAButtonPressed());
     }
 
-    public double getHopperBeltSpeed(){
+    public double getHopperBeltSpeed() {
         double speed = 0.0;
 
-        speed += m_operatorController.getTriggerAxis(GenericHID.Hand.kRight);
-        speed -= m_operatorController.getTriggerAxis(GenericHID.Hand.kLeft);
+        speed += m_testController.getTriggerAxis(GenericHID.Hand.kRight);
+        speed -= m_testController.getTriggerAxis(GenericHID.Hand.kLeft);
         
         speed = (Math.abs(speed) < 0.2 ? 0.0 : speed);
 
         return speed;
     }
 
-    public double getHarversterRollerSpeed(){
+    public double getHarversterRollerSpeed() {
         double speed = 0.0;
 
-        speed = -m_operatorController.getY(GenericHID.Hand.kRight);
+        speed = -m_testController.getY(GenericHID.Hand.kRight);
         
         speed = (Math.abs(speed) < 0.2 ? 0.0 : speed);
 
         return speed;
     }
 
-    public double getHarversterArmSpeed(){
+    public double getHarversterArmSpeed() {
         double speed = 0.0;
 
-        speed = -m_operatorController.getY(GenericHID.Hand.kLeft);
+        speed = -m_testController.getY(GenericHID.Hand.kLeft);
         
         speed = (Math.abs(speed) < 0.2 ? 0.0 : speed);
 
         return speed;
+    }
+
+    public boolean shouldRunAutoIntake() {
+        return m_shouldRunAutoIntakeToggle.feed(m_testController.getBButton());
+    }
+
+    public boolean shouldRunAutoShoot() {
+        return m_shouldRunAutoShootToggle.feed(m_testController.getYButton());
     }
 
     public boolean shouldAutoAim() {
