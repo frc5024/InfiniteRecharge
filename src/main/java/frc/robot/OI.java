@@ -104,8 +104,7 @@ public class OI {
     }
 
     public boolean shouldShoot() {
-        // TODO: replace this with an operator control
-        return m_shouldShootToggle.feed(m_operatorController.getAButtonPressed());
+        return m_shouldShootToggle.feed(m_testController.getAButtonPressed());
     }
 
     public double getHopperBeltSpeed() {
@@ -140,11 +139,11 @@ public class OI {
     }
 
     public boolean shouldRunAutoIntake() {
-        return m_shouldRunAutoIntakeToggle.feed(m_testController.getBButton());
+        return m_shouldRunAutoIntakeToggle.feed(m_operatorController.getBButton());
     }
 
     public boolean shouldRunAutoShoot() {
-        return m_shouldRunAutoShootToggle.feed(m_testController.getYButton());
+        return m_shouldRunAutoShootToggle.feed(m_operatorController.getYButton());
     }
 
     public boolean shouldAutoAim() {

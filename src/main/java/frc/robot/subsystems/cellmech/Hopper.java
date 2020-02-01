@@ -24,6 +24,10 @@ public class Hopper extends SubsystemBase {
      * Hopper belt encoder
      */
     private EncoderBase m_hopperEncoder;
+
+    /**
+     * 
+     */
     private int m_ticksAtStartOfIntake;
     private double m_revolutionsPerInch;
 
@@ -59,6 +63,7 @@ public class Hopper extends SubsystemBase {
     private SystemState m_systemState = SystemState.IDLE;
     private SystemState m_lastState = null;
 
+    //
     private int m_cellCount = 3;
 
     private int m_desiredAmountToIntake = 0;

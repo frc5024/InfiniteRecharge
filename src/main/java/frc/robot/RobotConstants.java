@@ -199,8 +199,8 @@ public class RobotConstants {
     public static class Intake {
 
         // Motor controller IDs
-        public static final int INTAKE_ACTUATOR_TALON = 5;
-        public static final int INTAKE_ROLLER_TALON = 6;
+        public static final int INTAKE_ACTUATOR_TALON = 13;
+        public static final int INTAKE_ROLLER_TALON = 14;
 
         public static final boolean INTAKE_ROLLER_TALON_INVERTED = false;
 
@@ -222,7 +222,7 @@ public class RobotConstants {
     public static class Hopper {
 
         // Motor
-        public static final int HOPPER_BELT_MOTOR = 7;
+        public static final int HOPPER_BELT_MOTOR = 12;
         // Sensors
         public static final int HOPPER_LINEBREAK_BOTTOM = 2;
         public static final int HOPPER_LINEBREAK_TOP = 3;
@@ -237,7 +237,7 @@ public class RobotConstants {
         /**
          * Shooter motor
          */
-        public static final int MOTOR_ID = 5;
+        public static final int MOTOR_ID = 11;
 
         public static final double VOLTAGE_EPSILON = 0.2;
 

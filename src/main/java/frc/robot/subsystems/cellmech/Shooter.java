@@ -1,6 +1,5 @@
 package frc.robot.subsystems.cellmech;
 
-import com.ctre.phoenix.Logger;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
