@@ -15,32 +15,24 @@ import frc.robot.RobotConstants;
 public class Hopper extends SubsystemBase {
     public static Hopper s_instance = null;
 
-    /**
-     * Motor that moves hopper belt up and down
-     */
+    /** Motor that moves hopper belt up and down */
     private WPI_TalonSRX m_hopperBelt;
 
-    /**
-     * Hopper belt encoder
-     */
+    /** Hopper belt encoder */
     private EncoderBase m_hopperEncoder;
-
-    /**
-     * 
-     */
+    /** ticks of encoders when intake starts */
     private int m_ticksAtStartOfIntake;
+    /** how many times the motor turns per inch of belt movement */
     private double m_revolutionsPerInch;
 
-    /**
-     * Bottom line break
-     */
+    /** Bottom line break */
     private DigitalInput m_lineBottom;
+    /** previous value of bottom line break */
     private boolean m_lineBottomLastValue;
 
-    /**
-     * Top line break
-     */
+    /** Top line break */
     private DigitalInput m_lineTop;
+    /** previous value of top line break */
     private boolean m_lineTopLastValue;
 
     /**
@@ -57,16 +49,17 @@ public class Hopper extends SubsystemBase {
         SHOOTING // supply cells to shooter
     }
 
-    /**
-     * Tracker for hopper system state.
-     */
+    /** Tracker for hopper system state */
     private SystemState m_systemState = SystemState.IDLE;
+    /** previous system state */
     private SystemState m_lastState = null;
 
-    //
+    /** amount of cells currently in hopper */
     private int m_cellCount = 3;
 
-    private int m_desiredAmountToIntake = 0;
+    /** amount of cells to have after intaking */
+    private int m_desiredAmountToIntake = 5;
+    /** amount of cells to have after shooting */
     private int m_desiredAmountToHaveAfterShooting = 0;
 
     private Hopper() {
