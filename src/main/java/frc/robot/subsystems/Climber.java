@@ -29,6 +29,9 @@ public class Climber extends SubsystemBase {
     private DigitalInput m_lowHall;
     private DigitalInput m_highHall;
 
+    // Line break sensor on the hook of the climber
+    private DigitalInput m_lineBreak;
+
     /**
      * System states
      */
@@ -64,9 +67,12 @@ public class Climber extends SubsystemBase {
         // Climb motor
         m_liftMotor = new SimTalon(RobotConstants.Climber.MOTOR_CONTROLLER_ID);
 
-        /* Low and High Hall sensors */
+        // Low and High Hall sensors 
         m_lowHall = new DigitalInput(RobotConstants.Climber.LOW_HALL_ID);
         m_highHall = new DigitalInput(RobotConstants.Climber.HIGH_HALL_ID);
+
+        // Line break sensor
+        m_lineBreak = new DigitalInput(RobotConstants.Climber.LINE_BREAK_ID);
 
         // Set up the camera
         m_camera = new AutoCamera("Climb camera", 0);
