@@ -220,7 +220,7 @@ public class RobotConstants {
     public static class Climber {
         // ALL OF THESE ARE PLACEHOLDERS
         public static final int PIN_RELEASE_SOLENOID = 0;
-        public static final int MOTOR_CONTROLLER_ID = 9; 
+        public static final int MOTOR_CONTROLLER_ID = 21; 
         public static final int HIGH_HALL_ID = 2;
         public static final int LOW_HALL_ID = 3;
         public static final int LINE_BREAK_ID = 1;
