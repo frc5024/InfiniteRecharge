@@ -251,11 +251,4 @@ public class Intake extends SubsystemBase {
         m_systemState = SystemState.STOWED;
     }
 
-    /**
-     * Stop the Harvester
-     */
-    public void stop() {
-        m_systemState = SystemState.STOWED;
-    }
-
 }
