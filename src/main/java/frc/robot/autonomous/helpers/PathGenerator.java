@@ -17,7 +17,8 @@ import frc.robot.autonomous.helpers.SpeedConstraint;
 import frc.robot.subsystems.DriveTrain;
 
 /**
- * Trajectory-based path follower command generator. For generating WPILib command to drive the robot form point to point
+ * Trajectory-based path follower command generator. For generating WPILib
+ * command to drive the robot form point to point
  */
 public class PathGenerator {
 
@@ -39,7 +40,7 @@ public class PathGenerator {
 	 * @return generated path following command
 	 */
 	public static SequentialCommandGroup generate(EasyTrajectory t, SpeedConstraint constraint) {
-		return generate(t, constraint, false);
+		return generate(t, constraint, false, true);
 	}
 
 	/**
@@ -49,7 +50,8 @@ public class PathGenerator {
 	 * @param constraint trajectory constraints
 	 * @return generated path following command
 	 */
-	public static SequentialCommandGroup generate(EasyTrajectory t, SpeedConstraint constraint, boolean reversed) {
+	public static SequentialCommandGroup generate(EasyTrajectory t, SpeedConstraint constraint, boolean reversed,
+			boolean autoStop) {
 
 		SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(RobotConstants.ControlGains.ksVolts,
 				RobotConstants.ControlGains.kvVoltsSecondsPerMeter,
@@ -78,18 +80,23 @@ public class PathGenerator {
 		}
 
 		// returns a new command that follows the trajectory
-		return new RamseteCommand(trajectory, () -> {
+		RamseteCommand output = new RamseteCommand(trajectory, () -> {
 			Pose2d pose = DriveTrain.getInstance().getPosition();
-			return new Pose2d(pose.getTranslation(), new Rotation2d(pose.getRotation().getRadians()));// - ((reversed) ?
-																										// Math.PI :
-																										// 0)));
+			return new Pose2d(pose.getTranslation(), new Rotation2d(pose.getRotation().getRadians()));
 		}, new RamseteController(RobotConstants.ControlGains.kRamseteB, RobotConstants.ControlGains.kRamseteZeta),
 				feedforward, RobotConstants.ControlGains.kDriveKinematics, DriveTrain.getInstance()::getWheelSpeeds,
 				new PIDController(RobotConstants.ControlGains.kPDriveVel, RobotConstants.ControlGains.kIDriveVel,
 						RobotConstants.ControlGains.kDDriveVel),
 				new PIDController(RobotConstants.ControlGains.kPDriveVel, RobotConstants.ControlGains.kIDriveVel,
 						RobotConstants.ControlGains.kDDriveVel),
-				DriveTrain.getInstance()::setVoltage, DriveTrain.getInstance()).andThen(DriveTrain.getInstance()::stop);
+				DriveTrain.getInstance()::setVoltage, DriveTrain.getInstance());
+
+		// Handle auto-stop
+		if (autoStop) {
+			return output.andThen(DriveTrain.getInstance()::stop);
+		} else {
+			return new SequentialCommandGroup(output);
+		}
 
 	}
 
