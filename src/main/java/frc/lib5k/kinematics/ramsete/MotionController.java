@@ -76,18 +76,17 @@ public class MotionController {
         return new Twist2d(dx, dy, b.getRotation().getDegrees() - a.getRotation().getDegrees());
     }
 
-    public DifferentialDriveWheelSpeeds calculate(Pose2d robotPose, Pose2d goalPose,
-            DifferentialDriveWheelSpeeds speeds, VelocityConstraint constraints) {
+    public DifferentialDriveWheelSpeeds calculate(Pose2d robotPose, Pose2d goalPose, VelocityConstraint constraints) {
 
         Twist2d error = getRotatedError(robotPose, goalPose);
 
-        // Flip our X error if we are
-        if (error.dx < 0) {
-            error.dx *= -1;
+        // Flip our Y error if we are
+        if (error.dy < 0) {
+            error.dy *= -1;
         }
 
         // Increase turning aggression based on path progress
-        double turnModifier = (error.dx * turnRate);
+        double turnModifier = (error.dy * turnRate);
 
         // Bind the turnModifier to the max turn rate or 0
         turnModifier = Mathutils.clamp(turnModifier, -maxTurnPercent, maxTurnPercent);
@@ -100,7 +99,8 @@ public class MotionController {
         double headingErr = targetHeading - robotPose.getRotation().getDegrees();
 
         // Determine the desired robot speed
-        double speed = error.dy * distP;
+        System.out.println(error);
+        double speed = error.dx * distP;
 
         // Implement distance-based speed ramping
         double cappedHeadingErr = (headingErr > 90) ? 90 : headingErr;

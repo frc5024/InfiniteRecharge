@@ -1,5 +1,7 @@
 package frc.lib5k.utils;
 
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+
 public class Mathutils {
 
     public static void main(String[] args) {
@@ -87,7 +89,15 @@ public class Mathutils {
     public static boolean epsilonEquals(double a, double b, double epsilon) {
         return (a - epsilon <= b) && (a + epsilon >= b);
     }
-    
+
+    public static boolean epsilonEquals(Pose2d a, Pose2d b, Pose2d epsilon) {
+        return (epsilonEquals(a.getTranslation().getX(), b.getTranslation().getX(), epsilon.getTranslation().getX()))
+                && (epsilonEquals(a.getTranslation().getY(), b.getTranslation().getY(),
+                        epsilon.getTranslation().getY()))
+                && (epsilonEquals(a.getRotation().getDegrees(), b.getRotation().getDegrees(),
+                        epsilon.getRotation().getDegrees()));
+    }
+
     public static double map(double value, double input_low, double input_high, double output_low, double output_high) {
         return (value - input_low) * (output_high - output_low) / (input_high - input_low) + output_low;
     }

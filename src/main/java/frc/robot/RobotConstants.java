@@ -175,6 +175,8 @@ public class RobotConstants {
                                                                                  // be
                                                                                  // changed
 
+                                                                                 
+
         // Ramsete Parameters (Not sure if this is nessacary for trajectory and may need
         // changes)
         public static final double kRamseteB = 2; // in meters
