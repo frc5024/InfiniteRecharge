@@ -1,13 +1,12 @@
 package frc.robot.subsystems.cellmech;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib5k.components.motors.TalonHelper;
 import frc.lib5k.components.motors.motorsensors.TalonEncoder;
 import frc.lib5k.components.sensors.EncoderBase;
+import frc.lib5k.simulation.wrappers.SimTalon;
 import frc.robot.RobotConstants;
 
 /**
@@ -17,18 +16,13 @@ public class Intake extends SubsystemBase {
     public static Intake s_instance = null;
 
     /** Motor that moves intake up and down */
-    private WPI_TalonSRX m_intakeActuator;
-
-    /** Encoder for arm actuation movement */
-    private EncoderBase m_intakeActuatorEncoder;
+    private SimTalon m_intakeActuator;
 
     /** PID controller for intake arm */
     private PIDController m_armPIDController;
 
-
     /** Motors that drives the roller */
-    private WPI_TalonSRX m_intakeRoller;
-    
+    private SimTalon m_intakeRoller;
 
     /** Hall effects sensor at the bottom intake arm position */
     private DigitalInput m_bottomHall;
@@ -39,10 +33,9 @@ public class Intake extends SubsystemBase {
     /** System states */
     private enum SystemState {
         IDLE, // System Idle
-        LOWER, // Arm moving to bottom hall
-        INTAKE, // Arm moving to bottom hall and spinning roller inwards
-        UNJAM, // Arm moving to bottom hall and spinning roller outwards
-        RAISING // Arm moving to top hall
+        INTAKE, // Intake pulling in balls
+        UNJAM, // Ejecting balls
+        STOWED, // Arm stowed
     }
 
     /** Tracker for intake system state */
@@ -51,11 +44,21 @@ public class Intake extends SubsystemBase {
     /** Tracker for last intake system state */
     private SystemState m_lastState = null;
 
+    /** Arm positions */
+    private enum ArmPosition {
+        STOWED, // Arm stowed
+        DEPLOYED, // Arm deployed
+        UNKNOWN, // Arm position unknown by system
+    }
+
+    /** Tracker for wanted arm position */
+    private ArmPosition m_wantedArmPose = ArmPosition.STOWED;
+
     private Intake() {
 
         // Construct motor controllers
-        m_intakeActuator = new WPI_TalonSRX(RobotConstants.Intake.INTAKE_ACTUATOR_TALON);
-        m_intakeRoller = new WPI_TalonSRX(RobotConstants.Intake.INTAKE_ROLLER_TALON);
+        m_intakeActuator = new SimTalon(RobotConstants.Intake.INTAKE_ACTUATOR_TALON);
+        m_intakeRoller = new SimTalon(RobotConstants.Intake.INTAKE_ROLLER_TALON);
 
         // Invert motors that need to be inverted
         m_intakeRoller.setInverted(RobotConstants.Intake.INTAKE_ROLLER_TALON_INVERTED);
@@ -67,10 +70,7 @@ public class Intake extends SubsystemBase {
         // Construct sensors
         m_bottomHall = new DigitalInput(RobotConstants.Intake.INTAKE_HALL_BOTTOM);
         m_topHall = new DigitalInput(RobotConstants.Intake.INTAKE_HALL_TOP);
-        m_intakeActuatorEncoder = new TalonEncoder(m_intakeActuator);
 
-        // Construct PID controller
-        m_armPIDController = new PIDController(RobotConstants.Intake.kPArm, RobotConstants.Intake.kIArm, RobotConstants.Intake.kDArm);
     }
 
     /**
@@ -98,29 +98,21 @@ public class Intake extends SubsystemBase {
 
         // Handle states
         switch (m_systemState) {
-            case IDLE:
-                handleIdle(isNewState);
-                break;
-            case LOWER:
-                handleLower(isNewState);
-                break;
-            case INTAKE:
-                handleIntake(isNewState);
-                break;
-            case UNJAM:
-                handleUnjam(isNewState);
-                break;
-            case RAISING:
-                handleRaising(isNewState);
-                break;
-            default:
-                m_systemState = SystemState.IDLE;
+        case IDLE:
+            handleIdle(isNewState);
+            break;
+        case INTAKE:
+            handleIntake(isNewState);
+            break;
+        case UNJAM:
+            handleUnjam(isNewState);
+            break;
+        case RAISING:
+            handleRaising(isNewState);
+            break;
+        default:
+            m_systemState = SystemState.IDLE;
         }
-
-        // Reset encoder if the arm is at the top
-        if(m_topHall.get()) {
-            m_intakeActuatorEncoder.zero();
-        }  
     }
 
     /**
@@ -141,39 +133,29 @@ public class Intake extends SubsystemBase {
     }
 
     /**
-     * Set arm to move down and roller to stop
-     * 
-     * @param newState Is this state new?
-     */
-    private void handleLower(boolean newState) {
-        if (newState) {
-
-            // Stop roller
-            setRollerSpeed(0.0);
-
-        }
-
-        // Run PID loop to move arm to 90 degrees
-        moveArmTo(90);
-    }
-
-    /**
      * Set arm to move down and roller to roll cells in
      * 
      * @param newState Is this state new?
      */
     private void handleIntake(boolean newState) {
         if (newState) {
-
-            // Set roller to take in cells
-            setRollerSpeed(0.8);
-
-            m_armPIDController.reset();
+            // Ensure our roller is stopped
+            setRollerSpeed(0.0);
 
         }
 
-        // Run PID loop to move arm to 90 degrees
-        moveArmTo(90);
+        // As long as we are not at our deployed position, lower the arms
+        if (getArmPosition() != ArmPosition.DEPLOYED) {
+            setArmSpeed(1.0);
+        } else {
+            // Just apply a little voltage to arms to kep them in place
+            setArmSpeed(0.15);
+
+            // Handle intake of cells
+            setRollerSpeed(1.0);
+        }
+
+        // NOTE: This action does not stop automatically
     }
 
     /**
@@ -209,7 +191,7 @@ public class Intake extends SubsystemBase {
 
         // Run PID loop to move arm to 0 degrees
         moveArmTo(0);
-         
+
     }
 
     /**
@@ -217,26 +199,38 @@ public class Intake extends SubsystemBase {
      * 
      * @param angle either 0 or 90
      */
-    private void moveArmTo(double desiredAngle) {
-        // calculate theoretical current angle
-        double currentAngle = ((double)m_intakeActuatorEncoder.getTicks()) / RobotConstants.Intake.ARM_TICKS_PER_DEGREE;
-        // set motor output to PID output
-        setArmSpeed(m_armPIDController.calculate(currentAngle, desiredAngle));
+    // private void moveArmTo(double desiredAngle) {
+    // // calculate theoretical current angle
+    // double currentAngle = ((double) m_intakeActuatorEncoder.getTicks())
+    // / RobotConstants.Intake.ARM_TICKS_PER_DEGREE;
+    // // set motor output to PID output
+    // setArmSpeed(m_armPIDController.calculate(currentAngle, desiredAngle));
+    // }
+
+    private ArmPosition getArmPosition() {
+        if (m_bottomHall.get()) {
+            return ArmPosition.DEPLOYED;
+        }
+        if (m_topHall.get()) {
+            return ArmPosition.STOWED;
+        }
+        return ArmPosition.UNKNOWN;
     }
 
     /**
-     * Sets the speed of the arm. All arm movement should be done with this method, so the arm doesn't try to go past it's limits
+     * Sets the speed of the arm. All arm movement should be done with this method,
+     * so the arm doesn't try to go past it's limits
      * 
      * @param speed desired speed of the arm -1.0 to 1.0
      */
     private void setArmSpeed(double speed) {
 
         // if moving down, only move if bottom hall not active
-        // if (speed > 0.0) {
-        //     if (m_bottomHall.get()) {
-        //         speed = 0.0;
-        //     }
-        // }
+        if (speed > 0.0) {
+            if (m_bottomHall.get()) {
+                speed = 0.0;
+            }
+        }
 
         // if moving up, only move if top hall not active
         if (speed < 0.0) {
@@ -268,14 +262,14 @@ public class Intake extends SubsystemBase {
     /**
      * Set the harvester to intake
      */
-    public void intakeCells() {
+    public void intake() {
         m_systemState = SystemState.INTAKE;
     }
 
     /**
-     * Raise the harvester
+     * Stow the harvester
      */
-    public void raise() {
+    public void stow() {
         m_systemState = SystemState.RAISING;
     }
 
@@ -286,21 +280,4 @@ public class Intake extends SubsystemBase {
         m_systemState = SystemState.IDLE;
     }
 
-    /**
-     * manually control the harvester roller
-     * 
-     * @param speed speed to set the roller to
-     */
-    public void manuallyControlRoller(double speed) {
-        m_intakeRoller.set(speed);
-    }
-
-    /**
-     * manually control the harvester arm
-     * 
-     * @param speed speed to set the arm to
-     */
-    public void manuallyControlArm(double speed) {
-        m_intakeActuator.set(speed);
-    }
 }

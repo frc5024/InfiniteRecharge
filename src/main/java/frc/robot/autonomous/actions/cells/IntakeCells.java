@@ -10,11 +10,12 @@ public class IntakeCells extends CommandBase {
     private CellSuperstructure m_cellSuperstructure = CellSuperstructure.getInstance();
 
     /** Amount of cells to try to intake */
-    private int m_intakeAmount = 5;
+    private int m_intakeAmount;
 
     public IntakeCells() {
         this(5);
     }
+
     public IntakeCells(int cellCount) {
         m_intakeAmount = cellCount;
     }
@@ -26,7 +27,7 @@ public class IntakeCells extends CommandBase {
 
     @Override
     public void execute() {
-        
+
     }
 
     @Override
