@@ -11,10 +11,11 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.lib5k.utils.RobotLogger;
 import frc.robot.autonomous.actions.LogCommand;
 import frc.robot.autonomous.paths.AutonomousPath;
+import frc.robot.autonomous.paths.balls.ballsScoreTrench;
 import frc.robot.autonomous.paths.score.ScoreCenter;
 import frc.robot.autonomous.paths.score.ScoreGetBalls;
 import frc.robot.autonomous.paths.score.ScoreRight;
-import frc.robot.autonomous.paths.slow.SlowRightHalffield;
+import frc.robot.autonomous.paths.balls.ballsScoreTrench;
 import frc.robot.autonomous.paths.score.ScorePickupRight;
 import frc.robot.autonomous.paths.test.TestReverse;
 import frc.robot.subsystems.DriveTrain;
@@ -38,10 +39,10 @@ public class Chooser {
     public Chooser() {
 
         // Paths
-        m_pathChooser.setDefaultOption("1. Collect Score Trench", new SlowRightHalffield());
+        m_pathChooser.setDefaultOption("4. Center Score", new ScoreCenter());
         m_pathChooser.addOption("2. Score Get Balls", new ScoreGetBalls());
         m_pathChooser.addOption("3. Score Right", new ScoreRight());
-        m_pathChooser.addOption("4. Center Score", new ScoreCenter());
+        m_pathChooser.addOption("1. Collect Score Trench", new ballsScoreTrench());
         m_pathChooser.addOption("5. Score Right Pickup Indev", new ScorePickupRight());
         m_pathChooser.addOption("Test PID", new TestPID());
         m_pathChooser.addOption("Test Backwards" , new TestReverse());
