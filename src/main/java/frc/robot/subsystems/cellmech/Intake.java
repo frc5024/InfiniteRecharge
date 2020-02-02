@@ -1,27 +1,23 @@
 package frc.robot.subsystems.cellmech;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib5k.components.motors.TalonHelper;
-import frc.lib5k.components.motors.motorsensors.TalonEncoder;
-import frc.lib5k.components.sensors.EncoderBase;
 import frc.lib5k.simulation.wrappers.SimTalon;
+import frc.lib5k.utils.RobotLogger;
+import frc.lib5k.utils.RobotLogger.Level;
 import frc.robot.RobotConstants;
 
 /**
  * Robot Intake subsystem
  */
 public class Intake extends SubsystemBase {
+    private RobotLogger logger = RobotLogger.getInstance();
     public static Intake s_instance = null;
 
     /** Motor that moves intake up and down */
     private SimTalon m_intakeActuator;
 
-    /** PID controller for intake arm */
-    private PIDController m_armPIDController;
-
-    /** Motors that drives the roller */
     private SimTalon m_intakeRoller;
 
     /** Hall effects sensor at the bottom intake arm position */
@@ -32,14 +28,13 @@ public class Intake extends SubsystemBase {
 
     /** System states */
     private enum SystemState {
-        IDLE, // System Idle
         INTAKE, // Intake pulling in balls
         UNJAM, // Ejecting balls
         STOWED, // Arm stowed
     }
 
     /** Tracker for intake system state */
-    private SystemState m_systemState = SystemState.IDLE;
+    private SystemState m_systemState = SystemState.STOWED;
 
     /** Tracker for last intake system state */
     private SystemState m_lastState = null;
@@ -50,9 +45,6 @@ public class Intake extends SubsystemBase {
         DEPLOYED, // Arm deployed
         UNKNOWN, // Arm position unknown by system
     }
-
-    /** Tracker for wanted arm position */
-    private ArmPosition m_wantedArmPose = ArmPosition.STOWED;
 
     private Intake() {
 
@@ -98,37 +90,18 @@ public class Intake extends SubsystemBase {
 
         // Handle states
         switch (m_systemState) {
-        case IDLE:
-            handleIdle(isNewState);
-            break;
         case INTAKE:
             handleIntake(isNewState);
             break;
         case UNJAM:
             handleUnjam(isNewState);
             break;
-        case RAISING:
-            handleRaising(isNewState);
+        case STOWED:
+            handleStowed(isNewState);
             break;
         default:
-            m_systemState = SystemState.IDLE;
-        }
-    }
-
-    /**
-     * Set arm and roller motors to stop
-     * 
-     * @param newState Is this state new?
-     */
-    private void handleIdle(boolean newState) {
-        if (newState) {
-
-            // Stop arm movement
-            setArmSpeed(0.0);
-
-            // Stop roller
-            setRollerSpeed(0.0);
-
+            logger.log("Intake", "Encountered unknown state", Level.kWarning);
+            m_systemState = SystemState.STOWED;
         }
     }
 
@@ -139,7 +112,7 @@ public class Intake extends SubsystemBase {
      */
     private void handleIntake(boolean newState) {
         if (newState) {
-            // Ensure our roller is stopped
+            // Ensure our roller is stopped before arm deployment
             setRollerSpeed(0.0);
 
         }
@@ -165,14 +138,25 @@ public class Intake extends SubsystemBase {
      */
     private void handleUnjam(boolean newState) {
         if (newState) {
-
-            // Set arm to move down
-            setArmSpeed(0.5);
-
-            // Set roller to take in cells
-            setRollerSpeed(-0.8);
+            // Ensure our roller is stopped before arm deployment
+            setRollerSpeed(0.0);
 
         }
+
+        // As long as we are not at our deployed position, lower the arms
+        if (getArmPosition() != ArmPosition.DEPLOYED) {
+            setArmSpeed(1.0);
+        } else {
+            // Just apply a little voltage to arms to kep them in place
+            // TODO: Is this needed? apperently we can't backdrive
+            // setArmSpeed(0.15);
+            setArmSpeed(0.0);
+
+            // Handle intake of cells
+            setRollerSpeed(-0.8);
+        }
+
+        // NOTE: This action does not stop automatically
     }
 
     /**
@@ -180,32 +164,26 @@ public class Intake extends SubsystemBase {
      * 
      * @param newState Is this state new?
      */
-    private void handleRaising(boolean newState) {
+    private void handleStowed(boolean newState) {
         if (newState) {
-
+            // Ensure our roller is stopped
             setRollerSpeed(0.0);
-
-            m_armPIDController.reset();
 
         }
 
-        // Run PID loop to move arm to 0 degrees
-        moveArmTo(0);
+        // As long as we are not at our deployed position, lower the arms
+        if (getArmPosition() != ArmPosition.STOWED) {
+            setArmSpeed(-1.0);
+        } else {
+            // Just apply a little voltage to arms to kep them in place
+            // TODO: Is this needed?
+            // setArmSpeed(-0.15);
+            setArmSpeed(0.0);
+        }
+
+        // NOTE: This action does not stop automatically
 
     }
-
-    /**
-     * Use PID to move arm
-     * 
-     * @param angle either 0 or 90
-     */
-    // private void moveArmTo(double desiredAngle) {
-    // // calculate theoretical current angle
-    // double currentAngle = ((double) m_intakeActuatorEncoder.getTicks())
-    // / RobotConstants.Intake.ARM_TICKS_PER_DEGREE;
-    // // set motor output to PID output
-    // setArmSpeed(m_armPIDController.calculate(currentAngle, desiredAngle));
-    // }
 
     private ArmPosition getArmPosition() {
         if (m_bottomHall.get()) {
@@ -270,14 +248,14 @@ public class Intake extends SubsystemBase {
      * Stow the harvester
      */
     public void stow() {
-        m_systemState = SystemState.RAISING;
+        m_systemState = SystemState.STOWED;
     }
 
     /**
      * Stop the Harvester
      */
     public void stop() {
-        m_systemState = SystemState.IDLE;
+        m_systemState = SystemState.STOWED;
     }
 
 }
