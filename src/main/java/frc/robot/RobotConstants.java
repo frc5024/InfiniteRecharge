@@ -56,7 +56,7 @@ public class RobotConstants {
          * HID device id of the driver ans operator Xbox controllers
          */
         public static final int DRIVER_CONTROLLER_ID = 0;
-        
+
         public static final int OPERATOR_CONTROLLER_ID = 1;
 
     }
@@ -150,8 +150,8 @@ public class RobotConstants {
         public static final double kDDriveVel = 0.008;
 
         // Optimal Control Gain for turning
-        public static final double kPTurnVel = 0.0275;//0.030;
-        public static final double kITurnVel =  0.01; //0.12; 
+        public static final double kPTurnVel = 0.0275;// 0.030;
+        public static final double kITurnVel = 0.01; // 0.12;
         public static final double kDTurnVel = 0.0066; // 0.0066
 
         // Basic P control for encoder-only distance driving
@@ -239,25 +239,19 @@ public class RobotConstants {
          */
         public static final int MOTOR_ID = 11;
 
-        public static final double VOLTAGE_EPSILON = 0.2;
-
-        public static final double MAX_VOLTAGE = 12;
+        public static final double MOTOR_MAX_RPM = 5700;
 
         public static final double MOTOR_KV = 473;
-
-        public static final double MOTOR_MAX_RPM = 5676;
-
+        public static final double VOLTAGE_EPSILON = 0.2;
         public static final double RPM_EPSILON = VOLTAGE_EPSILON * MOTOR_KV;
 
-        /* Shooter spinup PID */
-        public static final double kPVel = 0.38;
-        public static final double kIVel = 0.0;
+        /* Shooter PID */
+        public static final double kPVel = 5e-5;
+        public static final double kIVel = 1e-6;
         public static final double kDVel = 0.0;
+        public static final double kIz = 0.0;
+        public static final double kFF = 0.0;
 
-        /* Shooter hold Gains */
-        public static final double kJ = 0.0;
-        public static final double kF = 0.0;
-        public static final double kLoadRatio = 0.1;
     }
 
 }
