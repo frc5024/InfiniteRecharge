@@ -8,21 +8,11 @@ import edu.wpi.first.wpilibj.util.Units;
 
 public class Path {
 
-    // Default path smoothing factor
-    private static final double DEFAULT_SMOOTHNESS = 0.75;
-
     // Amount of spacing between points during the "fill in" operation
     private static final double POINT_SPACING = Units.inchesToMeters(6.0);
 
-    // Path smoothness
-    private double m_smoothness;
-
     // Path points
     private ArrayList<Pose2d> m_points;
-
-    public Path(Pose2d... waypoints) {
-        this(DEFAULT_SMOOTHNESS, waypoints);
-    }
 
     /**
      * Create a motion path from points
@@ -30,8 +20,7 @@ public class Path {
      * @param smoothness Path smoothness (Should be between 0 and 1)
      * @param waypoints  Path waypoints to follow
      */
-    public Path(double smoothness, Pose2d... waypoints) {
-        this.m_smoothness = smoothness;
+    public Path(Pose2d... waypoints) {
         this.m_points = new ArrayList<>();
 
         // Fill in extra points
@@ -63,4 +52,5 @@ public class Path {
         // Add the last point to the points list
         m_points.add(waypoints[i + 1]);
     }
+
 }
