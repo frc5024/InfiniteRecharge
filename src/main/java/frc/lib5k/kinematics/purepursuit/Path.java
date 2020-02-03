@@ -36,7 +36,7 @@ public class Path {
             // Determine the number of points we can fit between the two poses
             double innerCount = Math.ceil(Math.hypot(vector.getX(), vector.getY()) / POINT_SPACING);
 
-            // Normalize the vector
+            // Find the interior length
             double ilen = (1.0 / Math.sqrt((vector.getX() * vector.getX()) + (vector.getY() * vector.getY())));
             vector = new Translation2d(vector.getX() * ilen, vector.getY() * ilen);
 
