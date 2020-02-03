@@ -77,13 +77,14 @@ public class PurePursuitController {
         double EPS = 86.0;
 
         System.out.println(delta);
-        // System.out.println(Math.abs(Math.toDegrees(Mathutils.getWrappedError(Mathutils.wpiAngleTo5k(robotPose.getRotation().getDegrees()), delta))));
+        // System.out.println(Math.abs(Math.toDegrees(Mathutils.getWrappedError(Mathutils.wpiAngleTo5k(robotPose.getRotation().getDegrees()),
+        // delta))));
 
         // Limit dleta
         // if (Math.abs(Math.toDegrees(delta)) < EPS) {
-        //     delta *= Math.abs(delta) * 0.09;
+        // delta *= Math.abs(delta) * 0.09;
         // } else {
-        //     delta *= Math.abs(delta) * 0.23;
+        // delta *= Math.abs(delta) * 0.23;
         // }
 
         // Determine distance from goal pose
@@ -99,10 +100,11 @@ public class PurePursuitController {
 
         // Scale back the speed if needed by large delta
         speed *= forceScale;
+        speed *= 0.7;
 
         // Handle mis-alignment
         // if(Math.toDegrees(delta) < EPS){
-        //     speed *= 0.1;
+        // speed *= 0.1;
         // }
 
         // Create a drive signal
