@@ -34,6 +34,8 @@ public class DrivePath extends CommandBase {
         // Get DriveSignal for drivebase
         DriveSignal signal = m_controller.calculate(DriveTrain.getInstance().getPosition());
 
+        System.out.println(signal);
+
         DriveTrain.getInstance().setOpenLoop(signal);
 
     }
@@ -41,6 +43,7 @@ public class DrivePath extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         DriveTrain.getInstance().stop();
+        
     }
 
     @Override

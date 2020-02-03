@@ -64,7 +64,7 @@ public class Follower {
     public Translation2d getNextPoint(Pose2d robotPose) {
 
         // Cast the pose up to a drivebase state
-        DrivebaseState state = (DrivebaseState) robotPose;
+        DrivebaseState state = new DrivebaseState(robotPose);
         Translation2d stateRear = state.getRear(m_drivebaseWidth);
 
         // Max nearest pose
@@ -112,7 +112,7 @@ public class Follower {
                 double nextDist = state.getDistance(m_path.getPoses()[nextIndex], m_drivebaseWidth);
 
                 // If this new pose is closer, choose it
-                if (thisDist < nextDist) {
+                if (thisDist < nextDist || nextIndex + 1 == m_path.getPoses().length) {
                     nearest = m_path.getPoses()[nextIndex];
                     break;
                 }

@@ -13,7 +13,7 @@ public class TestPath extends AutonomousPath {
     protected SequentialCommandGroup getCommand() {
         SequentialCommandGroup output = new SequentialCommandGroup();
 
-        output.addCommands(new DrivePath(new Path(new Translation2d(0.0, 0.0), new Translation2d(1.0, 0.0)), 0.8,
+        output.addCommands(new DrivePath(new Path(new Translation2d(0.0, 0.0), new Translation2d(3.0, 1.0)), 0.8,
                 new Translation2d(0.1, 0.1)));
 
         return output;

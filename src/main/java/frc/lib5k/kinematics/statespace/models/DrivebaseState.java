@@ -36,10 +36,19 @@ public class DrivebaseState extends Pose2d {
     /**
      * Create a DrivebaseState from a twist
      * 
-     * @param t Twist
+     * @param twist Twist
      */
     public DrivebaseState(Twist2d twist) {
         this(twist.dx, twist.dy, twist.dtheta);
+    }
+
+    /**
+     * Create a DrivebaseState from a pose
+     * 
+     * @param pose Pose
+     */
+    public DrivebaseState(Pose2d pose) {
+        this(pose.getTranslation(), pose.getRotation());
     }
 
     /**

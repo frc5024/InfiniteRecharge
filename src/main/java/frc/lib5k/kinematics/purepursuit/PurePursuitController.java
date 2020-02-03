@@ -41,7 +41,7 @@ public class PurePursuitController {
         Translation2d goal = m_follower.getNextPoint(robotPose);
 
         // Determine drivebase rear
-        Translation2d rear = ((DrivebaseState) robotPose).getRear(m_follower.getDrivebaseWidth());
+        Translation2d rear = (new DrivebaseState(robotPose)).getRear(m_follower.getDrivebaseWidth());
 
         // Determine goal alpha
         double alpha = Math.atan2(goal.getY() - rear.getY(), goal.getX() - rear.getX())
@@ -64,6 +64,11 @@ public class PurePursuitController {
 
         // Determine lookahead
         double LF = m_follower.getLookaheadGain() * v * m_follower.getLookaheadDistance();
+
+        // Handle DivByZero
+        if (LF == 0.0) {
+            LF = 0.00000001;
+        }
 
         // Determine delta
         double delta = Math.atan2(2.0 * m_follower.getDrivebaseWidth() * Math.sin(alpha) / LF, 1.0);
