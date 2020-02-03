@@ -41,7 +41,8 @@ public class PurePursuitController {
         Translation2d goal = m_follower.getNextPoint(robotPose);
 
         // Determine drivebase rear
-        Translation2d rear = (new DrivebaseState(robotPose)).getRear(m_follower.getDrivebaseWidth());
+        DrivebaseState state = new DrivebaseState(robotPose);
+        Translation2d rear = state.getRear(m_follower.getDrivebaseWidth());
 
         // Determine goal alpha
         double alpha = Math.atan2(goal.getY() - rear.getY(), goal.getX() - rear.getX())
@@ -71,10 +72,26 @@ public class PurePursuitController {
         }
 
         // Determine delta
-        double delta = Math.atan2(2.0 * m_follower.getDrivebaseWidth() * Math.sin(alpha) / LF, 1.0);
+        double delta = Math.atan2(2.0 * m_follower.getDrivebaseWidth() * Math.sin(alpha) / LF, 1.0) ;
+
+        delta *= Math.abs(delta) * 0.35;
+
+        // Determine distance from goal pose
+        double dist = state.getDistance(goal, m_follower.getDrivebaseWidth());
+
+        // Determine scaling factor for the signal force based on the amount of turning
+        // needed. The more we have to turn, the slower we should drive to the point.
+        double forceScale = Mathutils.clamp((1.0 - Math.abs(delta * 0.01)), 0.0, 1.0);
+
+        // Determine a base movement speed from the distance
+        double speed = Mathutils.clamp((dist * 1.5), -1, 1);
+
+        // Scale back the speed if needed by large delta
+        speed *= forceScale;
 
         // Create a drive signal
-        DriveSignal signal = new DriveSignal(1.0 + delta, 1.0 - delta);
+        // DriveSignal signal = new DriveSignal(speed + delta, speed - delta);
+        DriveSignal signal = new DriveSignal(speed + Math.abs(speed) * delta, speed - Math.abs(speed) * delta);
 
         // Normalize the signal
         signal = DifferentialDriveCalculation.normalize(signal);
