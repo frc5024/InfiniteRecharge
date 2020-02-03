@@ -1,8 +1,6 @@
 package frc.lib5k.kinematics.purepursuit;
 
 import java.util.ArrayList;
-
-import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.util.Units;
 
@@ -12,7 +10,7 @@ public class Path {
     private static final double POINT_SPACING = Units.inchesToMeters(6.0);
 
     // Path points
-    private ArrayList<Pose2d> m_points;
+    private ArrayList<Translation2d> m_points;
 
     /**
      * Create a motion path from points
@@ -20,7 +18,7 @@ public class Path {
      * @param smoothness Path smoothness (Should be between 0 and 1)
      * @param waypoints  Path waypoints to follow
      */
-    public Path(Pose2d... waypoints) {
+    public Path(Translation2d... waypoints) {
         this.m_points = new ArrayList<>();
 
         // Fill in extra points
@@ -28,8 +26,8 @@ public class Path {
         for (; i < waypoints.length - 1; i++) {
 
             // Get the start and end translations
-            Translation2d startTrans = waypoints[i].getTranslation();
-            Translation2d endTrans = waypoints[i + 1].getTranslation();
+            Translation2d startTrans = waypoints[i];
+            Translation2d endTrans = waypoints[i + 1];
 
             // Create a new Translation of the difference between poses
             Translation2d vector = new Translation2d(endTrans.getX() - startTrans.getX(),
@@ -44,13 +42,17 @@ public class Path {
 
             // Add inner points
             for (int j = 0; j < innerCount; j++) {
-                m_points.add(new Pose2d(new Translation2d((startTrans.getX() + (vector.getX() * j)),
-                        (startTrans.getY() + (vector.getY() * j))), waypoints[i].getRotation()));
+                m_points.add(new Translation2d((startTrans.getX() + (vector.getX() * j)),
+                        (startTrans.getY() + (vector.getY() * j))));
             }
         }
 
         // Add the last point to the points list
-        m_points.add(waypoints[i + 1]);
+        m_points.add(waypoints[i]);
+    }
+
+    public Translation2d[] getPoses() {
+        return m_points.toArray(new Translation2d[m_points.size()]);
     }
 
 }
