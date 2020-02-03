@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.geometry.Twist2d;
+import frc.lib5k.kinematics.DriveSignal;
 
 public class DrivebaseState extends Pose2d {
 
@@ -115,5 +116,18 @@ public class DrivebaseState extends Pose2d {
 
         // Return the distance
         return Math.hypot(dx, dy);
+    }
+
+    public DriveSignal inverseKinematics(Twist2d velocity, double drivebaseWidth) {
+
+        // If we are close enough, no calculation is needed
+        if (Math.abs(velocity.dtheta) < 1E-9) {
+            return new DriveSignal(velocity.dx, velocity.dx);
+        }
+
+        // Determine our delta
+        double delta_v = drivebaseWidth * velocity.dtheta;// / (2 * Constants.kTrackScrubFactor);
+        return new DriveSignal(velocity.dx - delta_v, velocity.dx + delta_v);
+
     }
 }
