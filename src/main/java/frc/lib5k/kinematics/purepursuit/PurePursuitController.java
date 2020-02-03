@@ -2,10 +2,10 @@ package frc.lib5k.kinematics.purepursuit;
 
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
-import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import frc.lib5k.components.drive.DifferentialDriveCalculation;
 import frc.lib5k.kinematics.DriveSignal;
 import frc.lib5k.kinematics.statespace.models.DrivebaseState;
+import frc.lib5k.utils.Mathutils;
 
 public class PurePursuitController {
 
@@ -75,5 +75,9 @@ public class PurePursuitController {
         signal = DifferentialDriveCalculation.normalize(signal);
 
         return signal;
+    }
+
+    public boolean isFinished(Pose2d robotPosition, Translation2d epsilon) {
+        return Mathutils.epsilonEquals(robotPosition.getTranslation(), m_follower.getFinalPose(), epsilon);
     }
 }

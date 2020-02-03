@@ -167,4 +167,8 @@ public class Follower {
         return m_path.getPoses()[ind];
 
     }
+
+    public Translation2d getFinalPose() {
+        return m_path.getPoses()[m_path.getPoses().length - 1];
+    }
 }
