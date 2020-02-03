@@ -33,6 +33,26 @@ public class Follower {
 
     }
 
+    public void setLookaheadDistance(double distance) {
+        this.m_lookaheadDist = distance;
+    }
+
+    public double getLookaheadDistance() {
+        return m_lookaheadDist;
+    }
+
+    public void setLookaheadGain(double gain) {
+        this.m_lookaheadGain = gain;
+    }
+
+    public double getLookaheadGain() {
+        return m_lookaheadGain;
+    }
+
+    public double getDrivebaseWidth() {
+        return m_drivebaseWidth;
+    }
+
     /**
      * Reset the follower
      */
@@ -133,6 +153,14 @@ public class Follower {
 
             // Update ind
             ind++;
+        }
+
+        // Limit index
+        if (m_lastLookaheadIndex >= ind) {
+            ind = m_lastLookaheadIndex;
+        }
+        if (ind >= m_path.getPoses().length) {
+            ind = m_path.getPoses().length - 1;
         }
 
         // Return the found pose
