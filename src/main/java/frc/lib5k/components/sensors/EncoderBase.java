@@ -31,7 +31,7 @@ public abstract class EncoderBase implements PeriodicComponent {
     private SimDouble m_simTicks;
     private SimDouble m_simRotations;
     private static int s_instanceCount = 0;
-    private SlewLimiter m_simSlew;
+    private SlewLimiter m_simSlew; 
 
     public void initSimulationDevice(SpeedController controller, int tpr, double gearbox_ratio, double max_rpm, double ramp_time) {
         // Set locals
