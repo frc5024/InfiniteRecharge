@@ -1,7 +1,8 @@
 package frc.lib5k.control;
 
-import edu.wpi.first.wpilibj.SendableBase;
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SendableRegistry;
 import frc.lib5k.kinematics.PIDProfile;
 import frc.lib5k.utils.RobotLogger;
 import frc.lib5k.utils.RobotLogger.Level;
@@ -11,7 +12,7 @@ import frc.lib5k.utils.RobotLogger.Level;
  * 
  * Based off of faceincake's PID code from 2018 and 2019
  */
-public class PID extends SendableBase {
+public class PID implements Sendable{
     RobotLogger logger = RobotLogger.getInstance();
 
     private double kP, kI, kD;
@@ -49,7 +50,7 @@ public class PID extends SendableBase {
 
         // Handle sendable naming
         String name = getClass().getName();
-        setName(name.substring(name.lastIndexOf('.') + 1));
+        SendableRegistry.setName(this, name.substring(name.lastIndexOf('.') + 1));
 
     }
 
