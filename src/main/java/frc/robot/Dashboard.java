@@ -6,9 +6,11 @@ import edu.wpi.cscore.HttpCamera;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.lib5k.utils.RobotLogger;
 import frc.robot.subsystems.cellmech.Intake;
 import frc.robot.subsystems.cellmech.Shooter;
@@ -72,12 +74,14 @@ public class Dashboard {
                 .withProperties(Map.of("min", 0, "max", 13)).withPosition(6, 0).getEntry();
 
         // Display the shooter velocity
-        // m_shooterVelocity = m_dashTab.add("Shooter Output", 0.0).withWidget(BuiltInWidgets.kDial)
-        //         .withProperties(Map.of("min", 0, "max", RobotConstants.Shooter.MOTOR_MAX_RPM)).withPosition(6, 1).getEntry();
+        // m_shooterVelocity = m_dashTab.add("Shooter Output",
+        // 0.0).withWidget(BuiltInWidgets.kDial)
+        // .withProperties(Map.of("min", 0, "max",
+        // RobotConstants.Shooter.MOTOR_MAX_RPM)).withPosition(6, 1).getEntry();
 
         // Display the ball count in the hopper
         m_ballCount = m_dashTab.add("Ball Count", 0.0).withWidget(BuiltInWidgets.kDial)
-                .withProperties(Map.of("min", 0, "max", 5)).withPosition(8, 0).withSize(1,1).getEntry();
+                .withProperties(Map.of("min", 0, "max", 5)).withPosition(8, 0).withSize(1, 1).getEntry();
     }
 
     private void update() {
@@ -86,12 +90,17 @@ public class Dashboard {
         m_busVoltage.setDouble(RobotController.getBatteryVoltage());
 
         // Update the shooter velocity
-        // m_shooterVelocity.setDouble(m_shooter.getOutput() * RobotConstants.Shooter.MOTOR_MAX_RPM);
+        // m_shooterVelocity.setDouble(m_shooter.getOutput() *
+        // RobotConstants.Shooter.MOTOR_MAX_RPM);
 
         // Update the ball count
         // TODO: Uncomment when intake is merged to master
         // m_ballCount.setDouble(m_intake.getBallCount());
 
+    }
+
+    public void publishAutonChooser(Sendable chooser) {
+        m_dashTab.add("Autonomous Mode", chooser).withPosition(6, 1).withSize(2, 1);
     }
 
 }
