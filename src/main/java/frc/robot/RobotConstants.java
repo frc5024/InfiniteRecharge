@@ -197,11 +197,17 @@ public class RobotConstants {
         /**
          * Shooter motor
          */
-        public static final int MOTOR_ID = 5;
+        public static final int MOTOR_ID = 16;
 
         public static final double VOLTAGE_EPSILON = 0.2;
 
         public static final double MAX_VOLTAGE = 12;
+
+        public static final double MOTOR_KV = 473;
+
+        public static final double MOTOR_MAX_RPM = 5676;
+
+        public static final double RPM_EPSILON = VOLTAGE_EPSILON * MOTOR_KV;
 
         /* Shooter spinup PID */
         public static final double kPVel = 0.38;
