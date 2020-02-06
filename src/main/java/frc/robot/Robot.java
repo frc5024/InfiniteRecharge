@@ -12,7 +12,6 @@ import frc.lib5k.utils.RobotLogger.Level;
 import frc.robot.autonomous.Chooser;
 import frc.robot.commands.DriveControl;
 import frc.robot.commands.ClimbProcess;
-import frc.robot.commands.ClimbController;
 import frc.robot.commands.ShooterTester;
 import frc.robot.subsystems.CellSuperstructure;
 import frc.robot.subsystems.Climber;
@@ -34,6 +33,9 @@ public class Robot extends TimedRobot {
 	/* Robot I/O helpers */
 	RobotLogger logger = RobotLogger.getInstance();
 	FaultReporter m_faultReporter = FaultReporter.getInstance();
+
+	/* Robot telemetry */
+	private Dashboard m_dashboard = Dashboard.getInstance();
 
 	/* Robot Subsystems */
 	private DriveTrain m_driveTrain = DriveTrain.getInstance();
@@ -78,7 +80,6 @@ public class Robot extends TimedRobot {
 		NavX.getInstance().setInverted(false);
 
 		// Reset the drivetrain pose
-		// m_driveTrain.setPosition(new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0.0)));
 		m_driveTrain.setRampRate(0.12);
 
 		// Create and publish an autonomous chooser
@@ -99,6 +100,10 @@ public class Robot extends TimedRobot {
 		Limelight2.getInstance().enableVision(true);
 		TargetTracker.getInstance().register();
 		TargetTracker.getInstance().enableTargetChecking(false);
+
+		// Init and start the dashboard service
+		m_dashboard.init();
+		m_dashboard.start();
 	}
 
 	@Override
@@ -133,6 +138,9 @@ public class Robot extends TimedRobot {
 
 		// Enable brakes on the DriveTrain
 		m_driveTrain.setBrakes(true);
+
+		// Lock the climber
+		Climber.getInstance().lock();
 	}
 
 	@Override
@@ -149,6 +157,9 @@ public class Robot extends TimedRobot {
 		// Enable brakes on the DriveTrain
 		m_driveTrain.setBrakes(true);
 		m_driveTrain.setRampRate(0.2);
+
+		// Lock the climber
+		Climber.getInstance().lock();
 
 		// Disable the autonomous command
 		if (m_autonomousCommand != null) {
@@ -190,6 +201,9 @@ public class Robot extends TimedRobot {
 
 		// Stop the climber
 		m_climbProcess.killClimbCommand();
+
+		// Put the climber in service mode
+		Climber.getInstance().service();
 
 	}
 

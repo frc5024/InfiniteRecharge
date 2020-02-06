@@ -26,6 +26,8 @@ public class ClimbProcess extends CommandBase {
         // Pull the pin on the climber
         if (m_oi.shouldEjectClimber()) {
             m_climbController.schedule();
+        } else if (m_oi.shouldCancelClimb()) {
+            m_climbController.cancel();
         }
 
     }

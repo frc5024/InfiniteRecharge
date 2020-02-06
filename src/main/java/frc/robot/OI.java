@@ -98,15 +98,22 @@ public class OI {
         return m_shouldShootToggle.feed(m_driverController.getAButtonPressed());
     }
 
+    /**
+     * Check if the climber should be ejected
+     */
     public boolean shouldEjectClimber() {
-        return m_operatorController.getAButtonPressed();
+        return m_operatorController.getBackButton() && m_operatorController.getStartButtonPressed();
+    }
+
+    public boolean shouldCancelClimb() {
+        return m_operatorController.getStartButtonPressed() && !m_operatorController.getBackButton();
     }
 
     public Position getWantedClimbPosition() {
         if (m_operatorController.getPOV() == 0) {
-            return Position.HIGH_BAR;
+            return Position.LEVEL;
         } else if (m_operatorController.getPOV() == 180) {
-            return Position.LOW_BAR;
+            return Position.RETRACTED;
         } else {
             return Position.CURRENT;
         }
