@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj.util.Units;
@@ -27,6 +28,11 @@ public class RobotConstants {
          * Number of seconds to wait before robot is allowed to score
          */
         public static final double SCORE_LATE_DELAY = 5.0;
+
+        // Vision-based distance P Gain
+        public static final double VISION_DISTANCE_KP = -0.1;
+
+        public static final double AUTO_TARGET_DISTANCE_EPSILON = 5.0;
 
     }
 
@@ -85,9 +91,9 @@ public class RobotConstants {
          * Current limiting
          */
         public static class CurrentLimits {
-            public static final int PEAK_AMPS = 35;
-            public static final int HOLD_AMPS = 33;
-            public static final int TIMEOUT_MS = 30;
+            public static final int PEAK_AMPS = 33;
+            public static final int HOLD_AMPS = 30;
+            public static final int TIMEOUT_MS = 15;
         }
 
         /**
@@ -134,29 +140,34 @@ public class RobotConstants {
 
         // Feedforward Gains
         public static final double ksVolts = 2.37;
-        public static final double kvVoltsSecondsPerMeter = 1.8;
-        public static final double kaVoltsSecondsSquaredPerMeter = 0.0231;
+        public static final double kvVoltsSecondsPerMeter = 1.73; // 1.8
+        public static final double kaVoltsSecondsSquaredPerMeter = 0.0304; // 0.0231
 
         // Optimal Control Gain for driving
-        public static final double kPDriveVel = 0.478;// 0.68;//0.478;
+        public static final double kPDriveVel = 0.478;// 0.68; //0.478;
         public static final double kIDriveVel = 0.0;
         public static final double kDDriveVel = 0.008;
 
         // Optimal Control Gain for turning
-        public static final double kPTurnVel = 0.0268;
-        public static final double kITurnVel = 0.1;
-        public static final double kDTurnVel = 0.0066; // 6
+        public static final double kPTurnVel = 0.0275;//0.030;
+        public static final double kITurnVel =  0.01; //0.12; 
+        public static final double kDTurnVel = 0.0066; // 0.0066
 
+        // Basic P control for encoder-only distance driving
         public static final double kRP = 0.05;
 
         // P = 0.027 I = 0.1 D = 0.006
 
         // Closest: 3.34m
 
+        // PID Controller
+        public static PIDController turningPIDController = new PIDController(kPTurnVel, kITurnVel, kDTurnVel);
+
+        public static PIDController drivePidController = new PIDController(kPTurnVel, kITurnVel, kDTurnVel);
+
         // DifferentialDriveKinematics allows for the use of the track length
         public static final double kTrackWidthMeters = 0.1524;
         public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
-                // DriveTrain.Measurements.DRIVEBASE_WIDTH);
                 kTrackWidthMeters);
 
         // Max Trajectory of Velocity and Acceleration
@@ -192,11 +203,18 @@ public class RobotConstants {
         /**
          * Shooter motor
          */
-        public static final int MOTOR_ID = 6;
+
+        public static final int MOTOR_ID = 16;
 
         public static final double VOLTAGE_EPSILON = 0.2;
 
         public static final double MAX_VOLTAGE = 12;
+
+        public static final double MOTOR_KV = 473;
+
+        public static final double MOTOR_MAX_RPM = 5676;
+
+        public static final double RPM_EPSILON = VOLTAGE_EPSILON * MOTOR_KV;
 
         /* Shooter spinup PID */
         public static final double kPVel = 0.38;

@@ -1,7 +1,8 @@
 package frc.lib5k.control;
 
-import edu.wpi.first.wpilibj.SendableBase;
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SendableRegistry;
 import frc.lib5k.kinematics.PIDProfile;
 
 /**
@@ -9,7 +10,7 @@ import frc.lib5k.kinematics.PIDProfile;
  * <a href="https://lynkz.me/HqhJIuG">SimPID</a>, that works with lib5k's
  * kinematics systems, and provides telemetry
  */
-public class PIDv2 extends SendableBase {
+public class PIDv2 implements Sendable {
 
     private double kp, ki, kd;
     private double setpoint;
@@ -56,7 +57,7 @@ public class PIDv2 extends SendableBase {
 
         // Handle sendable naming
         String name = getClass().getName();
-        setName(name.substring(name.lastIndexOf('.') + 1));
+        SendableRegistry.setName(this, name.substring(name.lastIndexOf('.') + 1));
     }
 
     /**

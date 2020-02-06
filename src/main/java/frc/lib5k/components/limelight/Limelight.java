@@ -4,7 +4,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpiutil.net.PortForwarder;
-
+ 
 /**
  * Limelight interface tool
  */
@@ -110,7 +110,7 @@ public class Limelight {
     }
 
     /**
-     * The pipeline’s latency contribution
+     * The pipeline's latency contribution
      * 
      * @return ms
      */
@@ -119,28 +119,28 @@ public class Limelight {
     }
 
     /**
-     * Sets limelight’s LED state
+     * Sets limelight's LED state
      */
     public void setLEDMode(LEDMode mode) {
         SLED.setNumber(mode.getVal());
     }
 
     /**
-     * Sets limelight’s operation mode
+     * Sets limelight's operation mode
      */
     public void setCameraMode(CameraMode mode) {
         cameraMode.setNumber(mode.getVal());
     }
 
     /**
-     * Sets limelight’s current pipeline
+     * Sets limelight's current pipeline
      */
     public void setPipelineID(int id) {
         setPipeId.setNumber(id);
     }
 
     /**
-     * Sets limelight’s streaming mode
+     * Sets limelight's streaming mode
      */
     public void setStreamMode(int mode) {
         setStream.setNumber(mode);

@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib5k.components.drive.IDifferentialDrivebase;
 import frc.lib5k.components.gyroscopes.NavX;
-import frc.lib5k.components.limelight.Limelight;
 import frc.lib5k.roborio.FaultReporter;
 import frc.lib5k.utils.RobotLogger;
 import frc.lib5k.utils.RobotLogger.Level;
@@ -17,6 +16,9 @@ import frc.robot.subsystems.CellSuperstructure;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.PanelManipulator;
+import frc.robot.vision.Limelight2;
+import frc.robot.vision.TargetTracker;
+import frc.robot.vision.Limelight2.LEDMode;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -30,6 +32,10 @@ public class Robot extends TimedRobot {
 	/* Robot I/O helpers */
 	RobotLogger logger = RobotLogger.getInstance();
 	FaultReporter m_faultReporter = FaultReporter.getInstance();
+
+	/* Robot telemetry */
+	private Dashboard m_dashboard = Dashboard.getInstance();
+
 
 	/* Robot Subsystems */
 	private DriveTrain m_driveTrain = DriveTrain.getInstance();
@@ -72,7 +78,6 @@ public class Robot extends TimedRobot {
 		NavX.getInstance().setInverted(false);
 
 		// Reset the drivetrain pose
-		// m_driveTrain.setPosition(new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0.0)));
 		m_driveTrain.setRampRate(0.12);
 
 		// Create and publish an autonomous chooser
@@ -87,8 +92,16 @@ public class Robot extends TimedRobot {
 
 		m_driveTrain.setPosition(m_autonChooser.getRobotAutoStartPosition());
 
-		// Enable limelight portforwarding
-		new Limelight().enablePortforwarding("10.50.24.11");
+		// Connect to, and configure Limelight
+		Limelight2.getInstance().setPortrait(true);
+		Limelight2.getInstance().setLED(LEDMode.OFF);
+		Limelight2.getInstance().enableVision(true);
+		TargetTracker.getInstance().register();
+		TargetTracker.getInstance().enableTargetChecking(false);
+
+		// Init and start the dashboard service
+		m_dashboard.init();
+		m_dashboard.start();
 	}
 
 	@Override
@@ -138,6 +151,7 @@ public class Robot extends TimedRobot {
 
 		// Enable brakes on the DriveTrain
 		m_driveTrain.setBrakes(true);
+		m_driveTrain.setRampRate(0.2);
 
 		// Disable the autonomous command
 		if (m_autonomousCommand != null) {
