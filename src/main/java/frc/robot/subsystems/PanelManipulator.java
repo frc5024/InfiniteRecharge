@@ -127,7 +127,7 @@ public class PanelManipulator extends SubsystemBase {
 
                 if(currentColor != lastColor) {
                     colorCount++;
-
+                    lastColor = currentColor;
 
                 }
 
