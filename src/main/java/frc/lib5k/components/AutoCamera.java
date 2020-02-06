@@ -44,10 +44,8 @@ public class AutoCamera {
      */
     public void showCamera(boolean show) {
         if (show) {
-            System.out.println("Warning: Camera enabled");
             m_UsbCamera.setExposureAuto();
         } else {
-            System.out.println("Warning: Camera disabled");
             m_UsbCamera.setExposureHoldCurrent();
             m_UsbCamera.setExposureManual(10);
             m_UsbCamera.setExposureManual(0);
