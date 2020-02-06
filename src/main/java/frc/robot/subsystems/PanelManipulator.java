@@ -1,48 +1,69 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import frc.lib5k.simulation.wrappers.SimTalon;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpiutil.CircularBuffer;
 import frc.lib5k.components.ColorSensor5k;
 import frc.lib5k.utils.RobotLogger;
 import frc.robot.GameData;
+import frc.robot.OI;
 import frc.robot.RobotConstants;
 
 public class PanelManipulator extends SubsystemBase {
     RobotLogger logger = RobotLogger.getInstance();
     private static PanelManipulator s_instance = null;
 
-
     /**
     * Physical Devices
     */
     private ColorSensor5k m_colorSensor = new ColorSensor5k(I2C.Port.kOnboard);
-    private WPI_TalonSRX m_spinnerMotor = new WPI_TalonSRX(RobotConstants.PanelManipulator.SPINNER_MOTOR_ID);
+    private SimTalon m_spinnerMotor = new SimTalon(RobotConstants.PanelManipulator.SPINNER_MOTOR_ID);
 
     // Color matching class.
     private final ColorMatch m_colorMatcher = new ColorMatch();
 
-    // Colors taken from the example code. 
+    // Color Data
     private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
     private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
     private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
     private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
-  
-    // Boolean for detecting correct colors.
-    private boolean isCorrectColor;    
+
+    // States
+    private ControlState state = ControlState.IDLE;
+
+    // SaveData vars;
+    private double proximity;
+    private boolean inRange;
+    private boolean isUnlocked;
+    private double colorCount;
+    private double rotations;
+    private boolean doneRotations = false;
+
+
+    // Color Saves
+    private Color currentColor;
+    private Color lastColor;
+    private Color previousColor;
 
     private PanelManipulator() {
+
 
         m_colorMatcher.addColorMatch(kBlueTarget);
         m_colorMatcher.addColorMatch(kGreenTarget);
         m_colorMatcher.addColorMatch(kRedTarget);
         m_colorMatcher.addColorMatch(kYellowTarget); 
+
+        m_spinnerMotor.setNeutralMode(NeutralMode.Coast);
+        m_spinnerMotor.enableVoltageCompensation(true);
+        m_spinnerMotor.configOpenloopRamp(0.5);
 
     }
 
@@ -63,17 +84,80 @@ public class PanelManipulator extends SubsystemBase {
     @Override
     public void periodic() {
 
-        double prox = m_colorSensor.getProximity();
-        SmartDashboard.putNumber("Proximity:", prox);
+        // Unlocked the PanelManipulator.
+        isUnlocked = OI.getInstance().unlockPanelManipulator();
+        // Proximity detection. 
+        proximity = m_colorSensor.getProximity();
+        // If proximity is greater than 200, than its false.
+        inRange = (proximity > 200) ? true : false;
+        // Whatever color is under the sensor at the current cycle.
+        currentColor = m_colorMatcher.matchClosestColor(m_colorSensor.getColor()).color;
 
-        if(prox > 160) {
-            isCorrectColor = isSensedColorCorrect();
-            updateTelemetry();
-        } else {
-            isCorrectColor = false;
-        }
+        
 
+        switch(state) {
+
+            // If the Manipulator is not doing anything, it should be in this state.
+            case IDLE:
+
+                logger.log("[PanelManipulator]", "IDLE");
+
+                if(doneRotations) {
+                    setState(ControlState.POSITIONAL);
+                }
+
+                if(inRange && isUnlocked) {
+                    setState(ControlState.ROTATING);
+                }
+
+                break;
+            
+            // Rotates the panel 3 times.
+            case ROTATING:
+
+                if(!inRange || !isUnlocked) {
+                    setState(ControlState.ERROR);
+                    break;
+                }
+
+                m_spinnerMotor.set(0.35);
+
+                if(currentColor != lastColor) {
+
+                }
+
+                break;
+
+                // Spins until the current color is under the sensor.
+            case POSITIONAL:
+
+
+                if(isUnlocked && inRange) {
+                    setState(ControlState.ERROR);
+                    break;
+                }
+                m_spinnerMotor.set(0.3);
+
+                if(isSensedColorCorrect()) {
+                    m_spinnerMotor.stopMotor();
+                    setState(ControlState.IDLE);
+                }
+                
+                break;
+            
+            // If something wrong happened, it should go tto this state. 
+            case ERROR:
+                
+                m_spinnerMotor.set(0);
+                logger.log("[PanelManipulator]", "Unlocked or Bumped During a Rotation!");
+                setState(ControlState.IDLE);
+
+                break;
+
+            }
+    
     }
+
 
     /**
      * Gets the game color for that match.
@@ -82,28 +166,25 @@ public class PanelManipulator extends SubsystemBase {
      * 
      * @return 
      */
-
     public boolean isSensedColorCorrect() {
 
         // Read the color wanted by FMS
-        Color8Bit wantedColor = GameData.getInstance().getControlColor();
-        Color wantColor;
-        Color detectedColor = m_colorSensor.getColor();
-        ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
+        Color controlColor = new Color(GameData.getInstance().getControlColor());
+        Color currentColor = m_colorSensor.getColor();
 
-        if(wantedColor == null) {
-            return false;
-        } else {
-            wantColor = new Color(wantedColor);
-        }
+        ColorMatchResult match = m_colorMatcher.matchClosestColor(currentColor);
 
-        if (match.color == offsetColor(wantColor)) {
+        if(match.color == controlColor) {
+
             return true;
-        } else {
-            return false;
-        }       
 
+        } else {
+
+            return false;
+
+        }
     }
+
 
     public void updateTelemetry() {
 
@@ -112,6 +193,7 @@ public class PanelManipulator extends SubsystemBase {
         String colorString;
         ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
 
+        
         if (match.color == kBlueTarget) {
             colorString = "Blue";
           } else if (match.color == kRedTarget) {
@@ -129,60 +211,34 @@ public class PanelManipulator extends SubsystemBase {
         SmartDashboard.putNumber("Blue", detectedColor.blue);
         SmartDashboard.putNumber("Confidence", match.confidence);
         SmartDashboard.putString("Detected Color", colorString);
+        SmartDashboard.putNumber("Color Count", colorCount);
+        SmartDashboard.putNumber("Rotations", rotations);
                 
-
     }
 
     /**
-     * Offsets the color by the color that is at a 90 degree angle.
-     * 
-     * @param c Sensed color
-     * @return Offset color
+     * State setter
+     * @param state
      */
-    public Color offsetColor(Color color) {
-
-        if(color == kBlueTarget) {
-            return kRedTarget;
-        }
-        if(color == kRedTarget) {
-            return kBlueTarget;
-        }
-        if(color == kGreenTarget) {
-            return kYellowTarget;
-        }
-        if(color == kYellowTarget) {
-            return kGreenTarget;
-        }
-
-        return null;
+    private void setState(ControlState state) {
+        this.state = state;
     }
 
     /**
-     * Stats for moving the Control Panel.
-     * 
+     * State getter
+     * @return ControlState current state.
      */
-    private enum SPINNER {
+    private ControlState getState() {
+        return state;
+    }
+
+    private enum ControlState {
+
         IDLE,
-        START,
-        ROTATION,
-        POSITION,
-        STOP,
+        ROTATING,
+        POSITIONAL,
         ERROR
-    }
 
-
-    
-
-
-    public double spinWheelTurns(int turns) {
-
-        return 0.0;
-
-    }
-
-    public double spinWheelColors(int numberOfColorChanges) {
-
-        return 0.0;
 
     }
 }

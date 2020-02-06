@@ -19,5 +19,29 @@ public class ColorUtils {
         return (Mathutils.epsilonEquals(a.red, b.red, eps) && Mathutils.epsilonEquals(a.green, b.green, eps) && Mathutils.epsilonEquals(a.blue, b.blue, eps));
     }
 
+    public static boolean epsilonEquals(Color a, Color b, double eps){
+        return (Mathutils.epsilonEquals(a.red, b.red, eps) && Mathutils.epsilonEquals(a.green, b.green, eps) && Mathutils.epsilonEquals(a.blue, b.blue, eps));
+    }
+
+    /**
+     * Offsets the color by the color that is at a 90 degree angle.
+     * 
+     * @param c Sensed color
+     * @return Offset color
+     */
+    public Color offsetColor(Color color) {
+
+        return null;
+    }
+
+    public enum FieldColors {
+        RED,
+        YELLOW,
+        BLUE,
+        GREEN
+        
+    }
+
+
 
 }
