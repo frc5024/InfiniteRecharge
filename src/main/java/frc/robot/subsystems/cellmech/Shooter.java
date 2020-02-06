@@ -2,7 +2,6 @@ package frc.robot.subsystems.cellmech;
 
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -269,6 +268,10 @@ public class Shooter extends SubsystemBase {
         // Set the mode to spin down
         m_systemState = SystemState.SPIN_DOWN;
 
+    }
+
+    public double getOutput(){
+        return m_motorController.get();
     }
 
 }
