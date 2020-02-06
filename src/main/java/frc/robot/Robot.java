@@ -11,6 +11,7 @@ import frc.lib5k.utils.RobotLogger;
 import frc.lib5k.utils.RobotLogger.Level;
 import frc.robot.autonomous.Chooser;
 import frc.robot.commands.DriveControl;
+import frc.robot.commands.ManualControl;
 import frc.robot.commands.OperatorControl;
 import frc.robot.subsystems.CellSuperstructure;
 import frc.robot.subsystems.Climber;
@@ -42,7 +43,8 @@ public class Robot extends TimedRobot {
 	/* Robot Commands */
 	private CommandBase m_autonomousCommand;
 	private DriveControl m_driveControl;
-	private OperatorControl m_operatorControl;
+    private OperatorControl m_operatorControl;
+    private ManualControl m_manualControl;
 
 	private Chooser m_autonChooser;
 
@@ -56,7 +58,8 @@ public class Robot extends TimedRobot {
 		// Create control commands
 		logger.log("Robot", "Constructing Commands", Level.kRobot);
 		m_driveControl = new DriveControl();
-		m_operatorControl = new OperatorControl();
+        m_operatorControl = new OperatorControl();
+        m_manualControl = new ManualControl();
 
 		// Register all subsystems
 		logger.log("Robot", "Registering Subsystems", Level.kRobot);
@@ -158,6 +161,10 @@ public class Robot extends TimedRobot {
 
 		if (m_operatorControl != null) {
 			m_operatorControl.schedule();
+        }
+        
+        if (m_manualControl != null) {
+			m_manualControl.schedule();
 		}
 
 	}

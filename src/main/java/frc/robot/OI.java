@@ -16,6 +16,7 @@ public class OI {
     /* Controllers */
     private XboxController m_driverController = new XboxController(RobotConstants.HumanInputs.DRIVER_CONTROLLER_ID);
     private XboxController m_operatorController = new XboxController(RobotConstants.HumanInputs.OPERATOR_CONTROLLER_ID);
+    private XboxController m_testController = new XboxController(2);
 
     /* Toggles and modifiers */
 
@@ -134,6 +135,36 @@ public class OI {
      */
     public void resetIntakeInput() {
         m_shouldIntakeToggle.reset();
+    }
+
+    /**
+     * @return the speed of the hopper belt
+     */
+    public double getHopperSpeed() {
+        double speed = 0.0;
+
+        speed += m_testController.getTriggerAxis(GenericHID.Hand.kRight);
+        speed -= m_testController.getTriggerAxis(GenericHID.Hand.kLeft);
+
+        return speed;
+    }
+
+     /**
+     * @return the speed of the intake arm
+     */
+    public double getIntakeArmSpeed() {
+        double speed = m_testController.getY(GenericHID.Hand.kRight);
+        speed = (speed < 0.2 && speed > -0.2 ? 0 : speed);
+        return speed;
+    }
+
+    /**
+     * @return the speed of the intake roller
+     */
+    public double getIntakeRollerSpeed() {
+        double speed = m_testController.getY(GenericHID.Hand.kLeft);
+        speed = (speed < 0.2 && speed > -0.2  ? 0 : speed);
+        return speed;
     }
 
 }

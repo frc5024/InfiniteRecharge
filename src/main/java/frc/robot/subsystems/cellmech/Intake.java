@@ -91,13 +91,13 @@ public class Intake extends SubsystemBase {
         // Handle states
         switch (m_systemState) {
         case INTAKE:
-            handleIntake(isNewState);
+            // handleIntake(isNewState);
             break;
         case UNJAM:
-            handleUnjam(isNewState);
+            // handleUnjam(isNewState);
             break;
         case STOWED:
-            handleStowed(isNewState);
+            // handleStowed(isNewState);
             break;
         default:
             logger.log("Intake", "Encountered unknown state", Level.kWarning);
@@ -249,6 +249,20 @@ public class Intake extends SubsystemBase {
      */
     public void stow() {
         m_systemState = SystemState.STOWED;
+    }
+
+    /**
+     * @param speed speed of the arm motor
+     */
+    public void manuallySetArmSpeed(double speed) {
+        m_intakeActuator.set(speed);
+    }
+
+    /**
+     * @param speed speed of the roller motor
+     */
+    public void manuallySetRollerSpeed(double speed) {
+        m_intakeRoller.set(speed);
     }
 
 }

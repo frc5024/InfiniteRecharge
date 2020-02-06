@@ -144,28 +144,28 @@ public class Hopper extends SubsystemBase {
         // Handle states
         switch (m_systemState) {
         case IDLE:
-            handleIdle(isNewState);
+            // handleIdle(isNewState);
             break;
         case INTAKEREADY:
-            handleIntakeReady(isNewState);
+            // handleIntakeReady(isNewState);
             break;
         case INTAKING:
-            handleIntaking(isNewState);
+            // handleIntaking(isNewState);
             break;
         case UNJAM:
-            handleUnjam(isNewState);
+            // handleUnjam(isNewState);
             break;
         case MOVETOTOP:
-            handleMoveToTop(isNewState);
+            // handleMoveToTop(isNewState);
             break;
         case MOVETOBOTTOM:
-            handleMoveToBottom(isNewState);
+            // handleMoveToBottom(isNewState);
             break;
         case MOVEUPONEPLACE:
-            handleMoveUpOnePlace(isNewState);
+            // handleMoveUpOnePlace(isNewState);
             break;
         case SHOOTING:
-            handleShooting(isNewState);
+            // handleShooting(isNewState);
             break;
         default:
             m_systemState = SystemState.IDLE;
