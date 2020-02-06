@@ -1,6 +1,6 @@
 package frc.lib5k.components;
 
-import edu.wpi.first.wpilibj.SendableBase;
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
  * A wrapper for the REV Blinkin LED driver <br>
  * http://www.revrobotics.com/rev-11-1105/
  */
-public class BlinkinDriver extends SendableBase {
+public class BlinkinDriver implements Sendable {
 
     public enum LEDSetting {
         RAINBOW(-0.99), RAINBOW_PARTY(-0.97), RAINBOW_OCEAN(-0.95), RAINBOW_LAVA(-0.93), RAINBOW_FOREST(-0.91),
