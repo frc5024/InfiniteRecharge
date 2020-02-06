@@ -55,6 +55,7 @@ public class PanelManipulator extends SubsystemBase {
 
     private PanelManipulator() {
 
+
         m_colorMatcher.addColorMatch(kBlueTarget);
         m_colorMatcher.addColorMatch(kGreenTarget);
         m_colorMatcher.addColorMatch(kRedTarget);
@@ -237,6 +238,7 @@ public class PanelManipulator extends SubsystemBase {
         ROTATING,
         POSITIONAL,
         ERROR
+
 
     }
 }
