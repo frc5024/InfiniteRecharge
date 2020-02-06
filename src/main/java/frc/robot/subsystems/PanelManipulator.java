@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpiutil.CircularBuffer;
 import frc.lib5k.components.ColorSensor5k;
 import frc.lib5k.utils.RobotLogger;
 import frc.robot.GameData;
@@ -36,7 +37,7 @@ public class PanelManipulator extends SubsystemBase {
     private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
 
     // States
-    private ControlState state;
+    private ControlState state = ControlState.IDLE;
 
     // SaveData vars;
     private double proximity;
@@ -50,6 +51,7 @@ public class PanelManipulator extends SubsystemBase {
     // Color Saves
     private Color currentColor;
     private Color lastColor;
+    private Color previousColor;
 
     private PanelManipulator() {
 
@@ -89,7 +91,9 @@ public class PanelManipulator extends SubsystemBase {
         inRange = (proximity > 200) ? true : false;
         // Whatever color is under the sensor at the current cycle.
         currentColor = m_colorMatcher.matchClosestColor(m_colorSensor.getColor()).color;
+
         
+
         switch(state) {
 
             // If the Manipulator is not doing anything, it should be in this state.
@@ -109,36 +113,27 @@ public class PanelManipulator extends SubsystemBase {
             
             // Rotates the panel 3 times.
             case ROTATING:
-                logger.log("[PanelManipulator]", "ROTATING");
 
                 if(!inRange || !isUnlocked) {
                     setState(ControlState.ERROR);
+                    break;
                 }
 
-                m_spinnerMotor.set(0.3);
+                m_spinnerMotor.set(0.35);
 
-                if (currentColor != lastColor) {
-                    colorCount++;
-                    lastColor = currentColor;
+                if(currentColor != lastColor) {
+
                 }
 
-                if(colorCount == 8) {
-                    rotations++;
-                    colorCount = 0;
-                }
-
-                if(rotations == 4) {
-                    m_spinnerMotor.stopMotor();
-                    doneRotations = true;
-                }                            
-    
                 break;
 
                 // Spins until the current color is under the sensor.
             case POSITIONAL:
 
+
                 if(isUnlocked && inRange) {
                     setState(ControlState.ERROR);
+                    break;
                 }
                 m_spinnerMotor.set(0.3);
 
@@ -153,7 +148,7 @@ public class PanelManipulator extends SubsystemBase {
             case ERROR:
                 
                 m_spinnerMotor.set(0);
-                logger.log("[PanelManipulator]", "Bumped or Unlocked Mid Rotations... DATA SAVED");
+                logger.log("[PanelManipulator]", "Unlocked or Bumped During a Rotation!");
                 setState(ControlState.IDLE);
 
                 break;
@@ -173,16 +168,20 @@ public class PanelManipulator extends SubsystemBase {
     public boolean isSensedColorCorrect() {
 
         // Read the color wanted by FMS
-        Color wantedColor = new Color(GameData.getInstance().getControlColor());
+        Color controlColor = new Color(GameData.getInstance().getControlColor());
         Color currentColor = m_colorSensor.getColor();
+
         ColorMatchResult match = m_colorMatcher.matchClosestColor(currentColor);
 
-        if(currentColor == wantedColor) {
-            return true;
-        } else {
-            return false;
-        }
+        if(match.color == controlColor) {
 
+            return true;
+
+        } else {
+
+            return false;
+
+        }
     }
 
 
