@@ -44,14 +44,12 @@ public class PanelManipulator extends SubsystemBase {
     private boolean inRange;
     private boolean isUnlocked;
     private double colorCount;
-    private double rotations;
     private boolean doneRotations = false;
 
 
     // Color Saves
     private Color currentColor;
     private Color lastColor;
-    private Color previousColor;
 
     private PanelManipulator() {
 
