@@ -97,7 +97,7 @@ public class Robot extends TimedRobot {
 		// Publish telemetry data to smartdashboard if setting enabled
 		if (RobotConstants.PUBLISH_SD_TELEMETRY) {
 			m_driveTrain.updateTelemetry();
-			m_panelManipulator.updateTelemetry();
+			// m_panelManipulator.updateTelemetry();
 		}
 
 	}
