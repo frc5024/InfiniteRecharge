@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.lib5k.utils.RobotLogger;
+import frc.robot.Dashboard;
 import frc.robot.autonomous.actions.LogCommand;
 import frc.robot.autonomous.paths.AutonomousPath;
 import frc.robot.autonomous.paths.score.ScoreCenter;
@@ -64,9 +65,11 @@ public class Chooser {
         ShuffleboardTab autonTab = Shuffleboard.getTab("Autonomous");
 
         // Push each chooser
-        autonTab.add(m_pathChooser);
-        autonTab.add(m_shouldScore);
-        autonTab.add(m_getExtraCells);
+        // autonTab.add(m_pathChooser);
+        // autonTab.add(m_shouldScore);
+        // autonTab.add(m_getExtraCells);
+
+        Dashboard.getInstance().publishAutonChooser(m_pathChooser);
 
     }
 
