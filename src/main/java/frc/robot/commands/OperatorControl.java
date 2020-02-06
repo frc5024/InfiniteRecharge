@@ -23,19 +23,35 @@ public class OperatorControl extends CommandBase {
     public void execute() {
 
         // Toggle for shooting
-        if(m_oi.shouldRunAutoShoot()) {
+        if (m_oi.shouldShoot()) {
+
+            // Start up the shooter command
             m_shootCellsCommand.schedule();
+
+            // Kill the intake command
+            m_intakeCellsCommand.cancel();
+
+            // Disable the intake toggle
+            m_oi.resetIntakeInput();
         } else {
             m_shootCellsCommand.cancel();
         }
 
         // Toggle for intaking
-        if(m_oi.shouldRunAutoIntake()) {
+        if (m_oi.shouldIntake()) {
+
+            // Start up the intake command
             m_intakeCellsCommand.schedule();
+
+            // Kill the shooting command (intake gets priority)
+            m_shootCellsCommand.cancel();
+
+            // Disable the shooter toggle
+            m_oi.resetShooterInput();
         } else {
             m_intakeCellsCommand.cancel();
         }
-        
+
     }
 
 }

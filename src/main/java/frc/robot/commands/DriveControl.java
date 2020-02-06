@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lib5k.control.CubicDeadband;
 import frc.robot.OI;
 import frc.robot.RobotConstants;
+import frc.robot.commands.actions.AutoAlign;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.vision.Limelight2;
 import frc.robot.vision.LimelightTarget;
