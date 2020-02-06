@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+
+import edu.wpi.cscore.VideoSource;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.lib5k.components.AutoCamera;
 import frc.lib5k.components.pneumatics.LazySolenoid;
@@ -45,8 +47,8 @@ public class Climber extends SubsystemBase {
      * System positions
      */
     public enum Position {
-        HIGH_BAR, // High climb bar position
-        LOW_BAR, // Low climb bar position
+        LEVEL, // High climb bar position
+        RETRACTED, // Low climb bar position
         CURRENT, // Hold at current position
     }
 
@@ -66,7 +68,7 @@ public class Climber extends SubsystemBase {
         // Climb motor
         m_liftMotor = new SimTalon(RobotConstants.Climber.MOTOR_CONTROLLER_ID);
 
-        // Low and High Hall sensors 
+        // Low and High Hall sensors
         m_lowHall = new DigitalInput(RobotConstants.Climber.LOW_HALL_ID);
         m_highHall = new DigitalInput(RobotConstants.Climber.HIGH_HALL_ID);
 
@@ -122,6 +124,9 @@ public class Climber extends SubsystemBase {
             break;
 
         }
+
+        // Set the last state
+        m_lastState = m_state;
 
     }
 
@@ -202,6 +207,9 @@ public class Climber extends SubsystemBase {
 
             // Enable the camera
             m_camera.showCamera(true);
+
+            // Retract safety pin
+            m_releasePin.set(false);
         }
     }
 
@@ -253,12 +261,21 @@ public class Climber extends SubsystemBase {
          */
 
         if (m_highHall.get()) {
-            return Position.HIGH_BAR;
+            return Position.LEVEL;
         } else if (m_lowHall.get()) {
-            return Position.LOW_BAR;
+            return Position.RETRACTED;
         } else {
             return Position.CURRENT;
         }
+    }
+
+    /**
+     * Get the climber camera feed
+     * 
+     * @return Camera feed
+     */
+    public VideoSource getCameraFeed() {
+        return m_camera.getFeed();
     }
 
 }

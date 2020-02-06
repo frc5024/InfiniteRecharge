@@ -138,6 +138,9 @@ public class Robot extends TimedRobot {
 
 		// Enable brakes on the DriveTrain
 		m_driveTrain.setBrakes(true);
+
+		// Lock the climber
+		Climber.getInstance().lock();
 	}
 
 	@Override
@@ -154,6 +157,9 @@ public class Robot extends TimedRobot {
 		// Enable brakes on the DriveTrain
 		m_driveTrain.setBrakes(true);
 		m_driveTrain.setRampRate(0.2);
+
+		// Lock the climber
+		Climber.getInstance().lock();
 
 		// Disable the autonomous command
 		if (m_autonomousCommand != null) {
@@ -195,6 +201,9 @@ public class Robot extends TimedRobot {
 
 		// Stop the climber
 		m_climbProcess.killClimbCommand();
+
+		// Put the climber in service mode
+		Climber.getInstance().service();
 
 	}
 
