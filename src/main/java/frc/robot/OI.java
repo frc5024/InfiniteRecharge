@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import frc.lib5k.control.Toggle;
 import edu.wpi.first.wpilibj.GenericHID;
 
@@ -45,6 +46,11 @@ public class OI {
         }
 
         return s_instance;
+    }
+
+    public void rumbleDriver(double force) {
+        m_driverController.setRumble((force > 1.0) ? RumbleType.kLeftRumble : RumbleType.kRightRumble,
+                (force > 1.0) ? force - 1.0 : force);
     }
 
     /**
@@ -94,7 +100,8 @@ public class OI {
         return m_driverController.getBButton();
     }
 
-    
-    
+    public boolean shouldAutoAim() {
+        return m_driverController.getYButton();
+    }
 
 }
