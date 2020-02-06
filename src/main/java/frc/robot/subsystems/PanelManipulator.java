@@ -102,12 +102,15 @@ public class PanelManipulator extends SubsystemBase {
 
                 logger.log("[PanelManipulator]", "IDLE");
 
-                if(doneRotations) {
-                    setState(ControlState.POSITIONAL);
-                }
+                
 
                 if(inRange && isUnlocked) {
-                    setState(ControlState.ROTATING);
+                    if(doneRotations) {
+                        setState(ControlState.POSITIONAL);
+                    } else {
+                    setState(ControlState.ROTATING);     
+                    }
+
                 }
 
                 break;
@@ -123,7 +126,13 @@ public class PanelManipulator extends SubsystemBase {
                 m_spinnerMotor.set(0.35);
 
                 if(currentColor != lastColor) {
+                    colorCount++;
 
+
+                }
+
+                if(colorCount == 32) {
+                    doneRotations = true;
                 }
 
                 break;
