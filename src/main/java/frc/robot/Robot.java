@@ -12,7 +12,6 @@ import frc.lib5k.utils.RobotLogger.Level;
 import frc.robot.autonomous.Chooser;
 import frc.robot.commands.DriveControl;
 import frc.robot.commands.ClimbProcess;
-import frc.robot.commands.ShooterTester;
 import frc.robot.commands.OperatorControl;
 import frc.robot.subsystems.CellSuperstructure;
 import frc.robot.subsystems.Climber;
