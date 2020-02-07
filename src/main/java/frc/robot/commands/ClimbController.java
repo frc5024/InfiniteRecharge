@@ -16,7 +16,6 @@ public class ClimbController extends CommandBase {
 
     @Override
     public void execute() {
-        System.out.println("NOOOOOOOOOOOOOOOOOOOOOOOOOOOO!!!!");
 
         // Tell the climber where to move to
         Climber.getInstance().setPosition(m_oi.getWantedClimbPosition());

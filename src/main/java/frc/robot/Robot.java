@@ -11,8 +11,6 @@ import frc.lib5k.utils.RobotLogger;
 import frc.lib5k.utils.RobotLogger.Level;
 import frc.robot.autonomous.Chooser;
 import frc.robot.commands.DriveControl;
-import frc.robot.commands.ClimbProcess;
-import frc.robot.commands.ShooterTester;
 import frc.robot.commands.OperatorControl;
 import frc.robot.subsystems.CellSuperstructure;
 import frc.robot.subsystems.Climber;
@@ -47,7 +45,6 @@ public class Robot extends TimedRobot {
 	/* Robot Commands */
 	private CommandBase m_autonomousCommand;
 	private DriveControl m_driveControl;
-	private ClimbProcess m_climbProcess;
 	private OperatorControl m_operatorControl;
 
 	private Chooser m_autonChooser;
@@ -62,7 +59,6 @@ public class Robot extends TimedRobot {
 		// Create control commands
 		logger.log("Robot", "Constructing Commands", Level.kRobot);
 		m_driveControl = new DriveControl();
-		m_climbProcess = new ClimbProcess();
 		m_operatorControl = new OperatorControl();
 
 		// Register all subsystems
@@ -174,14 +170,11 @@ public class Robot extends TimedRobot {
 
 		if (m_operatorControl != null) {
 			m_operatorControl.schedule();
+
+			// Ensure all sub-commands are killed
+			m_operatorControl.killAllActions();
 		}
 
-		if (m_climbProcess != null) {
-			m_climbProcess.schedule();
-
-			// Stop the climber
-			m_climbProcess.killClimbCommand();
-		}
 
 	}
 
@@ -200,8 +193,8 @@ public class Robot extends TimedRobot {
 		m_driveTrain.setBrakes(false);
 		m_driveTrain.stop();
 
-		// Stop the climber
-		m_climbProcess.killClimbCommand();
+		// Ensure all operator sub-commands are killed
+		m_operatorControl.killAllActions();
 
 		// Put the climber in service mode
 		Climber.getInstance().service();

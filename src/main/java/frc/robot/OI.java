@@ -135,10 +135,6 @@ public class OI {
         }
     }
 
-    public boolean shouldAutoAim() {
-        return m_driverController.getYButton();
-    }
-      
     /**
      * Reset the shooter input toggle
      */
