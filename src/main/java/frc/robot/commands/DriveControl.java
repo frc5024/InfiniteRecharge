@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lib5k.control.CubicDeadband;
 import frc.robot.OI;
 import frc.robot.RobotConstants;
+import frc.robot.commands.actions.AutoAlign;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.vision.Limelight2;
 import frc.robot.vision.LimelightTarget;
@@ -15,15 +16,16 @@ import frc.robot.vision.Limelight2.LEDMode;
  */
 public class DriveControl extends CommandBase {
 
-    // Operator interface object for reading driver inputs
+    /** Operator interface object for reading driver inputs */
     private OI m_oi = OI.getInstance();
 
-    // Deadband object for the "rotation" input. More info about deadbands can be
-    // found at: https://en.wikipedia.org/wiki/Deadband
+    /** Deadband object for the "rotation" input. More info about deadbands can be
+     * found at: https://en.wikipedia.org/wiki/Deadband
+     */
     private CubicDeadband m_rotationDeadband = new CubicDeadband(
             RobotConstants.HumanInputs.Deadbands.ROTATION_INPUT_DEADBAND, 0.0);
 
-    // Alignment command
+    /** Alignment command */
     private AutoAlign m_alignmentCommand = new AutoAlign();
 
     /**
