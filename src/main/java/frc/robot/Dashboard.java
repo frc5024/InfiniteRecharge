@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.lib5k.utils.RobotLogger;
 import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.cellmech.Hopper;
 import frc.robot.subsystems.cellmech.Intake;
 import frc.robot.subsystems.cellmech.Shooter;
 
@@ -30,7 +31,7 @@ public class Dashboard {
 
     /* Subsystems */
     private Shooter m_shooter = Shooter.getInstance();
-    private Intake m_intake = Intake.getInstance();
+    private Hopper m_hopper = Hopper.getInstance();
     private Climber m_climber = Climber.getInstance();
 
     /* Widgets */
@@ -93,8 +94,7 @@ public class Dashboard {
         m_busVoltage.setDouble(RobotController.getBatteryVoltage());
 
         // Update the ball count
-        // TODO: Uncomment when intake is merged to master
-        // m_ballCount.setDouble(m_intake.getBallCount());
+        m_ballCount.setDouble(m_hopper.getCellCount());
 
     }
 
