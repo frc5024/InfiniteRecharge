@@ -237,7 +237,7 @@ public class RobotConstants {
         /**
          * Shooter motor
          */
-        public static final int MOTOR_ID = 11;
+        public static final int MOTOR_ID = 16;
 
         public static final double MOTOR_MAX_RPM = 5700;
 
