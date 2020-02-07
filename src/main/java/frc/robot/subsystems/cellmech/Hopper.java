@@ -85,6 +85,11 @@ public class Hopper extends SubsystemBase {
 
         m_lineBottomLastValue = false;
         m_lineTopLastValue = false;
+
+        // Add children
+        addChild("Belt", m_hopperBelt);
+        addChild("Bottom Limit", m_lineBottom);
+        addChild("Top Limit", m_lineTop);
     }
 
     /**

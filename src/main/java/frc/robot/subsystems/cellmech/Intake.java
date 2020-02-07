@@ -64,6 +64,11 @@ public class Intake extends SubsystemBase {
         m_bottomHall = new DigitalInput(RobotConstants.Intake.INTAKE_HALL_BOTTOM);
         m_topHall = new DigitalInput(RobotConstants.Intake.INTAKE_HALL_TOP);
 
+        // Add children
+        addChild("Arms", m_intakeActuator);
+        addChild("Roller", m_intakeRoller);
+        addChild("Bottom Limit", m_bottomHall);
+        addChild("Top limit", m_topHall);
     }
 
     /**
