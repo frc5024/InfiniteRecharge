@@ -19,7 +19,7 @@ gradle-app.setting
 imgui.ini
 
 # Pyhton Compiled
-.pyc
+/__pycache__
 
 ### C++ ###
 # Prerequisites

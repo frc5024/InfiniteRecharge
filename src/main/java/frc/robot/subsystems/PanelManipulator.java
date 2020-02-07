@@ -6,11 +6,8 @@ import com.revrobotics.ColorMatchResult;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpiutil.CircularBuffer;
 import frc.lib5k.components.ColorSensor5k;
 import frc.lib5k.utils.RobotLogger;
 import frc.robot.GameData;
@@ -48,8 +45,9 @@ public class PanelManipulator extends SubsystemBase {
 
 
     // Color Saves
-    private Color currentColor;
-    private Color lastColor;
+    private Color detectedColor;
+    private PanelColors currentColor, nextColor, lastColor;
+
 
     private PanelManipulator() {
 
@@ -84,12 +82,17 @@ public class PanelManipulator extends SubsystemBase {
 
         // Unlocked the PanelManipulator.
         isUnlocked = OI.getInstance().unlockPanelManipulator();
+
         // Proximity detection. 
         proximity = m_colorSensor.getProximity();
+
         // If proximity is greater than 200, than its false.
         inRange = (proximity > 200) ? true : false;
+
+        logger.log(proximity + "", "proximity");
+
         // Whatever color is under the sensor at the current cycle.
-        currentColor = m_colorMatcher.matchClosestColor(m_colorSensor.getColor()).color;
+        detectedColor = m_colorMatcher.matchClosestColor(m_colorSensor.getColor()).color;
 
         
 
@@ -99,49 +102,63 @@ public class PanelManipulator extends SubsystemBase {
             case IDLE:
 
                 logger.log("[PanelManipulator]", "IDLE");
-
-                
+                logger.log(inRange + "", "IN RANGE");
 
                 if(inRange && isUnlocked) {
-                    if(doneRotations) {
-                        setState(ControlState.POSITIONAL);
-                    } else {
-                    setState(ControlState.ROTATING);     
-                    }
+                    setState(ControlState.ROTATING);
 
                 }
-
                 break;
+
             
             // Rotates the panel 3 times.
             case ROTATING:
 
                 if(!inRange || !isUnlocked) {
                     setState(ControlState.ERROR);
-                    break;
                 }
 
-                m_spinnerMotor.set(0.35);
+                // Changing the current color and the expected next color.
+                if(detectedColor == kBlueTarget) {
+                    currentColor = PanelColors.BLUE;
+                    nextColor = PanelColors.GREEN;
+                }
 
-                if(currentColor != lastColor) {
+                if(detectedColor == kGreenTarget) {
+                    currentColor = PanelColors.GREEN;
+                    nextColor = PanelColors.RED;
+                }
+
+                if(detectedColor == kRedTarget) {
+                    currentColor = PanelColors.RED;
+                    nextColor = PanelColors.YELLOW;
+                }
+
+                if(detectedColor == kYellowTarget) {
+                    currentColor = PanelColors.YELLOW;
+                    nextColor = PanelColors.BLUE;
+                }
+                
+
+                if(currentColor == nextColor) {
+                
                     colorCount++;
-                    lastColor = currentColor;
-
+                
                 }
 
-                if(colorCount == 32) {
+                if(colorCount == 28) {
+
                     doneRotations = true;
+                
                 }
 
                 break;
-
                 // Spins until the current color is under the sensor.
             case POSITIONAL:
 
 
                 if(isUnlocked && inRange) {
                     setState(ControlState.ERROR);
-                    break;
                 }
                 m_spinnerMotor.set(0.3);
 
@@ -160,7 +177,6 @@ public class PanelManipulator extends SubsystemBase {
                 setState(ControlState.IDLE);
 
                 break;
-
             }
     
     }
@@ -181,6 +197,11 @@ public class PanelManipulator extends SubsystemBase {
 
         ColorMatchResult match = m_colorMatcher.matchClosestColor(currentColor);
 
+        if(match.color == null) {
+            
+            return false;
+
+        }
         if(match.color == controlColor) {
 
             return true;
@@ -208,6 +229,10 @@ public class PanelManipulator extends SubsystemBase {
         return state;
     }
 
+    /**
+     * Control State Enum
+     * Contains the 
+     */
     private enum ControlState {
 
         IDLE,
@@ -215,6 +240,15 @@ public class PanelManipulator extends SubsystemBase {
         POSITIONAL,
         ERROR
 
+
+    }
+
+    private enum PanelColors {
+
+        RED,
+        BLUE,
+        YELLOW,
+        GREEN
 
     }
 }
