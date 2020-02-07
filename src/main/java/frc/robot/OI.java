@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import frc.lib5k.control.Toggle;
 import frc.robot.subsystems.Climber.Position;
@@ -13,23 +14,20 @@ import edu.wpi.first.wpilibj.GenericHID;
 public class OI {
     private static OI s_instance = null;
 
-    /**
-     * Robot driver Xbox controller interface object
-     */
+    /* Controllers */
     private XboxController m_driverController = new XboxController(RobotConstants.HumanInputs.DRIVER_CONTROLLER_ID);
     private XboxController m_operatorController = new XboxController(RobotConstants.HumanInputs.OPERATOR_CONTROLLER_ID);
 
     /* Toggles and modifiers */
 
-    /**
-     * Toggle for keeping track of drivetrain orientation
-     */
+    // Toggle for keeping track of drivetrain orientation
     private Toggle m_driveTrainInvertToggle = new Toggle();
 
-    /**
-     * Toggle for keeping track of shooting
-     */
+    // Shooting action toggle
     private Toggle m_shouldShootToggle = new Toggle();
+
+    // Intake action toggle
+    private Toggle m_shouldIntakeToggle = new Toggle();
 
     /**
      * Force the use of getInstance() by setting this class private
@@ -50,6 +48,11 @@ public class OI {
         return s_instance;
     }
 
+    /**
+     * Send a rumble command to the driver controller
+     * 
+     * @param force Force from 0-2
+     */
     public void rumbleDriver(double force) {
         m_driverController.setRumble((force > 1.0) ? RumbleType.kLeftRumble : RumbleType.kRightRumble,
                 (force > 1.0) ? force - 1.0 : force);
@@ -93,9 +96,22 @@ public class OI {
         return m_driveTrainInvertToggle.feed(m_driverController.getXButtonPressed());
     }
 
+    /**
+     * Get if the drivebase should switch to auto-aim mode
+     * 
+     * @return Should be auto-aiming?
+     */
+    public boolean shouldAutoAim() {
+        return m_driverController.getYButton();
+    }
+
+    /**
+     * Check if the robot should be shooting balls right now
+     * 
+     * @return Should be shooting?
+     */
     public boolean shouldShoot() {
-        // TODO: replace this with an operator control
-        return m_shouldShootToggle.feed(m_driverController.getAButtonPressed());
+        return m_shouldShootToggle.feed(m_operatorController.getYButtonPressed());
     }
 
     /**
@@ -121,6 +137,29 @@ public class OI {
 
     public boolean shouldAutoAim() {
         return m_driverController.getYButton();
+    }
+      
+    /**
+     * Reset the shooter input toggle
+     */
+    public void resetShooterInput() {
+        m_shouldShootToggle.reset();
+    }
+
+    /**
+     * Check if the robot should be intaking balls right now
+     * 
+     * @return Should intake
+     */
+    public boolean shouldIntake() {
+        return m_shouldIntakeToggle.feed(m_operatorController.getBumperPressed(Hand.kRight));
+    }
+
+    /**
+     * Reset the intake input toggle
+     */
+    public void resetIntakeInput() {
+        m_shouldIntakeToggle.reset();
     }
 
 }
