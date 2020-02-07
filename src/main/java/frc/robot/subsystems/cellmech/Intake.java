@@ -53,6 +53,7 @@ public class Intake extends SubsystemBase {
         m_intakeRoller = new SimTalon(RobotConstants.Intake.INTAKE_ROLLER_TALON);
 
         // Invert motors that need to be inverted
+        m_intakeActuator.setInverted(RobotConstants.Intake.INTAKE_ACTUATOR_TALON_INVERTED);
         m_intakeRoller.setInverted(RobotConstants.Intake.INTAKE_ROLLER_TALON_INVERTED);
 
         // Set voltage limiting

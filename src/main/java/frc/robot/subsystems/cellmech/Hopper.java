@@ -66,6 +66,9 @@ public class Hopper extends SubsystemBase {
         // Construct motor controller
         m_hopperBelt = new WPI_TalonSRX(RobotConstants.Hopper.HOPPER_BELT_MOTOR);
 
+        // invert motor
+        m_hopperBelt.setInverted(RobotConstants.Hopper.HOPPER_BELT_MOTOR_INVERTED);
+
         // Set voltage limiting
         TalonHelper.configCurrentLimit(m_hopperBelt, 34, 32, 30, 0);
 

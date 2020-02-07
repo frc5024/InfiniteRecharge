@@ -202,6 +202,7 @@ public class RobotConstants {
         public static final int INTAKE_ACTUATOR_TALON = 13;
         public static final int INTAKE_ROLLER_TALON = 14;
 
+        public static final boolean INTAKE_ACTUATOR_TALON_INVERTED = false;
         public static final boolean INTAKE_ROLLER_TALON_INVERTED = false;
 
         // Sensors DIO ports
@@ -223,6 +224,9 @@ public class RobotConstants {
 
         // Motor
         public static final int HOPPER_BELT_MOTOR = 12;
+
+        public static final boolean HOPPER_BELT_MOTOR_INVERTED = true;
+
         // Sensors
         public static final int HOPPER_LINEBREAK_BOTTOM = 2;
         public static final int HOPPER_LINEBREAK_TOP = 3;
