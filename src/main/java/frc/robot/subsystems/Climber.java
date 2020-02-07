@@ -47,8 +47,8 @@ public class Climber extends SubsystemBase {
      * System positions
      */
     public enum Position {
-        LEVEL, // High climb bar position
-        RETRACTED, // Low climb bar position
+        LEVEL, // The robot is pulling down to the desired height
+        RETRACTED, // The robot has climbed
         CURRENT, // Hold at current position
     }
 
@@ -122,7 +122,6 @@ public class Climber extends SubsystemBase {
         case SERVICE:
             handleService(isNewState);
             break;
-
         }
 
         // Set the last state
