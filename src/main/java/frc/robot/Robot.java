@@ -92,6 +92,7 @@ public class Robot extends TimedRobot {
 			NavX.getInstance().initDrivebaseSimulation((IDifferentialDrivebase) m_driveTrain);
 		}
 
+		// Force-set odometry
 		m_driveTrain.setPosition(m_autonChooser.getRobotAutoStartPosition());
 
 		// Connect to, and configure Limelight
