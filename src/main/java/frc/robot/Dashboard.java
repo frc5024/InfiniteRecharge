@@ -9,9 +9,10 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.lib5k.utils.RobotLogger;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.cellmech.Intake;
 import frc.robot.subsystems.cellmech.Shooter;
 
@@ -30,6 +31,7 @@ public class Dashboard {
     /* Subsystems */
     private Shooter m_shooter = Shooter.getInstance();
     private Intake m_intake = Intake.getInstance();
+    private Climber m_climber = Climber.getInstance();
 
     /* Widgets */
     private ShuffleboardTab m_dashTab;
@@ -67,31 +69,28 @@ public class Dashboard {
 
         // Display the limelight feed
         m_dashTab.add("Limelight", new HttpCamera("Limelight", "http://10.50.24.11:5800"))
-                .withWidget(BuiltInWidgets.kCameraStream).withPosition(0, 0).withSize(6, 4);
+                .withWidget(BuiltInWidgets.kCameraStream).withPosition(0, 0).withSize(6, 5);
+
+        // Display the climber camera feed
+        m_dashTab.add("Climber", m_climber.getCameraFeed()).withWidget(BuiltInWidgets.kCameraStream).withPosition(6, 2)
+                .withSize(3, 3);
 
         // Display the bus voltage
         m_busVoltage = m_dashTab.add("Bus Voltage", 0.0).withWidget(BuiltInWidgets.kVoltageView)
                 .withProperties(Map.of("min", 0, "max", 13)).withPosition(6, 0).getEntry();
 
-        // Display the shooter velocity
-        // m_shooterVelocity = m_dashTab.add("Shooter Output",
-        // 0.0).withWidget(BuiltInWidgets.kDial)
-        // .withProperties(Map.of("min", 0, "max",
-        // RobotConstants.Shooter.MOTOR_MAX_RPM)).withPosition(6, 1).getEntry();
-
         // Display the ball count in the hopper
         m_ballCount = m_dashTab.add("Ball Count", 0.0).withWidget(BuiltInWidgets.kDial)
                 .withProperties(Map.of("min", 0, "max", 5)).withPosition(8, 0).withSize(1, 1).getEntry();
+
+        // Switch to tab
+        Shuffleboard.selectTab("Game View");
     }
 
     private void update() {
 
         // Update the bus voltage
         m_busVoltage.setDouble(RobotController.getBatteryVoltage());
-
-        // Update the shooter velocity
-        // m_shooterVelocity.setDouble(m_shooter.getOutput() *
-        // RobotConstants.Shooter.MOTOR_MAX_RPM);
 
         // Update the ball count
         // TODO: Uncomment when intake is merged to master

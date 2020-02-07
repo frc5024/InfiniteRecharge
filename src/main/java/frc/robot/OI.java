@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import frc.lib5k.control.Toggle;
+import frc.robot.subsystems.Climber.Position;
 import edu.wpi.first.wpilibj.GenericHID;
 
 /**
@@ -113,6 +114,31 @@ public class OI {
         return m_shouldShootToggle.feed(m_operatorController.getYButtonPressed());
     }
 
+    /**
+     * Check if the climber should be ejected
+     */
+    public boolean shouldEjectClimber() {
+        return m_operatorController.getBackButton() && m_operatorController.getStartButtonPressed();
+    }
+
+    public boolean shouldCancelClimb() {
+        return m_operatorController.getStartButtonPressed() && !m_operatorController.getBackButton();
+    }
+
+    public Position getWantedClimbPosition() {
+        if (m_operatorController.getPOV() == 0) {
+            return Position.LEVEL;
+        } else if (m_operatorController.getPOV() == 180) {
+            return Position.RETRACTED;
+        } else {
+            return Position.CURRENT;
+        }
+    }
+
+    public boolean shouldAutoAim() {
+        return m_driverController.getYButton();
+    }
+      
     /**
      * Reset the shooter input toggle
      */

@@ -56,6 +56,7 @@ public class RobotConstants {
          * HID device id of the driver ans operator Xbox controllers
          */
         public static final int DRIVER_CONTROLLER_ID = 0;
+        public static final int OPERATOR_CONTROLLER_ID = 1;
 
         public static final int OPERATOR_CONTROLLER_ID = 1;
 
@@ -256,6 +257,23 @@ public class RobotConstants {
         public static final double kIz = 0.0;
         public static final double kFF = 0.0;
 
+    }
+
+    /**
+     * Constants regarding the Climber
+     */
+    public static class Climber {
+        // ALL OF THESE ARE PLACEHOLDERS
+        public static final int PIN_RELEASE_SOLENOID = 0;
+        public static final int MOTOR_CONTROLLER_ID = 21; 
+        public static final int HIGH_HALL_ID = 2;
+        public static final int LOW_HALL_ID = 3;
+    }
+
+    public static class Pneumatics {
+
+        // PCM device ID on CAN network
+        public static final int PCM_CAN_ID = 28;
     }
 
 }
