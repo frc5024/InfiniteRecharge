@@ -2,11 +2,11 @@ package frc.robot.subsystems.cellmech;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib5k.components.motors.TalonHelper;
 import frc.lib5k.components.motors.motorsensors.TalonEncoder;
 import frc.lib5k.components.sensors.EncoderBase;
+import frc.lib5k.components.sensors.LineBreak;
 import frc.robot.RobotConstants;
 
 /**
@@ -26,12 +26,12 @@ public class Hopper extends SubsystemBase {
     private double m_revolutionsPerInch;
 
     /** Bottom line break */
-    private DigitalInput m_lineBottom;
+    private LineBreak m_lineBottom;
     /** previous value of bottom line break */
     private boolean m_lineBottomLastValue;
 
     /** Top line break */
-    private DigitalInput m_lineTop;
+    private LineBreak m_lineTop;
     /** previous value of top line break */
     private boolean m_lineTopLastValue;
 
@@ -77,8 +77,8 @@ public class Hopper extends SubsystemBase {
         m_hopperBelt.setSensorPhase(false);
 
         // Construct line break
-        m_lineBottom = new DigitalInput(RobotConstants.Hopper.HOPPER_LINEBREAK_BOTTOM);
-        m_lineTop = new DigitalInput(RobotConstants.Hopper.HOPPER_LINEBREAK_TOP);
+        m_lineBottom = new LineBreak(RobotConstants.Hopper.HOPPER_LINEBREAK_BOTTOM);
+        m_lineTop = new LineBreak(RobotConstants.Hopper.HOPPER_LINEBREAK_TOP);
 
         // Set revolutions per inch
         m_revolutionsPerInch = RobotConstants.Hopper.REVOLUTIONS_PER_INCH;

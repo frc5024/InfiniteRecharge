@@ -1,4 +1,6 @@
-package frc.lib5k.components.sensors;
+package frc.lib5k.components.sensors.interfaces;
+
+import frc.lib5k.components.sensors.EncoderBase;
 
 public interface IEncoderProvider {
 
