@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj.util.Units;
 import frc.lib5k.roborio.RR_HAL;
 
@@ -185,10 +186,16 @@ public class RobotConstants {
 
     public static class PanelManipulator {
 
+        public static final int SPINNER_MOTOR_ID = 22;
+
+        
         /**
-         * Threshold for color comparison
+         * Game Colors
          */
-        public static final double DEFAULT_COLOR_THRESHOLD = 20;
+        public static Color8Bit RED_COLOR    = new Color8Bit(255, 0, 0);
+        public static Color8Bit GREEN_COLOR  = new Color8Bit(0, 255, 0);
+        public static Color8Bit BLUE_COLOR   = new Color8Bit(0, 255, 255);
+        public static Color8Bit YELLOW_COLOR = new Color8Bit(255, 255, 0);
 
     }
 
@@ -233,9 +240,13 @@ public class RobotConstants {
 
         // Sensors
         public static final int HOPPER_LINEBREAK_BOTTOM = 2;
-        public static final int HOPPER_LINEBREAK_TOP = 3;
+        public static final int HOPPER_LINEBREAK_BOTTOM_POWER_CHANNEL = 0;
+
         public static final int HOPPER_LINEBREAK_MIDDLE = 4;
-        public static final int HOPPER_LINEBREAK_MIDDLE_POWER_CHANNEL = 0;
+        public static final int HOPPER_LINEBREAK_MIDDLE_POWER_CHANNEL = 1;
+
+        public static final int HOPPER_LINEBREAK_TOP = 3;
+        public static final int HOPPER_LINEBREAK_TOP_POWER_CHANNEL = 2;
 
         // Belt speed during shooting
         public static final double SHOOTER_FEED_SPEED = 0.5;
@@ -246,8 +257,9 @@ public class RobotConstants {
     public static class Shooter {
 
         /**
-         * Shooter motor
+         * Shooter motorm_releasePin.clearAllFaults();
          */
+
         public static final int MOTOR_ID = 16;
 
         public static final double MOTOR_MAX_RPM = 5700;
@@ -270,7 +282,7 @@ public class RobotConstants {
      */
     public static class Climber {
         // ALL OF THESE ARE PLACEHOLDERS
-        public static final int PIN_RELEASE_SOLENOID = 1;
+        public static final int PIN_RELEASE_SOLENOID = 4;
         public static final int MOTOR_CONTROLLER_ID = 21;
         public static final int HIGH_HALL_ID = 5;
         public static final int LOW_HALL_ID = 6;

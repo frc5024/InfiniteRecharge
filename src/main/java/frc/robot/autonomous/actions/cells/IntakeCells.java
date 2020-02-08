@@ -1,6 +1,7 @@
 package frc.robot.autonomous.actions.cells;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.lib5k.utils.RobotLogger;
 import frc.robot.subsystems.CellSuperstructure;
 
 /** Command to intake an amount of cells */
@@ -22,6 +23,7 @@ public class IntakeCells extends CommandBase {
 
     @Override
     public void initialize() {
+        RobotLogger.getInstance().log("IntakeCells", String.format("Intaking %d cells", m_intakeAmount));
         m_cellSuperstructure.intakeCells(m_intakeAmount);
     }
 
@@ -32,6 +34,8 @@ public class IntakeCells extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        RobotLogger.getInstance().log("IntakeCells",
+                String.format("Intake action %s", (interrupted) ? "interrupted" : "ended"));
         m_cellSuperstructure.stop();
     }
 
