@@ -412,6 +412,7 @@ public class Hopper extends SubsystemBase {
      * Set the hopper to intake
      */
     public void startIntake(int amountToEndUpWith) {
+        
         // set desired amount
         m_desiredAmountToIntake = amountToEndUpWith;
         // start intaking
