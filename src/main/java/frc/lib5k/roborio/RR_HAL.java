@@ -89,7 +89,7 @@ public class RR_HAL {
                 try (OutputStream output = Files.newOutputStream(file.toPath())) {
 
                     // Write language name
-                    output.write(language.getBytes(StandardCharsets.UTF_8));
+                    output.write(String.format("%s ", language).getBytes(StandardCharsets.UTF_8));
 
                     // Write library version
                     output.write(version.getBytes(StandardCharsets.UTF_8));

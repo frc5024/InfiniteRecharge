@@ -3,6 +3,7 @@ package frc.robot.subsystems.cellmech;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib5k.components.motors.TalonHelper;
 import frc.lib5k.components.sensors.HallEffect;
+import frc.lib5k.components.sensors.LimitSwitch;
 import frc.lib5k.simulation.wrappers.SimTalon;
 import frc.lib5k.utils.RobotLogger;
 import frc.lib5k.utils.RobotLogger.Level;
@@ -21,10 +22,10 @@ public class Intake extends SubsystemBase {
     private SimTalon m_intakeRoller;
 
     /** Hall effects sensor at the bottom intake arm position */
-    private HallEffect m_bottomHall;
+    private LimitSwitch m_bottomHall;
 
     /** Hall effects sensor at the top intake arm position */
-    private HallEffect m_topHall;
+    private LimitSwitch m_topHall;
 
     /** System states */
     private enum SystemState {
@@ -61,8 +62,8 @@ public class Intake extends SubsystemBase {
         TalonHelper.configCurrentLimit(m_intakeRoller, 34, 32, 30, 0);
 
         // Construct sensors
-        m_bottomHall = new HallEffect(RobotConstants.Intake.INTAKE_HALL_BOTTOM);
-        m_topHall = new HallEffect(RobotConstants.Intake.INTAKE_HALL_TOP);
+        m_bottomHall = new LimitSwitch(RobotConstants.Intake.INTAKE_LIMIT_BOTTOM);
+        m_topHall = new LimitSwitch(RobotConstants.Intake.INTAKE_LIMIT_TOP);
 
         // Add children
         addChild("Arms", m_intakeActuator);
@@ -223,7 +224,8 @@ public class Intake extends SubsystemBase {
             }
         }
 
-        m_intakeActuator.set(speed);
+        // TODO: Uncomment
+        // m_intakeActuator.set(speed);
 
     }
 

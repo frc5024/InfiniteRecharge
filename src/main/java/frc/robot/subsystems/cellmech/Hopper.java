@@ -35,6 +35,11 @@ public class Hopper extends SubsystemBase {
     /** previous value of top line break */
     private boolean m_lineTopLastValue;
 
+    /** Middle line break */
+    private LineBreak m_lineMiddle;
+    /** previous value of Middle line break */
+    private boolean m_lineMiddleLastValue;
+
     /**
      * System states
      */
@@ -79,6 +84,8 @@ public class Hopper extends SubsystemBase {
         // Construct line break
         m_lineBottom = new LineBreak(RobotConstants.Hopper.HOPPER_LINEBREAK_BOTTOM);
         m_lineTop = new LineBreak(RobotConstants.Hopper.HOPPER_LINEBREAK_TOP);
+        m_lineMiddle = new LineBreak(RobotConstants.Hopper.HOPPER_LINEBREAK_MIDDLE,
+                RobotConstants.Pneumatics.PCM_CAN_ID, RobotConstants.Hopper.HOPPER_LINEBREAK_MIDDLE_POWER_CHANNEL);
 
         // Set revolutions per inch
         m_revolutionsPerInch = RobotConstants.Hopper.REVOLUTIONS_PER_INCH;
@@ -181,6 +188,7 @@ public class Hopper extends SubsystemBase {
 
         m_lineBottomLastValue = m_lineBottom.get();
         m_lineTopLastValue = m_lineTop.get();
+        m_lineMiddleLastValue = m_lineMiddle.get();
     }
 
     /**
