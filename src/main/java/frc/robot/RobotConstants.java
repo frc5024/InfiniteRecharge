@@ -241,7 +241,7 @@ public class RobotConstants {
     public static class Shooter {
 
         /**
-         * Shooter motor
+         * Shooter motorm_releasePin.clearAllFaults();
          */
         public static final int MOTOR_ID = 16;
 
@@ -265,7 +265,7 @@ public class RobotConstants {
      */
     public static class Climber {
         // ALL OF THESE ARE PLACEHOLDERS
-        public static final int PIN_RELEASE_SOLENOID = 1;
+        public static final int PIN_RELEASE_SOLENOID = 4;
         public static final int MOTOR_CONTROLLER_ID = 21;
         public static final int HIGH_HALL_ID = 5;
         public static final int LOW_HALL_ID = 6;

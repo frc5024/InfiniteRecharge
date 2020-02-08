@@ -6,6 +6,8 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.cscore.VideoSource;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.lib5k.components.AutoCamera;
+import frc.lib5k.components.LinearActuator;
+import frc.lib5k.components.LinearActuator.ActuatorState;
 import frc.lib5k.components.pneumatics.LazySolenoid;
 import frc.lib5k.simulation.wrappers.SimTalon;
 import frc.lib5k.utils.RobotLogger;
@@ -19,7 +21,7 @@ public class Climber extends SubsystemBase {
     private static Climber s_instance = null;
 
     // "Pin" for releasing the climber
-    private LazySolenoid m_releasePin;
+    private LinearActuator m_releasePin;
 
     // Motor for retracting climber
     private SimTalon m_liftMotor;
@@ -62,8 +64,10 @@ public class Climber extends SubsystemBase {
     private Climber() {
 
         // Climber release
-        m_releasePin = new LazySolenoid(RobotConstants.Pneumatics.PCM_CAN_ID,
+        m_releasePin = new LinearActuator(RobotConstants.Pneumatics.PCM_CAN_ID,
                 RobotConstants.Climber.PIN_RELEASE_SOLENOID);
+
+        addChild("Release", m_releasePin);
 
         // Climb motor
         m_liftMotor = new SimTalon(RobotConstants.Climber.MOTOR_CONTROLLER_ID);
@@ -81,8 +85,9 @@ public class Climber extends SubsystemBase {
         m_liftMotor.setNeutralMode(NeutralMode.Coast);
 
         // Force a CAN message to the solenoid
-        m_releasePin.set(false);
-        m_releasePin.flush();
+        m_releasePin.set(ActuatorState.kINACTIVE);
+        m_releasePin.clearAllFaults();
+
     }
 
     /**
@@ -139,7 +144,7 @@ public class Climber extends SubsystemBase {
         if (isNew) {
 
             // Retract safety pin
-            m_releasePin.set(false);
+            m_releasePin.set(ActuatorState.kINACTIVE);
 
             // Stop the motor
             m_liftMotor.setNeutralMode(NeutralMode.Brake);
@@ -159,13 +164,16 @@ public class Climber extends SubsystemBase {
         if (isNew) {
 
             // Release the climber spring
-            m_releasePin.set(true);
+            m_releasePin.set(ActuatorState.kDEPLOYED);
 
             // Disable the motor
             m_liftMotor.set(0.0);
 
             // Show the camera feed to the drivers
             m_camera.showCamera(true);
+        } else {
+            // Stop excessive load
+            m_releasePin.set(ActuatorState.kINACTIVE);
         }
 
     }
@@ -209,7 +217,7 @@ public class Climber extends SubsystemBase {
             m_camera.showCamera(true);
 
             // Retract safety pin
-            m_releasePin.set(false);
+            m_releasePin.set(ActuatorState.kINACTIVE);
         }
     }
 
@@ -219,6 +227,7 @@ public class Climber extends SubsystemBase {
     public void lock() {
         logger.log("Climber", "Locked");
         m_state = SystemState.LOCKED;
+        m_releasePin.clearAllFaults();
     }
 
     /**
@@ -235,6 +244,7 @@ public class Climber extends SubsystemBase {
     public void service() {
         logger.log("Climber", "In service mode");
         m_state = SystemState.SERVICE;
+        m_releasePin.clearAllFaults();
     }
 
     /**
