@@ -105,7 +105,6 @@ public class PathGenerator {
 				new PIDController(RobotConstants.ControlGains.kPDriveVel, RobotConstants.ControlGains.kIDriveVel,
 						RobotConstants.ControlGains.kDDriveVel),
 				DriveTrain.getInstance()::setVoltage, DriveTrain.getInstance());
-
 		return(stop ? ramseteCommand.andThen(DriveTrain.getInstance()::stop) : new SequentialCommandGroup(ramseteCommand));
 	}
 

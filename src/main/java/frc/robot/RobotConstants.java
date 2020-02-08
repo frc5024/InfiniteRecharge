@@ -140,9 +140,9 @@ public class RobotConstants {
     public static class ControlGains {
 
         // Feedforward Gains
-        public static final double ksVolts = 2.37;
-        public static final double kvVoltsSecondsPerMeter = 1.73; // 1.8
-        public static final double kaVoltsSecondsSquaredPerMeter = 0.0304; // 0.0231
+        public static final double ksVolts = 0.837; // MiniBot 2.37
+        public static final double kvVoltsSecondsPerMeter = 2.46; // 1.8 MiniBot 1.73
+        public static final double kaVoltsSecondsSquaredPerMeter = 0.0455; // 0.0231 MiniBot .0304
 
         // Optimal Control Gain for driving
         public static final double kPDriveVel = 0.478;// 0.68; //0.478;
