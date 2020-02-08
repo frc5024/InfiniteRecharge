@@ -1,5 +1,6 @@
 package frc.robot.subsystems.cellmech;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -18,16 +19,15 @@ import frc.robot.RobotConstants;
 public class Shooter extends SubsystemBase {
     public static Shooter s_instance = null;
 
-    //Wind-up time
+    // Wind-up time
     private long windUpStartTime, windUpEndTime, windUpTotalTime;
 
-    //Logger
+    // Logger
     RobotLogger logger = RobotLogger.getInstance();
 
     /**
      * Shooter motor controller
      */
-
     private SimSparkMax m_motorController;
 
     /**
@@ -52,26 +52,31 @@ public class Shooter extends SubsystemBase {
     // Output value. Depending on mode, this will become different things
     private double output = 0.0;
 
-    /**
-     * Spin-up PID controller
-     */
-    private CANPIDController m_spinupController;
-
-    /**
-     * Flywheel hold controller
-     */
-    private JRADController m_holdController;
+    // Velocity PID controller
+    private CANPIDController m_motorPID;
+    private CANEncoder m_motorEncoder;
 
     private Shooter() {
 
+        // Create and configure motor
         m_motorController = new SimSparkMax(RobotConstants.Shooter.MOTOR_ID, MotorType.kBrushless);
+        m_motorController.restoreFactoryDefaults();
+        m_motorPID = m_motorController.getPIDController();
+        m_motorEncoder = m_motorController.getEncoder();
+
+        // Configure shooter PID gains
+        m_motorPID.setP(RobotConstants.Shooter.kPVel);
+        m_motorPID.setI(RobotConstants.Shooter.kIVel);
+        m_motorPID.setD(RobotConstants.Shooter.kDVel);
+        m_motorPID.setIZone(RobotConstants.Shooter.kIz);
+        m_motorPID.setFF(RobotConstants.Shooter.kFF);
+        m_motorPID.setOutputRange(-1.0, 1.0);
+
+        // Stop the motor
+        m_motorPID.setReference(0.0, ControlType.kVelocity);
 
         addChild("SimSparkMax", m_motorController);
 
-        // Configure the rpm controllers
-        m_spinupController = m_motorController.getPIDController();
-        m_holdController = new JRADController(RobotConstants.Shooter.kJ, RobotConstants.Shooter.kF,
-                RobotConstants.Shooter.kLoadRatio);
     }
 
     /**
@@ -152,6 +157,7 @@ public class Shooter extends SubsystemBase {
 
             // Force-set the motor to 0.0V
             m_motorController.set(0.0);
+            m_motorPID.setReference(0.0, ControlType.kVelocity);
 
             // Force-set output
             output = 0.0;
@@ -174,14 +180,15 @@ public class Shooter extends SubsystemBase {
             m_motorController.setOpenLoopRampRate(0);
 
             // Configure the spinup controller
-            m_spinupController.setReference(output, ControlType.kVelocity);
+            m_motorPID.setReference(output, ControlType.kVelocity);
         }
-        
+
         // TODO: Remove this
         this.m_systemState = SystemState.HOLD;
 
         // Switch to HOLD state if spinup complete
-        if (Mathutils.epsilonEquals(m_motorController.getEncoder().getVelocity(), this.output, RobotConstants.Shooter.RPM_EPSILON)) {
+        if (Mathutils.epsilonEquals(m_motorController.getEncoder().getVelocity(), this.output,
+                RobotConstants.Shooter.RPM_EPSILON)) {
 
             // Move to next state
             this.m_systemState = SystemState.HOLD;
@@ -214,10 +221,10 @@ public class Shooter extends SubsystemBase {
 
         if (newState) {
             windUpEndTime = System.currentTimeMillis();
-            windUpTotalTime = windUpEndTime-windUpStartTime;
+            windUpTotalTime = windUpEndTime - windUpStartTime;
             // Set the JRAD setpoint
             // m_holdController.setSetpoint(this.output);
-            logger.log("[Shooter] Holding. Spin-Up took " + (windUpTotalTime/1000.0) + " seconds.");
+            logger.log("[Shooter] Holding. Spin-Up took " + (windUpTotalTime / 1000.0) + " seconds.");
 
         }
 
@@ -236,6 +243,7 @@ public class Shooter extends SubsystemBase {
 
         // Set the motor output
         m_motorController.setVoltage(this.output);
+        
 
     }
 
@@ -246,11 +254,11 @@ public class Shooter extends SubsystemBase {
         m_systemState = SystemState.SPIN_UP;
 
         // Set the desired voltage
-        output = val * RobotConstants.Shooter.MAX_VOLTAGE;
+        output = val * RobotConstants.Shooter.MOTOR_MAX_RPM;
 
     }
 
-    public void setVelocity(double val){
+    public void setVelocity(double val) {
         m_systemState = SystemState.SPIN_UP;
         output = val;
     }

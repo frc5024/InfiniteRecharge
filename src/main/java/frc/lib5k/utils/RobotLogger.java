@@ -3,6 +3,7 @@ package frc.lib5k.utils;
 import java.io.File;
 import java.util.ArrayList;
 import edu.wpi.first.wpilibj.Notifier;
+import frc.lib5k.logging.USBLogger;
 
 /**
  * A threaded logger for use by all robot functions
@@ -11,6 +12,7 @@ public class RobotLogger {
     private static RobotLogger instance = null;
     private Notifier notifier;
     ArrayList<String> periodic_buffer = new ArrayList<String>();
+    private USBLogger m_usbLogger;
 
     /**
      * Log level
@@ -30,6 +32,15 @@ public class RobotLogger {
         if (!f.exists()) {
             f.mkdir();
         }
+    }
+
+    /**
+     * Enable logging to a USB
+     * 
+     * @param logger USB logger object
+     */
+    public void enableUSBLogging(USBLogger logger) {
+        m_usbLogger = logger;
     }
 
     /**
@@ -84,6 +95,11 @@ public class RobotLogger {
 
         // If the log level is kRobot, just print to netconsole, then return
         if (log_level == Level.kRobot) {
+            // Check if we should log to USB
+            if (m_usbLogger != null) {
+                m_usbLogger.writeln(display_string);
+            }
+
             System.out.println(display_string);
             return;
         }
@@ -101,6 +117,11 @@ public class RobotLogger {
         try {
             for (String x : this.periodic_buffer) {
                 System.out.println(x);
+
+                // Check if we should log to USB
+                if (m_usbLogger != null) {
+                    m_usbLogger.writeln(x);
+                }
             }
             periodic_buffer.clear();
         } catch (Exception e) {

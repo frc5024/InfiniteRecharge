@@ -2,22 +2,26 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableRegistry;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib5k.components.drive.IDifferentialDrivebase;
 import frc.lib5k.components.gyroscopes.NavX;
+import frc.lib5k.logging.USBLogger;
 import frc.lib5k.roborio.FaultReporter;
+import frc.lib5k.roborio.RR_HAL;
 import frc.lib5k.utils.RobotLogger;
 import frc.lib5k.utils.RobotLogger.Level;
 import frc.robot.autonomous.Chooser;
 import frc.robot.commands.DriveControl;
-import frc.robot.commands.ShooterTester;
+import frc.robot.commands.OperatorControl;
 import frc.robot.subsystems.CellSuperstructure;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.PanelManipulator;
 import frc.robot.vision.Limelight2;
-import frc.robot.vision.TargetTracker;
 import frc.robot.vision.Limelight2.LEDMode;
 
 /**
@@ -32,10 +36,10 @@ public class Robot extends TimedRobot {
 	/* Robot I/O helpers */
 	RobotLogger logger = RobotLogger.getInstance();
 	FaultReporter m_faultReporter = FaultReporter.getInstance();
+	USBLogger usbLogger;
 
 	/* Robot telemetry */
 	private Dashboard m_dashboard = Dashboard.getInstance();
-
 
 	/* Robot Subsystems */
 	private DriveTrain m_driveTrain = DriveTrain.getInstance();
@@ -46,7 +50,7 @@ public class Robot extends TimedRobot {
 	/* Robot Commands */
 	private CommandBase m_autonomousCommand;
 	private DriveControl m_driveControl;
-	private ShooterTester m_shooterTester;
+	private OperatorControl m_operatorControl;
 
 	private Chooser m_autonChooser;
 
@@ -57,10 +61,14 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 
+		// Enable USB logging
+		usbLogger = new USBLogger("RobotLogs-2020");
+		logger.enableUSBLogging(usbLogger);
+
 		// Create control commands
 		logger.log("Robot", "Constructing Commands", Level.kRobot);
 		m_driveControl = new DriveControl();
-		m_shooterTester = new ShooterTester();
+		m_operatorControl = new OperatorControl();
 
 		// Register all subsystems
 		logger.log("Robot", "Registering Subsystems", Level.kRobot);
@@ -90,18 +98,20 @@ public class Robot extends TimedRobot {
 			NavX.getInstance().initDrivebaseSimulation((IDifferentialDrivebase) m_driveTrain);
 		}
 
+		// Force-set odometry
 		m_driveTrain.setPosition(m_autonChooser.getRobotAutoStartPosition());
 
 		// Connect to, and configure Limelight
 		Limelight2.getInstance().setPortrait(true);
 		Limelight2.getInstance().setLED(LEDMode.OFF);
 		Limelight2.getInstance().enableVision(true);
-		TargetTracker.getInstance().register();
-		TargetTracker.getInstance().enableTargetChecking(false);
 
 		// Init and start the dashboard service
 		m_dashboard.init();
 		m_dashboard.start();
+
+		// Report Lib5k
+		RR_HAL.reportFRCVersion("Java", RR_HAL.getLibraryVersion());
 	}
 
 	@Override
@@ -110,7 +120,7 @@ public class Robot extends TimedRobot {
 		// Publish telemetry data to smartdashboard if setting enabled
 		if (RobotConstants.PUBLISH_SD_TELEMETRY) {
 			m_driveTrain.updateTelemetry();
-			// m_panelManipulator.updateTelemetry();
+
 		}
 
 	}
@@ -130,12 +140,13 @@ public class Robot extends TimedRobot {
 		}
 
 		// Determine robot starting position
-		// m_driveTrain.setPosition(new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0.0)));
-		// NavX.getInstance().reset();
 		m_driveTrain.setPosition(m_autonChooser.getRobotAutoStartPosition());
 
 		// Enable brakes on the DriveTrain
 		m_driveTrain.setBrakes(true);
+
+		// Lock the climber
+		Climber.getInstance().lock();
 	}
 
 	@Override
@@ -153,6 +164,9 @@ public class Robot extends TimedRobot {
 		m_driveTrain.setBrakes(true);
 		m_driveTrain.setRampRate(0.2);
 
+		// Lock the climber
+		Climber.getInstance().lock();
+
 		// Disable the autonomous command
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
@@ -163,8 +177,11 @@ public class Robot extends TimedRobot {
 			m_driveControl.schedule();
 		}
 
-		if (m_shooterTester != null) {
-			m_shooterTester.schedule();
+		if (m_operatorControl != null) {
+			m_operatorControl.schedule();
+
+			// Ensure all sub-commands are killed
+			m_operatorControl.killAllActions();
 		}
 
 	}
@@ -183,6 +200,12 @@ public class Robot extends TimedRobot {
 		// Disable brakes on the DriveTrain
 		m_driveTrain.setBrakes(false);
 		m_driveTrain.stop();
+
+		// Ensure all operator sub-commands are killed
+		m_operatorControl.killAllActions();
+
+		// Put the climber in service mode
+		Climber.getInstance().service();
 
 	}
 
