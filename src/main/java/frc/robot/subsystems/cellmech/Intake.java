@@ -223,7 +223,8 @@ public class Intake extends SubsystemBase {
             }
         }
 
-        m_intakeActuator.set(speed);
+        // TODO: Uncomment
+        // m_intakeActuator.set(speed);
 
     }
 

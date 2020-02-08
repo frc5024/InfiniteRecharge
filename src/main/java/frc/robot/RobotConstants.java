@@ -266,8 +266,8 @@ public class RobotConstants {
         // ALL OF THESE ARE PLACEHOLDERS
         public static final int PIN_RELEASE_SOLENOID = 0;
         public static final int MOTOR_CONTROLLER_ID = 21;
-        public static final int HIGH_HALL_ID = 4;
-        public static final int LOW_HALL_ID = 5;
+        public static final int HIGH_HALL_ID = 5;
+        public static final int LOW_HALL_ID = 6;
     }
 
     public static class Pneumatics {
