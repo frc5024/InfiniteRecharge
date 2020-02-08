@@ -270,6 +270,10 @@ public class Shooter extends SubsystemBase {
 
     }
 
+    public boolean isSpunUp(){
+        return m_systemState==SystemState.HOLD;
+    }
+
     public double getOutput(){
         return m_motorController.get();
     }

@@ -126,13 +126,13 @@ public class Intake extends SubsystemBase {
 
         // As long as we are not at our deployed position, lower the arms
         if (getArmPosition() != ArmPosition.DEPLOYED) {
-            setArmSpeed(1.0);
+            setArmSpeed(RobotConstants.Intake.ARM_DOWN_SPEED);
         } else {
             // Just apply a little voltage to arms to kep them in place
             setArmSpeed(0.15);
 
             // Handle intake of cells
-            setRollerSpeed(1.0);
+            setRollerSpeed(RobotConstants.Intake.ROLLER_SPEED);
         }
 
         // NOTE: This action does not stop automatically
@@ -152,15 +152,12 @@ public class Intake extends SubsystemBase {
 
         // As long as we are not at our deployed position, lower the arms
         if (getArmPosition() != ArmPosition.DEPLOYED) {
-            setArmSpeed(1.0);
+            setArmSpeed(RobotConstants.Intake.ARM_DOWN_SPEED);
         } else {
-            // Just apply a little voltage to arms to kep them in place
-            // TODO: Is this needed? apperently we can't backdrive
-            // setArmSpeed(0.15);
             setArmSpeed(0.0);
 
             // Handle intake of cells
-            setRollerSpeed(-0.8);
+            setRollerSpeed(-RobotConstants.Intake.ROLLER_SPEED);
         }
 
         // NOTE: This action does not stop automatically
@@ -180,11 +177,8 @@ public class Intake extends SubsystemBase {
 
         // As long as we are not at our deployed position, lower the arms
         if (getArmPosition() != ArmPosition.STOWED) {
-            setArmSpeed(-1.0);
+            setArmSpeed(RobotConstants.Intake.ARM_UP_SPEED);
         } else {
-            // Just apply a little voltage to arms to kep them in place
-            // TODO: Is this needed?
-            // setArmSpeed(-0.15);
             setArmSpeed(0.0);
         }
 
@@ -224,8 +218,7 @@ public class Intake extends SubsystemBase {
             }
         }
 
-        // TODO: Uncomment
-        // m_intakeActuator.set(speed);
+        m_intakeActuator.set(speed);
 
     }
 

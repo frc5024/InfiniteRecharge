@@ -214,6 +214,11 @@ public class RobotConstants {
         public static final double kDArm = 0.0;
 
         public static final double ARM_TICKS_PER_DEGREE = 1000;
+
+        public static final double ARM_UP_SPEED = -0.9;
+        public static final double ARM_DOWN_SPEED = 0.4;
+
+        public static final double ROLLER_SPEED = 0.8;
     }
 
     /**

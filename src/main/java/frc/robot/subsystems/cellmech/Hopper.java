@@ -96,6 +96,7 @@ public class Hopper extends SubsystemBase {
         // Add children
         addChild("Belt", m_hopperBelt);
         addChild("Bottom Limit", m_lineBottom);
+        addChild("Middle Limit", m_lineMiddle);
         addChild("Top Limit", m_lineTop);
     }
 
@@ -119,7 +120,7 @@ public class Hopper extends SubsystemBase {
         // Count cells
 
         // cache values of line break sensors
-        boolean bottomValue = m_lineBottom.get();
+        boolean bottomValue = m_lineBottom.get(); 
         boolean topValue = m_lineTop.get();
 
         // If belt is moving up
@@ -187,8 +188,8 @@ public class Hopper extends SubsystemBase {
         }
 
         m_lineBottomLastValue = m_lineBottom.get();
-        m_lineTopLastValue = m_lineTop.get();
         m_lineMiddleLastValue = m_lineMiddle.get();
+        m_lineTopLastValue = m_lineTop.get();
     }
 
     /**
@@ -248,8 +249,14 @@ public class Hopper extends SubsystemBase {
             setBeltSpeed(0.5);
 
         }
-        // if belt has gone 8 inches, set state to ready to intake
-        if (m_hopperEncoder.getTicks() - m_ticksAtStartOfIntake >= (4096 * m_revolutionsPerInch) * 8) {
+
+        // stop if middle sensor is tripped
+        if(m_lineMiddle.get()) {
+            m_systemState = SystemState.INTAKEREADY;
+        }
+        
+        // if belt has gone 12 inches, stop tying and set state to ready to intake
+        if (m_hopperEncoder.getTicks() - m_ticksAtStartOfIntake >= (4096 * m_revolutionsPerInch) * 12) {
             m_systemState = SystemState.INTAKEREADY;
         }
     }
@@ -321,6 +328,12 @@ public class Hopper extends SubsystemBase {
             setBeltSpeed(0.5);
 
         }
+
+        // stop if middle sensor is tripped
+        if(m_lineMiddle.get()) {
+            m_systemState = SystemState.IDLE;
+        }
+
         // if belt has gone 8 inches, set state to ready to intake
         if (m_hopperEncoder.getTicks() - m_ticksAtStartOfIntake >= (4096 * m_revolutionsPerInch) * 8) {
             m_systemState = SystemState.IDLE;
@@ -339,16 +352,11 @@ public class Hopper extends SubsystemBase {
             setBeltSpeed(RobotConstants.Hopper.SHOOTER_FEED_SPEED);
 
         }
-
-        // stop one the desired amount is given
-        if (m_cellCount == 0 || m_cellCount == m_desiredAmountToHaveAfterShooting) {
-            m_systemState = SystemState.IDLE;
-        }
     }
 
     /**
      * Sets the speed of the hopper belt
-     * 
+     *  
      * @param speed desired speed of the belt -1.0 to 1.0
      */
     private void setBeltSpeed(double speed) {
@@ -371,6 +379,13 @@ public class Hopper extends SubsystemBase {
     }
 
     /**
+     * @return state of the top line break sensor
+     */
+    public boolean topLineBreakState() {
+        return m_lineTop.get();
+    }
+
+    /**
      * Stop shooting and get remaining cells back to the bottom
      */
     public void interruptShooting() {
@@ -382,10 +397,7 @@ public class Hopper extends SubsystemBase {
      * 
      * @param amountToEndUpWith amount of cells to have in the hopper after shooting
      */
-    public void supplyCellsToShooter(int amountToEndUpWith) {
-        // set amount to end up with after shooting
-        m_desiredAmountToHaveAfterShooting = amountToEndUpWith;
-        // start feeding cells
+    public void supplyCellsToShooter() {
         m_systemState = SystemState.SHOOTING;
     }
 
