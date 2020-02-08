@@ -95,6 +95,11 @@ public class RobotLogger {
 
         // If the log level is kRobot, just print to netconsole, then return
         if (log_level == Level.kRobot) {
+            // Check if we should log to USB
+            if (m_usbLogger != null) {
+                m_usbLogger.writeln(display_string);
+            }
+
             System.out.println(display_string);
             return;
         }

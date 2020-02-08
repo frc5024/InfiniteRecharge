@@ -34,11 +34,11 @@ public class USBLogger implements AutoCloseable {
         m_thread.startPeriodic(0.5);
 
         // Create the next file
-        try {
-            splitLogfile();
-        } catch (IOException e) {
-            DriverStation.reportError("Failed to start USBLogger. Running dormant thread", false);
-        }
+        // try {
+        //     splitLogfile();
+        // } catch (IOException e) {
+        //     DriverStation.reportError("Failed to start USBLogger. Running dormant thread", false);
+        // }
 
     }
 
@@ -55,10 +55,10 @@ public class USBLogger implements AutoCloseable {
         String newFile = createFilename(new Date());
 
         // Determine the new logfile path
-        Path filepath = Paths.get(getUSBPath().toString(), relPath, newFile);
+        Path filepath = Paths.get(getUSBPath().toString(), newFile);
 
         // Set the new filestream
-        m_fileStream = Files.newOutputStream(filepath, StandardOpenOption.APPEND);
+        m_fileStream = Files.newOutputStream(filepath, StandardOpenOption.CREATE_NEW);
 
     }
 
@@ -104,10 +104,15 @@ public class USBLogger implements AutoCloseable {
             }
         }
 
+        // Set last state
+        m_lastStateEnabled = !DriverStation.getInstance().isDisabled();
+
         // Write data buffer to logfile
         try {
-            for (String line : m_messageBuffer) {
-                m_fileStream.write(String.format("%s%n", line).getBytes());
+            if (m_fileStream != null) {
+                for (String line : m_messageBuffer) {
+                    m_fileStream.write(String.format("%s%n", line).getBytes());
+                }
             }
         } catch (IOException e) {
             DriverStation.reportError("Failed to write message buffer to USB", true);
@@ -140,9 +145,9 @@ public class USBLogger implements AutoCloseable {
 
     private Path getUSBPath() {
         if (RobotBase.isReal()) {
-            return Paths.get("/media/sda1/");
+            return Paths.get("/media/sda1/", relPath);
         } else {
-            return Paths.get(Filesystem.getOperatingDirectory().getName(), "simlogs");
+            return Paths.get(Filesystem.getOperatingDirectory().getAbsolutePath(), "simlogs");
         }
     }
 }
