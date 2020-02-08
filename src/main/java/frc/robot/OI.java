@@ -58,6 +58,11 @@ public class OI {
                 (force > 1.0) ? force - 1.0 : force);
     }
 
+    public void rumbleOperator(double force) {
+        m_driverController.setRumble((force > 1.0) ? RumbleType.kLeftRumble : RumbleType.kRightRumble,
+                (force > 1.0) ? force - 1.0 : force);
+    }
+
     /**
      * Get the robot "throttle" input
      * 
@@ -156,6 +161,19 @@ public class OI {
      */
     public void resetIntakeInput() {
         m_shouldIntakeToggle.reset();
+      
+    public boolean unlockPanelManipulator() {
+        return m_driverController.getBButton();
     }
+
+    public double getPanelThrottle() {
+        return m_operatorController.getTriggerAxis(GenericHID.Hand.kRight);
+    }
+
+    public boolean shouldAutoAim() {
+        return m_driverController.getYButton();
+
+    }
+
 
 }

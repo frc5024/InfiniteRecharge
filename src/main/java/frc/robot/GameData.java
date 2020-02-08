@@ -71,7 +71,7 @@ public class GameData {
         }
     }
 
-    private enum Stage {
+    public enum Stage {
         STAGE1,
         STAGE2,
         STAGE3
