@@ -7,11 +7,15 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib5k.components.limelight.Limelight;
 import frc.lib5k.control.JRADController;
 import frc.lib5k.simulation.wrappers.SimSparkMax;
 import frc.lib5k.utils.Mathutils;
 import frc.lib5k.utils.RobotLogger;
 import frc.robot.RobotConstants;
+import frc.robot.subsystems.DriveTrain;
+import frc.robot.vision.Limelight2;
+import frc.robot.vision.Limelight2.LEDMode;
 
 /**
  * Robot Shooter subsystem
@@ -21,6 +25,9 @@ public class Shooter extends SubsystemBase {
 
     // Wind-up time
     private long windUpStartTime, windUpEndTime, windUpTotalTime;
+
+    //Optimal Position
+    boolean inPosition;
 
     // Logger
     RobotLogger logger = RobotLogger.getInstance();
@@ -56,7 +63,14 @@ public class Shooter extends SubsystemBase {
     private CANPIDController m_motorPID;
     private CANEncoder m_motorEncoder;
 
+    //Limelight
+    private Limelight2 m_limelight;
+
     private Shooter() {
+
+        // Create Limelight
+        m_limelight = Limelight2.getInstance();
+        m_limelight.use(true);
 
         // Create and configure motor
         m_motorController = new SimSparkMax(RobotConstants.Shooter.MOTOR_ID, MotorType.kBrushless);
@@ -203,7 +217,10 @@ public class Shooter extends SubsystemBase {
     private void handleSpinDown(boolean newState) {
 
         if (newState) {
-
+            
+        // Turn off the LEDs
+            m_limelight.setLED(LEDMode.OFF);
+            m_limelight.use(false);
             m_motorController.setOpenLoopRampRate(1.3);
             m_motorController.set(0);
         }
@@ -272,6 +289,43 @@ public class Shooter extends SubsystemBase {
 
     public double getOutput(){
         return m_motorController.get();
+    }
+
+    /**
+     * @param inPosition Is the bot in position to score?
+     */
+    public void setInPosition(boolean inPosition) {
+        this.inPosition = inPosition;
+    }
+
+    /**
+     * @return Is the bot in position to score?
+     */
+    public boolean isInPosition() {
+        if(DriveTrain.getInstance().alignmentLost()) inPosition = false; 
+        return inPosition;
+    }
+
+    /**
+     * 
+     * @return Desired flywheel velocity in RPM based on distance to target.
+     */
+    public double getVelocityFromLimelight(){
+
+        // Get distance to target
+        double angleToTarget = m_limelight.getTarget().ty;
+
+        //d = (h2-h1) / tan(a1+a2)
+        double distance = (RobotConstants.Shooter.TARGET_HEIGHT-RobotConstants.Shooter.LIMELIGHT_HEIGHT)/Math.tan(RobotConstants.Shooter.LIMELIGHT_MOUNT_ANGLE+angleToTarget);
+        RobotLogger.getInstance().log("[LIMELIGHT]: Distance to target calculated. Distance is " + String.format("%.4d",distance) + "m.");
+
+        //Calculate necessary linear velocity of ball
+        double ballVel = (Math.sqrt(9.81) * Math.sqrt(distance) * Math.sqrt((Math.tan(RobotConstants.Shooter.LAUNCH_ANGLE)*Math.tan(RobotConstants.Shooter.LAUNCH_ANGLE))+1)) / Math.sqrt(2 * Math.tan(RobotConstants.Shooter.LAUNCH_ANGLE) - (2 * 9.81 * RobotConstants.Shooter.TARGET_HEIGHT) / distance);
+
+        //Tangential velocity of flywheel, in RPM
+        double wheelVel = (ballVel*2)*RobotConstants.Shooter.RPM_PER_MPS;
+        RobotLogger.getInstance().log("[LIMELIGHT]: Desired velocity calculated. Desired velocity is " + String.format("%.4d",wheelVel) + "RPM.");
+        return wheelVel;
     }
 
 }

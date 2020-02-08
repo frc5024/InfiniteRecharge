@@ -86,6 +86,9 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
      */
     private PIDController m_turnController;
 
+    /** Old angle for bump detection */
+    private double oldYaw;
+
     /**
      * DriveTrain constructor.
      * 
@@ -324,6 +327,9 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
         // Send motor command
         setOpenLoop(new DriveSignal(throttle, throttle));
 
+        //Set old yaw
+        setOldYaw(NavX.getInstance().getAngle());
+
         // Return if we are in range
         return Mathutils.epsilonEquals(target.ty, 0.0, RobotConstants.Autonomous.AUTO_TARGET_DISTANCE_EPSILON);
 
@@ -465,6 +471,24 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
     public Pose2d getPosition() {
         return m_robotPose;
     }
+
+
+    /**
+     * After alignment, check to see if bot loses alignment.
+     * @return If yaw difference is greater than 3 degrees since last alignment;
+     */
+   public boolean alignmentLost(){
+       double yaw = NavX.getInstance().getAngle();
+       double yawDelta = Math.abs(yaw-oldYaw);
+       return(yawDelta>3);
+   }
+
+   /**
+    * @param oldYaw the oldYaw to set
+    */
+   public void setOldYaw(double oldYaw) {
+       this.oldYaw = oldYaw;
+   }
 
     /**
      * Force-set the robot's position
