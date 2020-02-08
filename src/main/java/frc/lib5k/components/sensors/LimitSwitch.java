@@ -18,4 +18,9 @@ public class LimitSwitch extends DigitalInput implements IBinarySensor {
         SendableRegistry.setName(this, "LimitSwitch", channel);
     }
 
+    @Override
+    public boolean get() {
+        return !super.get();
+    }
+
 }
