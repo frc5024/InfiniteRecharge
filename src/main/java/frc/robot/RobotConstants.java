@@ -228,9 +228,13 @@ public class RobotConstants {
 
         // Sensors
         public static final int HOPPER_LINEBREAK_BOTTOM = 2;
-        public static final int HOPPER_LINEBREAK_TOP = 3;
+        public static final int HOPPER_LINEBREAK_BOTTOM_POWER_CHANNEL = 0;
+
         public static final int HOPPER_LINEBREAK_MIDDLE = 4;
-        public static final int HOPPER_LINEBREAK_MIDDLE_POWER_CHANNEL = 0;
+        public static final int HOPPER_LINEBREAK_MIDDLE_POWER_CHANNEL = 1;
+
+        public static final int HOPPER_LINEBREAK_TOP = 3;
+        public static final int HOPPER_LINEBREAK_TOP_POWER_CHANNEL = 2;
 
         // Belt speed during shooting
         public static final double SHOOTER_FEED_SPEED = 0.5;

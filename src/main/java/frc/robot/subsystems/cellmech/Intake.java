@@ -214,7 +214,7 @@ public class Intake extends SubsystemBase {
         if (speed > 0.0) {
             if (m_bottomHall.get()) {
                 speed = 0.0;
-            }else{
+            } else {
                 speed *= 0.5;
             }
         }
@@ -223,16 +223,12 @@ public class Intake extends SubsystemBase {
         if (speed < 0.0) {
             if (m_topHall.get()) {
                 speed = 0.0;
-            }else{
+            } else {
                 speed *= 0.9;
             }
         }
 
-        // speed *= 0.8;
-
         m_intakeActuator.set(speed);
-
-        System.out.println(m_bottomHall.get() + " " + m_topHall.get());
 
     }
 
