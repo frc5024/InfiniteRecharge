@@ -57,6 +57,7 @@ public class RobotConstants {
          * HID device id of the driver's Xbox controller
          */
         public static final int DRIVER_CONTROLLER_ID = 0;
+        public static final int OPERATOR_CONTROLLER_ID = 1;
 
     }
 

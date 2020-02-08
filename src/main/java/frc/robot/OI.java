@@ -16,6 +16,7 @@ public class OI {
      * Robot driver Xbox controller interface object
      */
     private XboxController m_driverController = new XboxController(RobotConstants.HumanInputs.DRIVER_CONTROLLER_ID);
+    private XboxController m_operatorController = new XboxController(RobotConstants.HumanInputs.OPERATOR_CONTROLLER_ID);
 
     /* Toggles and modifiers */
 
@@ -49,6 +50,11 @@ public class OI {
     }
 
     public void rumbleDriver(double force) {
+        m_driverController.setRumble((force > 1.0) ? RumbleType.kLeftRumble : RumbleType.kRightRumble,
+                (force > 1.0) ? force - 1.0 : force);
+    }
+
+    public void rumbleOperator(double force) {
         m_driverController.setRumble((force > 1.0) ? RumbleType.kLeftRumble : RumbleType.kRightRumble,
                 (force > 1.0) ? force - 1.0 : force);
     }
@@ -100,8 +106,13 @@ public class OI {
         return m_driverController.getBButton();
     }
 
+    public double getPanelThrottle() {
+        return m_operatorController.getTriggerAxis(GenericHID.Hand.kRight);
+    }
+
     public boolean shouldAutoAim() {
         return m_driverController.getYButton();
     }
+
 
 }
