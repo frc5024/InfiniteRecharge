@@ -84,7 +84,8 @@ public class Hopper extends SubsystemBase {
         // Construct line break
         m_lineBottom = new LineBreak(RobotConstants.Hopper.HOPPER_LINEBREAK_BOTTOM);
         m_lineTop = new LineBreak(RobotConstants.Hopper.HOPPER_LINEBREAK_TOP);
-        m_lineMiddle = new LineBreak(RobotConstants.Hopper.HOPPER_LINEBREAK_MIDDLE);
+        m_lineMiddle = new LineBreak(RobotConstants.Hopper.HOPPER_LINEBREAK_MIDDLE,
+                RobotConstants.Pneumatics.PCM_CAN_ID, RobotConstants.Hopper.HOPPER_LINEBREAK_MIDDLE_POWER_CHANNEL);
 
         // Set revolutions per inch
         m_revolutionsPerInch = RobotConstants.Hopper.REVOLUTIONS_PER_INCH;
