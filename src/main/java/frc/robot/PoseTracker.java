@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import frc.lib5k.components.gyroscopes.NavX;
+import frc.lib5k.utils.RobotLogger;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.vision.Limelight2;
 
@@ -18,6 +19,7 @@ public class PoseTracker{
     // Gets Instances of LimeLight and the Drive Train
     private static Limelight2 limelight = Limelight2.getInstance();
     private DriveTrain driveTrain = DriveTrain.getInstance();
+    public RobotLogger logger = RobotLogger.getInstance();
 
     // Crates the thread
     private Notifier m_thread;
@@ -82,7 +84,6 @@ public class PoseTracker{
                 // Gets the vertical offset of the camera
                 verticalOffset = limelight.getYAngle();
 
-                // Gets the distance TODO proper camera measurements
                 // Calculates the distance from the target in a straight line
                 distance = (FieldConstants.HEIGHT_OF_TARGET - RobotConstants.Camera.CAMERA_HEIGHT)
                                  / (Math.tan(verticalOffset - RobotConstants.Camera.CAMERA_ANGLE_1));
@@ -91,12 +92,16 @@ public class PoseTracker{
                 m_odometry.resetPosition(new Pose2d(Math.sin(heading) / distance, Math.sin(heading - 90), 
                                 new Rotation2d(heading)), new Rotation2d(heading));
                 
-
                 firstEnable = false;
+                logger.log("Odometery Distance", getOdometry().getPoseMeters().getTranslation().toString());
+                logger.log("Odometery Rotation", getOdometry().getPoseMeters().getRotation().toString());
             }else if(LEDState == 1){
                 firstEnable = true;
             }
+            // Logs odometery
+            
         }
+        
         // reads the limelights led state
         LEDState = limelight.getLED().getHandle();
     } 

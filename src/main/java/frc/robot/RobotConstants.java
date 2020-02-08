@@ -218,10 +218,10 @@ public class RobotConstants {
     public static class Camera{
 
         // Height of camera
-        public static final double CAMERA_HEIGHT = .3; // TODO enter the correct numbers
+        public static final double CAMERA_HEIGHT = .74;
 
         // Angle of camera
-        public static final double CAMERA_ANGLE_1 = 25; // TODO enter the correct number
+        public static final double CAMERA_ANGLE_1 = 19;
     }
 
 }
