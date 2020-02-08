@@ -112,7 +112,7 @@ public class RobotConstants {
 
             /* Ticks per revolution of the encoder */
 
-            public static final int PULSES_PER_REVOLUTION = 1024;// 2880;//1440; // (isCompBot())? 4096 : 1440;
+            public static final int PULSES_PER_REVOLUTION = 4096;// 1024 // 2880;//1440; // (isCompBot())? 4096 : 1440;
 
         }
 
