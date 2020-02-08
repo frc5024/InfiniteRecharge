@@ -7,8 +7,6 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib5k.components.limelight.Limelight;
-import frc.lib5k.control.JRADController;
 import frc.lib5k.simulation.wrappers.SimSparkMax;
 import frc.lib5k.utils.Mathutils;
 import frc.lib5k.utils.RobotLogger;
@@ -146,7 +144,8 @@ public class Shooter extends SubsystemBase {
 
         case UNJAM:
 
-            // TODO: Unjam code
+            // Handle unjamming
+            handleUnjam(isNewState);
             break;
 
         default:
@@ -264,6 +263,17 @@ public class Shooter extends SubsystemBase {
 
     }
 
+    /**
+     * Handle unjamming the power cells
+     * 
+     * @param newState Is this state new?
+     */
+    public void handleUnjam(boolean isNewState){
+        if(isNewState){
+            //TODO
+        }
+    }
+
     public void setOutputPercent(double val) {
 
         // Switch to "Spin Up" mode. If we are already at, or above the setpoint, it
@@ -302,6 +312,8 @@ public class Shooter extends SubsystemBase {
      * @return Is the bot in position to score?
      */
     public boolean isInPosition() {
+
+        //Check if  drivetrain has been moved off-target since alignment
         if(DriveTrain.getInstance().alignmentLost()) inPosition = false; 
         return inPosition;
     }
