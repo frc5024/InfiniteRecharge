@@ -2,7 +2,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj.util.Units;
 import frc.lib5k.roborio.RR_HAL;
 
@@ -186,16 +185,10 @@ public class RobotConstants {
 
     public static class PanelManipulator {
 
-        public static final int SPINNER_MOTOR_ID = 22;
-
-        
         /**
-         * Game Colors
+         * Threshold for color comparison
          */
-        public static Color8Bit RED_COLOR    = new Color8Bit(255, 0, 0);
-        public static Color8Bit GREEN_COLOR  = new Color8Bit(0, 255, 0);
-        public static Color8Bit BLUE_COLOR   = new Color8Bit(0, 255, 255);
-        public static Color8Bit YELLOW_COLOR = new Color8Bit(255, 255, 0);
+        public static final double DEFAULT_COLOR_THRESHOLD = 20;
 
     }
 
@@ -254,7 +247,6 @@ public class RobotConstants {
         /**
          * Shooter motorm_releasePin.clearAllFaults();
          */
-
         public static final int MOTOR_ID = 16;
 
         public static final double MOTOR_MAX_RPM = 5700;

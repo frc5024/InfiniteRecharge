@@ -15,12 +15,6 @@ gradle-app.setting
 
 # Created by https://www.gitignore.io/api/c++,java,linux,macos,gradle,windows,visualstudiocode
 
-# Simulator config
-imgui.ini
-
-# Pyhton Compiled
-/__pycache__
-
 ### C++ ###
 # Prerequisites
 *.d

@@ -1,16 +1,20 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.revrobotics.ColorMatch;
-import com.revrobotics.ColorMatchResult;
+import java.util.Map;
+
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib5k.components.ColorSensor5k;
-import frc.lib5k.simulation.wrappers.SimTalon;
+import frc.lib5k.utils.ColorUtils;
 import frc.lib5k.utils.RobotLogger;
 import frc.robot.GameData;
-import frc.robot.OI;
 import frc.robot.RobotConstants;
 
 public class PanelManipulator extends SubsystemBase {
@@ -18,47 +22,28 @@ public class PanelManipulator extends SubsystemBase {
     private static PanelManipulator s_instance = null;
 
     /**
-    * Physical Devices
-    */
+     * Color sensor interface
+     */
     private ColorSensor5k m_colorSensor = new ColorSensor5k(I2C.Port.kOnboard);
-    private SimTalon m_spinnerMotor = new SimTalon(RobotConstants.PanelManipulator.SPINNER_MOTOR_ID);
 
-    // Color matching class.
-    private final ColorMatch m_colorMatcher = new ColorMatch();
-
-    // Color Data
-    private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
-    private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
-    private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
-    private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
-
-    // States
-    private ControlState state = ControlState.IDLE;
-
-    // SaveData vars;
-    private double proximity;
-    private double colorCount;
-
-    private boolean inRange;
-    private boolean isRUnlocked, isPUnlocked;
-    private boolean isRotated, isPositioned;
-
-    // Color Saves
-    private Color detectedColor;
-    private PanelColors currentColor, nextColor;
-
+    /* Color thresholding */
+    private NetworkTableEntry m_threshold;
+    private Color8Bit red = new Color8Bit(255, 0, 0);
+    private Color8Bit green = new Color8Bit(0, 255, 0);
+    private Color8Bit blue = new Color8Bit(0, 255, 255);
+    private Color8Bit yellow = new Color8Bit(255, 255, 0);
+    private double m_lastThreshold = 0.0;
 
     private PanelManipulator() {
 
+        // Find the stored color threshold value
+        double storedThreshold = Preferences.getInstance().getDouble("Color threshold",
+                RobotConstants.PanelManipulator.DEFAULT_COLOR_THRESHOLD);
+        logger.log("PanelManipulator", String.format("Loaded color threshold: %.2f", storedThreshold));
 
-        m_colorMatcher.addColorMatch(kBlueTarget);
-        m_colorMatcher.addColorMatch(kGreenTarget);
-        m_colorMatcher.addColorMatch(kRedTarget);
-        m_colorMatcher.addColorMatch(kYellowTarget);
-
-        m_spinnerMotor.setNeutralMode(NeutralMode.Coast);
-        m_spinnerMotor.enableVoltageCompensation(true);
-        m_spinnerMotor.configOpenloopRamp(0.5);
+        // Get the threshold value container
+        m_threshold = Shuffleboard.getTab("Panel Manipulator").add("Color Threshold", storedThreshold)
+                .withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 255)).getEntry();
 
     }
 
@@ -79,178 +64,172 @@ public class PanelManipulator extends SubsystemBase {
     @Override
     public void periodic() {
 
-        // Unlocked the PanelManipulator.
-        if(OI.getInstance().unlockPanelManipulator()) {
-            isPUnlocked = true;
+        /* Update the threshold from Shuffleboard */
+
+        // Check the threshold value, and compare to the last
+        double thresh = m_threshold.getDouble(RobotConstants.PanelManipulator.DEFAULT_COLOR_THRESHOLD);
+
+        if (thresh != m_lastThreshold) {
+
+            // Write to preferences
+            Preferences.getInstance().putDouble("Color threshold", thresh);
+
+            // Set the last threshold
+            m_lastThreshold = thresh;
         }
 
-        // Proximity detection. 
-        proximity = m_colorSensor.getProximity();
-
-        // If proximity is greater than 200, than its false.
-        inRange = (proximity > 200) ? true : false;
-
-        logger.log(proximity + "", "proximity");
-
-        // Whatever color is under the sensor at the current cycle.
-        detectedColor = m_colorMatcher.matchClosestColor(m_colorSensor.getColor()).color;
-
-        
-
-        switch(state) {
-
-            // If the Manipulator is not doing anything, it should be in this state.
-            case IDLE:
-
-                if(inRange && isPUnlocked) {
-
-                    setState(ControlState.POSITIONAL);
-
-
-                }
-
-                if(inRange && isRUnlocked) {
-
-                    setState(ControlState.ROTATING);
-
-                }
-
-                if(isPositioned && isRotated) {
-                        
-                    setState(ControlState.IDLE);
-                    return;
-
-                }
-
-                break;
-
-            
-            // Rotates the panel 3 times. Detecting next colors instead of counting one when a color changes.
-            case ROTATING:
-
-                if(!inRange || !isRUnlocked) {
-                    setState(ControlState.ERROR);
-                }
-
-                // Sets the motor speed. 
-                m_spinnerMotor.set(OI.getInstance().getPanelThrottle());
-
-                if(currentColor == nextColor) {
-                    colorCount++;
-                }
-
-                // Changing the current color and the expected next color.
-                if(detectedColor == kBlueTarget) {
-                    currentColor = PanelColors.BLUE;
-                    nextColor = PanelColors.GREEN;
-                }
-
-                if(detectedColor == kGreenTarget) {
-                    currentColor = PanelColors.GREEN;
-                    nextColor = PanelColors.RED;
-                }
-
-                if(detectedColor == kRedTarget) {
-                    currentColor = PanelColors.RED;
-                    nextColor = PanelColors.YELLOW;
-                }
-
-                if(detectedColor == kYellowTarget) {
-                    currentColor = PanelColors.YELLOW;
-                    nextColor = PanelColors.BLUE;
-                }
-
-                if(colorCount >= 28) {
-                    OI.getInstance().rumbleOperator(0.4);
-                    isRotated = true;
-                }
-
-                break;
-
-                // Spins until the current color is under the sensor.
-            case POSITIONAL:
-
-
-                if(!isPUnlocked || !inRange) {
-                    setState(ControlState.ERROR);
-                }
-
-                m_spinnerMotor.set(OI.getInstance().getPanelThrottle());
-
-                if(isSensedColorCorrect()) {
-                    m_spinnerMotor.stopMotor();
-                    isPositioned = true;
-                    setState(ControlState.IDLE);
-                }
-                
-                break;
-            
-            // If something wrong happened, it should go tto this state. 
-            case ERROR:
-                
-                m_spinnerMotor.set(0);
-                logger.log("[PanelManipulator]", "Unlocked or Bumped During a Rotation!");
-                setState(ControlState.IDLE);
-
-                break;
-            }
-    
     }
 
-
     /**
-     * Gets the game color for that match.
-     * Checks the detected color. If they match, they should return true.
-     * If anything else, return false.
+     * z
      * 
-     * @return 
+     * @return a boolean that if the control color is the same as the sensed color,
+     *         it will return true. else false.
      */
     public boolean isSensedColorCorrect() {
 
         // Read the color wanted by FMS
-        Color controlColor = new Color(GameData.getInstance().getControlColor());
-        Color currentColor = m_colorSensor.getColor();
-        ColorMatchResult match = m_colorMatcher.matchClosestColor(currentColor);
+        Color8Bit wantedColor = GameData.getInstance().getControlColor();
 
-        if(match.color == null) {
+        // Ensure a color has been requested
+        if (wantedColor == null) {
             return false;
         }
-        if(match.color == controlColor) {
-            return true;
-        } else {
-            return false;
-        }
+
+        // Check equality
+        return getColor().equals(wantedColor);
     }
 
     /**
-     * State setter
-     * @param state
+     * Get the field color seen by the sensor (black if none)
+     * 
+     * @return Sensed color (corrected to match field colors)
      */
-    private void setState(ControlState state) {
-        this.state = state;
+    public Color getColor() {
+
+        double threshold = m_threshold.getDouble(RobotConstants.PanelManipulator.DEFAULT_COLOR_THRESHOLD);
+
+        // Red
+        if (m_colorSensor.isReadingEqual(this.red, threshold)) {
+            return new Color(this.red);
+        }
+
+        // Yellow
+        if (m_colorSensor.isReadingEqual(this.yellow, threshold)) {
+            return new Color(this.yellow);
+        }
+
+        // Green
+        if (m_colorSensor.isReadingEqual(this.green, threshold)) {
+            return new Color(this.green);
+        }
+
+        // Blue
+        if (m_colorSensor.isReadingEqual(this.blue, threshold)) {
+            return new Color(this.blue);
+        }
+
+        return Color.kBlack;
+
     }
 
     /**
-     * Control State Enum
-     * Contains the 
+     * Get the exact sensed color from the sensor
+     * 
+     * @return Sensed raw color
      */
-    private enum ControlState {
+    public Color getSensedColor() {
+        return m_colorSensor.getColor();
+    }
 
-        IDLE,
-        ROTATING,
-        POSITIONAL,
-        ERROR
+    /**
+     * Update the telemetry data
+     */
+    public void updateTelemetry() {
 
+        // Read sensor info
+        Color rawColor = getSensedColor();
+
+        // Publish sensor info*
+        SmartDashboard.putNumber("Raw Red", rawColor.red);
+        SmartDashboard.putNumber("Raw Green", rawColor.green);
+        SmartDashboard.putNumber("Raw Blue", rawColor.blue);
+
+        // Log which color is being sensed.
+        Color reading = getColor();
+
+        SmartDashboard.putString("Closest Color", getColorString(reading));
+        SmartDashboard.putString("Offset Color", getColorString(offsetSensedColor(reading)));
 
     }
 
-    private enum PanelColors {
+    /**
+     * Offsets the color by the color that is at a 90 degree angle.
+     * 
+     * @param c Sensed color
+     * @return Offset color
+     */
+    public Color offsetSensedColor(Color c) {
 
-        RED,
-        BLUE,
-        YELLOW,
-        GREEN
+        if (c.equals(new Color(red))) {
+            return new Color(blue);
+        }
 
+        if (c.equals(new Color(blue))) {
+            return new Color(red);
+        }
+
+        if (c.equals(new Color(yellow))) {
+            return new Color(green);
+        }
+
+        if (c.equals(new Color(green))) {
+            return new Color(yellow);
+        }
+
+        return null;
+    }
+
+    /**
+     * Convert a color to it's string
+     * 
+     * @param c Color
+     * @return String of color name
+     */
+    public String getColorString(Color c) {
+
+        if (c == null) {
+            return "NONE";
+        }
+
+        if (c.equals(red)) {
+            return "RED";
+        }
+
+        if (c.equals(yellow)) {
+            return "YELLOW";
+        }
+
+        if (c.equals(green)) {
+            return "GREEN";
+        }
+
+        if (c.equals(blue)) {
+            return "BLUE";
+        }
+
+        return "NONE";
+    }
+
+    public double spinWheelTurns(int turns) {
+
+        return 0.0;
+
+    }
+
+    public double spinWheelColors(int numberOfColorChanges) {
+
+        return 0.0;
 
     }
 }
