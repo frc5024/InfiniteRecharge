@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib5k.components.drive.IDifferentialDrivebase;
 import frc.lib5k.components.gyroscopes.NavX;
+import frc.lib5k.logging.USBLogger;
 import frc.lib5k.roborio.FaultReporter;
 import frc.lib5k.utils.RobotLogger;
 import frc.lib5k.utils.RobotLogger.Level;
@@ -32,7 +33,10 @@ public class Robot extends TimedRobot {
 	/* Robot I/O helpers */
 	RobotLogger logger = RobotLogger.getInstance();
 	FaultReporter m_faultReporter = FaultReporter.getInstance();
+	USBLogger usbLogger;
 
+	/* Robot telemetry */
+	private Dashboard m_dashboard = Dashboard.getInstance();
 
 	/* Robot Subsystems */
 	private DriveTrain m_driveTrain = DriveTrain.getInstance();
@@ -53,6 +57,10 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
+
+		// Enable USB logging
+		usbLogger = new USBLogger("RobotLogs-2020");
+		logger.enableUSBLogging(usbLogger);
 
 		// Create control commands
 		logger.log("Robot", "Constructing Commands", Level.kRobot);
@@ -75,7 +83,6 @@ public class Robot extends TimedRobot {
 		NavX.getInstance().setInverted(false);
 
 		// Reset the drivetrain pose
-		// m_driveTrain.setPosition(new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0.0)));
 		m_driveTrain.setRampRate(0.12);
 
 		// Create and publish an autonomous chooser
@@ -96,6 +103,10 @@ public class Robot extends TimedRobot {
 		Limelight2.getInstance().enableVision(true);
 		TargetTracker.getInstance().register();
 		TargetTracker.getInstance().enableTargetChecking(false);
+
+		// Init and start the dashboard service
+		m_dashboard.init();
+		m_dashboard.start();
 	}
 
 	@Override

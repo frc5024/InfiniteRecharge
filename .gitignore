@@ -179,3 +179,6 @@ characterization/characterization-project/build/
 
 # Python
 __pycache__
+
+# Robot logfiles
+simlogs/*.txt
