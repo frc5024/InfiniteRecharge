@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.function.BiConsumer;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -24,6 +26,8 @@ import frc.lib5k.utils.RobotLogger;
 import frc.robot.RobotConstants;
 import frc.robot.vision.LimelightTarget;
 import frc.lib5k.kinematics.DriveSignal;
+import frc.lib5k.statemachines.IStateMapping;
+import frc.lib5k.statemachines.StateMachine;
 
 /**
  * The DriveTrain handles all robot movement.
@@ -35,14 +39,25 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
     /*
      * Drive Control Modes
      */
-    public enum DriveMode {
-        OPEN_LOOP, // Open loop control (percent output control)
-        VOLTAGE, // Voltage control
+    public enum DriveMode implements IStateMapping {
+        OPEN_LOOP(DriveTrain.getInstance()::handleOpenLoop), // Open loop control (percent output control)
+        VOLTAGE(DriveTrain.getInstance()::handleVoltageControl); // Voltage control
+
+        private BiConsumer<Double, Boolean> runner;
+
+        DriveMode(BiConsumer<Double, Boolean> x) {
+            runner = x;
+        }
+
+        @Override
+        public void execute(double dt, boolean isNew) {
+            runner.accept(dt, isNew);
+        }
 
     }
 
-    // Keep track of the current DriveMode
-    private DriveMode m_currentDriveMode = DriveMode.OPEN_LOOP;
+    // Statemachine
+    private StateMachine<DriveMode> m_stateMachine = new StateMachine<DriveMode>(DriveMode.OPEN_LOOP);
 
     private DriveSignal m_currentSignal;
 
@@ -174,22 +189,7 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
     public void periodic() {
 
         /* Handle motor outputs for each mode */
-        switch (m_currentDriveMode) {
-        case OPEN_LOOP:
-            // Sets the left and right gearbox
-            m_leftGearbox.set(m_currentSignal.getL());
-            m_rightGearbox.set(m_currentSignal.getR());
-            break;
-        case VOLTAGE:
-            // ets the left and right gearbox
-            m_leftGearbox.setVoltage(m_currentSignal.getL());
-            m_rightGearbox.setVoltage(m_currentSignal.getR());
-            break;
-        default:
-            // This code should never run, but if it does, we set the mode to OPEN_LOOP, and
-            // the outputs to 0
-            setOpenLoop(new DriveSignal(0, 0));
-        }
+        m_stateMachine.update();
 
         /* Handle encoder updates */
         m_leftEncoder.update();
@@ -212,6 +212,18 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
         m_odometry.update(heading, getLeftMeters(), getRightMeters());
         m_robotPose = m_odometry.getPoseMeters();
 
+    }
+
+    private void handleOpenLoop(double dt, boolean isNew) {
+        // Sets the left and right gearbox
+        m_leftGearbox.set(m_currentSignal.getL());
+        m_rightGearbox.set(m_currentSignal.getR());
+    }
+
+    private void handleVoltageControl(double dt, boolean isNew) {
+        // Sets the left and right gearbox
+        m_leftGearbox.setVoltage(m_currentSignal.getL());
+        m_rightGearbox.setVoltage(m_currentSignal.getR());
     }
 
     /**
@@ -338,7 +350,7 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
     public void setOpenLoop(DriveSignal signal) {
 
         // Force-set the mode if not already set
-        if (m_currentDriveMode != DriveMode.OPEN_LOOP) {
+        if (m_stateMachine.getCurrentState() != DriveMode.OPEN_LOOP) {
 
             // Enable motor brakes
             setBrakes(true);
@@ -347,7 +359,7 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
             logger.log("DriveTrain", String.format("Set control mode to OPEN_LOOP with signal: %s", signal.toString()));
 
             // Set the new state
-            m_currentDriveMode = DriveMode.OPEN_LOOP;
+            m_stateMachine.setState(DriveMode.OPEN_LOOP);
         }
 
         // Set the current DriveTrain signal
@@ -363,7 +375,7 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
     public void setVoltage(DriveSignal signal) {
 
         // Force-set the mode if not already set
-        if (m_currentDriveMode != DriveMode.VOLTAGE) {
+        if (m_stateMachine.getCurrentState() != DriveMode.VOLTAGE) {
 
             // Enable motor brakes
             setBrakes(false);
@@ -372,7 +384,7 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
             logger.log("DriveTrain", String.format("Set control mode to VOLTAGE with signal: %s", signal.toString()));
 
             // Set the new state
-            m_currentDriveMode = DriveMode.VOLTAGE;
+            m_stateMachine.setState(DriveMode.VOLTAGE);
         }
 
         // Set the current DriveTrain signal
