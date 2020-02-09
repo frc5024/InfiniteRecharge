@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.lib5k.kinematics.purepursuit.Path;
 import frc.robot.autonomous.AutonomousStartpoints;
-import frc.robot.autonomous.actions.DrivePath;
 import frc.robot.autonomous.actions.DriveToCommand;
 import frc.robot.autonomous.actions.TurnToCommand;
 import frc.robot.autonomous.actions.VisionAlign;
