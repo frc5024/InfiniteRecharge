@@ -2,9 +2,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SendableRegistry;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib5k.components.drive.IDifferentialDrivebase;
@@ -21,6 +18,7 @@ import frc.robot.subsystems.CellSuperstructure;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.PanelManipulator;
+import frc.robot.subsystems.cellmech.Intake;
 import frc.robot.vision.Limelight2;
 import frc.robot.vision.Limelight2.LEDMode;
 
@@ -146,6 +144,9 @@ public class Robot extends TimedRobot {
 
 		// Lock the climber
 		Climber.getInstance().lock();
+
+		// Stow the superstructure
+		m_cellSuperstructure.stop();
 	}
 
 	@Override
@@ -165,6 +166,9 @@ public class Robot extends TimedRobot {
 
 		// Lock the climber
 		Climber.getInstance().lock();
+
+		// Freeze the intake to make Tiet happy
+		Intake.getInstance().freeze();
 
 		// Disable the autonomous command
 		if (m_autonomousCommand != null) {
@@ -213,6 +217,14 @@ public class Robot extends TimedRobot {
 
 		// Run all scheduled WPILib commands
 		CommandScheduler.getInstance().run();
+	}
+
+	@Override
+	public void testInit() {
+		logger.log("Robot", "Started test mode");
+
+		// Freeze the intake to stop it from auto-stowing
+		Intake.getInstance().freeze();
 	}
 
 }
