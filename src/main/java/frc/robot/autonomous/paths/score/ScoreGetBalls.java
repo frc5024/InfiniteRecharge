@@ -16,10 +16,10 @@ import frc.robot.autonomous.actions.DriveToCommand;
 // Built with Point Interpeter
 public class ScoreGetBalls extends AutonomousPath {
     
-    // TODO Document
+    // Starts in front of the trench facing the target
     @Override
     public Pose2d getStartingPose() {
-        return new Pose2d(3.1, -3.28, Rotation2d.fromDegrees(152));
+        return new Pose2d(AutonomousStartpoints.SECTOR_LINE_RIGHT, Rotation2d.fromDegrees(152));
     }
 
 
@@ -29,24 +29,26 @@ public class ScoreGetBalls extends AutonomousPath {
         // Create output command group
         SequentialCommandGroup output = new SequentialCommandGroup();
 
+        double startx = getStartingPose().getTranslation().getX();
+        double starty = getStartingPose().getTranslation().getY();
+        
         // Ensure robot is facing the correct angle at the start
         output.addCommands(new TurnToCommand((152), 2));
 
-        // Auto goes here
-        
-	output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(1), 2));
+        // Shoot Command TODO change to actual shoot command
+        output.addCommands(new WaitCommand(3));
 
-	output.addCommands(new DriveToCommand(new Pose2d(5.28, -3.26, Rotation2d.fromDegrees(1)),new SpeedConstraint(1, 1), false));
+        // Drives to the balls in the trench
+        output.addCommands(new DriveToCommand(new Pose2d(startx + 2, starty, Rotation2d.fromDegrees(0)),
+                                             new SpeedConstraint(1, 1), false, false));
 
-	output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 2));
+        // Drives over the balls
+        output.addCommands(new DriveToCommand(new Pose2d(startx + 4, starty, Rotation2d.fromDegrees(0)),
+                                              new SpeedConstraint(.5, .5), false));
 
-	output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(1), 2));
+        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 2));
 
-	output.addCommands(new DriveToCommand(new Pose2d(7.99, -3.22, Rotation2d.fromDegrees(1)),new SpeedConstraint(1, 1), false));
-
-	output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 2));
-
-    return output;
+        return output;
     }
 
     

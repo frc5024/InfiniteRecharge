@@ -2,7 +2,6 @@ package frc.robot.subsystems.cellmech;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib5k.components.motors.TalonHelper;
-import frc.lib5k.components.sensors.HallEffect;
 import frc.lib5k.components.sensors.LimitSwitch;
 import frc.lib5k.simulation.wrappers.SimTalon;
 import frc.lib5k.utils.RobotLogger;
@@ -214,6 +213,8 @@ public class Intake extends SubsystemBase {
         if (speed > 0.0) {
             if (m_bottomHall.get()) {
                 speed = 0.0;
+            } else {
+                speed *= 0.5;
             }
         }
 
@@ -221,11 +222,12 @@ public class Intake extends SubsystemBase {
         if (speed < 0.0) {
             if (m_topHall.get()) {
                 speed = 0.0;
+            } else {
+                speed *= 0.9;
             }
         }
 
-        // TODO: Uncomment
-        // m_intakeActuator.set(speed);
+        m_intakeActuator.set(speed);
 
     }
 

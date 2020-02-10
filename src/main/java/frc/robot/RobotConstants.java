@@ -111,7 +111,7 @@ public class RobotConstants {
 
             /* Ticks per revolution of the encoder */
 
-            public static final int PULSES_PER_REVOLUTION = 1024;// 2880;//1440; // (isCompBot())? 4096 : 1440;
+            public static final int PULSES_PER_REVOLUTION = 4096;// 1024 // 2880;//1440; // (isCompBot())? 4096 : 1440;
 
         }
 
@@ -139,9 +139,9 @@ public class RobotConstants {
     public static class ControlGains {
 
         // Feedforward Gains
-        public static final double ksVolts = 2.37;
-        public static final double kvVoltsSecondsPerMeter = 1.73; // 1.8
-        public static final double kaVoltsSecondsSquaredPerMeter = 0.0304; // 0.0231
+        public static final double ksVolts = 0.837; // MiniBot 2.37
+        public static final double kvVoltsSecondsPerMeter = 2.46; // 1.8 MiniBot 1.73
+        public static final double kaVoltsSecondsSquaredPerMeter = 0.0455; // 0.0231 MiniBot .0304
 
         // Optimal Control Gain for driving
         public static final double kPDriveVel = 0.478;// 0.68; //0.478;
@@ -228,9 +228,13 @@ public class RobotConstants {
 
         // Sensors
         public static final int HOPPER_LINEBREAK_BOTTOM = 2;
-        public static final int HOPPER_LINEBREAK_TOP = 3;
+        public static final int HOPPER_LINEBREAK_BOTTOM_POWER_CHANNEL = 0;
+
         public static final int HOPPER_LINEBREAK_MIDDLE = 4;
-        public static final int HOPPER_LINEBREAK_MIDDLE_POWER_CHANNEL = 0;
+        public static final int HOPPER_LINEBREAK_MIDDLE_POWER_CHANNEL = 1;
+
+        public static final int HOPPER_LINEBREAK_TOP = 3;
+        public static final int HOPPER_LINEBREAK_TOP_POWER_CHANNEL = 2;
 
         // Belt speed during shooting
         public static final double SHOOTER_FEED_SPEED = 0.5;
@@ -241,7 +245,7 @@ public class RobotConstants {
     public static class Shooter {
 
         /**
-         * Shooter motor
+         * Shooter motorm_releasePin.clearAllFaults();
          */
         public static final int MOTOR_ID = 16;
 
@@ -279,7 +283,7 @@ public class RobotConstants {
      */
     public static class Climber {
         // ALL OF THESE ARE PLACEHOLDERS
-        public static final int PIN_RELEASE_SOLENOID = 1;
+        public static final int PIN_RELEASE_SOLENOID = 4;
         public static final int MOTOR_CONTROLLER_ID = 21;
         public static final int HIGH_HALL_ID = 5;
         public static final int LOW_HALL_ID = 6;

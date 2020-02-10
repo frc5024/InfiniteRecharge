@@ -82,8 +82,10 @@ public class Hopper extends SubsystemBase {
         m_hopperBelt.setSensorPhase(false);
 
         // Construct line break
-        m_lineBottom = new LineBreak(RobotConstants.Hopper.HOPPER_LINEBREAK_BOTTOM);
-        m_lineTop = new LineBreak(RobotConstants.Hopper.HOPPER_LINEBREAK_TOP);
+        m_lineBottom = new LineBreak(RobotConstants.Hopper.HOPPER_LINEBREAK_BOTTOM,
+        RobotConstants.Pneumatics.PCM_CAN_ID, RobotConstants.Hopper.HOPPER_LINEBREAK_BOTTOM_POWER_CHANNEL);
+        m_lineTop = new LineBreak(RobotConstants.Hopper.HOPPER_LINEBREAK_TOP,
+        RobotConstants.Pneumatics.PCM_CAN_ID, RobotConstants.Hopper.HOPPER_LINEBREAK_TOP_POWER_CHANNEL);
         m_lineMiddle = new LineBreak(RobotConstants.Hopper.HOPPER_LINEBREAK_MIDDLE,
                 RobotConstants.Pneumatics.PCM_CAN_ID, RobotConstants.Hopper.HOPPER_LINEBREAK_MIDDLE_POWER_CHANNEL);
 
@@ -189,6 +191,8 @@ public class Hopper extends SubsystemBase {
         m_lineBottomLastValue = m_lineBottom.get();
         m_lineTopLastValue = m_lineTop.get();
         m_lineMiddleLastValue = m_lineMiddle.get();
+
+
     }
 
     /**

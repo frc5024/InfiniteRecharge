@@ -37,7 +37,7 @@ public class LinePath extends SequentialCommandGroup {
      * @param reversed Should the path be driven backwards?
      */
     public LinePath(Pose2d start, Pose2d end, boolean reversed) {
-        this(start, end, new SpeedConstraint(1, 1), reversed);
+        this(start, end, new SpeedConstraint(1, 1), reversed, true);
     }
 
     /**
@@ -50,8 +50,13 @@ public class LinePath extends SequentialCommandGroup {
      * @param reversed    Should the path be driven backwards?
      */
     public LinePath(Pose2d start, Translation2d end, SpeedConstraint constraints, boolean reversed) {
-        this(start, new Pose2d(end, start.getRotation()), constraints, reversed);
+        this(start, new Pose2d(end, start.getRotation()), constraints, reversed, true);
     }
+
+    public LinePath(Pose2d start, Pose2d end, SpeedConstraint constraints, boolean reversed){
+        this(start, end, constraints, reversed, true);
+    }
+
 
     /**
      * Generate a LinePath from a start to end pose with various settings
@@ -60,8 +65,9 @@ public class LinePath extends SequentialCommandGroup {
      * @param end         Desired ending pose (field-relative)
      * @param constraints Constraints on profile
      * @param reversed    Should the path be driven backwards?
+     * @param stop        Should it stop at the end of the path
      */
-    public LinePath(Pose2d start, Pose2d end, SpeedConstraint constraints, boolean reversed) {
+    public LinePath(Pose2d start, Pose2d end, SpeedConstraint constraints, boolean reversed, boolean stop) {
 
         // Determine angle offset based on path reverse setting. This will effectively
         // set the back of the bot to the "front" if reversed
@@ -76,7 +82,7 @@ public class LinePath extends SequentialCommandGroup {
 
         // Get from start to end
         addCommands(PathGenerator.generate(new EasyTrajectory(new Pose2d(start.getTranslation(), theta), end),
-                constraints));
+                constraints, stop));
 
     }
 
