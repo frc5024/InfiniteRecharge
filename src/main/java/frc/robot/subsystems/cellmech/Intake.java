@@ -31,6 +31,7 @@ public class Intake extends SubsystemBase {
         INTAKE, // Intake pulling in balls
         UNJAM, // Ejecting balls
         STOWED, // Arm stowed
+        FROZEN, // System frozen
     }
 
     /** Tracker for intake system state */
@@ -59,6 +60,10 @@ public class Intake extends SubsystemBase {
         // Set voltage limiting
         TalonHelper.configCurrentLimit(m_intakeActuator, 34, 32, 30, 0);
         TalonHelper.configCurrentLimit(m_intakeRoller, 34, 32, 30, 0);
+
+        // Configure motor ramps
+        m_intakeActuator.configOpenloopRamp(0.2);
+        m_intakeRoller.configOpenloopRamp(0.0);
 
         // Construct sensors
         m_bottomHall = new LimitSwitch(RobotConstants.Intake.INTAKE_LIMIT_BOTTOM);
@@ -96,6 +101,9 @@ public class Intake extends SubsystemBase {
 
         // Handle states
         switch (m_systemState) {
+        case FROZEN:
+            handleFrozen(isNewState);
+            break;
         case INTAKE:
             handleIntake(isNewState);
             break;
@@ -109,6 +117,18 @@ public class Intake extends SubsystemBase {
             logger.log("Intake", "Encountered unknown state", Level.kWarning);
             m_systemState = SystemState.STOWED;
         }
+    }
+
+    private void handleFrozen(boolean newState) {
+        if (newState) {
+            // Ensure our roller is stopped
+            setRollerSpeed(0.0);
+
+            // Freeze the arm
+            setArmSpeed(0.0);
+
+        }
+
     }
 
     /**
@@ -127,8 +147,8 @@ public class Intake extends SubsystemBase {
         if (getArmPosition() != ArmPosition.DEPLOYED) {
             setArmSpeed(RobotConstants.Intake.ARM_DOWN_SPEED);
         } else {
-            // Just apply a little voltage to arms to kep them in place
-            setArmSpeed(0.15);
+            // Stop the arms
+            setArmSpeed(0.0);
 
             // Handle intake of cells
             setRollerSpeed(RobotConstants.Intake.ROLLER_SPEED);
@@ -153,6 +173,7 @@ public class Intake extends SubsystemBase {
         if (getArmPosition() != ArmPosition.DEPLOYED) {
             setArmSpeed(RobotConstants.Intake.ARM_DOWN_SPEED);
         } else {
+            // Stop the arms
             setArmSpeed(0.0);
 
             // Handle intake of cells
@@ -207,8 +228,6 @@ public class Intake extends SubsystemBase {
         if (speed > 0.0) {
             if (m_bottomHall.get()) {
                 speed = 0.0;
-            } else {
-                speed *= 0.5;
             }
         }
 
@@ -216,8 +235,6 @@ public class Intake extends SubsystemBase {
         if (speed < 0.0) {
             if (m_topHall.get()) {
                 speed = 0.0;
-            } else {
-                speed *= 0.9;
             }
         }
 
@@ -253,6 +270,14 @@ public class Intake extends SubsystemBase {
      */
     public void stow() {
         m_systemState = SystemState.STOWED;
+    }
+
+    /**
+     * Safety-freeze the system
+     */
+    public void freeze() {
+        m_systemState = SystemState.FROZEN;
+
     }
 
 }
