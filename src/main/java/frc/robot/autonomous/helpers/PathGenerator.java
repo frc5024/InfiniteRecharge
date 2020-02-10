@@ -34,7 +34,7 @@ public class PathGenerator {
 	/**
 	 * Generate a path following command group from a trajectory and a constraint
 	 * 
-	 * @param t          Trajectory to follow
+	 * @param t Trajectory to follow
 	 * @param constraint trajectory constraints
 	 * @return generated path following command
 	 */
@@ -42,14 +42,29 @@ public class PathGenerator {
 		return generate(t, constraint, false);
 	}
 
-	/**
-	 * Generate a path following command group from a trajectory and a constraint
+	/** 
 	 * 
-	 * @param t          Trajectory to follow
-	 * @param constraint trajectory constraints
+	 * @param t	Trajectory to follow
+	 * @param constraint Trajectory constraints
+	 * @param reversed Should the path be reversed
 	 * @return generated path following command
 	 */
-	public static SequentialCommandGroup generate(EasyTrajectory t, SpeedConstraint constraint, boolean reversed) {
+	public static SequentialCommandGroup generate(EasyTrajectory t, SpeedConstraint constraint, boolean reversed){
+		return generate(t, constraint, reversed , true);
+	}
+
+
+
+	
+	/**
+	 * 
+	 * @param t	Trajectory to follow
+	 * @param constraint Trajectory constraints
+	 * @param reversed Should the path be reversed
+	 * @param stop Should the path stop after
+	 * @return generated path following command
+	 */
+	public static SequentialCommandGroup generate(EasyTrajectory t, SpeedConstraint constraint, boolean reversed, boolean stop) {
 
 		SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(RobotConstants.ControlGains.ksVolts,
 				RobotConstants.ControlGains.kvVoltsSecondsPerMeter,
@@ -78,7 +93,7 @@ public class PathGenerator {
 		}
 
 		// returns a new command that follows the trajectory
-		return new RamseteCommand(trajectory, () -> {
+		RamseteCommand ramseteCommand = new RamseteCommand(trajectory, () -> {
 			Pose2d pose = DriveTrain.getInstance().getPosition();
 			return new Pose2d(pose.getTranslation(), new Rotation2d(pose.getRotation().getRadians()));// - ((reversed) ?
 																										// Math.PI :
@@ -89,8 +104,8 @@ public class PathGenerator {
 						RobotConstants.ControlGains.kDDriveVel),
 				new PIDController(RobotConstants.ControlGains.kPDriveVel, RobotConstants.ControlGains.kIDriveVel,
 						RobotConstants.ControlGains.kDDriveVel),
-				DriveTrain.getInstance()::setVoltage, DriveTrain.getInstance()).andThen(DriveTrain.getInstance()::stop);
-
+				DriveTrain.getInstance()::setVoltage, DriveTrain.getInstance());
+		return(stop ? ramseteCommand.andThen(DriveTrain.getInstance()::stop) : new SequentialCommandGroup(ramseteCommand));
 	}
 
 }

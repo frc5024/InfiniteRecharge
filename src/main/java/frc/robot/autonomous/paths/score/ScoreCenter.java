@@ -40,24 +40,18 @@ public class ScoreCenter extends AutonomousPath {
         // This is where the ball shooting would happen
         output.addCommands(new WaitCommand(3));
 
-        // // Rotates to face the trench
-        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(-45), 3));
+        // Rotates to face the rendevous point
+        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 3));
 
-        // Drives towards trench
-        output.addCommands(new DriveToCommand(new Pose2d(startx + 2, starty - 3, Rotation2d.fromDegrees(-45)),
-                  new SpeedConstraint(1, 1), false)); 
+        // Drives towards rendevous point
+        output.addCommands(new DriveToCommand(new Pose2d(startx + 1, starty, Rotation2d.fromDegrees(0)),
+                   new SpeedConstraint(1, 1), false, false)); 
 
-        // Rotates to face balls
-        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 2));
-
-        // Drives over balls
-        output.addCommands(new DriveToCommand(new Pose2d(startx + 5, starty - 3.5, Rotation2d.fromDegrees(0)),
-                 new SpeedConstraint(0.3, 0.6), false));
+        // Drives to balls in rendevous point
+        output.addCommands(new DriveToCommand(new Pose2d(startx + 1.8, starty, Rotation2d.fromDegrees(0)),
+                                                new SpeedConstraint(.5, .5), false));
 
 
-
-        
-        
         return output;
     }
 

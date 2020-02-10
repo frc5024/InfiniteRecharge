@@ -44,7 +44,7 @@ public class ScorePickupRight extends AutonomousPath {
 
         // Get to the front of the balls
         output.addCommands(new DriveToCommand(new Pose2d(startx + 1.6, starty, Rotation2d.fromDegrees(0)),
-                new SpeedConstraint(1, 1), false));
+                new SpeedConstraint(1, 1), false, false));
 
         // Slowly drive through the balls while intaking
         output.addCommands(new DriveToCommand(new Pose2d(startx + 3.8, starty, Rotation2d.fromDegrees(0)),
