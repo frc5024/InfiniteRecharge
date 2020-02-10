@@ -2,12 +2,15 @@ package frc.robot.autonomous.paths.balls;
 
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.autonomous.AutonomousStartpoints;
 import frc.robot.autonomous.actions.DriveToCommand;
 import frc.robot.autonomous.actions.LinePath;
 import frc.robot.autonomous.actions.TurnToCommand;
 import frc.robot.autonomous.actions.VisionAlign;
+import frc.robot.autonomous.actions.cells.IntakeCells;
+import frc.robot.autonomous.actions.cells.ShootCells;
 import frc.robot.autonomous.helpers.SpeedConstraint;
 import frc.robot.autonomous.paths.AutonomousPath;
 
@@ -26,6 +29,7 @@ public class ballsScoreTrench extends AutonomousPath {
 
         // Create output command group
         SequentialCommandGroup output = new SequentialCommandGroup();
+        // ParallelCommandGroup parallelCommand = ;
 
         // Some constants to make positioning easier
         double startx = getStartingPose().getTranslation().getX();
@@ -39,13 +43,14 @@ public class ballsScoreTrench extends AutonomousPath {
                 new SpeedConstraint(1, 1), false, false));
 
         // Slowly drive through the balls while intaking
-        output.addCommands(new DriveToCommand(new Pose2d(startx + 3.1, starty + 0.0, Rotation2d.fromDegrees(0)),
-                new SpeedConstraint(0.3, 0.8), false));
+        output.addCommands(new ParallelRaceGroup(new DriveToCommand(new Pose2d(startx + 3.1, starty + 0.0, Rotation2d.fromDegrees(0)),
+        new SpeedConstraint(0.3, 0.8), false), new IntakeCells(2)));
 
         // Aim at goal
         // VisionAlignOrAngle
         output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(165), 20));
         output.addCommands(new VisionAlign(Rotation2d.fromDegrees(165), 2.0));
+        output.addCommands(new ShootCells(5));
 
         // Return the command
         return output;
