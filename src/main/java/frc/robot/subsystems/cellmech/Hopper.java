@@ -193,7 +193,6 @@ public class Hopper extends SubsystemBase {
         m_lineMiddleLastValue = m_lineMiddle.get();
 
 
-        System.out.println(m_lineBottomLastValue + " " + m_lineMiddleLastValue + " " + m_lineTopLastValue);
     }
 
     /**
