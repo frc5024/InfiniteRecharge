@@ -2,12 +2,15 @@ package frc.robot.autonomous.paths.score;
 
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.autonomous.AutonomousStartpoints;
 import frc.robot.autonomous.actions.LinePath;
 import frc.robot.autonomous.actions.TurnToCommand;
 import frc.robot.autonomous.actions.VisionAlign;
+import frc.robot.autonomous.actions.cells.IntakeCells;
+import frc.robot.autonomous.actions.cells.ShootCells;
 import frc.robot.autonomous.helpers.SpeedConstraint;
 import frc.robot.autonomous.paths.AutonomousPath;
 import frc.robot.autonomous.actions.DriveDistance;
@@ -40,15 +43,17 @@ public class ScoreRight extends AutonomousPath {
 
 
         // This is where the ball shooting would happen
-        output.addCommands(new WaitCommand(3));
+        output.addCommands(new ShootCells(3));
 
         // Drives towards trench
         output.addCommands(new DriveToCommand(new Pose2d(startx + 1.4, starty - 1.6, Rotation2d.fromDegrees(-45)),
                  new SpeedConstraint(1, 1), false, false));
 
         // Drives over balls
-        output.addCommands(new DriveToCommand(new Pose2d(startx + 4, starty - 1.8, Rotation2d.fromDegrees(0)),
-                new SpeedConstraint(0.3, 0.6), false));
+        output.addCommands(new ParallelRaceGroup(
+            new DriveToCommand(new Pose2d(startx + 4, starty - 1.8, Rotation2d.fromDegrees(0)),
+            new SpeedConstraint(0.3, 0.6), false),
+            new IntakeCells(3)));
 
         // Refaces forward
         output.addCommands(new TurnToCommand((0), 5));

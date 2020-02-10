@@ -2,6 +2,7 @@ package frc.robot.autonomous.paths.score;
 
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.autonomous.AutonomousStartpoints;
@@ -9,8 +10,11 @@ import frc.robot.autonomous.actions.DriveToCommand;
 import frc.robot.autonomous.actions.LinePath;
 import frc.robot.autonomous.actions.TurnToCommand;
 import frc.robot.autonomous.actions.VisionAlign;
+import frc.robot.autonomous.actions.cells.IntakeCells;
+import frc.robot.autonomous.actions.cells.ShootCells;
 import frc.robot.autonomous.helpers.SpeedConstraint;
 import frc.robot.autonomous.paths.AutonomousPath;
+
 
 /**
  * Scores from the Right side of the starting line
@@ -37,7 +41,7 @@ public class ScorePickupRight extends AutonomousPath {
         output.addCommands(new VisionAlign(Rotation2d.fromDegrees(156), 2.0));
 
         // Shoot Balls
-        output.addCommands(new WaitCommand(3));
+        output.addCommands(new ShootCells(3));
 
         // Turns to balls
         // output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 2.0));
@@ -47,8 +51,9 @@ public class ScorePickupRight extends AutonomousPath {
                 new SpeedConstraint(1, 1), false, false));
 
         // Slowly drive through the balls while intaking
-        output.addCommands(new DriveToCommand(new Pose2d(startx + 3.8, starty, Rotation2d.fromDegrees(0)),
-                 new SpeedConstraint(0.5, 0.5), false));
+        output.addCommands(new ParallelRaceGroup(
+            new DriveToCommand(new Pose2d(startx + 3.8, starty, Rotation2d.fromDegrees(0)),
+            new SpeedConstraint(0.5, 0.5), false), new IntakeCells(3)));
 
         // Turns around
         //output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(180), 2.0));
@@ -59,6 +64,7 @@ public class ScorePickupRight extends AutonomousPath {
         
         // Aims at target
         output.addCommands(new VisionAlign(Rotation2d.fromDegrees(167), 2.0)); 
+        output.addCommands(new ShootCells(3));
 
 
 

@@ -2,12 +2,15 @@ package frc.robot.autonomous.paths.score;
 
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.autonomous.AutonomousStartpoints;
 import frc.robot.autonomous.actions.DriveToCommand;
 import frc.robot.autonomous.actions.TurnToCommand;
 import frc.robot.autonomous.actions.VisionAlign;
+import frc.robot.autonomous.actions.cells.IntakeCells;
+import frc.robot.autonomous.actions.cells.ShootCells;
 import frc.robot.autonomous.helpers.SpeedConstraint;
 import frc.robot.autonomous.paths.AutonomousPath;
 
@@ -38,7 +41,7 @@ public class ScoreCenter extends AutonomousPath {
 
         
         // This is where the ball shooting would happen
-        output.addCommands(new WaitCommand(3));
+        output.addCommands(new ShootCells(3));
 
         // Rotates to face the rendevous point
         output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 3));
@@ -48,8 +51,9 @@ public class ScoreCenter extends AutonomousPath {
                    new SpeedConstraint(1, 1), false, false)); 
 
         // Drives to balls in rendevous point
-        output.addCommands(new DriveToCommand(new Pose2d(startx + 1.8, starty, Rotation2d.fromDegrees(0)),
-                                                new SpeedConstraint(.5, .5), false));
+        output.addCommands(new ParallelRaceGroup(
+            new DriveToCommand(new Pose2d(startx + 1.8, starty, Rotation2d.fromDegrees(0)),
+            new SpeedConstraint(.5, .5), false), new IntakeCells(3)));
 
 
         return output;
