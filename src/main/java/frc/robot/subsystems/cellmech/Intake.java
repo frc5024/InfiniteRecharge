@@ -60,6 +60,10 @@ public class Intake extends SubsystemBase {
         TalonHelper.configCurrentLimit(m_intakeActuator, 34, 32, 30, 0);
         TalonHelper.configCurrentLimit(m_intakeRoller, 34, 32, 30, 0);
 
+        // Set ramps
+        m_intakeActuator.configOpenloopRamp(0.2);
+        m_intakeRoller.configOpenloopRamp(0.1);
+
         // Construct sensors
         m_bottomHall = new LimitSwitch(RobotConstants.Intake.INTAKE_LIMIT_BOTTOM);
         m_topHall = new LimitSwitch(RobotConstants.Intake.INTAKE_LIMIT_TOP);
@@ -127,8 +131,8 @@ public class Intake extends SubsystemBase {
         if (getArmPosition() != ArmPosition.DEPLOYED) {
             setArmSpeed(1.0);
         } else {
-            // Just apply a little voltage to arms to kep them in place
-            setArmSpeed(0.15);
+            // Stop the arms
+            setArmSpeed(0.0);
 
             // Handle intake of cells
             setRollerSpeed(1.0);
@@ -153,9 +157,7 @@ public class Intake extends SubsystemBase {
         if (getArmPosition() != ArmPosition.DEPLOYED) {
             setArmSpeed(1.0);
         } else {
-            // Just apply a little voltage to arms to kep them in place
-            // TODO: Is this needed? apperently we can't backdrive
-            // setArmSpeed(0.15);
+            // Stop the arms
             setArmSpeed(0.0);
 
             // Handle intake of cells
@@ -192,6 +194,7 @@ public class Intake extends SubsystemBase {
     }
 
     private ArmPosition getArmPosition() {
+
         if (m_bottomHall.get()) {
             return ArmPosition.DEPLOYED;
         }
