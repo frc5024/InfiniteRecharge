@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lib5k.control.CubicDeadband;
 import frc.robot.OI;
 import frc.robot.RobotConstants;
+import frc.robot.commands.actions.AutoAlign;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.vision.Limelight2;
 import frc.robot.vision.LimelightTarget;
@@ -41,24 +42,8 @@ public class DriveControl extends CommandBase {
 
         // Handle auto-aim
         if (m_oi.shouldAutoAim()) {
-            // System.out.println("Auto aim");
-            // // Enable vision
-            // Limelight2.getInstance().setLED(LEDMode.ON);
-
-            // // Get the target
-            // LimelightTarget target = Limelight2.getInstance().getTarget();
-            // // System.out.println(target);
-
-            // if (target != null) {
-            // DriveTrain.getInstance().autoTarget(target);
-            // return;
-            // }
 
             m_alignmentCommand.schedule(true);
-            System.out.println("STARGINT");
-        } else {
-            // Disable vision
-            // Limelight2.getInstance().setLED(LEDMode.OFF);
         }
 
         // Read driver inputs

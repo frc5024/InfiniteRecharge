@@ -1,8 +1,10 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import frc.lib5k.control.Toggle;
+import frc.robot.subsystems.Climber.Position;
 import edu.wpi.first.wpilibj.GenericHID;
 
 /**
@@ -12,34 +14,20 @@ import edu.wpi.first.wpilibj.GenericHID;
 public class OI {
     private static OI s_instance = null;
 
-    /**
-     * Robot drivers Xbox controller interface object
-     */
+    /* Controllers */
     private XboxController m_driverController = new XboxController(RobotConstants.HumanInputs.DRIVER_CONTROLLER_ID);
     private XboxController m_operatorController = new XboxController(RobotConstants.HumanInputs.OPERATOR_CONTROLLER_ID);
-    private XboxController m_testController = new XboxController(2);
 
     /* Toggles and modifiers */
 
-    /**
-     * Toggle for keeping track of drivetrain orientation
-     */
+    // Toggle for keeping track of drivetrain orientation
     private Toggle m_driveTrainInvertToggle = new Toggle();
 
-    /**
-     * Toggle for keeping track of shooting
-     */
+    // Shooting action toggle
     private Toggle m_shouldShootToggle = new Toggle();
 
-    /**
-     * Toggle for keeping track of running Intake auton
-     */
-    private Toggle m_shouldRunAutoIntakeToggle = new Toggle();
-
-    /**
-     * Toggle for keeping track of running Shoot auton
-     */
-    private Toggle m_shouldRunAutoShootToggle = new Toggle();
+    // Intake action toggle
+    private Toggle m_shouldIntakeToggle = new Toggle();
 
     /**
      * Force the use of getInstance() by setting this class private
@@ -60,6 +48,11 @@ public class OI {
         return s_instance;
     }
 
+    /**
+     * Send a rumble command to the driver controller
+     * 
+     * @param force Force from 0-2
+     */
     public void rumbleDriver(double force) {
         m_driverController.setRumble((force > 1.0) ? RumbleType.kLeftRumble : RumbleType.kRightRumble,
                 (force > 1.0) ? force - 1.0 : force);
@@ -103,51 +96,66 @@ public class OI {
         return m_driveTrainInvertToggle.feed(m_driverController.getXButtonPressed());
     }
 
-    public boolean shouldShoot() {
-        return m_shouldShootToggle.feed(m_testController.getAButtonPressed());
-    }
-
-    public double getHopperBeltSpeed() {
-        double speed = 0.0;
-
-        speed += m_testController.getTriggerAxis(GenericHID.Hand.kRight);
-        speed -= m_testController.getTriggerAxis(GenericHID.Hand.kLeft);
-        
-        speed = (Math.abs(speed) < 0.2 ? 0.0 : speed);
-
-        return speed;
-    }
-
-    public double getHarversterRollerSpeed() {
-        double speed = 0.0;
-
-        speed = -m_testController.getY(GenericHID.Hand.kRight);
-        
-        speed = (Math.abs(speed) < 0.2 ? 0.0 : speed);
-
-        return speed;
-    }
-
-    public double getHarversterArmSpeed() {
-        double speed = 0.0;
-
-        speed = -m_testController.getY(GenericHID.Hand.kLeft);
-        
-        speed = (Math.abs(speed) < 0.2 ? 0.0 : speed);
-
-        return speed;
-    }
-
-    public boolean shouldRunAutoIntake() {
-        return m_shouldRunAutoIntakeToggle.feed(m_operatorController.getBButton());
-    }
-
-    public boolean shouldRunAutoShoot() {
-        return m_shouldRunAutoShootToggle.feed(m_operatorController.getYButton());
-    }
-
+    /**
+     * Get if the drivebase should switch to auto-aim mode
+     * 
+     * @return Should be auto-aiming?
+     */
     public boolean shouldAutoAim() {
         return m_driverController.getYButton();
+    }
+
+    /**
+     * Check if the robot should be shooting balls right now
+     * 
+     * @return Should be shooting?
+     */
+    public boolean shouldShoot() {
+        return m_shouldShootToggle.feed(m_operatorController.getYButtonPressed());
+    }
+
+    /**
+     * Check if the climber should be ejected
+     */
+    public boolean shouldEjectClimber() {
+        return m_operatorController.getBackButton() && m_operatorController.getStartButtonPressed();
+    }
+
+    public boolean shouldCancelClimb() {
+        return m_operatorController.getStartButtonPressed() && !m_operatorController.getBackButton();
+    }
+
+    public Position getWantedClimbPosition() {
+        if (m_operatorController.getPOV() == 0) {
+            return Position.LEVEL;
+        } else if (m_operatorController.getPOV() == 180) {
+            return Position.RETRACTED;
+        } else {
+            return Position.CURRENT;
+        }
+    }
+
+    /**
+     * Reset the shooter input toggle
+     */
+    public void resetShooterInput() {
+        m_shouldShootToggle.reset();
+    }
+
+    /**
+     * Check if the robot should be intaking balls right now
+     * 
+     * @return Should intake
+     */
+    public boolean shouldIntake() {
+        return m_shouldIntakeToggle.feed(m_operatorController.getBumperPressed(Hand.kRight));
+    }
+
+    /**
+     * Reset the intake input toggle
+     */
+    public void resetIntakeInput() {
+        m_shouldIntakeToggle.reset();
     }
 
 }

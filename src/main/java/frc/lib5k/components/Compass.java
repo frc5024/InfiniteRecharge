@@ -1,13 +1,14 @@
 package frc.lib5k.components;
 
-import edu.wpi.first.wpilibj.SendableBase;
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SendableRegistry;
 import frc.lib5k.kinematics.Error2D;
 import frc.lib5k.kinematics.FieldPosition;
 import frc.lib5k.spatial.LocalizationEngine;
 import frc.lib5k.utils.Mathutils;
 
-public class Compass extends SendableBase {
+public class Compass implements Sendable {
     FieldPosition point;
 
     /**
@@ -28,7 +29,7 @@ public class Compass extends SendableBase {
 
         // Handle sendable naming
         String name = getClass().getName();
-        setName(name.substring(name.lastIndexOf('.') + 1));
+        SendableRegistry.setName(this, name.substring(name.lastIndexOf('.') + 1));
     }
 
     public double getHeadingError() {

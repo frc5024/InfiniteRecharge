@@ -56,7 +56,6 @@ public class RobotConstants {
          * HID device id of the driver ans operator Xbox controllers
          */
         public static final int DRIVER_CONTROLLER_ID = 0;
-        
         public static final int OPERATOR_CONTROLLER_ID = 1;
 
     }
@@ -150,8 +149,8 @@ public class RobotConstants {
         public static final double kDDriveVel = 0.008;
 
         // Optimal Control Gain for turning
-        public static final double kPTurnVel = 0.0275;//0.030;
-        public static final double kITurnVel =  0.01; //0.12; 
+        public static final double kPTurnVel = 0.0275;// 0.030;
+        public static final double kITurnVel = 0.01; // 0.12;
         public static final double kDTurnVel = 0.0066; // 0.0066
 
         // Basic P control for encoder-only distance driving
@@ -202,11 +201,12 @@ public class RobotConstants {
         public static final int INTAKE_ACTUATOR_TALON = 13;
         public static final int INTAKE_ROLLER_TALON = 14;
 
+        public static final boolean INTAKE_ACTUATOR_TALON_INVERTED = false;
         public static final boolean INTAKE_ROLLER_TALON_INVERTED = false;
 
         // Sensors DIO ports
-        public static final int INTAKE_HALL_BOTTOM = 0;
-        public static final int INTAKE_HALL_TOP = 1;
+        public static final int INTAKE_LIMIT_BOTTOM = 0;
+        public static final int INTAKE_LIMIT_TOP = 1;
 
         // PID values
         public static final double kPArm = 0.011111111111;
@@ -223,9 +223,19 @@ public class RobotConstants {
 
         // Motor
         public static final int HOPPER_BELT_MOTOR = 12;
+
+        public static final boolean HOPPER_BELT_MOTOR_INVERTED = true;
+
         // Sensors
         public static final int HOPPER_LINEBREAK_BOTTOM = 2;
+        public static final int HOPPER_LINEBREAK_BOTTOM_POWER_CHANNEL = 0;
+
+        public static final int HOPPER_LINEBREAK_MIDDLE = 4;
+        public static final int HOPPER_LINEBREAK_MIDDLE_POWER_CHANNEL = 1;
+
         public static final int HOPPER_LINEBREAK_TOP = 3;
+        public static final int HOPPER_LINEBREAK_TOP_POWER_CHANNEL = 2;
+
         // Belt speed during shooting
         public static final double SHOOTER_FEED_SPEED = 0.5;
         // how many times the belt gearbox output rotates to move 1 inch
@@ -235,29 +245,40 @@ public class RobotConstants {
     public static class Shooter {
 
         /**
-         * Shooter motor
+         * Shooter motorm_releasePin.clearAllFaults();
          */
-        public static final int MOTOR_ID = 11;
+        public static final int MOTOR_ID = 16;
 
-        public static final double VOLTAGE_EPSILON = 0.2;
-
-        public static final double MAX_VOLTAGE = 12;
+        public static final double MOTOR_MAX_RPM = 5700;
 
         public static final double MOTOR_KV = 473;
-
-        public static final double MOTOR_MAX_RPM = 5676;
-
+        public static final double VOLTAGE_EPSILON = 0.2;
         public static final double RPM_EPSILON = VOLTAGE_EPSILON * MOTOR_KV;
 
-        /* Shooter spinup PID */
-        public static final double kPVel = 0.38;
-        public static final double kIVel = 0.0;
+        /* Shooter PID */
+        public static final double kPVel = 5e-5;
+        public static final double kIVel = 1e-6;
         public static final double kDVel = 0.0;
+        public static final double kIz = 0.0;
+        public static final double kFF = 0.0;
 
-        /* Shooter hold Gains */
-        public static final double kJ = 0.0;
-        public static final double kF = 0.0;
-        public static final double kLoadRatio = 0.1;
+    }
+
+    /**
+     * Constants regarding the Climber
+     */
+    public static class Climber {
+        // ALL OF THESE ARE PLACEHOLDERS
+        public static final int PIN_RELEASE_SOLENOID = 4;
+        public static final int MOTOR_CONTROLLER_ID = 21;
+        public static final int HIGH_HALL_ID = 5;
+        public static final int LOW_HALL_ID = 6;
+    }
+
+    public static class Pneumatics {
+
+        // PCM device ID on CAN network
+        public static final int PCM_CAN_ID = 8;
     }
 
 }

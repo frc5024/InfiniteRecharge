@@ -2,11 +2,11 @@ package frc.robot.subsystems.cellmech;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib5k.components.motors.TalonHelper;
 import frc.lib5k.components.motors.motorsensors.TalonEncoder;
 import frc.lib5k.components.sensors.EncoderBase;
+import frc.lib5k.components.sensors.LineBreak;
 import frc.robot.RobotConstants;
 
 /**
@@ -26,14 +26,19 @@ public class Hopper extends SubsystemBase {
     private double m_revolutionsPerInch;
 
     /** Bottom line break */
-    private DigitalInput m_lineBottom;
+    private LineBreak m_lineBottom;
     /** previous value of bottom line break */
     private boolean m_lineBottomLastValue;
 
     /** Top line break */
-    private DigitalInput m_lineTop;
+    private LineBreak m_lineTop;
     /** previous value of top line break */
     private boolean m_lineTopLastValue;
+
+    /** Middle line break */
+    private LineBreak m_lineMiddle;
+    /** previous value of Middle line break */
+    private boolean m_lineMiddleLastValue;
 
     /**
      * System states
@@ -66,6 +71,9 @@ public class Hopper extends SubsystemBase {
         // Construct motor controller
         m_hopperBelt = new WPI_TalonSRX(RobotConstants.Hopper.HOPPER_BELT_MOTOR);
 
+        // invert motor
+        m_hopperBelt.setInverted(RobotConstants.Hopper.HOPPER_BELT_MOTOR_INVERTED);
+
         // Set voltage limiting
         TalonHelper.configCurrentLimit(m_hopperBelt, 34, 32, 30, 0);
 
@@ -74,14 +82,23 @@ public class Hopper extends SubsystemBase {
         m_hopperBelt.setSensorPhase(false);
 
         // Construct line break
-        m_lineBottom = new DigitalInput(RobotConstants.Hopper.HOPPER_LINEBREAK_BOTTOM);
-        m_lineTop = new DigitalInput(RobotConstants.Hopper.HOPPER_LINEBREAK_TOP);
+        m_lineBottom = new LineBreak(RobotConstants.Hopper.HOPPER_LINEBREAK_BOTTOM,
+        RobotConstants.Pneumatics.PCM_CAN_ID, RobotConstants.Hopper.HOPPER_LINEBREAK_BOTTOM_POWER_CHANNEL);
+        m_lineTop = new LineBreak(RobotConstants.Hopper.HOPPER_LINEBREAK_TOP,
+        RobotConstants.Pneumatics.PCM_CAN_ID, RobotConstants.Hopper.HOPPER_LINEBREAK_TOP_POWER_CHANNEL);
+        m_lineMiddle = new LineBreak(RobotConstants.Hopper.HOPPER_LINEBREAK_MIDDLE,
+                RobotConstants.Pneumatics.PCM_CAN_ID, RobotConstants.Hopper.HOPPER_LINEBREAK_MIDDLE_POWER_CHANNEL);
 
         // Set revolutions per inch
         m_revolutionsPerInch = RobotConstants.Hopper.REVOLUTIONS_PER_INCH;
 
         m_lineBottomLastValue = false;
         m_lineTopLastValue = false;
+
+        // Add children
+        addChild("Belt", m_hopperBelt);
+        addChild("Bottom Limit", m_lineBottom);
+        addChild("Top Limit", m_lineTop);
     }
 
     /**
@@ -173,6 +190,10 @@ public class Hopper extends SubsystemBase {
 
         m_lineBottomLastValue = m_lineBottom.get();
         m_lineTopLastValue = m_lineTop.get();
+        m_lineMiddleLastValue = m_lineMiddle.get();
+
+
+        System.out.println(m_lineBottomLastValue + " " + m_lineMiddleLastValue + " " + m_lineTopLastValue);
     }
 
     /**
@@ -347,7 +368,8 @@ public class Hopper extends SubsystemBase {
     }
 
     /**
-     * @return wether or not the hopper has completed it's actions (if it is idle or not)
+     * @return wether or not the hopper has completed it's actions (if it is idle or
+     *         not)
      */
     public boolean isDone() {
         return m_systemState == SystemState.IDLE;

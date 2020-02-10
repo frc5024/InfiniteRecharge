@@ -228,7 +228,6 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
         // Compute a DriveSignal from inputs
         DriveSignal signal = DifferentialDriveCalculation.semiConstCurve(speed, rotation);
 
-        // TODO: I think this feels better
         signal = DifferentialDriveCalculation.normalize(signal);
 
         // Set the signal

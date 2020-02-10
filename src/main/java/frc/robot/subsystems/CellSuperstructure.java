@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpiutil.math.MathUtil;
+import frc.lib5k.utils.Mathutils;
 import frc.lib5k.utils.RobotLogger;
 import frc.lib5k.utils.RobotLogger.Level;
 import frc.robot.subsystems.cellmech.Hopper;
@@ -47,17 +49,6 @@ public class CellSuperstructure extends SubsystemBase {
     /** Tracker for last intake system state */
     private SystemState m_lastState = null;
 
-    /* User requested action */
-    public enum WantedAction {
-        STOWED, // System stowed
-        INTAKING, // Intaking balls
-        SHOOTING, // Shooting balls
-        UNJAMING, // Unjamming balls
-    }
-
-    /** Tracker for what the user wants the superstructure to do */
-    private WantedAction m_wantedAction = WantedAction.STOWED;
-
     /** Amount of cells hopper should have after intaking */
     private int m_wantedCellsIntake = 5;
 
@@ -90,32 +81,6 @@ public class CellSuperstructure extends SubsystemBase {
     @Override
     public void periodic() {
 
-        // Handle wanted action. Preventing switching between certain states here
-        switch (m_wantedAction) {
-            case STOWED:
-                if (m_systemState != SystemState.IDLE) {
-                    m_systemState = SystemState.IDLE;
-                }
-                break;
-            case INTAKING:
-                if (m_systemState != SystemState.INTAKING) {
-                    m_systemState = SystemState.INTAKING;
-                }
-                break;
-            case SHOOTING:
-                if (m_systemState != SystemState.SHOOTING) {
-                    m_systemState = SystemState.SHOOTING;
-                }
-                break;
-            case UNJAMING:
-                if (m_systemState != SystemState.UNJAMING) {
-                    m_systemState = SystemState.UNJAMING;
-                }
-                break;
-            default:
-                m_wantedAction = WantedAction.STOWED;
-        }
-
         // Determine if this state is new
         boolean isNewState = false;
         if (m_systemState != m_lastState) {
@@ -124,20 +89,20 @@ public class CellSuperstructure extends SubsystemBase {
 
         // Handle states
         switch (m_systemState) {
-            case IDLE:
-                handleIdle(isNewState);
-                break;
-            case INTAKING:
-                handleIntaking(isNewState);
-                break;
-            case SHOOTING:
-                handleShooting(isNewState);
-                break;
-            case UNJAMING:
-                handleUnjamming(isNewState);
-                break;
-            default:
-                m_systemState = SystemState.IDLE;
+        case IDLE:
+            handleIdle(isNewState);
+            break;
+        case INTAKING:
+            handleIntaking(isNewState);
+            break;
+        case SHOOTING:
+            handleShooting(isNewState);
+            break;
+        case UNJAMING:
+            handleUnjamming(isNewState);
+            break;
+        default:
+            m_systemState = SystemState.IDLE;
         }
     }
 
@@ -150,7 +115,7 @@ public class CellSuperstructure extends SubsystemBase {
         if (newState) {
 
             // Stops subsystems
-            m_intake.raise();
+            m_intake.stow();
             m_hopper.stop();
             m_shooter.stop();
 
@@ -165,7 +130,7 @@ public class CellSuperstructure extends SubsystemBase {
     private void handleIntaking(boolean newState) {
         if (newState) {
 
-            m_intake.intakeCells();
+            m_intake.intake();
 
             m_hopper.startIntake(m_wantedCellsIntake);
 
@@ -174,7 +139,7 @@ public class CellSuperstructure extends SubsystemBase {
         } else {
             // stop everything once hopper has desired amount of cells
             if (m_hopper.isDone()) {
-                m_wantedAction = WantedAction.STOWED;
+                m_systemState = SystemState.IDLE;
             }
         }
     }
@@ -187,7 +152,7 @@ public class CellSuperstructure extends SubsystemBase {
     private void handleShooting(boolean newState) {
         if (newState) {
 
-            m_intake.raise();
+            m_intake.stow();
 
             m_hopper.supplyCellsToShooter(m_wantedCellsAfterShot);
 
@@ -196,7 +161,7 @@ public class CellSuperstructure extends SubsystemBase {
         } else {
             // stop everything once hopper has desired amount of cells
             if (m_hopper.isDone()) {
-                m_wantedAction = WantedAction.STOWED;
+                m_systemState = SystemState.IDLE;
             }
         }
     }
@@ -219,7 +184,8 @@ public class CellSuperstructure extends SubsystemBase {
     }
 
     /**
-     * @return wether or not the superStructure has completed it's actions (if it is idle or not)
+     * @return wether or not the superStructure has completed it's actions (if it is
+     *         idle or not)
      */
     public boolean isDone() {
         return m_systemState == SystemState.IDLE;
@@ -234,44 +200,41 @@ public class CellSuperstructure extends SubsystemBase {
         int amountToEndUpWith = m_hopper.getCellCount() - amount;
 
         // limit amount to between 0 and 4
-        amountToEndUpWith = amountToEndUpWith < 0 ? 0 : amountToEndUpWith;
-        amountToEndUpWith = amountToEndUpWith > 4 ? 4 : amountToEndUpWith;
+        amountToEndUpWith = MathUtil.clamp(amountToEndUpWith, 0, 4);
 
         // set amount of cells the hopper should have before stopping
         m_wantedCellsAfterShot = amountToEndUpWith;
 
-        m_wantedAction = WantedAction.SHOOTING;
+        m_systemState = SystemState.SHOOTING;
     }
 
     /**
      * Set the subsystems to intake an amount of cells
      * 
-     * @param amount amount of cells the subsystems should try to take in
+     * @param amount amount of cells we want to be holding by the end of the action
      */
     public void intakeCells(int amount) {
-        int amountToEndUpWith = m_hopper.getCellCount() + amount;
 
         // limit amount to between 1 and 5
-        amountToEndUpWith = amountToEndUpWith < 1 ? 1 : amountToEndUpWith;
-        amountToEndUpWith = amountToEndUpWith > 5 ? 5 : amountToEndUpWith;
+        amount = (int) Mathutils.clamp(amount, 1, 5);
 
         // set amount of cells the hopper should have before stopping
-        m_wantedCellsIntake = amountToEndUpWith;
+        m_wantedCellsIntake = amount;
 
-        m_wantedAction = WantedAction.INTAKING;
+        m_systemState = SystemState.INTAKING;
     }
 
     /**
      * Set the subsystems to stop
      */
     public void stop() {
-        m_wantedAction = WantedAction.STOWED;
+        m_systemState = SystemState.IDLE;
     }
 
     /**
      * Set the subsystems to unjam
      */
     public void unjam() {
-        m_wantedAction = WantedAction.UNJAMING;
+        m_systemState = SystemState.UNJAMING;
     }
 }

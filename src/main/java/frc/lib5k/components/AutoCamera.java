@@ -3,6 +3,7 @@ package frc.lib5k.components;
 import edu.wpi.cscore.MjpegServer;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoMode;
+import edu.wpi.cscore.VideoSource;
 import edu.wpi.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -30,10 +31,26 @@ public class AutoCamera {
     public AutoCamera(String name, int usb_slot) {
         // Create a USBCamera
         m_UsbCamera = CameraServer.getInstance().startAutomaticCapture(name, usb_slot);
-        m_UsbCamera.setVideoMode(VideoMode.PixelFormat.kMJPEG, 320, 240, 15);
+        // m_UsbCamera.setVideoMode(VideoMode.PixelFormat.kMJPEG, 320, 240, 15);
 
         // Add self to shuffleboard
         Shuffleboard.getTab("DriverStation").add(m_UsbCamera);
+    }
+
+    /**
+     * Set camera visable
+     * 
+     * @param show
+     */
+    public void showCamera(boolean show) {
+        if (show) {
+            m_UsbCamera.setExposureAuto();
+        } else {
+            m_UsbCamera.setExposureHoldCurrent();
+            m_UsbCamera.setExposureManual(10);
+            m_UsbCamera.setExposureManual(0);
+        }
+
     }
 
     /**
@@ -77,6 +94,15 @@ public class AutoCamera {
 
         m_UsbCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
         logger.log(m_UsbCamera.getName() + "'s connection mode has been set to: " + strategy_string, Level.kLibrary);
+    }
+
+    /**
+     * Get the camera feed object
+     * 
+     * @return Camera VideoSource
+     */
+    public VideoSource getFeed() {
+        return m_UsbCamera;
     }
 
 }
