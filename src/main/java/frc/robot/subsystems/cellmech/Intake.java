@@ -63,7 +63,7 @@ public class Intake extends SubsystemBase {
         TalonHelper.configCurrentLimit(m_intakeRoller, 34, 32, 30, 0);
 
         // Configure motor ramps
-        m_intakeActuator.configOpenloopRamp(0.1);
+        m_intakeActuator.configOpenloopRamp(0.2);
         m_intakeRoller.configOpenloopRamp(0.0);
 
         // Construct sensors
@@ -229,6 +229,7 @@ public class Intake extends SubsystemBase {
         if (speed > 0.0) {
             if (m_bottomHall.get()) {
                 speed = 0.0;
+            }
         }
 
         // if moving up, only move if top hall not active

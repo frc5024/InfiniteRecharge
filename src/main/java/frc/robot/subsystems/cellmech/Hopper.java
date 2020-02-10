@@ -188,6 +188,8 @@ public class Hopper extends SubsystemBase {
             m_systemState = SystemState.IDLE;
         }
 
+        System.out.println(m_systemState);
+
         m_lineBottomLastValue = m_lineBottom.get();
         m_lineMiddleLastValue = m_lineMiddle.get();
         m_lineTopLastValue = m_lineTop.get();
@@ -227,6 +229,7 @@ public class Hopper extends SubsystemBase {
             if (m_cellCount < m_desiredAmountToIntake) {
                 m_systemState = SystemState.INTAKING;
             }
+
         }
 
         // if the hopper has the desired amount of cells, stop intaking
