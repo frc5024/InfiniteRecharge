@@ -148,8 +148,8 @@ public class Intake extends SubsystemBase {
         if (getArmPosition() != ArmPosition.DEPLOYED) {
             setArmSpeed(RobotConstants.Intake.ARM_DOWN_SPEED);
         } else {
-            // Just apply a little voltage to arms to kep them in place
-            setArmSpeed(0.15);
+            // Stop the arms
+            setArmSpeed(0.0);
 
             // Handle intake of cells
             setRollerSpeed(RobotConstants.Intake.ROLLER_SPEED);
@@ -174,6 +174,7 @@ public class Intake extends SubsystemBase {
         if (getArmPosition() != ArmPosition.DEPLOYED) {
             setArmSpeed(RobotConstants.Intake.ARM_DOWN_SPEED);
         } else {
+            // Stop the arms
             setArmSpeed(0.0);
 
             // Handle intake of cells
@@ -228,17 +229,12 @@ public class Intake extends SubsystemBase {
         if (speed > 0.0) {
             if (m_bottomHall.get()) {
                 speed = 0.0;
-            } else {
-                speed *= 0.5;
-            }
         }
 
         // if moving up, only move if top hall not active
         if (speed < 0.0) {
             if (m_topHall.get()) {
                 speed = 0.0;
-            } else {
-                speed *= 0.9;
             }
         }
 
