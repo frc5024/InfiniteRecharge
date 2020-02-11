@@ -196,7 +196,7 @@ public class Intake extends SubsystemBase {
         }
 
         // As long as we are not at our deployed position, lower the arms
-        if (getArmPosition() != ArmPosition.STOWED) {
+        if (getArmPosition() != ArmPosition.STOWED) { //TODO: Check for stalls here
             setArmSpeed(RobotConstants.Intake.ARM_UP_SPEED);
         } else {
             setArmSpeed(0.0);
