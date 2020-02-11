@@ -13,6 +13,7 @@ import frc.robot.Dashboard;
 import frc.robot.autonomous.actions.LogCommand;
 import frc.robot.autonomous.paths.AutonomousPath;
 import frc.robot.autonomous.paths.balls.ballsScoreTrench;
+import frc.robot.autonomous.paths.score.ScoreBig;
 import frc.robot.autonomous.paths.score.ScoreCenter;
 import frc.robot.autonomous.paths.score.ScoreGetBalls;
 import frc.robot.autonomous.paths.score.ScoreRight;
@@ -46,6 +47,7 @@ public class Chooser {
         m_pathChooser.addOption("4. Center Score", new ScoreCenter());
         m_pathChooser.addOption("5. Score Right Pickup Indev", new ScorePickupRight());
         m_pathChooser.addOption("Test PID", new TestPID());
+        m_pathChooser.addOption("Score Big", new ScoreBig());
         m_pathChooser.addOption("Test Backwards" , new TestReverse());
         
 

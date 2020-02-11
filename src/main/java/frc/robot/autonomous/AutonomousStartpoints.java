@@ -25,30 +25,28 @@ public class AutonomousStartpoints {
          * the field.
          */
         public static final Translation2d SECTOR_LINE_RIGHT = new Translation2d(
-                Units.inchesToMeters(120) - (RobotConstants.DriveTrain.Measurements.DRIVEBASE_LENGTH / 2)
-                        - Units.inchesToMeters(8),
-                ((FieldConstants.FIELD_WIDTH / 2) - RobotConstants.DriveTrain.Measurements.DRIVEBASE_WIDTH / 2
-                        - Units.inchesToMeters(14)) * -1);
+                        Units.inchesToMeters(120) - (RobotConstants.DriveTrain.Measurements.DRIVEBASE_LENGTH / 2)
+                                        - Units.inchesToMeters(8),
+                        ((FieldConstants.FIELD_WIDTH / 2) - RobotConstants.DriveTrain.Measurements.DRIVEBASE_WIDTH / 2
+                                        - Units.inchesToMeters(14)) * -1);
 
+        public static final Translation2d SECTOR_LINE_GOAL = new Translation2d(Units.inchesToMeters(120)
+                        - (RobotConstants.DriveTrain.Measurements.DRIVEBASE_LENGTH / 2) - Units.inchesToMeters(8),
+                        -1.5 - Units.inchesToMeters(8));
 
+        public static final Translation2d SECTOR_LINE_GOAL_OPP = new Translation2d(Units.inchesToMeters(120)
+                        - (RobotConstants.DriveTrain.Measurements.DRIVEBASE_LENGTH / 2) - Units.inchesToMeters(8),
+                        1.5 + Units.inchesToMeters(8));
 
-        public static final Translation2d SECTOR_LINE_GOAL = new Translation2d(
-                Units.inchesToMeters(120) - (RobotConstants.DriveTrain.Measurements.DRIVEBASE_LENGTH / 2)
-                - Units.inchesToMeters(8),
-                -1.5 - Units.inchesToMeters(8) 
-        );
-
-        public static final Translation2d SECTOR_LINE_CENTER = new Translation2d(
-                Units.inchesToMeters(120) - (RobotConstants.DriveTrain.Measurements.DRIVEBASE_LENGTH / 2)
-                - Units.inchesToMeters(8),
-                0 
-        ); 
-        // Units.inchesToMeters(120) - (RobotConstants.DriveTrain.Measurements.DRIVEBASE_LENGTH / 2)
+        public static final Translation2d SECTOR_LINE_CENTER = new Translation2d(Units.inchesToMeters(120)
+                        - (RobotConstants.DriveTrain.Measurements.DRIVEBASE_LENGTH / 2) - Units.inchesToMeters(8), 0);
+        // Units.inchesToMeters(120) -
+        // (RobotConstants.DriveTrain.Measurements.DRIVEBASE_LENGTH / 2)
         // - Units.inchesToMeters(8),
-        // ((FieldConstants.FIELD_WIDTH / 2) - RobotConstants.DriveTrain.Measurements.DRIVEBASE_WIDTH / 2
-        //         - Units.inchesToMeters(21)) * -1);
+        // ((FieldConstants.FIELD_WIDTH / 2) -
+        // RobotConstants.DriveTrain.Measurements.DRIVEBASE_WIDTH / 2
+        // - Units.inchesToMeters(21)) * -1);
 
-        
         // new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0.0));
         // new Pose2d(
         // FieldConstants.ALLIANCE_WALL_TO_FAR_SECTOR +
