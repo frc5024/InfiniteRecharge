@@ -95,14 +95,15 @@ public class Shooter extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // Publish controller voltage
-        SmartDashboard.putNumber("Shooter Velocity", m_motorController.getEncoder().getVelocity());
 
         // Determine if this state is new
         boolean isNewState = false;
         if (m_systemState != m_lastState) {
             isNewState = true;
         }
+
+        // Set the last state
+        m_lastState = m_systemState;
 
         /* Handle states */
         switch (m_systemState) {
@@ -142,8 +143,7 @@ public class Shooter extends SubsystemBase {
 
         }
 
-        // Set the last state
-        m_lastState = m_systemState;
+        
     }
 
     /**
@@ -154,6 +154,7 @@ public class Shooter extends SubsystemBase {
     private void handleIdle(boolean newState) {
 
         if (newState) {
+            logger.log("Shooter", "System idle");
 
             // Force-set the motor to 0.0V
             m_motorController.set(0.0);
@@ -173,6 +174,7 @@ public class Shooter extends SubsystemBase {
     private void handleSpinUp(boolean newState) {
 
         if (newState) {
+            logger.log("Shooter", String.format("Spinning up to: %.2f", output));
 
             // Reset wind-up
             windUpStartTime = System.currentTimeMillis();
@@ -203,6 +205,7 @@ public class Shooter extends SubsystemBase {
     private void handleSpinDown(boolean newState) {
 
         if (newState) {
+            logger.log("Shooter", "Spinning down");
 
             m_motorController.setOpenLoopRampRate(1.3);
             m_motorController.set(0);
@@ -220,11 +223,12 @@ public class Shooter extends SubsystemBase {
     private void handleHold(boolean newState) {
 
         if (newState) {
+
             windUpEndTime = System.currentTimeMillis();
             windUpTotalTime = windUpEndTime - windUpStartTime;
             // Set the JRAD setpoint
             // m_holdController.setSetpoint(this.output);
-            logger.log("[Shooter] Holding. Spin-Up took " + (windUpTotalTime / 1000.0) + " seconds.");
+            logger.log("Shooter", "Holding. Spin-Up took " + (windUpTotalTime / 1000.0) + " seconds");
 
         }
 
@@ -243,7 +247,6 @@ public class Shooter extends SubsystemBase {
 
         // Set the motor output
         m_motorController.setVoltage(this.output);
-        
 
     }
 
@@ -264,13 +267,18 @@ public class Shooter extends SubsystemBase {
     }
 
     public void stop() {
+        logger.log("Shooter", "Stop requested");
 
         // Set the mode to spin down
         m_systemState = SystemState.SPIN_DOWN;
 
     }
 
-    public double getOutput(){
+    public boolean isSpunUp() {
+        return m_systemState == SystemState.HOLD;
+    }
+
+    public double getOutput() {
         return m_motorController.get();
     }
 
