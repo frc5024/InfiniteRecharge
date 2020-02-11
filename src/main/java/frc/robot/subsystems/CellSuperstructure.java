@@ -88,11 +88,12 @@ public class CellSuperstructure extends SubsystemBase {
         }
 
         boolean lastStateIsShooting = (m_lastState == SystemState.SHOOTING);
+        m_lastState = m_systemState;
 
         // Handle states
         switch (m_systemState) {
         case IDLE:
-            handleIdle(isNewState,lastStateIsShooting);
+            handleIdle(isNewState, lastStateIsShooting);
             break;
         case INTAKING:
             handleIntaking(isNewState);
@@ -113,14 +114,14 @@ public class CellSuperstructure extends SubsystemBase {
      * 
      * @param newState Is this state new?
      */
-    private void handleIdle(boolean newState,boolean wasShooting) {
+    private void handleIdle(boolean newState, boolean wasShooting) {
         if (newState) {
 
             // Stops subsystems
             m_intake.stow();
             m_shooter.stop();
 
-            if(wasShooting) {
+            if (wasShooting && m_hopper.getCellCount() > 0) {
                 m_hopper.interruptShooting();
             } else {
                 m_hopper.stop();
@@ -166,12 +167,15 @@ public class CellSuperstructure extends SubsystemBase {
         } else {
             // stop everything once hopper has desired amount of cells or no cells
             int cellAmount = m_hopper.getCellCount();
-            if (cellAmount == m_wantedCellsAfterShot || cellAmount == 0) {
-                m_systemState = SystemState.IDLE;
-            }
 
-            // only supply cells if shooter isn't spun up or the top line break is not tripped
-            if(m_shooter.isSpunUp() || m_hopper.topLineBreakState() == false) {
+            // TODO: Fix this (ball counting does not work)
+            // if (cellAmount == m_wantedCellsAfterShot || cellAmount == 0) {
+            // m_systemState = SystemState.IDLE;
+            // }
+
+            // only supply cells if shooter isn't spun up or the top line break is not
+            // tripped
+            if (m_shooter.isSpunUp() || m_hopper.topLineBreakState() == false) {
                 m_hopper.supplyCellsToShooter();
             } else {
                 m_hopper.stop();

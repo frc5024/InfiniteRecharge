@@ -61,7 +61,7 @@ public class Hopper extends SubsystemBase {
     private SystemState m_lastState = null;
 
     /** amount of cells currently in hopper */
-    private int m_cellCount = 3;
+    private int m_cellCount = 0;
 
     /** amount of cells to have after intaking */
     private int m_desiredAmountToIntake = 5;
@@ -160,6 +160,8 @@ public class Hopper extends SubsystemBase {
             isNewState = true;
         }
 
+        m_lastState = m_systemState;
+
         // Handle states
         switch (m_systemState) {
         case IDLE:
@@ -190,11 +192,10 @@ public class Hopper extends SubsystemBase {
             m_systemState = SystemState.IDLE;
         }
 
-        System.out.println(m_systemState);
-
         m_lineBottomLastValue = m_lineBottom.get();
         m_lineMiddleLastValue = m_lineMiddle.get();
         m_lineTopLastValue = m_lineTop.get();
+
     }
 
     /**
@@ -260,13 +261,13 @@ public class Hopper extends SubsystemBase {
 
         }
 
-        // stop if middle sensor is tripped
-        if (m_lineMiddle.get()) {
+        // stop if middle sensor is tripped and not bottom tripped
+        if (m_lineMiddle.get() && !m_lineBottom.get()) {
             m_systemState = SystemState.INTAKEREADY;
         }
 
         // if belt has gone 12 inches, stop tying and set state to ready to intake
-        if (m_hopperEncoder.getTicks() - m_ticksAtStartOfIntake >= (4096 * m_revolutionsPerInch) * 12) {
+        if (m_ticksAtStartOfIntake - m_hopperEncoder.getTicks()  >= 41583) {
             m_systemState = SystemState.INTAKEREADY;
         }
     }

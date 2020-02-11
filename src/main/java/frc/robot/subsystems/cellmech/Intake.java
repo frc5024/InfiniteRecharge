@@ -66,6 +66,12 @@ public class Intake extends SubsystemBase {
         m_intakeActuator.configOpenloopRamp(0.2);
         m_intakeRoller.configOpenloopRamp(0.0);
 
+        // Configure motor compensation
+        m_intakeActuator.configVoltageCompSaturation(10);
+        m_intakeActuator.enableVoltageCompensation(true);
+        m_intakeRoller.configVoltageCompSaturation(10);
+        m_intakeRoller.enableVoltageCompensation(true);
+
         // Construct sensors
         m_bottomHall = new LimitSwitch(RobotConstants.Intake.INTAKE_LIMIT_BOTTOM);
         m_topHall = new LimitSwitch(RobotConstants.Intake.INTAKE_LIMIT_TOP);
@@ -99,6 +105,8 @@ public class Intake extends SubsystemBase {
         if (m_systemState != m_lastState) {
             isNewState = true;
         }
+
+        m_lastState = m_systemState;
 
         // Handle states
         switch (m_systemState) {

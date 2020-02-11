@@ -102,6 +102,9 @@ public class Shooter extends SubsystemBase {
             isNewState = true;
         }
 
+        // Set the last state
+        m_lastState = m_systemState;
+
         /* Handle states */
         switch (m_systemState) {
         case IDLE:
@@ -140,8 +143,7 @@ public class Shooter extends SubsystemBase {
 
         }
 
-        // Set the last state
-        m_lastState = m_systemState;
+        
     }
 
     /**
