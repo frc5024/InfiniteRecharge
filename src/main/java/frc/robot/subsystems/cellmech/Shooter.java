@@ -68,7 +68,6 @@ public class Shooter extends SubsystemBase {
 
         // Create Limelight
         m_limelight = Limelight2.getInstance();
-        m_limelight.use(true);
 
         // Create and configure motor
         m_motorController = new SimSparkMax(RobotConstants.Shooter.MOTOR_ID, MotorType.kBrushless);
@@ -194,6 +193,9 @@ public class Shooter extends SubsystemBase {
 
             // Configure the spinup controller
             m_motorPID.setReference(output, ControlType.kVelocity);
+
+            //Use Limelight
+            m_limelight.use(true);
         }
 
         // TODO: Remove this
