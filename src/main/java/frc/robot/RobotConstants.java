@@ -131,6 +131,8 @@ public class RobotConstants {
 
         }
 
+        public static int ALIGNMENT_EPSILON = 3;
+
     }
 
     /**

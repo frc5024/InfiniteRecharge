@@ -481,7 +481,7 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
    public boolean alignmentLost(){
        double yaw = NavX.getInstance().getAngle();
        double yawDelta = Math.abs(yaw-oldYaw);
-       return(yawDelta>3);
+       return(yawDelta>RobotConstants.DriveTrain.ALIGNMENT_EPSILON);
    }
 
    /**
