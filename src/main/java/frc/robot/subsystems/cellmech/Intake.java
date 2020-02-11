@@ -63,7 +63,7 @@ public class Intake extends SubsystemBase {
 
         // Configure motor ramps
         m_intakeActuator.configOpenloopRamp(0.2);
-        m_intakeRoller.configOpenloopRamp(0.0);
+        m_intakeRoller.configOpenloopRamp(0.1);
 
         // Construct sensors
         m_bottomHall = new LimitSwitch(RobotConstants.Intake.INTAKE_LIMIT_BOTTOM);
