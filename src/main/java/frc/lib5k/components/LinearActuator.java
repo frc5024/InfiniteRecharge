@@ -29,8 +29,8 @@ public class LinearActuator implements Sendable {
         m_trigger = new Solenoid(pcmID, pcmChannel);
 
         // Replace solenoid sendable with actuator
-        SendableRegistry.remove(m_trigger);
-        SendableRegistry.add(this, "LinearActuator", pcmID, pcmChannel);
+        // SendableRegistry.remove(m_trigger);
+        SendableRegistry.add(this, "LinearActuator", pcmChannel);
 
     }
 
@@ -40,6 +40,10 @@ public class LinearActuator implements Sendable {
      * @param state State
      */
     public void set(ActuatorState state) {
+        // PCM is not designed to do this
+        // clearAllFaults();
+
+        // Send data
         switch (state) {
         case kDEPLOYED:
             m_trigger.set(true);
@@ -67,5 +71,9 @@ public class LinearActuator implements Sendable {
             set((t) ? ActuatorState.kDEPLOYED : ActuatorState.kINACTIVE);
         });
 
+    }
+
+    public void clearAllFaults() {
+        m_trigger.clearAllPCMStickyFaults();
     }
 }
