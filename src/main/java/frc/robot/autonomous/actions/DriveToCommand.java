@@ -22,6 +22,9 @@ public class DriveToCommand extends CommandBase {
     // Should drive reversed?
     private boolean m_reversed;
 
+    // Should stop?
+    private boolean m_stop;
+
     /**
      * Create a DriveToCommand
      * 
@@ -49,10 +52,22 @@ public class DriveToCommand extends CommandBase {
      * @param reversed    Should drive backwards?
      */
     public DriveToCommand(Pose2d goal, SpeedConstraint constraints, boolean reversed) {
+        this(goal, constraints, reversed, true);
+    }
+
+    /**
+     * Create a DriveToCommand
+     * 
+     * @param goal        Goals pose
+     * @param constraints Speed constraints
+     * @param reversed    Should drive backwards
+     * @param stop        Should stop at the end of paths
+     */
+    public DriveToCommand(Pose2d goal, SpeedConstraint constraints, boolean reversed, boolean stop){
         this.m_goal = goal;
         this.m_constraints = constraints;
         this.m_reversed = reversed;
-
+        this.m_stop = stop;
     }
 
     @Override

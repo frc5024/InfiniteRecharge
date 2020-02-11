@@ -2,7 +2,6 @@ package frc.robot.subsystems.cellmech;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib5k.components.motors.TalonHelper;
-import frc.lib5k.components.sensors.HallEffect;
 import frc.lib5k.components.sensors.LimitSwitch;
 import frc.lib5k.simulation.wrappers.SimTalon;
 import frc.lib5k.utils.RobotLogger;
