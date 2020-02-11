@@ -1,22 +1,10 @@
 package frc.lib5k.kinematics;
 
-import jaci.pathfinder.Pathfinder;
-import jaci.pathfinder.Waypoint;
-
 /**
  * Used to denote a robot position
  */
 public class FieldPosition {
     double x, y, theta;
-
-    /**
-     * Create a FieldPosition from a {@link Waypoint}
-     * 
-     * @param waypoint Waypoint to convert from
-     */
-    public FieldPosition(Waypoint waypoint) {
-        this(waypoint.x, waypoint.y, Math.toDegrees(waypoint.angle));
-    }
 
     /**
      * Copy constructor for a FieldPosition
@@ -89,7 +77,7 @@ public class FieldPosition {
      * @param goalPosition Goal position (where the robot wants to be)
      * @return Error from current position to goal
      */
-    public Error2D getRotatedError(FieldPosition goalPosition){
+    public Error2D getRotatedError(FieldPosition goalPosition) {
 
         // Get the current and goal positions as Error2D objects
         Error2D currentPosition = new Error2D(this.getX(), this.getY());
@@ -123,15 +111,6 @@ public class FieldPosition {
 
     public String toString() {
         return String.format("(%.2f, %.2f, %.2f)", x, y, theta);
-    }
-
-    /**
-     * Convert the FieldPosition to a {@link Waypoint}
-     * 
-     * @return Generated Waypoint
-     */
-    public Waypoint toWaypoint() {
-        return new Waypoint(x, y, Pathfinder.d2r(theta));
     }
 
 }
