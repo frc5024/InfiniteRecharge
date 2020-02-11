@@ -122,6 +122,8 @@ public class Intake extends SubsystemBase {
 
     private void handleFrozen(boolean newState) {
         if (newState) {
+            logger.log("Intake", "Freezing system");
+
             // Ensure our roller is stopped
             setRollerSpeed(0.0);
 
@@ -139,6 +141,8 @@ public class Intake extends SubsystemBase {
      */
     private void handleIntake(boolean newState) {
         if (newState) {
+            logger.log("Intake", "Intaking balls");
+
             // Ensure our roller is stopped before arm deployment
             setRollerSpeed(0.0);
 
@@ -165,6 +169,8 @@ public class Intake extends SubsystemBase {
      */
     private void handleUnjam(boolean newState) {
         if (newState) {
+            logger.log("Intake", "Unjamming balls");
+
             // Ensure our roller is stopped before arm deployment
             setRollerSpeed(0.0);
 
@@ -191,6 +197,8 @@ public class Intake extends SubsystemBase {
      */
     private void handleStowed(boolean newState) {
         if (newState) {
+            logger.log("Intake", "Stowing intake");
+
             // Ensure our roller is stopped
             setRollerSpeed(0.0);
 
@@ -256,6 +264,7 @@ public class Intake extends SubsystemBase {
      * Set the harvester to unjam
      */
     public void unjam() {
+        logger.log("Intake", "Unjam requested");
         m_systemState = SystemState.UNJAM;
     }
 
@@ -263,6 +272,7 @@ public class Intake extends SubsystemBase {
      * Set the harvester to intake
      */
     public void intake() {
+        logger.log("Intake", "Intake requested");
         m_systemState = SystemState.INTAKE;
     }
 
@@ -270,6 +280,7 @@ public class Intake extends SubsystemBase {
      * Stow the harvester
      */
     public void stow() {
+        logger.log("Intake", "System stow requested");
         m_systemState = SystemState.STOWED;
     }
 
@@ -277,6 +288,7 @@ public class Intake extends SubsystemBase {
      * Safety-freeze the system
      */
     public void freeze() {
+        logger.log("Intake", "System freeze requested");
         m_systemState = SystemState.FROZEN;
 
     }
