@@ -178,7 +178,7 @@ public class Intake extends SubsystemBase {
             setArmSpeed(0.0);
 
             // Handle intake of cells
-            setRollerSpeed(-RobotConstants.Intake.ROLLER_SPEED);
+            setRollerSpeed(RobotConstants.Intake.ROLLER_SPEED * -1);
         }
 
         // NOTE: This action does not stop automatically
