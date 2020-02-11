@@ -162,7 +162,7 @@ public class CellSuperstructure extends SubsystemBase {
 
             m_intake.stow();
 
-            m_hopper.supplyCellsToShooter(m_wantedCellsAfterShot);
+            m_hopper.supplyCellsToShooter();
 
             m_shooter.setVelocity(m_shooter.getVelocityFromLimelight());
 
