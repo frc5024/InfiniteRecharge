@@ -1,9 +1,12 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
 import frc.robot.autonomous.actions.cells.IntakeCells;
 import frc.robot.autonomous.actions.cells.ShootCells;
+import frc.robot.commands.actions.controlpanel.PositionPanel;
+import frc.robot.commands.actions.controlpanel.RotatePanel;
 import frc.robot.subsystems.Climber;
 
 /**
@@ -15,6 +18,8 @@ public class OperatorControl extends CommandBase {
     private IntakeCells m_intakeCellsCommand = new IntakeCells(5);
     private ShootCells m_shootCellsCommand = new ShootCells(5);
     private ClimbController m_climbController = new ClimbController();
+    private PositionPanel m_positionCommand = new PositionPanel(new Translation2d());
+    private RotatePanel m_rotateCommand = new RotatePanel(4, new Translation2d() );
 
     /** Instance of OI */
     private OI m_oi = OI.getInstance();
@@ -66,6 +71,19 @@ public class OperatorControl extends CommandBase {
             m_climbController.cancel();
         }
 
+        if(m_oi.shouldRotate()) {
+            m_rotateCommand.schedule();
+            m_positionCommand.cancel();
+        } else {
+            m_rotateCommand.cancel();
+        }
+
+        if(m_oi.shouldPosition()) {
+            m_positionCommand.schedule();
+            m_rotateCommand.cancel();
+        } else {
+            m_positionCommand.cancel();
+        }
     }
 
     /**

@@ -114,6 +114,13 @@ public class OI {
         return m_shouldShootToggle.feed(m_operatorController.getYButtonPressed());
     }
 
+    public boolean shouldRotate() {
+        return m_operatorController.getStickButton(Hand.kLeft);
+    }
+
+    public boolean shouldPosition() {
+        return m_operatorController.getStickButton(Hand.kRight);
+    }
     /**
      * Check if the climber should be ejected
      */
