@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpiutil.CircularBuffer;
 import frc.lib5k.components.motors.TalonHelper;
 import frc.lib5k.components.sensors.ColorSensor5k;
 import frc.lib5k.simulation.wrappers.SimTalon;
@@ -102,6 +103,12 @@ public class PanelManipulator extends SubsystemBase {
 
     // Tracker for the robot losing contact with the panel mid-action
     private boolean m_hasLostContact = false;
+
+    // Color buffer
+    private CircularBuffer m_colorBufffer = new CircularBuffer(RobotConstants.PanelManipulator.SENSOR_BUFFER_SIZE);
+
+    // Tracker for the last seen color
+    private Integer m_lastColor = null;
 
     private PanelManipulator() {
 
@@ -201,6 +208,10 @@ public class PanelManipulator extends SubsystemBase {
     private void handleAwait(boolean isNew) {
         if (isNew) {
             logger.log("PanelManipulator", "Waiting for contact with control panel");
+
+            // Reset the color tracker
+            // TODO: Should this be moved to idle?
+            m_lastColor = null;
         }
 
         // Skip if not in contact with panel
@@ -308,7 +319,42 @@ public class PanelManipulator extends SubsystemBase {
 
     }
 
+    /**
+     * Update the internal system count for colors passed, and apply to the offset.
+     * 
+     * This works by finding the mode color in the sensor buffer, and comparing to
+     * the last color to determine how far the wheel has moved.
+     */
     private void updateColorCounter() {
+
+        // Get the current color index
+        int currentIdx = getColorIdx();
+
+        // Push to buffer
+        m_colorBufffer.addLast(currentIdx);
+
+        // Find mode color
+        int mainColor = Mathutils.mode(m_colorBufffer, RobotConstants.PanelManipulator.SENSOR_BUFFER_SIZE);
+
+        // If this is the first time seeing a color, we have not moved.
+        if (m_lastColor == null) {
+            // Set the last to current
+            m_lastColor = currentIdx;
+
+            // Skip the rest of the checks
+            return;
+
+        }
+
+        // Find the difference in color positions
+        int colorDiff = m_lastColor - mainColor;
+        int wrappedDistance = ((colorDiff % 4) < 3) ? (colorDiff % 4) : -1;
+
+        // Subtract the difference from the current color tracker
+        m_desiredColorOffset -= wrappedDistance;
+
+        // Set the last seen color to the current
+        m_lastColor = mainColor;
 
     }
 

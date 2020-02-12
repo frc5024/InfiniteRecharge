@@ -187,6 +187,8 @@ public class RobotConstants {
 
         public static final int MOTOR_ID = 22;
 
+        public static final int SENSOR_BUFFER_SIZE = 5;
+
         public static final int DISTANCE_THRESHOLD = 200;
 
         public static final double SPINNER_SPEED = 1.0;
