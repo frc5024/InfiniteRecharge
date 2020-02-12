@@ -312,7 +312,7 @@ public class PanelManipulator extends SubsystemBase {
      * @return Is touching control panel?
      */
     public boolean isTouchingPanel() {
-        return false;
+        return m_colorSensor.getProximity() > RobotConstants.PanelManipulator.DISTANCE_THRESHOLD;
     }
 
     /**

@@ -186,6 +186,8 @@ public class RobotConstants {
     public static class PanelManipulator {
 
         public static final int MOTOR_ID = 22;
+        
+        public static final int DISTANCE_THRESHOLD = 200;
 
         /**
          * Threshold for color comparison (taken from REV ColorMatch)
