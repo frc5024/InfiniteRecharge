@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import java.util.List;
 import java.util.Map;
 
 import com.revrobotics.ColorMatch;
@@ -75,8 +76,11 @@ public class PanelManipulator extends SubsystemBase {
     }
 
     // Listing of possible field colors in correct order
-    private FieldColors[] m_colors = new FieldColors[] { FieldColors.RED, FieldColors.GREEN, FieldColors.BLUE,
-            FieldColors.GREEN };
+    // private FieldColors[] m_colors = new FieldColors[] { FieldColors.RED,
+    // FieldColors.GREEN, FieldColors.BLUE,
+    // FieldColors.GREEN };
+    private List<FieldColors> m_colors = List.of(FieldColors.RED, FieldColors.GREEN, FieldColors.BLUE,
+            FieldColors.GREEN);
 
     // Possible system states
     private enum SystemState {
@@ -312,7 +316,15 @@ public class PanelManipulator extends SubsystemBase {
      * @return Color array index
      */
     private int getColorIdx() {
-        return 0;
+
+        // Read the color sensor color
+        Color sensedColor = m_colorSensor.getColor();
+
+        // Find the closest color
+        Color closestMatch = m_matcher.matchColor(sensedColor).color;
+
+        // Find the array element for the match
+        return m_colors.indexOf(closestMatch);
     }
 
     /**
@@ -369,7 +381,7 @@ public class PanelManipulator extends SubsystemBase {
         // Get the Robot-oriented color array index (Field color should be under the FMS
         // sensor)
         // TODO: This may need to be addition not subtraction
-        int robotIndx = (m_colors.length - 2) % 4;
+        int robotIndx = (m_colors.indexOf(desiredColor) - 2) % 4;
 
         // Set the desired color count
         m_desiredColorOffset = robotIndx;
