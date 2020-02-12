@@ -187,6 +187,9 @@ public class PanelManipulator extends SubsystemBase {
 
             // Stop the spinner motor
             m_spinner.set(0);
+
+            // Reset the interruption tracker
+            m_hasLostContact = false;
         }
     }
 
