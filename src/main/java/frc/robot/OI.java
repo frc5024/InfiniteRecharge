@@ -29,6 +29,9 @@ public class OI {
     // Intake action toggle
     private Toggle m_shouldIntakeToggle = new Toggle();
 
+    // Unjam toggle
+    private Toggle m_shouldUnjamToggle = new Toggle();
+
     /**
      * Force the use of getInstance() by setting this class private
      */
@@ -158,6 +161,14 @@ public class OI {
      */
     public boolean shouldResetCellCount() {
         return (m_operatorController.getPOV() == 90) && m_operatorController.getXButtonPressed();
+    }
+
+    public boolean shouldUnjam() {
+        return m_shouldUnjamToggle.feed(m_operatorController.getBButtonPressed());
+    }
+
+    public void resetUnjamInput() {
+        m_shouldUnjamToggle.reset();
     }
 
 }
