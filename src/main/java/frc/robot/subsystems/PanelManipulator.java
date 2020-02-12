@@ -88,7 +88,7 @@ public class PanelManipulator extends SubsystemBase {
         IDLE, // System idle
         AWAIT_ROTATIONAL, // Wait for the manipulator to be in place for rotation control
         ROTATIONAL, // System rotation control
-        AWAIT_POSITONAL, // Wait for the manipulator to be in place for position control
+        AWAIT_POSITIONAL, // Wait for the manipulator to be in place for position control
         POSITIONAL, // System position control
     }
 
@@ -177,7 +177,7 @@ public class PanelManipulator extends SubsystemBase {
         case POSITIONAL:
             handlePosition(isNew);
             break;
-        case AWAIT_POSITONAL:
+        case AWAIT_POSITIONAL:
         case AWAIT_ROTATIONAL:
             handleAwait(isNew);
             break;
@@ -226,7 +226,7 @@ public class PanelManipulator extends SubsystemBase {
 
         // Move to the correct state
         switch (m_currentState) {
-        case AWAIT_POSITONAL:
+        case AWAIT_POSITIONAL:
             m_currentState = SystemState.POSITIONAL;
             break;
         case AWAIT_ROTATIONAL:
@@ -273,7 +273,7 @@ public class PanelManipulator extends SubsystemBase {
     /**
      * Handle system position control state
      * 
-     * @param isNew Is thie a new state?
+     * @param isNew Is this a new state?
      */
     private void handlePosition(boolean isNew) {
         if (isNew) {
@@ -297,7 +297,7 @@ public class PanelManipulator extends SubsystemBase {
             m_hasLostContact = true;
 
             // Wait for the robot to come in contact with the panel again
-            m_currentState = SystemState.AWAIT_POSITONAL;
+            m_currentState = SystemState.AWAIT_POSITIONAL;
         }
 
         // Handle movement to desired color offset
@@ -441,7 +441,7 @@ public class PanelManipulator extends SubsystemBase {
         m_desiredColorOffset = robotIndx;
 
         // Set the system state
-        m_currentState = SystemState.AWAIT_POSITONAL;
+        m_currentState = SystemState.AWAIT_POSITIONAL;
     }
 
     /**
