@@ -111,7 +111,7 @@ public class OI {
      * @return Should be shooting?
      */
     public boolean shouldShoot() {
-        return m_shouldShootToggle.feed(m_operatorController.getYButtonPressed());
+        return m_operatorController.getTriggerAxis(Hand.kRight) > 0.8;
     }
 
     /**
@@ -135,12 +135,6 @@ public class OI {
         }
     }
 
-    /**
-     * Reset the shooter input toggle
-     */
-    public void resetShooterInput() {
-        m_shouldShootToggle.reset();
-    }
 
     /**
      * Check if the robot should be intaking balls right now

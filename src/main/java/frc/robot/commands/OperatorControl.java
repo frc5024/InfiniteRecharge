@@ -21,7 +21,7 @@ public class OperatorControl extends CommandBase {
 
     @Override
     public void initialize() {
-        
+
         // Lock the climber
         Climber.getInstance().lock();
     }
@@ -53,8 +53,6 @@ public class OperatorControl extends CommandBase {
             // Kill the shooting command (intake gets priority)
             m_shootCellsCommand.cancel();
 
-            // Disable the shooter toggle
-            m_oi.resetShooterInput();
         } else {
             m_intakeCellsCommand.cancel();
         }
