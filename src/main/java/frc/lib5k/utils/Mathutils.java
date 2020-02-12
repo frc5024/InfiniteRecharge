@@ -3,7 +3,7 @@ package frc.lib5k.utils;
 import java.util.HashMap;
 
 import edu.wpi.first.wpiutil.CircularBuffer;
-
+ 
 public class MathUtils {
 
     public static void main(String[] args) {
