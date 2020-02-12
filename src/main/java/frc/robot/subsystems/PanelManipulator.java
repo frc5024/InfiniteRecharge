@@ -223,6 +223,27 @@ public class PanelManipulator extends SubsystemBase {
         if (isNew) {
             logger.log("PanelManipulator", "Starting rotational control");
         }
+
+        // Check if we lost contact with the panel
+        if (!isTouchingPanel()) {
+
+            // Tell the system we lost contact with the panel
+            m_hasLostContact = true;
+
+            // Wait for the robot to come in contact with the panel again
+            m_currentState = SystemState.AWAIT_ROTATIONAL;
+        }
+
+        // Handle movement to desired color offset
+        handleMovementToColor();
+
+        // Update the color counter
+        updateColorCounter();
+
+        // If we have reached the desired color, switch to idle
+        if (m_desiredColorOffset == 0) {
+            m_currentState = SystemState.IDLE;
+        }
     }
 
     /**
