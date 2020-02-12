@@ -18,8 +18,8 @@ public class OperatorControl extends CommandBase {
     private IntakeCells m_intakeCellsCommand = new IntakeCells(5);
     private ShootCells m_shootCellsCommand = new ShootCells(5);
     private ClimbController m_climbController = new ClimbController();
-    private PositionPanel m_positionCommand = new PositionPanel(new Translation2d());
-    private RotatePanel m_rotateCommand = new RotatePanel(4, new Translation2d() );
+    private PositionPanel m_positionCommand = new PositionPanel(new Translation2d(5, 5));
+    private RotatePanel m_rotateCommand = new RotatePanel(4, new Translation2d(5, 5));
 
     /** Instance of OI */
     private OI m_oi = OI.getInstance();
