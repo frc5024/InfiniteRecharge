@@ -5,6 +5,7 @@ import frc.robot.OI;
 import frc.robot.autonomous.actions.cells.IntakeCells;
 import frc.robot.autonomous.actions.cells.ShootCells;
 import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.cellmech.Hopper;
 
 /**
  * Test code for the intake/shooter superstructure. This will be replaced soon
@@ -62,6 +63,11 @@ public class OperatorControl extends CommandBase {
             m_climbController.schedule();
         } else if (m_oi.shouldCancelClimb()) {
             m_climbController.cancel();
+        }
+
+        // Check if the cell counter should be reset
+        if (m_oi.shouldResetCellCount()) {
+            Hopper.getInstance().forceCellCount(0);
         }
 
     }

@@ -135,7 +135,6 @@ public class OI {
         }
     }
 
-
     /**
      * Check if the robot should be intaking balls right now
      * 
@@ -150,6 +149,15 @@ public class OI {
      */
     public void resetIntakeInput() {
         m_shouldIntakeToggle.reset();
+    }
+
+    /**
+     * Should the cell counter be reset?
+     * 
+     * @return Should reset
+     */
+    public boolean shouldResetCellCount() {
+        return (m_operatorController.getPOV() == 90) && m_operatorController.getXButtonPressed();
     }
 
 }

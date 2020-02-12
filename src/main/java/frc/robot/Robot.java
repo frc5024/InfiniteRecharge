@@ -18,6 +18,7 @@ import frc.robot.subsystems.CellSuperstructure;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.PanelManipulator;
+import frc.robot.subsystems.cellmech.Hopper;
 import frc.robot.subsystems.cellmech.Intake;
 import frc.robot.vision.Limelight2;
 import frc.robot.vision.Limelight2.LEDMode;
@@ -147,6 +148,9 @@ public class Robot extends TimedRobot {
 
 		// Stow the superstructure
 		m_cellSuperstructure.stop();
+
+		// Force-set the hopper to recognize 3 power cells
+		Hopper.getInstance().forceCellCount(3);
 	}
 
 	@Override
