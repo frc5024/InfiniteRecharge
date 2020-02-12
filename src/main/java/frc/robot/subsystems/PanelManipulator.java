@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib5k.components.motors.TalonHelper;
 import frc.lib5k.components.sensors.ColorSensor5k;
 import frc.lib5k.simulation.wrappers.SimTalon;
+import frc.lib5k.utils.Mathutils;
 import frc.lib5k.utils.RobotLogger;
 import frc.lib5k.utils.RobotLogger.Level;
 import frc.robot.RobotConstants;
@@ -288,7 +289,15 @@ public class PanelManipulator extends SubsystemBase {
         }
     }
 
+    /**
+     * Handle spinner movement to the desired color offset
+     */
     private void handleMovementToColor() {
+
+        // All we have to do here is set the motor input to the clamped offset (yay for
+        // math!)
+        m_spinner.set(Mathutils.clamp(m_desiredColorOffset, RobotConstants.PanelManipulator.SPINNER_SPEED * -1,
+                RobotConstants.PanelManipulator.SPINNER_SPEED));
 
     }
 
