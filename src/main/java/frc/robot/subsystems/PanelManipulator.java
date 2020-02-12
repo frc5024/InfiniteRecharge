@@ -390,4 +390,12 @@ public class PanelManipulator extends SubsystemBase {
         m_currentState = SystemState.AWAIT_POSITONAL;
     }
 
+    /**
+     * Stop the system
+     */
+    public void stop() {
+        logger.log("PanelManipulator", "Stop requested");
+        m_currentState = SystemState.IDLE;
+    }
+
 }
