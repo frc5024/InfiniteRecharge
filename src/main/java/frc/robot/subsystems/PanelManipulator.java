@@ -132,6 +132,11 @@ public class PanelManipulator extends SubsystemBase {
         TalonHelper.configCurrentLimit(m_spinner, 34, 32, 30, 0);
         m_spinner.setInverted(false);
 
+        // Add all colors to matcher
+        for (FieldColors fc : m_colors) {
+            m_matcher.addColorMatch(fc.c);
+        }
+
     }
 
     /**
