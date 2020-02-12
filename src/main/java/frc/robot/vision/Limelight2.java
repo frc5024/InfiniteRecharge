@@ -4,7 +4,7 @@ import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpiutil.net.PortForwarder;
-import frc.lib5k.utils.Mathutils;
+import frc.lib5k.utils.MathUtils;
 
 public class Limelight2 {
 
@@ -89,7 +89,7 @@ public class Limelight2 {
         }
 
         // Clamp user count
-        users = (int) Mathutils.clamp(users, 0.0, 10000.0);
+        users = (int) MathUtils.clamp(users, 0.0, 10000.0);
     }
 
     /**

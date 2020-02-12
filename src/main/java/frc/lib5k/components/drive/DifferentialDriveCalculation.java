@@ -1,7 +1,7 @@
 package frc.lib5k.components.drive;
 
 import frc.lib5k.kinematics.DriveSignal;
-import frc.lib5k.utils.Mathutils;
+import frc.lib5k.utils.MathUtils;
 
 /**
  * Helpers for calculating differential drive kinematics
@@ -61,8 +61,8 @@ public class DifferentialDriveCalculation {
         double avg_r = (rate_r + curv_r) / 2;
 
         // Clamp motor outputs
-        avg_l = Mathutils.clamp(avg_l, -1., 1.);
-        avg_r = Mathutils.clamp(avg_r, -1., 1.);
+        avg_l = MathUtils.clamp(avg_l, -1., 1.);
+        avg_r = MathUtils.clamp(avg_r, -1., 1.);
 
         // Create a DriveSignal from motor speeds
         DriveSignal signal = new DriveSignal(avg_l, avg_r);
@@ -97,8 +97,8 @@ public class DifferentialDriveCalculation {
         double r = (speed - rotation);
 
         // Clamp motor outputs
-        l = Mathutils.clamp(l, -1., 1.);
-        r = Mathutils.clamp(r, -1., 1.);
+        l = MathUtils.clamp(l, -1., 1.);
+        r = MathUtils.clamp(r, -1., 1.);
 
         // Create a DriveSignal from motor speeds
         DriveSignal signal = new DriveSignal(l, r);

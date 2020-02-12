@@ -2,7 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpiutil.math.MathUtil;
-import frc.lib5k.utils.Mathutils;
+import frc.lib5k.utils.MathUtils;
 import frc.lib5k.utils.RobotLogger;
 import frc.lib5k.utils.RobotLogger.Level;
 import frc.robot.subsystems.cellmech.Hopper;
@@ -233,7 +233,7 @@ public class CellSuperstructure extends SubsystemBase {
     public void intakeCells(int amount) {
 
         // limit amount to between 1 and 5
-        amount = (int) Mathutils.clamp(amount, 1, 5);
+        amount = (int) MathUtils.clamp(amount, 1, 5);
 
         // set amount of cells the hopper should have before stopping
         m_wantedCellsIntake = amount;

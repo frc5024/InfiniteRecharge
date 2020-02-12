@@ -3,7 +3,7 @@ package frc.robot.autonomous.actions;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lib5k.kinematics.DriveSignal;
-import frc.lib5k.utils.Mathutils;
+import frc.lib5k.utils.MathUtils;
 import frc.robot.RobotConstants;
 import frc.robot.subsystems.DriveTrain;
 
@@ -62,7 +62,7 @@ public class DriveDistance extends CommandBase {
         // Calculate distance power
         double power = m_distanceController.calculate(getDistance() - start, end);
 
-        power = Mathutils.clamp(power, -1, 1);
+        power = MathUtils.clamp(power, -1, 1);
         power *= this.speed;
 
         DriveTrain.getInstance().setOpenLoop(new DriveSignal(power + turnPower, power - turnPower));
@@ -76,6 +76,6 @@ public class DriveDistance extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return Mathutils.epsilonEquals(getDistance() - start, end, eps);
+        return MathUtils.epsilonEquals(getDistance() - start, end, eps);
     }
 }
