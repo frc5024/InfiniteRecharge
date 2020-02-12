@@ -185,6 +185,8 @@ public class RobotConstants {
 
     public static class PanelManipulator {
 
+        public static final int MOTOR_ID = 22;
+
         /**
          * Threshold for color comparison (taken from REV ColorMatch)
          */
@@ -216,7 +218,7 @@ public class RobotConstants {
         public static final double ARM_TICKS_PER_DEGREE = 1000;
 
         public static final double ARM_UP_SPEED = -0.85;
-        public static final double ARM_DOWN_SPEED = 0.35; 
+        public static final double ARM_DOWN_SPEED = 0.35;
 
         public static final double ROLLER_SPEED = 0.8;
     }

@@ -11,17 +11,25 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib5k.components.motors.TalonHelper;
 import frc.lib5k.components.sensors.ColorSensor5k;
+import frc.lib5k.simulation.wrappers.SimTalon;
 import frc.lib5k.utils.RobotLogger;
 import frc.lib5k.utils.RobotLogger.Level;
 import frc.robot.RobotConstants;
 
+/**
+ * Subsystem in charge of interacting with the control panel
+ */
 public class PanelManipulator extends SubsystemBase {
     RobotLogger logger = RobotLogger.getInstance();
     private static PanelManipulator s_instance = null;
 
     // Color sensor
     private ColorSensor5k m_colorSensor;
+
+    // Spinner motor
+    private SimTalon m_spinner;
 
     // Threshold tracker
     private NetworkTableEntry m_threshold;
@@ -107,6 +115,11 @@ public class PanelManipulator extends SubsystemBase {
         // Build a color matcher
         m_matcher = new ColorMatch();
 
+        // Create and configure the spinner motor
+        m_spinner = new SimTalon(RobotConstants.PanelManipulator.MOTOR_ID);
+        TalonHelper.configCurrentLimit(m_spinner, 34, 32, 30, 0);
+        m_spinner.setInverted(false);
+
     }
 
     /**
@@ -161,22 +174,50 @@ public class PanelManipulator extends SubsystemBase {
     /**
      * Handle system idle state
      * 
-     * @param isNew Is thie a new state?
+     * @param isNew Is this a new state?
      */
     private void handleIdle(boolean isNew) {
         if (isNew) {
             logger.log("PanelManipulator", "Became idle");
+
+            // Stop the spinner motor
+            m_spinner.set(0);
         }
     }
 
+    /**
+     * Handle system waiting for contact with panel
+     * 
+     * @param isNew Is this a new state?
+     */
     private void handleAwait(boolean isNew) {
+        if (isNew) {
+            logger.log("PanelManipulator", "Waiting for contact with control panel");
+        }
+
+        // Skip if not in contact with panel
+        if (!isTouchingPanel()) {
+            return;
+        }
+
+        // Move to the correct state
+        switch (m_currentState) {
+        case AWAIT_POSITONAL:
+            m_currentState = SystemState.POSITIONAL;
+            break;
+        case AWAIT_ROTATIONAL:
+            m_currentState = SystemState.ROTATIONAL;
+            break;
+        default:
+            m_currentState = SystemState.IDLE;
+        }
 
     }
 
     /**
      * Handle system rotation control state
      * 
-     * @param isNew Is thie a new state?
+     * @param isNew Is this a new state?
      */
     private void handleRotation(boolean isNew) {
         if (isNew) {
@@ -275,7 +316,7 @@ public class PanelManipulator extends SubsystemBase {
         // Switch to rotation control
         logger.log("PanelManipulator",
                 String.format("Requested %.1f rotations (%d colors)", relRotations, m_desiredColorOffset));
-        m_currentState = SystemState.ROTATIONAL;
+        m_currentState = SystemState.AWAIT_ROTATIONAL;
 
     }
 
@@ -302,6 +343,9 @@ public class PanelManipulator extends SubsystemBase {
 
         // Set the desired color count
         m_desiredColorOffset = robotIndx;
+
+        // Set the system state
+        m_currentState = SystemState.AWAIT_POSITONAL;
     }
 
 }
