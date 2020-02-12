@@ -2,7 +2,6 @@ package frc.robot.subsystems.cellmech;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib5k.components.motors.TalonHelper;
-import frc.lib5k.components.sensors.HallEffect;
 import frc.lib5k.components.sensors.LimitSwitch;
 import frc.lib5k.simulation.wrappers.SimTalon;
 import frc.lib5k.utils.RobotLogger;
@@ -32,6 +31,7 @@ public class Intake extends SubsystemBase {
         INTAKE, // Intake pulling in balls
         UNJAM, // Ejecting balls
         STOWED, // Arm stowed
+        FROZEN, // System frozen
     }
 
     /** Tracker for intake system state */
@@ -60,6 +60,16 @@ public class Intake extends SubsystemBase {
         // Set voltage limiting
         TalonHelper.configCurrentLimit(m_intakeActuator, 34, 32, 30, 0);
         TalonHelper.configCurrentLimit(m_intakeRoller, 34, 32, 30, 0);
+
+        // Configure motor ramps
+        m_intakeActuator.configOpenloopRamp(0.2);
+        m_intakeRoller.configOpenloopRamp(0.0);
+
+        // Configure motor compensation
+        m_intakeActuator.configVoltageCompSaturation(10);
+        m_intakeActuator.enableVoltageCompensation(true);
+        m_intakeRoller.configVoltageCompSaturation(10);
+        m_intakeRoller.enableVoltageCompensation(true);
 
         // Construct sensors
         m_bottomHall = new LimitSwitch(RobotConstants.Intake.INTAKE_LIMIT_BOTTOM);
@@ -95,8 +105,13 @@ public class Intake extends SubsystemBase {
             isNewState = true;
         }
 
+        m_lastState = m_systemState;
+
         // Handle states
         switch (m_systemState) {
+        case FROZEN:
+            handleFrozen(isNewState);
+            break;
         case INTAKE:
             handleIntake(isNewState);
             break;
@@ -112,6 +127,20 @@ public class Intake extends SubsystemBase {
         }
     }
 
+    private void handleFrozen(boolean newState) {
+        if (newState) {
+            logger.log("Intake", "Freezing system");
+
+            // Ensure our roller is stopped
+            setRollerSpeed(0.0);
+
+            // Freeze the arm
+            setArmSpeed(0.0);
+
+        }
+
+    }
+
     /**
      * Set arm to move down and roller to roll cells in
      * 
@@ -119,6 +148,8 @@ public class Intake extends SubsystemBase {
      */
     private void handleIntake(boolean newState) {
         if (newState) {
+            logger.log("Intake", "Intaking balls");
+
             // Ensure our roller is stopped before arm deployment
             setRollerSpeed(0.0);
 
@@ -126,13 +157,13 @@ public class Intake extends SubsystemBase {
 
         // As long as we are not at our deployed position, lower the arms
         if (getArmPosition() != ArmPosition.DEPLOYED) {
-            setArmSpeed(1.0);
+            setArmSpeed(RobotConstants.Intake.ARM_DOWN_SPEED);
         } else {
-            // Just apply a little voltage to arms to kep them in place
-            setArmSpeed(0.15);
+            // Stop the arms
+            setArmSpeed(0.0);
 
             // Handle intake of cells
-            setRollerSpeed(1.0);
+            setRollerSpeed(RobotConstants.Intake.ROLLER_SPEED);
         }
 
         // NOTE: This action does not stop automatically
@@ -145,6 +176,8 @@ public class Intake extends SubsystemBase {
      */
     private void handleUnjam(boolean newState) {
         if (newState) {
+            logger.log("Intake", "Unjamming balls");
+
             // Ensure our roller is stopped before arm deployment
             setRollerSpeed(0.0);
 
@@ -152,15 +185,13 @@ public class Intake extends SubsystemBase {
 
         // As long as we are not at our deployed position, lower the arms
         if (getArmPosition() != ArmPosition.DEPLOYED) {
-            setArmSpeed(1.0);
+            setArmSpeed(RobotConstants.Intake.ARM_DOWN_SPEED);
         } else {
-            // Just apply a little voltage to arms to kep them in place
-            // TODO: Is this needed? apperently we can't backdrive
-            // setArmSpeed(0.15);
+            // Stop the arms
             setArmSpeed(0.0);
 
             // Handle intake of cells
-            setRollerSpeed(-0.8);
+            setRollerSpeed(RobotConstants.Intake.ROLLER_SPEED * -1);
         }
 
         // NOTE: This action does not stop automatically
@@ -173,6 +204,8 @@ public class Intake extends SubsystemBase {
      */
     private void handleStowed(boolean newState) {
         if (newState) {
+            logger.log("Intake", "Stowing intake");
+
             // Ensure our roller is stopped
             setRollerSpeed(0.0);
 
@@ -180,11 +213,8 @@ public class Intake extends SubsystemBase {
 
         // As long as we are not at our deployed position, lower the arms
         if (getArmPosition() != ArmPosition.STOWED) {
-            setArmSpeed(-1.0);
+            setArmSpeed(RobotConstants.Intake.ARM_UP_SPEED);
         } else {
-            // Just apply a little voltage to arms to kep them in place
-            // TODO: Is this needed?
-            // setArmSpeed(-0.15);
             setArmSpeed(0.0);
         }
 
@@ -214,8 +244,6 @@ public class Intake extends SubsystemBase {
         if (speed > 0.0) {
             if (m_bottomHall.get()) {
                 speed = 0.0;
-            } else {
-                speed *= 0.5;
             }
         }
 
@@ -223,8 +251,6 @@ public class Intake extends SubsystemBase {
         if (speed < 0.0) {
             if (m_topHall.get()) {
                 speed = 0.0;
-            } else {
-                speed *= 0.9;
             }
         }
 
@@ -245,6 +271,7 @@ public class Intake extends SubsystemBase {
      * Set the harvester to unjam
      */
     public void unjam() {
+        logger.log("Intake", "Unjam requested");
         m_systemState = SystemState.UNJAM;
     }
 
@@ -252,6 +279,7 @@ public class Intake extends SubsystemBase {
      * Set the harvester to intake
      */
     public void intake() {
+        logger.log("Intake", "Intake requested");
         m_systemState = SystemState.INTAKE;
     }
 
@@ -259,7 +287,17 @@ public class Intake extends SubsystemBase {
      * Stow the harvester
      */
     public void stow() {
+        logger.log("Intake", "System stow requested");
         m_systemState = SystemState.STOWED;
+    }
+
+    /**
+     * Safety-freeze the system
+     */
+    public void freeze() {
+        logger.log("Intake", "System freeze requested");
+        m_systemState = SystemState.FROZEN;
+
     }
 
 }

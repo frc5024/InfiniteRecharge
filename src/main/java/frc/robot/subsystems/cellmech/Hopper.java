@@ -1,12 +1,12 @@
 package frc.robot.subsystems.cellmech;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib5k.components.motors.TalonHelper;
 import frc.lib5k.components.motors.motorsensors.TalonEncoder;
 import frc.lib5k.components.sensors.EncoderBase;
 import frc.lib5k.components.sensors.LineBreak;
+import frc.lib5k.simulation.wrappers.SimTalon;
+import frc.lib5k.utils.RobotLogger;
 import frc.robot.RobotConstants;
 
 /**
@@ -14,9 +14,10 @@ import frc.robot.RobotConstants;
  */
 public class Hopper extends SubsystemBase {
     public static Hopper s_instance = null;
+    private RobotLogger logger = RobotLogger.getInstance();
 
     /** Motor that moves hopper belt up and down */
-    private WPI_TalonSRX m_hopperBelt;
+    private SimTalon m_hopperBelt;
 
     /** Hopper belt encoder */
     private EncoderBase m_hopperEncoder;
@@ -60,7 +61,7 @@ public class Hopper extends SubsystemBase {
     private SystemState m_lastState = null;
 
     /** amount of cells currently in hopper */
-    private int m_cellCount = 3;
+    private int m_cellCount = 0;
 
     /** amount of cells to have after intaking */
     private int m_desiredAmountToIntake = 5;
@@ -69,7 +70,7 @@ public class Hopper extends SubsystemBase {
 
     private Hopper() {
         // Construct motor controller
-        m_hopperBelt = new WPI_TalonSRX(RobotConstants.Hopper.HOPPER_BELT_MOTOR);
+        m_hopperBelt = new SimTalon(RobotConstants.Hopper.HOPPER_BELT_MOTOR);
 
         // invert motor
         m_hopperBelt.setInverted(RobotConstants.Hopper.HOPPER_BELT_MOTOR_INVERTED);
@@ -83,9 +84,9 @@ public class Hopper extends SubsystemBase {
 
         // Construct line break
         m_lineBottom = new LineBreak(RobotConstants.Hopper.HOPPER_LINEBREAK_BOTTOM,
-        RobotConstants.Pneumatics.PCM_CAN_ID, RobotConstants.Hopper.HOPPER_LINEBREAK_BOTTOM_POWER_CHANNEL);
-        m_lineTop = new LineBreak(RobotConstants.Hopper.HOPPER_LINEBREAK_TOP,
-        RobotConstants.Pneumatics.PCM_CAN_ID, RobotConstants.Hopper.HOPPER_LINEBREAK_TOP_POWER_CHANNEL);
+                RobotConstants.Pneumatics.PCM_CAN_ID, RobotConstants.Hopper.HOPPER_LINEBREAK_BOTTOM_POWER_CHANNEL);
+        m_lineTop = new LineBreak(RobotConstants.Hopper.HOPPER_LINEBREAK_TOP, RobotConstants.Pneumatics.PCM_CAN_ID,
+                RobotConstants.Hopper.HOPPER_LINEBREAK_TOP_POWER_CHANNEL);
         m_lineMiddle = new LineBreak(RobotConstants.Hopper.HOPPER_LINEBREAK_MIDDLE,
                 RobotConstants.Pneumatics.PCM_CAN_ID, RobotConstants.Hopper.HOPPER_LINEBREAK_MIDDLE_POWER_CHANNEL);
 
@@ -98,6 +99,7 @@ public class Hopper extends SubsystemBase {
         // Add children
         addChild("Belt", m_hopperBelt);
         addChild("Bottom Limit", m_lineBottom);
+        addChild("Middle Limit", m_lineMiddle);
         addChild("Top Limit", m_lineTop);
     }
 
@@ -158,6 +160,8 @@ public class Hopper extends SubsystemBase {
             isNewState = true;
         }
 
+        m_lastState = m_systemState;
+
         // Handle states
         switch (m_systemState) {
         case IDLE:
@@ -189,11 +193,9 @@ public class Hopper extends SubsystemBase {
         }
 
         m_lineBottomLastValue = m_lineBottom.get();
-        m_lineTopLastValue = m_lineTop.get();
         m_lineMiddleLastValue = m_lineMiddle.get();
+        m_lineTopLastValue = m_lineTop.get();
 
-
-        System.out.println(m_lineBottomLastValue + " " + m_lineMiddleLastValue + " " + m_lineTopLastValue);
     }
 
     /**
@@ -203,6 +205,7 @@ public class Hopper extends SubsystemBase {
      */
     private void handleIdle(boolean newState) {
         if (newState) {
+            logger.log("Hopper", "Became idle");
 
             // Stop belt
             setBeltSpeed(0.0);
@@ -217,6 +220,8 @@ public class Hopper extends SubsystemBase {
      */
     private void handleIntakeReady(boolean newState) {
         if (newState) {
+            logger.log("Hopper", "Preparing to intake balls");
+
             // Stop belt
             setBeltSpeed(0.0);
         }
@@ -230,6 +235,7 @@ public class Hopper extends SubsystemBase {
             if (m_cellCount < m_desiredAmountToIntake) {
                 m_systemState = SystemState.INTAKING;
             }
+
         }
 
         // if the hopper has the desired amount of cells, stop intaking
@@ -245,6 +251,7 @@ public class Hopper extends SubsystemBase {
      */
     private void handleIntaking(boolean newState) {
         if (newState) {
+            logger.log("Hopper", "Intaking balls");
 
             // get number of ticks at start of intake
             m_ticksAtStartOfIntake = m_hopperEncoder.getTicks();
@@ -253,8 +260,14 @@ public class Hopper extends SubsystemBase {
             setBeltSpeed(0.5);
 
         }
-        // if belt has gone 8 inches, set state to ready to intake
-        if (m_hopperEncoder.getTicks() - m_ticksAtStartOfIntake >= (4096 * m_revolutionsPerInch) * 8) {
+
+        // stop if middle sensor is tripped and not bottom tripped
+        if (m_lineMiddle.get() && !m_lineBottom.get()) {
+            m_systemState = SystemState.INTAKEREADY;
+        }
+
+        // if belt has gone 12 inches, stop tying and set state to ready to intake
+        if (m_ticksAtStartOfIntake - m_hopperEncoder.getTicks()  >= 41583) {
             m_systemState = SystemState.INTAKEREADY;
         }
     }
@@ -266,6 +279,7 @@ public class Hopper extends SubsystemBase {
      */
     private void handleUnjam(boolean newState) {
         if (newState) {
+            logger.log("Hopper", "Unjamming");
 
             // Reverse belt
             setBeltSpeed(-0.8);
@@ -280,6 +294,7 @@ public class Hopper extends SubsystemBase {
      */
     private void handleMoveToTop(boolean newState) {
         if (newState) {
+            logger.log("Hopper", "Pulling balls to top");
 
             // Start belt
             setBeltSpeed(0.5);
@@ -299,6 +314,7 @@ public class Hopper extends SubsystemBase {
      */
     private void handleMoveToBottom(boolean newState) {
         if (newState) {
+            logger.log("Hopper", "Pushing balls to bottom");
 
             // Start belt
             setBeltSpeed(-0.5);
@@ -318,6 +334,7 @@ public class Hopper extends SubsystemBase {
      */
     private void handleMoveUpOnePlace(boolean newState) {
         if (newState) {
+            logger.log("Hopper", "Incrementing ball position");
 
             // get number of ticks at start of intake
             m_ticksAtStartOfIntake = m_hopperEncoder.getTicks();
@@ -326,6 +343,12 @@ public class Hopper extends SubsystemBase {
             setBeltSpeed(0.5);
 
         }
+
+        // stop if middle sensor is tripped
+        if (m_lineMiddle.get()) {
+            m_systemState = SystemState.IDLE;
+        }
+
         // if belt has gone 8 inches, set state to ready to intake
         if (m_hopperEncoder.getTicks() - m_ticksAtStartOfIntake >= (4096 * m_revolutionsPerInch) * 8) {
             m_systemState = SystemState.IDLE;
@@ -339,15 +362,11 @@ public class Hopper extends SubsystemBase {
      */
     private void handleShooting(boolean newState) {
         if (newState) {
+            logger.log("Hopper", "Feeding balls to flywheel");
 
             // Start belt
             setBeltSpeed(RobotConstants.Hopper.SHOOTER_FEED_SPEED);
 
-        }
-
-        // stop one the desired amount is given
-        if (m_cellCount == 0 || m_cellCount == m_desiredAmountToHaveAfterShooting) {
-            m_systemState = SystemState.IDLE;
         }
     }
 
@@ -376,9 +395,17 @@ public class Hopper extends SubsystemBase {
     }
 
     /**
+     * @return state of the top line break sensor
+     */
+    public boolean topLineBreakState() {
+        return m_lineTop.get();
+    }
+
+    /**
      * Stop shooting and get remaining cells back to the bottom
      */
     public void interruptShooting() {
+        logger.log("Hopper", "Shooting interrupt requested");
         m_systemState = SystemState.MOVETOBOTTOM;
     }
 
@@ -387,10 +414,8 @@ public class Hopper extends SubsystemBase {
      * 
      * @param amountToEndUpWith amount of cells to have in the hopper after shooting
      */
-    public void supplyCellsToShooter(int amountToEndUpWith) {
-        // set amount to end up with after shooting
-        m_desiredAmountToHaveAfterShooting = amountToEndUpWith;
-        // start feeding cells
+    public void supplyCellsToShooter() {
+        logger.log("Hopper", "Supply cells to shooter requested");
         m_systemState = SystemState.SHOOTING;
     }
 
@@ -398,6 +423,7 @@ public class Hopper extends SubsystemBase {
      * Set the hopper to unjam
      */
     public void unjam() {
+        logger.log("Hopper", "Unjam requested");
         m_systemState = SystemState.UNJAM;
     }
 
@@ -405,6 +431,8 @@ public class Hopper extends SubsystemBase {
      * Set the hopper to intake
      */
     public void startIntake(int amountToEndUpWith) {
+        logger.log("Hopper", String.format("Intake action requested with a final cell count of %d", amountToEndUpWith));
+
         // set desired amount
         m_desiredAmountToIntake = amountToEndUpWith;
         // start intaking
@@ -415,6 +443,7 @@ public class Hopper extends SubsystemBase {
      * Stop the hopper
      */
     public void stop() {
+        logger.log("Hopper", "Stopping hopper");
         m_systemState = SystemState.IDLE;
     }
 
