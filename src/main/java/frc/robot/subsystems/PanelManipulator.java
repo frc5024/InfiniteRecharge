@@ -451,5 +451,4 @@ public class PanelManipulator extends SubsystemBase {
         logger.log("PanelManipulator", "Stop requested");
         m_currentState = SystemState.IDLE;
     }
-
 }

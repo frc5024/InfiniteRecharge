@@ -196,7 +196,7 @@ public class RobotConstants {
         /**
          * Threshold for color comparison (taken from REV ColorMatch)
          */
-        public static final double DEFAULT_COLOR_THRESHOLD = 0.95;
+        public static final double DEFAULT_COLOR_THRESHOLD = 0.91;
 
     }
 
