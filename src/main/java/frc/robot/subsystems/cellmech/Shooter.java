@@ -208,7 +208,7 @@ public class Shooter extends SubsystemBase {
     }
 
     /**
-     * Handle flywheel spindown to 0
+     * Handle flywheel spindown to 0 RPM
      * 
      * @param newState Is this state new?
      */

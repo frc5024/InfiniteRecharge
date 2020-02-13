@@ -61,7 +61,7 @@ public class LocalizationEngine {
         m_robotPosition.setX(lastX + (distance * Math.sin(Math.toRadians(heading))));
         m_robotPosition.setY(lastY + (distance * Math.cos(Math.toRadians(heading))));
 
-        //TODO: a heading diffrence may be needed here
+        // A heading diffrence may be needed here
         // Set the robot heading
         m_robotPosition.setTheta(Mathutils.wrapGyro(heading));
 
