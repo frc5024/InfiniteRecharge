@@ -169,7 +169,6 @@ public class Shooter extends SubsystemBase {
 
             // Force-set the motor to 0.0V
             m_motorController.set(0.0);
-            m_motorPID.setReference(0.0, ControlType.kVelocity);
 
             // Force-set output
             output = 0.0;
@@ -199,12 +198,12 @@ public class Shooter extends SubsystemBase {
             m_limelight.use(true);
         }
 
-        // TODO: Remove this
-        this.m_systemState = SystemState.HOLD;
+        // Log the speeds
+        System.out.println(
+                String.format("Setpoint: %.1f, Curent: %.1f", output, m_motorController.getEncoder().getVelocity()));
 
         // Switch to HOLD state if spinup complete
-        if (Mathutils.epsilonEquals(m_motorController.getEncoder().getVelocity(), this.output,
-                RobotConstants.Shooter.RPM_EPSILON)) {
+        if (atRPMSetpoint()) {
 
             // Move to next state
             this.m_systemState = SystemState.HOLD;
@@ -212,7 +211,7 @@ public class Shooter extends SubsystemBase {
     }
 
     /**
-     * Handle flywheel spindown to 0
+     * Handle flywheel spindown to 0 RPM
      * 
      * @param newState Is this state new?
      */
@@ -223,7 +222,7 @@ public class Shooter extends SubsystemBase {
             // Turn off the LEDs
             m_limelight.setLED(LEDMode.OFF);
             m_limelight.use(false);
-            m_motorController.setOpenLoopRampRate(1.3);
+
             m_motorController.set(0);
         }
 
@@ -242,27 +241,17 @@ public class Shooter extends SubsystemBase {
 
             windUpEndTime = System.currentTimeMillis();
             windUpTotalTime = windUpEndTime - windUpStartTime;
-            // Set the JRAD setpoint
-            // m_holdController.setSetpoint(this.output);
             logger.log("Shooter", "Holding. Spin-Up took " + (windUpTotalTime / 1000.0) + " seconds");
+
+            // Set the motor output
+            m_motorPID.setReference(output, ControlType.kVelocity);
 
         }
 
-        // // Get the current motor output voltage
-        // double voltage = m_motorController.getMotorOutputVoltage();
-
-        // // Calculate the motor output
-        // double motorOutput = m_holdController.calculate(voltage);
-
-        // motorOutput += voltage;
-
-        // // Disallow reverse motor output
-        // // motorOutput = Mathutils.clamp(motorOutput, 0, 12);
-
-        // System.out.println(motorOutput);
-
-        // Set the motor output
-        m_motorController.setVoltage(this.output);
+        // If we are under-RPM, spin up more
+        if (!atRPMSetpoint()) {
+            m_systemState = SystemState.SPIN_UP;
+        }
 
     }
 
@@ -301,8 +290,23 @@ public class Shooter extends SubsystemBase {
 
     }
 
+    /**
+     * Check if the flywheel has spun up
+     * 
+     * @return Has spun up?
+     */
     public boolean isSpunUp() {
         return m_systemState == SystemState.HOLD;
+    }
+
+    /**
+     * Check if the flywheel is currently at it's RPM setpoint.
+     * 
+     * @return At setpoint?
+     */
+    private boolean atRPMSetpoint() {
+        return Mathutils.epsilonEquals(m_motorController.getEncoder().getVelocity(), this.output,
+                RobotConstants.Shooter.RPM_EPSILON);
     }
 
     public double getOutput() {
@@ -332,6 +336,11 @@ public class Shooter extends SubsystemBase {
      * @return Desired flywheel velocity in RPM based on distance to target.
      */
     public double getVelocityFromLimelight() {
+
+        // If there is no target found, default to a constant shooting point
+        if (!m_limelight.hasTarget()) {
+            return RobotConstants.Shooter.DEFAULT_VELOCITY;
+        }
 
         // Get distance to target
         double angleToTarget = m_limelight.getTarget().ty;

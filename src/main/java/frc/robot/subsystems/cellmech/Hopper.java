@@ -416,7 +416,7 @@ public class Hopper extends SubsystemBase {
      * @param amountToEndUpWith amount of cells to have in the hopper after shooting
      */
     public void supplyCellsToShooter() {
-        logger.log("Hopper", "Supply cells to shooter requested");
+        // Do not log here, because this method gets spammed by the superstructure
         m_systemState = SystemState.SHOOTING;
     }
 

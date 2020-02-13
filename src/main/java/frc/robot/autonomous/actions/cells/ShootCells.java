@@ -28,10 +28,10 @@ public class ShootCells extends CommandBase {
 
     @Override
     public void initialize() {
-        if(m_shooter.isInPosition()){
-          RobotLogger.getInstance().log("ShootCells", String.format("Shooting %d cells", m_shootAmount));
-          m_cellSuperstructure.shootCells(m_shootAmount);
-        }
+        // if(m_shooter.isInPosition()){
+        RobotLogger.getInstance().log("ShootCells", String.format("Shooting %d cells", m_shootAmount));
+        m_cellSuperstructure.shootCells(m_shootAmount);
+        // }
     }
 
     @Override
