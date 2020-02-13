@@ -21,6 +21,7 @@ import frc.robot.subsystems.PanelManipulator;
 import frc.robot.subsystems.cellmech.Hopper;
 import frc.robot.subsystems.cellmech.Intake;
 import frc.robot.vision.Limelight2;
+import frc.robot.vision.Limelight2.CameraMode;
 import frc.robot.vision.Limelight2.LEDMode;
 
 /**
@@ -174,6 +175,9 @@ public class Robot extends TimedRobot {
 		// Freeze the intake to make Tiet happy
 		Intake.getInstance().freeze();
 
+		// Put the limelight in "Secondary" mode for driver assist
+		Limelight2.getInstance().setCamMode(CameraMode.PIP_SECONDARY);
+
 		// Disable the autonomous command
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
@@ -213,6 +217,9 @@ public class Robot extends TimedRobot {
 
 		// Put the climber in service mode
 		Climber.getInstance().service();
+
+		// Put the Limelight in "SBS" mode
+		Limelight2.getInstance().setCamMode(CameraMode.STANDARD);
 
 	}
 
