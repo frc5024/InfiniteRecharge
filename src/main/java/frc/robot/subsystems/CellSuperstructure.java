@@ -140,15 +140,19 @@ public class CellSuperstructure extends SubsystemBase {
 
             m_intake.intake();
 
-            m_hopper.startIntake(m_wantedCellsIntake);
+            m_hopper.startIntake();
 
             m_shooter.stop();
 
-        } else {
-            // stop everything once hopper has desired amount of cells
-            if (m_hopper.isDone()) {
-                m_systemState = SystemState.IDLE;
-            }
+        }
+
+        int cellCount = m_hopper.getCellCount();
+
+        System.out.println(cellCount);
+
+        // stop once there are enough cells
+        if (cellCount >= 5 || cellCount == m_wantedCellsIntake || m_hopper.getTopLineBreak()) {
+            m_systemState = SystemState.IDLE;
         }
     }
 
@@ -170,10 +174,9 @@ public class CellSuperstructure extends SubsystemBase {
             // stop everything once hopper has desired amount of cells or no cells
             int cellAmount = m_hopper.getCellCount();
 
-            // TODO: Fix this (ball counting does not work)
-            // if (cellAmount == m_wantedCellsAfterShot || cellAmount == 0) {
-            // m_systemState = SystemState.IDLE;
-            // }
+            if (cellAmount == m_wantedCellsAfterShot || cellAmount == 0) {
+                m_systemState = SystemState.IDLE;
+            }
 
             // only supply cells if shooter isn't spun up or the top line break is not
             // tripped
@@ -240,7 +243,12 @@ public class CellSuperstructure extends SubsystemBase {
         // set amount of cells the hopper should have before stopping
         m_wantedCellsIntake = amount;
 
-        m_systemState = SystemState.INTAKING;
+        int currentCount = m_hopper.getCellCount();
+
+        if (!(currentCount >= m_wantedCellsIntake) && !(m_hopper.getTopLineBreak())) {
+            m_systemState = SystemState.INTAKING;
+        }
+
     }
 
     /**
