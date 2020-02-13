@@ -24,7 +24,7 @@ public class Shooter extends SubsystemBase {
     // Wind-up time
     private long windUpStartTime, windUpEndTime, windUpTotalTime;
 
-    //Optimal Position
+    // Optimal Position
     boolean inPosition;
 
     // Logger
@@ -61,7 +61,7 @@ public class Shooter extends SubsystemBase {
     private CANPIDController m_motorPID;
     private CANEncoder m_motorEncoder;
 
-    //Limelight
+    // Limelight
     private Limelight2 m_limelight;
 
     private Shooter() {
@@ -155,7 +155,6 @@ public class Shooter extends SubsystemBase {
 
         }
 
-        
     }
 
     /**
@@ -196,7 +195,7 @@ public class Shooter extends SubsystemBase {
             // Configure the spinup controller
             m_motorPID.setReference(output, ControlType.kVelocity);
 
-            //Use Limelight
+            // Use Limelight
             m_limelight.use(true);
         }
 
@@ -220,8 +219,8 @@ public class Shooter extends SubsystemBase {
     private void handleSpinDown(boolean newState) {
 
         if (newState) {
-            
-        // Turn off the LEDs
+
+            // Turn off the LEDs
             m_limelight.setLED(LEDMode.OFF);
             m_limelight.use(false);
             m_motorController.setOpenLoopRampRate(1.3);
@@ -272,9 +271,9 @@ public class Shooter extends SubsystemBase {
      * 
      * @param newState Is this state new?
      */
-    public void handleUnjam(boolean isNewState){
-        if(isNewState){
-            //TODO
+    public void handleUnjam(boolean isNewState) {
+        if (isNewState) {
+            // TODO
         }
     }
 
@@ -322,8 +321,9 @@ public class Shooter extends SubsystemBase {
      */
     public boolean isInPosition() {
 
-        //Check if  drivetrain has been moved off-target since alignment
-        if(DriveTrain.getInstance().alignmentLost()) inPosition = false; 
+        // Check if drivetrain has been moved off-target since alignment
+        if (DriveTrain.getInstance().alignmentLost())
+            inPosition = false;
         return inPosition;
     }
 
@@ -331,21 +331,27 @@ public class Shooter extends SubsystemBase {
      * 
      * @return Desired flywheel velocity in RPM based on distance to target.
      */
-    public double getVelocityFromLimelight(){
+    public double getVelocityFromLimelight() {
 
         // Get distance to target
         double angleToTarget = m_limelight.getTarget().ty;
 
-        //d = (h2-h1) / tan(a1+a2)
-        double distance = (RobotConstants.Shooter.TARGET_HEIGHT-RobotConstants.Shooter.LIMELIGHT_HEIGHT)/Math.tan(RobotConstants.Shooter.LIMELIGHT_MOUNT_ANGLE+angleToTarget);
-        RobotLogger.getInstance().log("[LIMELIGHT]: Distance to target calculated. Distance is " + String.format("%.4d",distance) + "m.");
+        // d = (h2-h1) / tan(a1+a2)
+        double distance = (RobotConstants.Shooter.TARGET_HEIGHT - RobotConstants.Shooter.LIMELIGHT_HEIGHT)
+                / Math.tan(RobotConstants.Shooter.LIMELIGHT_MOUNT_ANGLE + angleToTarget);
+        RobotLogger.getInstance().log(
+                "[LIMELIGHT]: Distance to target calculated. Distance is " + String.format("%.4d", distance) + "m.");
 
-        //Calculate necessary linear velocity of ball
-        double ballVel = (Math.sqrt(9.81) * Math.sqrt(distance) * Math.sqrt((Math.tan(RobotConstants.Shooter.LAUNCH_ANGLE)*Math.tan(RobotConstants.Shooter.LAUNCH_ANGLE))+1)) / Math.sqrt(2 * Math.tan(RobotConstants.Shooter.LAUNCH_ANGLE) - (2 * 9.81 * RobotConstants.Shooter.TARGET_HEIGHT) / distance);
+        // Calculate necessary linear velocity of ball
+        double ballVel = (Math.sqrt(9.81) * Math.sqrt(distance) * Math.sqrt(
+                (Math.tan(RobotConstants.Shooter.LAUNCH_ANGLE) * Math.tan(RobotConstants.Shooter.LAUNCH_ANGLE)) + 1))
+                / Math.sqrt(2 * Math.tan(RobotConstants.Shooter.LAUNCH_ANGLE)
+                        - (2 * 9.81 * RobotConstants.Shooter.TARGET_HEIGHT) / distance);
 
-        //Tangential velocity of flywheel, in RPM
-        double wheelVel = (ballVel*2)*RobotConstants.Shooter.RPM_PER_MPS;
-        RobotLogger.getInstance().log("[LIMELIGHT]: Desired velocity calculated. Desired velocity is " + String.format("%.4d",wheelVel) + "RPM.");
+        // Tangential velocity of flywheel, in RPM
+        double wheelVel = (ballVel * 2) * RobotConstants.Shooter.RPM_PER_MPS;
+        RobotLogger.getInstance().log("[LIMELIGHT]: Desired velocity calculated. Desired velocity is "
+                + String.format("%.4d", wheelVel) + "RPM.");
         return wheelVel;
     }
 

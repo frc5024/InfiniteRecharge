@@ -328,7 +328,7 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
         // Send motor command
         setOpenLoop(new DriveSignal(throttle, throttle));
 
-        //Set old yaw
+        // Set old yaw
         setOldYaw(NavX.getInstance().getAngle());
 
         // Return if we are in range
@@ -473,23 +473,23 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
         return m_robotPose;
     }
 
-
     /**
      * After alignment, check to see if bot loses alignment.
+     * 
      * @return If yaw difference is greater than 3 degrees since last alignment;
      */
-   public boolean alignmentLost(){
-       double yaw = NavX.getInstance().getAngle();
-       double yawDelta = Math.abs(yaw-oldYaw);
-       return(yawDelta>RobotConstants.DriveTrain.ALIGNMENT_EPSILON);
-   }
+    public boolean alignmentLost() {
+        double yaw = NavX.getInstance().getAngle();
+        double yawDelta = Math.abs(yaw - oldYaw);
+        return (yawDelta > RobotConstants.DriveTrain.ALIGNMENT_EPSILON);
+    }
 
-   /**
-    * @param oldYaw the oldYaw to set
-    */
-   public void setOldYaw(double oldYaw) {
-       this.oldYaw = oldYaw;
-   }
+    /**
+     * @param oldYaw the oldYaw to set
+     */
+    public void setOldYaw(double oldYaw) {
+        this.oldYaw = oldYaw;
+    }
 
     /**
      * Force-set the robot's position
