@@ -169,7 +169,6 @@ public class Shooter extends SubsystemBase {
 
             // Force-set the motor to 0.0V
             m_motorController.set(0.0);
-            m_motorPID.setReference(0.0, ControlType.kVelocity);
 
             // Force-set output
             output = 0.0;
@@ -199,6 +198,10 @@ public class Shooter extends SubsystemBase {
             m_limelight.use(true);
         }
 
+        // Log the speeds
+        System.out.println(
+                String.format("Setpoint: %.1f, Curent: %.1f", output, m_motorController.getEncoder().getVelocity()));
+
         // Switch to HOLD state if spinup complete
         if (atRPMSetpoint()) {
 
@@ -220,10 +223,7 @@ public class Shooter extends SubsystemBase {
             m_limelight.setLED(LEDMode.OFF);
             m_limelight.use(false);
 
-            // TODO: Decide which is better
-            m_motorController.setOpenLoopRampRate(1.3);
             m_motorController.set(0);
-            // m_motorPID.setReference(output, ControlType.kVelocity);
         }
 
         m_systemState = SystemState.IDLE;
@@ -247,10 +247,6 @@ public class Shooter extends SubsystemBase {
             m_motorPID.setReference(output, ControlType.kVelocity);
 
         }
-
-        // Log the speeds
-        System.out.println(
-                String.format("Setpoint: %.1f, Curent: %.1f", output, m_motorController.getEncoder().getVelocity()));
 
         // If we are under-RPM, spin up more
         if (!atRPMSetpoint()) {

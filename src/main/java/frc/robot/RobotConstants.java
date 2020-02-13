@@ -256,15 +256,15 @@ public class RobotConstants {
          */
         public static final int MOTOR_ID = 16;
 
-        public static final double MOTOR_MAX_RPM = 5700;
+        public static final double MOTOR_MAX_RPM = 4450; // 5700;
 
         public static final double MOTOR_KV = 473;
         public static final double VOLTAGE_EPSILON = 0.2;
         public static final double RPM_EPSILON = VOLTAGE_EPSILON * MOTOR_KV;
 
         /* Shooter PID */
-        public static final double kPVel = 5e-5;
-        public static final double kIVel = 1e-6;
+        public static final double kPVel = 0.00055;
+        public static final double kIVel = 9e-7;
         public static final double kDVel = 0.0;
         public static final double kIz = 0.0;
         public static final double kFF = 0.0;
