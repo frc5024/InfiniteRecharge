@@ -195,7 +195,6 @@ public class Hopper extends SubsystemBase {
         m_lineBottomLastValue = m_lineBottom.get();
         m_lineMiddleLastValue = m_lineMiddle.get();
         m_lineTopLastValue = m_lineTop.get();
-
     }
 
     /**
