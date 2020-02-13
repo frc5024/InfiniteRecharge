@@ -61,14 +61,14 @@ public class PanelManipulator extends SubsystemBase {
         public static FieldColors fromFMSString(String color) {
 
             // Switch/case the FMS color string
-            switch (color.toUpperCase()) {
-            case "R":
+            switch (color.toUpperCase().charAt(0)) {
+            case 'R':
                 return RED;
-            case "G":
+            case 'G':
                 return GREEN;
-            case "B":
+            case 'B':
                 return BLUE;
-            case "Y":
+            case 'Y':
                 return YELLOW;
             default:
                 return null;
