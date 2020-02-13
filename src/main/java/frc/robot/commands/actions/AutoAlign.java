@@ -3,6 +3,7 @@ package frc.robot.commands.actions;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.cellmech.Shooter;
 import frc.robot.vision.Limelight2;
 import frc.robot.vision.LimelightTarget;
 import frc.robot.vision.Limelight2.CameraMode;
@@ -34,8 +35,8 @@ public class AutoAlign extends CommandBase {
 
         if (target != null) {
 
-            // Tell the DriveTrain to auto-steer
-            DriveTrain.getInstance().autoTarget(target);
+            // Tell the DriveTrain to auto-steer, send outcome to shooter
+            Shooter.getInstance().setInPosition(DriveTrain.getInstance().autoTarget(target));
         } else {
             // Blink the light if we are the only user, and there is no target
             if (Limelight2.getInstance().users == 1) {
