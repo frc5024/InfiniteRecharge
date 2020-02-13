@@ -5,6 +5,7 @@ import frc.robot.OI;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.vision.Limelight2;
 import frc.robot.vision.LimelightTarget;
+import frc.robot.vision.Limelight2.CameraMode;
 import frc.robot.vision.Limelight2.LEDMode;
 
 public class AutoAlign extends CommandBase {
@@ -19,6 +20,8 @@ public class AutoAlign extends CommandBase {
         DriveTrain.getInstance().stop();
         DriveTrain.getInstance().setBrakes(false);
         OI.getInstance().rumbleDriver(0.5);
+        // Put the limelight in "Main" mode for driver assist
+		Limelight2.getInstance().setCamMode(CameraMode.PIP_MAIN);
     }
 
     @Override
@@ -51,6 +54,9 @@ public class AutoAlign extends CommandBase {
         DriveTrain.getInstance().stop();
         DriveTrain.getInstance().setBrakes(true);
         OI.getInstance().rumbleDriver(0.0);
+
+        // Put the limelight in "Secondary" mode for driver assist
+		Limelight2.getInstance().setCamMode(CameraMode.PIP_SECONDARY);
     }
 
     @Override
