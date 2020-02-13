@@ -6,6 +6,7 @@ import frc.lib5k.components.motors.motorsensors.TalonEncoder;
 import frc.lib5k.components.sensors.EncoderBase;
 import frc.lib5k.components.sensors.LineBreak;
 import frc.lib5k.simulation.wrappers.SimTalon;
+import frc.lib5k.utils.Mathutils;
 import frc.lib5k.utils.RobotLogger;
 import frc.robot.RobotConstants;
 
@@ -267,7 +268,7 @@ public class Hopper extends SubsystemBase {
         }
 
         // if belt has gone 12 inches, stop tying and set state to ready to intake
-        if (m_ticksAtStartOfIntake - m_hopperEncoder.getTicks()  >= 41583) {
+        if (m_ticksAtStartOfIntake - m_hopperEncoder.getTicks() >= 41583) {
             m_systemState = SystemState.INTAKEREADY;
         }
     }
@@ -415,7 +416,7 @@ public class Hopper extends SubsystemBase {
      * @param amountToEndUpWith amount of cells to have in the hopper after shooting
      */
     public void supplyCellsToShooter() {
-        logger.log("Hopper", "Supply cells to shooter requested");
+        // Do not log here, because this method gets spammed by the superstructure
         m_systemState = SystemState.SHOOTING;
     }
 
@@ -454,6 +455,16 @@ public class Hopper extends SubsystemBase {
      */
     public void manuallyControlBelt(double speed) {
         m_hopperBelt.set(speed);
+    }
+
+    /**
+     * Force-override the internal power cell counter
+     * 
+     * @param count New cell count [0-5]
+     */
+    public void forceCellCount(int count) {
+        logger.log("Hopper", String.format("Cell count force-set to: %d", count));
+        m_cellCount = (int) Mathutils.clamp(count, 0, 5);
     }
 
 }

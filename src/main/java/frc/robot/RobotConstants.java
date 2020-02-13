@@ -131,6 +131,8 @@ public class RobotConstants {
 
         }
 
+        public static int ALIGNMENT_EPSILON = 3;
+
     }
 
     /**
@@ -215,8 +217,8 @@ public class RobotConstants {
 
         public static final double ARM_TICKS_PER_DEGREE = 1000;
 
-        public static final double ARM_UP_SPEED = -0.85;
-        public static final double ARM_DOWN_SPEED = 0.35; 
+        public static final double ARM_UP_SPEED = -0.9;
+        public static final double ARM_DOWN_SPEED = 0.35;
 
         public static final double ROLLER_SPEED = 0.8;
     }
@@ -233,13 +235,13 @@ public class RobotConstants {
 
         // Sensors
         public static final int HOPPER_LINEBREAK_BOTTOM = 2;
-        public static final int HOPPER_LINEBREAK_BOTTOM_POWER_CHANNEL = 0;
+        public static final int HOPPER_LINEBREAK_BOTTOM_POWER_CHANNEL = 1;
 
         public static final int HOPPER_LINEBREAK_MIDDLE = 4;
-        public static final int HOPPER_LINEBREAK_MIDDLE_POWER_CHANNEL = 1;
+        public static final int HOPPER_LINEBREAK_MIDDLE_POWER_CHANNEL = 2;
 
         public static final int HOPPER_LINEBREAK_TOP = 3;
-        public static final int HOPPER_LINEBREAK_TOP_POWER_CHANNEL = 2;
+        public static final int HOPPER_LINEBREAK_TOP_POWER_CHANNEL = 3;
 
         // Belt speed during shooting
         public static final double SHOOTER_FEED_SPEED = 0.5;
@@ -254,18 +256,34 @@ public class RobotConstants {
          */
         public static final int MOTOR_ID = 16;
 
-        public static final double MOTOR_MAX_RPM = 5700;
+        public static final double MOTOR_MAX_RPM = 4450; // 5700;
 
         public static final double MOTOR_KV = 473;
         public static final double VOLTAGE_EPSILON = 0.2;
         public static final double RPM_EPSILON = VOLTAGE_EPSILON * MOTOR_KV;
 
         /* Shooter PID */
-        public static final double kPVel = 5e-5;
-        public static final double kIVel = 1e-6;
+        public static final double kPVel = 0.00055;
+        public static final double kIVel = 9e-7;
         public static final double kDVel = 0.0;
         public static final double kIz = 0.0;
         public static final double kFF = 0.0;
+
+        /* Limelight */
+        public static final double TARGET_HEIGHT = 2.49;
+        public static final double LIMELIGHT_HEIGHT = 1;
+        public static final double LIMELIGHT_MOUNT_ANGLE = 13;
+
+        /* Launch Angle */
+        public static final double LAUNCH_ANGLE = 45;
+
+        /* RPM to m/s */
+        public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);
+        public static final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
+        public static final double RPM_PER_METER = 1 / WHEEL_CIRCUMFERENCE;
+        public static final double RPM_PER_MPS = RPM_PER_METER / 60;
+
+        public static final double DEFAULT_VELOCITY = MOTOR_MAX_RPM * 0.85;
 
     }
 

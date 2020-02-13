@@ -162,7 +162,9 @@ public class CellSuperstructure extends SubsystemBase {
 
             m_intake.stow();
 
-            m_shooter.setOutputPercent(0.7);
+            m_hopper.supplyCellsToShooter();
+
+            m_shooter.setVelocity(m_shooter.getVelocityFromLimelight());
 
         } else {
             // stop everything once hopper has desired amount of cells or no cells
