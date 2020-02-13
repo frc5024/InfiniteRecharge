@@ -162,7 +162,7 @@ public class CellSuperstructure extends SubsystemBase {
 
             m_intake.stow();
 
-            m_shooter.setOutputPercent(0.7);
+            m_shooter.setOutputPercent(0.85);
 
         } else {
             // stop everything once hopper has desired amount of cells or no cells

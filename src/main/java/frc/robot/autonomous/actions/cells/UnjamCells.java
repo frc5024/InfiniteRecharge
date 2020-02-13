@@ -16,4 +16,9 @@ public class UnjamCells extends CommandBase {
     public void initialize() {
         m_cellSuperstructure.unjam();
     }
+
+    @Override
+    public void end(boolean interrupted) {
+        m_cellSuperstructure.stop();
+    }
 }
