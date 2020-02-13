@@ -227,7 +227,7 @@ public class RobotConstants {
         public static final double CAMERA_HEIGHT = .74;
 
         // Angle of camera
-        public static final double CAMERA_ANGLE_1 = 19;
+        public static final double CAMERA_ANGLE_1 = 9;
     }
 
 }
