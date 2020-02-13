@@ -218,7 +218,7 @@ public class RobotConstants {
         public static final double ARM_TICKS_PER_DEGREE = 1000;
 
         public static final double ARM_UP_SPEED = -0.9;
-        public static final double ARM_DOWN_SPEED = 0.35; 
+        public static final double ARM_DOWN_SPEED = 0.35;
 
         public static final double ROLLER_SPEED = 0.8;
     }
@@ -235,13 +235,13 @@ public class RobotConstants {
 
         // Sensors
         public static final int HOPPER_LINEBREAK_BOTTOM = 2;
-        public static final int HOPPER_LINEBREAK_BOTTOM_POWER_CHANNEL = 0;
+        public static final int HOPPER_LINEBREAK_BOTTOM_POWER_CHANNEL = 1;
 
         public static final int HOPPER_LINEBREAK_MIDDLE = 4;
-        public static final int HOPPER_LINEBREAK_MIDDLE_POWER_CHANNEL = 1;
+        public static final int HOPPER_LINEBREAK_MIDDLE_POWER_CHANNEL = 2;
 
         public static final int HOPPER_LINEBREAK_TOP = 3;
-        public static final int HOPPER_LINEBREAK_TOP_POWER_CHANNEL = 2;
+        public static final int HOPPER_LINEBREAK_TOP_POWER_CHANNEL = 3;
 
         // Belt speed during shooting
         public static final double SHOOTER_FEED_SPEED = 0.5;
@@ -279,9 +279,11 @@ public class RobotConstants {
 
         /* RPM to m/s */
         public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);
-        public static final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER*Math.PI;
-        public static final double RPM_PER_METER = 1/WHEEL_CIRCUMFERENCE;
-        public static final double RPM_PER_MPS = RPM_PER_METER/60;
+        public static final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
+        public static final double RPM_PER_METER = 1 / WHEEL_CIRCUMFERENCE;
+        public static final double RPM_PER_MPS = RPM_PER_METER / 60;
+
+        public static final double DEFAULT_VELOCITY = MOTOR_MAX_RPM * 0.85;
 
     }
 
