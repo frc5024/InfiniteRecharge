@@ -4,11 +4,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.cscore.VideoSource;
-import edu.wpi.first.wpilibj.DigitalInput;
 import frc.lib5k.components.AutoCamera;
 import frc.lib5k.components.LinearActuator;
 import frc.lib5k.components.LinearActuator.ActuatorState;
-import frc.lib5k.components.pneumatics.LazySolenoid;
+import frc.lib5k.components.sensors.HallEffect;
 import frc.lib5k.simulation.wrappers.SimTalon;
 import frc.lib5k.utils.RobotLogger;
 import frc.robot.RobotConstants;
@@ -30,8 +29,8 @@ public class Climber extends SubsystemBase {
     private AutoCamera m_camera;
 
     // Hall effect sensors on the climbers
-    private DigitalInput m_lowHall;
-    private DigitalInput m_highHall;
+    private HallEffect m_lowHall;
+    private HallEffect m_highHall;
 
     // Line break sensor on the hook of the climber
 
@@ -73,8 +72,8 @@ public class Climber extends SubsystemBase {
         m_liftMotor = new SimTalon(RobotConstants.Climber.MOTOR_CONTROLLER_ID);
         
         // Low and High Hall sensors
-        m_lowHall = new DigitalInput(RobotConstants.Climber.LOW_HALL_ID);
-        m_highHall = new DigitalInput(RobotConstants.Climber.HIGH_HALL_ID);
+        m_lowHall = new HallEffect(RobotConstants.Climber.LOW_HALL_ID);
+        m_highHall = new HallEffect(RobotConstants.Climber.HIGH_HALL_ID);
 
         // Set up the camera
         m_camera = new AutoCamera("Climb camera", 0);
