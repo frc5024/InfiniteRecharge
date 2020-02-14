@@ -71,7 +71,7 @@ public class Climber extends SubsystemBase {
 
         // Climb motor
         m_liftMotor = new SimTalon(RobotConstants.Climber.MOTOR_CONTROLLER_ID);
-
+        
         // Low and High Hall sensors
         m_lowHall = new DigitalInput(RobotConstants.Climber.LOW_HALL_ID);
         m_highHall = new DigitalInput(RobotConstants.Climber.HIGH_HALL_ID);
@@ -192,7 +192,7 @@ public class Climber extends SubsystemBase {
         if (m_wantedPosition != current && m_wantedPosition != Position.CURRENT) {
 
             // Pull down the climber
-            m_liftMotor.set(1.0);
+            m_liftMotor.set(-1.0);
 
         } else {
             // Hold the motor
