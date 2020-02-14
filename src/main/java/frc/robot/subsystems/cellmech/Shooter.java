@@ -204,6 +204,7 @@ public class Shooter extends SubsystemBase {
 
             // Configure the spinup controller
             m_motorPID.setReference(output, ControlType.kVelocity);
+            m_tuner.setSetpoint(output);
 
             // Use Limelight
             m_limelight.use(true);
@@ -262,6 +263,7 @@ public class Shooter extends SubsystemBase {
 
             // Set the motor output
             m_motorPID.setReference(output, ControlType.kVelocity);
+            m_tuner.setSetpoint(output);
 
         }
 

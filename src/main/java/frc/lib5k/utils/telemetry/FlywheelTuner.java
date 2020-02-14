@@ -18,6 +18,9 @@ public class FlywheelTuner {
     // Component telemetry table
     private NetworkTable m_telemTable;
 
+    // Tracker for system setpoints
+    private double setpoint = 0.0;
+
     /**
      * Create a FlywheelTuner server
      * 
@@ -54,6 +57,15 @@ public class FlywheelTuner {
     }
 
     /**
+     * Set the controller setpoint var
+     * 
+     * @param setpoint Setpoint
+     */
+    public void setSetpoint(double setpoint) {
+        this.setpoint = setpoint;
+    }
+
+    /**
      * Update the output
      */
     public void update() {
@@ -66,6 +78,7 @@ public class FlywheelTuner {
             // If we should be logging, publish the rpm data
             if (m_doLogs) {
                 m_telemTable.getEntry("rpm").setDouble(m_rpmSource.getAsDouble());
+                m_telemTable.getEntry("setpoint").setDouble(setpoint);
             }
         }
 
