@@ -94,7 +94,7 @@ public class Shooter extends SubsystemBase {
 
         // Configure the tuner
         m_tuner = new FlywheelTuner("Shooter", m_motorEncoder::getVelocity);
-        m_tuner.setEnabled(false);
+        m_tuner.setEnabled(true);
 
     }
 

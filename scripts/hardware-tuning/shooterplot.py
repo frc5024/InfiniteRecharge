@@ -57,18 +57,16 @@ def animate(i, xs, ys):
     if not sd.getEntry("running").getBoolean(False):
         return
     
-    
     # Read velocity
     velocity = sd.getEntry("rpm").getNumber(0.0)
-    
 
     # Add x and y to lists
     xs.append(dt.datetime.now().strftime('%H:%M:%S.%f'))
     ys.append(velocity)
-
+    
     # Limit x and y lists to 20 items
-    # xs = xs[-20:]
-    # ys = ys[-20:]
+    xs = xs[-40:]
+    ys = ys[-40:]
 
     # Draw x and y lists
     ax.clear()
@@ -81,5 +79,5 @@ def animate(i, xs, ys):
     plt.ylabel('Velocity')
 
 # Set up plot to call animate() function periodically
-ani = animation.FuncAnimation(fig, animate, fargs=(xs, ys), interval=100)
+ani = animation.FuncAnimation(fig, animate, fargs=(xs, ys), interval=10)
 plt.show()
