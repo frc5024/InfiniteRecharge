@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib5k.simulation.wrappers.SimSparkMax;
 import frc.lib5k.utils.Mathutils;
 import frc.lib5k.utils.RobotLogger;
+import frc.lib5k.utils.telemetry.FlywheelTuner;
 import frc.robot.RobotConstants;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.vision.Limelight2;
@@ -64,6 +65,9 @@ public class Shooter extends SubsystemBase {
     // Limelight
     private Limelight2 m_limelight;
 
+    // Telemetry object for tuning the flywheel
+    private FlywheelTuner m_tuner;
+
     private Shooter() {
 
         // Create Limelight
@@ -87,6 +91,10 @@ public class Shooter extends SubsystemBase {
         m_motorPID.setReference(0.0, ControlType.kVelocity);
 
         addChild("SimSparkMax", m_motorController);
+
+        // Configure the tuner
+        m_tuner = new FlywheelTuner("Shooter", m_motorEncoder::getVelocity);
+        m_tuner.setEnabled(false);
 
     }
 
@@ -155,6 +163,9 @@ public class Shooter extends SubsystemBase {
 
         }
 
+        // Update the tuner
+        m_tuner.update();
+
     }
 
     /**
@@ -196,6 +207,9 @@ public class Shooter extends SubsystemBase {
 
             // Use Limelight
             m_limelight.use(true);
+
+            // Enable telemetry
+            m_tuner.enableLogging(true);
         }
 
         // Log the speeds
@@ -224,6 +238,9 @@ public class Shooter extends SubsystemBase {
             m_limelight.use(false);
 
             m_motorController.set(0);
+
+            // Disable telemetry
+            m_tuner.enableLogging(false);
         }
 
         m_systemState = SystemState.IDLE;
