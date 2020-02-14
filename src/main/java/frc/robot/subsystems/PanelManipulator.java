@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.revrobotics.ColorMatch;
+import com.revrobotics.ColorMatchResult;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.I2C;
@@ -81,7 +82,7 @@ public class PanelManipulator extends SubsystemBase {
     // FieldColors.GREEN, FieldColors.BLUE,
     // FieldColors.GREEN };
     private List<FieldColors> m_colors = List.of(FieldColors.RED, FieldColors.GREEN, FieldColors.BLUE,
-            FieldColors.GREEN);
+            FieldColors.YELLOW);
 
     // Possible system states
     private enum SystemState {
@@ -276,12 +277,15 @@ public class PanelManipulator extends SubsystemBase {
      * @param isNew Is this a new state?
      */
     private void handlePosition(boolean isNew) {
-        if (isNew) {
+        init:if (isNew) { 
             logger.log("PanelManipulator", "Starting positional control");
 
             // Read the current color index
             int currentIDX = getColorIdx();
 
+            if(currentIDX == -1) {
+                break init;
+            }
             if (!m_hasLostContact) {
                 // Determine real offset from estimated one
                 int wrappedDistance = (m_desiredColorOffset - currentIDX) % 4;
@@ -335,6 +339,10 @@ public class PanelManipulator extends SubsystemBase {
         // Get the current color index
         int currentIdx = getColorIdx();
 
+        if(currentIdx == -1) {
+            return;
+        }
+
         // Push to buffer
         m_colorBufffer.addLast(currentIdx);
 
@@ -374,9 +382,19 @@ public class PanelManipulator extends SubsystemBase {
         // Read the color sensor color
         Color sensedColor = m_colorSensor.getColor();
 
-        // Find the closest color
-        Color closestMatch = m_matcher.matchColor(sensedColor).color;
+        if(sensedColor == null) {
+            return -1;
+        }
 
+        // Find the closest color
+        ColorMatchResult closestMatchResult = m_matcher.matchColor(sensedColor);
+
+        if(closestMatchResult == null) {
+            return -1;
+        }
+        
+        Color closestMatch = closestMatchResult.color;
+        
         // Find the array element for the match
         return m_colors.indexOf(closestMatch);
     }
@@ -387,6 +405,7 @@ public class PanelManipulator extends SubsystemBase {
      * @return Is touching control panel?
      */
     public boolean isTouchingPanel() {
+        
         return m_colorSensor.getProximity() > RobotConstants.PanelManipulator.DISTANCE_THRESHOLD;
     }
 

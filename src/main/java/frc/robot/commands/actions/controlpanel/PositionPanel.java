@@ -56,13 +56,13 @@ public class PositionPanel extends CommandBase {
     public boolean isFinished() {
         // Check for the robot leaving the trench
         Translation2d robotPose = DriveTrain.getInstance().getPosition().getTranslation();
-        boolean hasRobotLeftTrench = MathUtils.epsilonEquals(robotPose.getX(), robotStartPose.getX(),
+        boolean hasRobotLeftTrench = true || MathUtils.epsilonEquals(robotPose.getX(), robotStartPose.getX(),
                 robotEpsilon.getX())
                 || MathUtils.epsilonEquals(robotPose.getY(), robotStartPose.getY(), robotEpsilon.getY());
 
         // Check for system finish
         boolean systemFinished = PanelManipulator.getInstance().isIdle();
 
-        return systemFinished || hasRobotLeftTrench || failed;
+        return systemFinished || !hasRobotLeftTrench || failed;
     }
 }

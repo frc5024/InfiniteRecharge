@@ -71,19 +71,18 @@ public class OperatorControl extends CommandBase {
             m_climbController.cancel();
         }
 
-        if(m_oi.shouldRotate()) {
+        if(m_oi.shouldRotate() && !m_rotateCommand.isScheduled()) {
             m_rotateCommand.schedule();
             m_positionCommand.cancel();
-        } else {
-            m_rotateCommand.cancel();
-        }
+        } 
 
-        if(m_oi.shouldPosition()) {
+        if(m_oi.shouldPosition() && !m_positionCommand.isScheduled()) {
             m_positionCommand.schedule();
             m_rotateCommand.cancel();
-        } else {
-            m_positionCommand.cancel();
         }
+        // else if(m_positionCommand.isFinished()) {
+        //     m_positionCommand.cancel();
+        // }
     }
 
     /**
@@ -93,6 +92,8 @@ public class OperatorControl extends CommandBase {
         m_intakeCellsCommand.cancel();
         m_shootCellsCommand.cancel();
         m_climbController.cancel();
+        m_rotateCommand.cancel();
+        m_positionCommand.cancel();
     }
 
 }
