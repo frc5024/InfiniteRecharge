@@ -2,7 +2,7 @@ package frc.robot.autonomous.paths.score;
 
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.autonomous.AutonomousStartpoints;
@@ -38,22 +38,22 @@ public class ScorePickupRight extends AutonomousPath {
         double starty = getStartingPose().getTranslation().getY();
 
         // Ensure robot is facing the correct angle at the start
-        output.addCommands(new VisionAlign(Rotation2d.fromDegrees(156), 2.0));
+        output.addCommands(new VisionAlign(Rotation2d.fromDegrees(156), 2.0).withTimeout(5));
 
         // Shoot Balls
-        output.addCommands(new ShootCells(3));
+        output.addCommands(new ShootCells(3).withTimeout(5));
 
         // Turns to balls
         // output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 2.0));
 
         // Get to the front of the balls
         output.addCommands(new DriveToCommand(new Pose2d(startx + 1.6, starty, Rotation2d.fromDegrees(0)),
-                new SpeedConstraint(1, 1), false, false));
+                new SpeedConstraint(1, 1), false, false).withTimeout(5));
 
         // Slowly drive through the balls while intaking
-        output.addCommands(new ParallelRaceGroup(
+        output.addCommands(new ParallelCommandGroup(
             new DriveToCommand(new Pose2d(startx + 3.8, starty, Rotation2d.fromDegrees(0)),
-            new SpeedConstraint(0.5, 0.5), false), new IntakeCells(3)));
+            new SpeedConstraint(0.5, 0.5), false), new IntakeCells(3).withTimeout(8)));
 
         // Turns around
         //output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(180), 2.0));
@@ -63,8 +63,8 @@ public class ScorePickupRight extends AutonomousPath {
                  new SpeedConstraint(1, 1), false));
         
         // Aims at target
-        output.addCommands(new VisionAlign(Rotation2d.fromDegrees(167), 2.0)); 
-        output.addCommands(new ShootCells(3));
+        output.addCommands(new VisionAlign(Rotation2d.fromDegrees(167), 2.0).withTimeout(3)); 
+        output.addCommands(new ShootCells(3).withTimeout(5));
 
 
 

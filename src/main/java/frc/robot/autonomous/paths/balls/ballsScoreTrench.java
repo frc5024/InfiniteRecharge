@@ -2,7 +2,7 @@ package frc.robot.autonomous.paths.balls;
 
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.lib5k.utils.RobotLogger;
 import frc.robot.autonomous.AutonomousStartpoints;
@@ -48,7 +48,7 @@ public class ballsScoreTrench extends AutonomousPath {
 
         // Slowly drive through the balls while intaking
         output.addCommands(new LogCommand("[Autonomous]", "Deploying intake and driving through balls"));
-        output.addCommands(new ParallelRaceGroup(new DriveToCommand(new Pose2d(startx + 3.1, starty + 0.0, Rotation2d.fromDegrees(0)),
+        output.addCommands(new ParallelCommandGroup(new DriveToCommand(new Pose2d(startx + 3.1, starty + 0.0, Rotation2d.fromDegrees(0)),
         new SpeedConstraint(0.3, 0.8), false), new IntakeCells(2)).withTimeout(5));
 
         // Aim at goal

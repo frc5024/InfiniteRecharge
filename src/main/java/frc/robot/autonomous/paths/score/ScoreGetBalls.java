@@ -2,7 +2,7 @@ package frc.robot.autonomous.paths.score;
 
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.autonomous.AutonomousStartpoints;
@@ -36,10 +36,10 @@ public class ScoreGetBalls extends AutonomousPath {
 
         // Ensure robot is facing the correct angle at the start
         
-        output.addCommands(new TurnToCommand((152), 2));
+        output.addCommands(new TurnToCommand((152), 2).withTimeout(1));
 
         // Shoot Command
-        output.addCommands(new ShootCells(3));
+        output.addCommands(new ShootCells(3).withTimeout(5));
 
         // Drives to the balls in the trench
         output.addCommands(new LogCommand("[Autonomous]", "Driving to front of the trench"));
@@ -49,12 +49,12 @@ public class ScoreGetBalls extends AutonomousPath {
         // Drives over the balls
         output.addCommands(new LogCommand("[Autonomous]", "Deploying intake and driving through balls")); 
         output.addCommands(
-                new ParallelRaceGroup(new DriveToCommand(new Pose2d(startx + 4, starty, Rotation2d.fromDegrees(0)),
+                new ParallelCommandGroup(new DriveToCommand(new Pose2d(startx + 4, starty, Rotation2d.fromDegrees(0)),
                 new SpeedConstraint(.5, .5), false), 
-                new IntakeCells(3)));
+                new IntakeCells(3)).withTimeout(5));
 
         output.addCommands(new LogCommand("[Autonomous]", "Realigning"));
-        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 2));
+        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 2).withTimeout(5));
 
         return output;
     }

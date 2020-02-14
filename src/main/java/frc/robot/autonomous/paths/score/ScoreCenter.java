@@ -2,7 +2,7 @@ package frc.robot.autonomous.paths.score;
 
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.autonomous.AutonomousStartpoints;
@@ -38,7 +38,7 @@ public class ScoreCenter extends AutonomousPath {
         
 
         // Ensure robot is facing the correct angle at the start
-        output.addCommands(new VisionAlign(Rotation2d.fromDegrees(-156), 2.00));
+        output.addCommands(new VisionAlign(Rotation2d.fromDegrees(-156), 2.00).withTimeout(1));
 
         
         // This is where the ball shooting would happen
@@ -56,7 +56,7 @@ public class ScoreCenter extends AutonomousPath {
 
         // Drives to balls in rendevous point
         output.addCommands(new LogCommand("[Autonomous]", "Attempting to intake"));
-        output.addCommands(new ParallelRaceGroup(
+        output.addCommands(new ParallelCommandGroup(
             new DriveToCommand(new Pose2d(startx + 1.8, starty, Rotation2d.fromDegrees(0)),
             new SpeedConstraint(.5, .5), false), new IntakeCells(3).withTimeout(7)));
 
