@@ -121,17 +121,17 @@ public class OI {
      * Check if the climber should be ejected
      */
     public boolean shouldEjectClimber() {
-        return m_operatorController.getBackButton() && m_operatorController.getStartButtonPressed();
+        return m_driverController.getBackButton() && m_driverController.getStartButtonPressed();
     }
 
     public boolean shouldCancelClimb() {
-        return m_operatorController.getStartButtonPressed() && !m_operatorController.getBackButton();
+        return m_driverController.getStartButtonPressed() && !m_driverController.getBackButton();
     }
 
     public Position getWantedClimbPosition() {
-        if (m_operatorController.getPOV() == 0) {
+        if (m_driverController.getStickButtonPressed(Hand.kRight)) {
             return Position.LEVEL;
-        } else if (m_operatorController.getPOV() == 180) {
+        } else if (m_driverController.getStickButtonReleased(Hand.kRight)) {
             return Position.RETRACTED;
         } else {
             return Position.CURRENT;
