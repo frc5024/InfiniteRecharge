@@ -4,7 +4,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lib5k.control.CubicDeadband;
 import frc.robot.OI;
 import frc.robot.RobotConstants;
+import frc.robot.autonomous.actions.VisionAlign;
 import frc.robot.commands.actions.AutoAlign;
+import frc.robot.commands.actions.AutoAlign.AimingMode;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.vision.Limelight2;
 import frc.robot.vision.LimelightTarget;
@@ -19,13 +21,14 @@ public class DriveControl extends CommandBase {
     /** Operator interface object for reading driver inputs */
     private OI m_oi = OI.getInstance();
 
-    /** Deadband object for the "rotation" input. More info about deadbands can be
+    /**
+     * Deadband object for the "rotation" input. More info about deadbands can be
      * found at: https://en.wikipedia.org/wiki/Deadband
      */
     private CubicDeadband m_rotationDeadband = new CubicDeadband(
             RobotConstants.HumanInputs.Deadbands.ROTATION_INPUT_DEADBAND, 0.0);
 
-    /** Alignment command */
+    /** Alignment commands */
     private AutoAlign m_alignmentCommand = new AutoAlign();
 
     /**
@@ -43,6 +46,13 @@ public class DriveControl extends CommandBase {
         // Handle auto-aim
         if (m_oi.shouldAutoAim()) {
 
+            // Free-space aiming
+            m_alignmentCommand.configAimingMode(AimingMode.FREE_SPACE);
+            m_alignmentCommand.schedule(true);
+        } else if (m_oi.shoulAutoPivot()) {
+
+            // Free-space aiming
+            m_alignmentCommand.configAimingMode(AimingMode.PIVOT);
             m_alignmentCommand.schedule(true);
         }
 

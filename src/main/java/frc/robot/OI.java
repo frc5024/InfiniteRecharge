@@ -108,6 +108,10 @@ public class OI {
         return m_driverController.getYButton();
     }
 
+    public boolean shoulAutoPivot() {
+        return m_driverController.getBButton();
+    }
+
     /**
      * Check if the robot should be shooting balls right now
      * 

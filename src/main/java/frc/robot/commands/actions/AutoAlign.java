@@ -11,8 +11,24 @@ import frc.robot.vision.Limelight2.LEDMode;
 
 public class AutoAlign extends CommandBase {
 
+    public enum AimingMode {
+        FREE_SPACE, // Free space aiming
+        PIVOT, // Pivot-only aiming
+    }
+
+    private AimingMode m_mode = AimingMode.FREE_SPACE;
+
     public AutoAlign() {
         addRequirements(DriveTrain.getInstance());
+    }
+
+    /**
+     * Set the auto-aim mode
+     * 
+     * @param mode Mode
+     */
+    public void configAimingMode(AimingMode mode) {
+        m_mode = mode;
     }
 
     @Override
@@ -22,7 +38,7 @@ public class AutoAlign extends CommandBase {
         DriveTrain.getInstance().setBrakes(false);
         OI.getInstance().rumbleDriver(0.5);
         // Put the limelight in "Main" mode for driver assist
-		Limelight2.getInstance().setCamMode(CameraMode.PIP_MAIN);
+        Limelight2.getInstance().setCamMode(CameraMode.PIP_MAIN);
     }
 
     @Override
@@ -35,8 +51,17 @@ public class AutoAlign extends CommandBase {
 
         if (target != null) {
 
+            // Tracker for the robot being aimed
+            boolean aimed = false;
+
+            if (m_mode == AimingMode.FREE_SPACE) {
+                aimed = DriveTrain.getInstance().autoTarget(target);
+            } else {
+                aimed = DriveTrain.getInstance().face(target, 4.0);
+            }
+
             // Tell the DriveTrain to auto-steer, send outcome to shooter
-            Shooter.getInstance().setInPosition(DriveTrain.getInstance().autoTarget(target));
+            Shooter.getInstance().setInPosition(aimed);
         } else {
             // Blink the light if we are the only user, and there is no target
             if (Limelight2.getInstance().users == 1) {
@@ -57,7 +82,7 @@ public class AutoAlign extends CommandBase {
         OI.getInstance().rumbleDriver(0.0);
 
         // Put the limelight in "Secondary" mode for driver assist
-		Limelight2.getInstance().setCamMode(CameraMode.PIP_SECONDARY);
+        Limelight2.getInstance().setCamMode(CameraMode.PIP_SECONDARY);
     }
 
     @Override
