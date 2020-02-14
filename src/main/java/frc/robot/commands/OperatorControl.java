@@ -71,15 +71,16 @@ public class OperatorControl extends CommandBase {
             m_climbController.cancel();
         }
 
-        if(m_oi.shouldRotate() && !m_rotateCommand.isScheduled()) {
+        if(m_oi.shouldRotate()) {
             m_rotateCommand.schedule();
             m_positionCommand.cancel();
         } 
 
-        if(m_oi.shouldPosition() && !m_positionCommand.isScheduled()) {
+        if(m_oi.shouldPosition()) {
             m_positionCommand.schedule();
             m_rotateCommand.cancel();
         }
+
         // else if(m_positionCommand.isFinished()) {
         //     m_positionCommand.cancel();
         // }

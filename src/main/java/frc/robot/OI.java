@@ -29,6 +29,9 @@ public class OI {
     // Intake action toggle
     private Toggle m_shouldIntakeToggle = new Toggle();
 
+    // Panel Manipulator Toggle(s)
+    private Toggle m_shouldPositionToggle = new Toggle();
+    private Toggle m_shouldRotateToggle = new Toggle();
     /**
      * Force the use of getInstance() by setting this class private
      */
@@ -115,11 +118,11 @@ public class OI {
     }
 
     public boolean shouldRotate() {
-        return m_operatorController.getStickButton(Hand.kLeft);
+        return m_shouldRotateToggle.feed(m_operatorController.getStickButton(Hand.kLeft));
     }
 
     public boolean shouldPosition() {
-        return m_operatorController.getStickButton(Hand.kRight);
+        return m_shouldPositionToggle.feed(m_operatorController.getStickButton(Hand.kRight));
     }
     /**
      * Check if the climber should be ejected
