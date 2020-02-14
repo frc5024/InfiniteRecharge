@@ -64,9 +64,6 @@ public class Hopper extends SubsystemBase {
     /** amount of cells currently in hopper */
     private int m_cellCount = 0;
 
-    /** 1 or -1 depending on if the motor is inverted or not */
-    private int m_inversionMultiplier = RobotConstants.Hopper.HOPPER_BELT_MOTOR_INVERTED ? -1 : 1;
-
     private Hopper() {
         // Construct motor controller
         m_hopperBelt = new SimTalon(RobotConstants.Hopper.HOPPER_BELT_MOTOR);
@@ -120,38 +117,35 @@ public class Hopper extends SubsystemBase {
     @Override
     public void periodic() {
 
-        // Count cells
 
-        // cache values of line break sensors
-        boolean middleValue = m_lineMiddle.get();
-        boolean topValue = m_lineTop.get();
+        if(m_systemState == SystemState.INTAKING || m_systemState == SystemState.INTAKEREADY || m_systemState == SystemState.UNJAM || m_systemState == SystemState.SHOOTING) {
+            // Count cells
 
-        // If belt is moving up
-        if (m_hopperBelt.get() * m_inversionMultiplier > 0.0) {
+            // cache values of line break sensors
+            boolean middleValue = m_lineMiddle.get();
+            boolean topValue = m_lineTop.get();
 
-            // add when cell enters bottom
-            if (middleValue == true && m_lineMiddleLastValue == false) {
-                modifyCellCount(1);
+            // If belt is moving up
+            if (m_hopperBelt.get() > 0.0) {
+
+                // add when cell enters bottom
+                if (middleValue == true && m_lineMiddleLastValue == false) {
+                    modifyCellCount(1);
+                }
+
+                // subtract when cell exits top
+                if (topValue == false && m_lineTopLastValue == true) {
+                    modifyCellCount(-1);
+                }
+
+                // If belt is moving down
+            } else if (m_hopperBelt.get() < 0.0) {
+
+                // subtract when cell exits bottom
+                if (middleValue == false && m_lineMiddleLastValue == true) {
+                    modifyCellCount(-1);
+                }
             }
-
-            // subtract when cell exits top
-            if (topValue == false && m_lineTopLastValue == true) {
-                modifyCellCount(-1);
-            }
-
-            // If belt is moving down
-        } else if (m_hopperBelt.get() * m_inversionMultiplier < 0.0) {
-
-            // subtract when cell exits bottom
-            if (middleValue == false && m_lineMiddleLastValue == true) {
-                modifyCellCount(-1);
-            }
-
-            // add when cell enters top
-            if (topValue == true && m_lineTopLastValue == false) {
-                modifyCellCount(1);
-            }
-
         }
 
         // Determine if this state is new

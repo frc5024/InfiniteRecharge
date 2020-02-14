@@ -148,8 +148,6 @@ public class CellSuperstructure extends SubsystemBase {
 
         int cellCount = m_hopper.getCellCount();
 
-        System.out.println(cellCount);
-
         // stop once there are enough cells
         if (cellCount >= 5 || cellCount == m_wantedCellsIntake || m_hopper.getTopLineBreak()) {
             m_systemState = SystemState.IDLE;
