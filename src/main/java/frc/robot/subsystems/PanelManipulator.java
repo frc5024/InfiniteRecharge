@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 
@@ -47,10 +48,10 @@ public class PanelManipulator extends SubsystemBase {
         BLUE(ColorMatch.makeColor(0.143, 0.427, 0.429)), GREEN(ColorMatch.makeColor(0.197, 0.561, 0.240)),
         RED(ColorMatch.makeColor(0.561, 0.232, 0.114)), YELLOW(ColorMatch.makeColor(0.361, 0.524, 0.113));
 
-        public Color c;
+        public Color color;
 
         FieldColors(Color c) {
-            this.c = c;
+            this.color = c;
         }
 
         /**
@@ -74,6 +75,16 @@ public class PanelManipulator extends SubsystemBase {
             default:
                 return null;
             }
+        }
+
+        public static FieldColors fromColorObject(Color color) {
+            for(FieldColors fieldColor : EnumSet.allOf(FieldColors.class)) {
+                if(color == fieldColor.color) {
+                    return fieldColor;
+                }
+            }
+
+            return null;
         }
     }
 
@@ -135,7 +146,7 @@ public class PanelManipulator extends SubsystemBase {
 
         // Add all colors to matcher
         for (FieldColors fc : m_colors) {
-            m_matcher.addColorMatch(fc.c);
+            m_matcher.addColorMatch(fc.color);
         }
 
     }
@@ -396,7 +407,7 @@ public class PanelManipulator extends SubsystemBase {
         Color closestMatch = closestMatchResult.color;
         
         // Find the array element for the match
-        return m_colors.indexOf(closestMatch);
+        return m_colors.indexOf(FieldColors.fromColorObject(closestMatch));
     }
 
     /**
