@@ -20,7 +20,7 @@ public class RobotConstants {
     }
 
     public static final boolean PUBLISH_SD_TELEMETRY = true;
-    public static final boolean ENABLE_PID_TUNING_OUTPUTS = true;
+    public static final boolean ENABLE_PID_TUNING_OUTPUTS = false;
 
     public static class Autonomous {
 
