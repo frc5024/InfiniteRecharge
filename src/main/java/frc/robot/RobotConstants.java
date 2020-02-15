@@ -251,10 +251,10 @@ public class RobotConstants {
         public static final double REVOLUTIONS_PER_INCH = 2;
 
         // cycles the robot goes through with the bottom ensor tripped before moving the hopper
-        public static final int CYCLES_BEFORE_INTAKE = 15;
+        public static final int CYCLES_BEFORE_INTAKE = 10;
 
         // array of value, cycle duration pairs
-        public static final int[][] HOPPER_DONE_RUMBLE_SEQUENCE = {{1,10},{0,5},{1,10},{0,1}};
+        public static final int[][] HOPPER_DONE_RUMBLE_SEQUENCE = {{1,5},{0,3},{1,5},{0,1}};
     }
 
     public static class Shooter {
