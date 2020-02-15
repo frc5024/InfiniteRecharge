@@ -5,6 +5,7 @@ import frc.robot.OI;
 import frc.robot.autonomous.actions.cells.IntakeCells;
 import frc.robot.autonomous.actions.cells.ShootCells;
 import frc.robot.autonomous.actions.cells.UnjamCells;
+import frc.robot.subsystems.CellSuperstructure;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.cellmech.Hopper;
 
@@ -21,6 +22,10 @@ public class OperatorControl extends CommandBase {
 
     /** Instance of OI */
     private OI m_oi = OI.getInstance();
+
+    /** instance of hopper */
+    private Hopper m_hopper = Hopper.getInstance();
+    private CellSuperstructure m_cellStructure = CellSuperstructure.getInstance();
 
     @Override
     public void initialize() {
@@ -63,6 +68,11 @@ public class OperatorControl extends CommandBase {
 
             // Stop the bot from unjamming
             m_oi.resetUnjamInput();
+
+            // When the cell capacity is reached, ruble the operator controller
+            if(m_cellStructure.isDoneIntake()) {
+                m_hopper.startRumble();
+            }
 
         } else {
             m_intakeCellsCommand.cancel();
