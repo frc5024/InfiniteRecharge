@@ -375,7 +375,7 @@ public class Shooter extends SubsystemBase {
         double tanS = Math.tan(Math.toRadians(RobotConstants.Shooter.LAUNCH_ANGLE));
         double x = distance;
         double y = RobotConstants.Shooter.TARGET_HEIGHT;
-        double g = 9.81;
+        double g = 9.80665;
         double numerator = Math.sqrt(g) * Math.sqrt(x) * Math.sqrt(Math.pow(tanS,2) + 1.0);
         double denominator = Math.sqrt(2.0 * tanS - ((2.0 * y) / x));
         double ballVel = numerator/denominator;
