@@ -279,7 +279,7 @@ public class RobotConstants {
         public static final double LIMELIGHT_MOUNT_ANGLE = 13.0;
 
         /* Launch Angle */
-        public static final double LAUNCH_ANGLE = 45.0;
+        public static final double LAUNCH_ANGLE = 30.0;
 
         /* RPM to m/s */
         public static final double WHEEL_DIAMETER = Units.inchesToMeters(4.0);
