@@ -78,7 +78,7 @@ public class RobotConstants {
 
             /* Motor inversions */
             public static final boolean LEFT_SIDE_INVERTED = false;
-            public static final boolean RIGHT_SIDE_INVERTED = false;
+            public static final boolean RIGHT_SIDE_INVERTED = true;
 
             /* Left side Talons */
             public static final int LEFT_FRONT_TALON = 1;
@@ -109,7 +109,7 @@ public class RobotConstants {
 
             /* Encoder phases */
             public static final boolean LEFT_SENSOR_PHASE = false;
-            public static final boolean RIGHT_SENSOR_PHASE = true;
+            public static final boolean RIGHT_SENSOR_PHASE = false;
 
             /* Ticks per revolution of the encoder */
 
