@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.util.Units;
+import frc.lib5k.kinematics.PIDProfile;
 import frc.lib5k.roborio.RR_HAL;
 
 /**
@@ -20,6 +21,7 @@ public class RobotConstants {
     }
 
     public static final boolean PUBLISH_SD_TELEMETRY = true;
+    public static final boolean ENABLE_PID_TUNING_OUTPUTS = false;
 
     public static class Autonomous {
 
@@ -76,7 +78,7 @@ public class RobotConstants {
 
             /* Motor inversions */
             public static final boolean LEFT_SIDE_INVERTED = false;
-            public static final boolean RIGHT_SIDE_INVERTED = true;
+            public static final boolean RIGHT_SIDE_INVERTED = false;
 
             /* Left side Talons */
             public static final int LEFT_FRONT_TALON = 1;
@@ -264,10 +266,12 @@ public class RobotConstants {
 
         /* Shooter PID */
         public static final double kPVel = 0.00055;
-        public static final double kIVel = 9e-7;
+        public static final double kIVel = 8e-7;
         public static final double kDVel = 0.0;
         public static final double kIz = 0.0;
         public static final double kFF = 0.0;
+
+        // public static PIDProfile PID_PROFILE = new PIDProfile(kp)
 
         /* Limelight */
         public static final double TARGET_HEIGHT = 2.49;
