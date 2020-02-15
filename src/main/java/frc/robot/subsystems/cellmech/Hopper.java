@@ -444,7 +444,6 @@ public class Hopper extends SubsystemBase {
      * Stop the hopper
      */
     public void stop() {
-        logger.log("Hopper", "Stopping hopper");
         m_systemState = SystemState.IDLE;
     }
 
