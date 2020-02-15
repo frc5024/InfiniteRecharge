@@ -211,6 +211,7 @@ public class Shooter extends SubsystemBase {
 
             // Enable telemetry
             m_tuner.enableLogging(true);
+            m_limelight.setLED(LEDMode.DEFAULT);
         }
 
         // Log the speeds
