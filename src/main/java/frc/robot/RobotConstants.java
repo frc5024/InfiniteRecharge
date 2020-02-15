@@ -76,7 +76,7 @@ public class RobotConstants {
 
             /* Motor inversions */
             public static final boolean LEFT_SIDE_INVERTED = false;
-            public static final boolean RIGHT_SIDE_INVERTED = true;
+            public static final boolean RIGHT_SIDE_INVERTED = false;
 
             /* Left side Talons */
             public static final int LEFT_FRONT_TALON = 1;
