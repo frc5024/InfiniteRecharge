@@ -22,14 +22,15 @@ robot_locations = [
 
 # NT service info
 nt_port = 1735
-nt_host = "127.0.0.1"
+# nt_host = "127.0.0.1"
+nt_host = "10.50.24.2"
 
-# Check for the correct NT host to read from
-print("Searching for robots on the network...")
-for host in robot_locations:
-    if isServiceAlive(host, nt_port):
-        nt_host = host
-        break
+# # Check for the correct NT host to read from
+# print("Searching for robots on the network...")
+# for host in robot_locations:
+#     if isServiceAlive(host, nt_port):
+#         nt_host = host
+#         break
 
 print(f"Robot found at {nt_host}")
 
