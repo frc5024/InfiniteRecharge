@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import edu.wpi.first.wpilibj.Notifier;
 import frc.lib5k.logging.USBLogger;
+import frc.lib5k.roborio.FPGAClock;
 
 /**
  * A threaded logger for use by all robot functions
@@ -103,7 +104,7 @@ public class RobotLogger {
             System.out.println(display_string);
             return;
         }
-
+        
         // Add log to the periodic_buffer
         this.periodic_buffer.add(display_string);
 
@@ -161,7 +162,7 @@ public class RobotLogger {
             break;
         }
 
-        return String.format("%s%s %s", level_str, (component.equals("")) ? component : "[" + component + "]", msg);
+        return String.format("%s%s%s %s", level_str, FPGAClock.getFPGASeconds(),(component.equals("")) ? component : "[" + component + "]", msg);
     }
 
 }
