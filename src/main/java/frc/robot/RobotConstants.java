@@ -261,7 +261,7 @@ public class RobotConstants {
         public static final double MOTOR_MAX_RPM = 4450; // 5700;
 
         public static final double MOTOR_KV = 473;
-        public static final double VOLTAGE_EPSILON = 0.4;
+        public static final double VOLTAGE_EPSILON = 0.2;
         public static final double RPM_EPSILON = VOLTAGE_EPSILON * MOTOR_KV;
 
         /* Shooter PID */
@@ -274,18 +274,17 @@ public class RobotConstants {
         // public static PIDProfile PID_PROFILE = new PIDProfile(kp)
 
         /* Limelight */
-        public static final double TARGET_HEIGHT = 2.49;
-        public static final double LIMELIGHT_HEIGHT = 1;
-        public static final double LIMELIGHT_MOUNT_ANGLE = 13;
+        public static final double TARGET_HEIGHT = 2.49555+(.381*(0));
+        public static final double LIMELIGHT_HEIGHT = 0.76;
+        public static final double LIMELIGHT_MOUNT_ANGLE = 13.0;
 
         /* Launch Angle */
-        public static final double LAUNCH_ANGLE = 45;
+        public static final double LAUNCH_ANGLE = 45.0;
 
         /* RPM to m/s */
-        public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);
+        public static final double WHEEL_DIAMETER = Units.inchesToMeters(4.0);
         public static final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
-        public static final double RPM_PER_METER = 1 / WHEEL_CIRCUMFERENCE;
-        public static final double RPM_PER_MPS = RPM_PER_METER / 60;
+        public static final double ROTATIONS_PER_METER = 1.0 / WHEEL_CIRCUMFERENCE;
 
         public static final double DEFAULT_VELOCITY = MOTOR_MAX_RPM * 0.85;
 

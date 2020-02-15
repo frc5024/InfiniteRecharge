@@ -3,8 +3,8 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
 import frc.robot.autonomous.actions.cells.IntakeCells;
-import frc.robot.autonomous.actions.cells.ShootCells;
 import frc.robot.autonomous.actions.cells.UnjamCells;
+import frc.robot.autonomous.actions.cells.WaitForLimelightShoot;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.cellmech.Hopper;
 
@@ -15,7 +15,7 @@ public class OperatorControl extends CommandBase {
 
     /** sub-commands */
     private IntakeCells m_intakeCellsCommand = new IntakeCells(5);
-    private ShootCells m_shootCellsCommand = new ShootCells(5);
+    private WaitForLimelightShoot m_shootCellsCommand = new WaitForLimelightShoot(5);
     private UnjamCells m_unjamCommend = new UnjamCells();
     private ClimbController m_climbController = new ClimbController();
 
