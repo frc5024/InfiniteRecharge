@@ -22,13 +22,13 @@
     # Encoder pulses-per-revolution (*NOT* cycles per revolution!)
     # This value should be the pulses per revolution *of the wheels*, and so
     # should take into account gearing between the encoder and the wheels
-    "encoderPPR": 1440,
+    "encoderPPR": 4096,
     # Whether the left encoder is inverted
     "leftEncoderInverted": False,
     # Whether the right encoder is inverted:
-    "rightEncoderInverted": True,
+    "rightEncoderInverted": False,
     # Your gyro type (one of "NavX", "Pigeon", "ADXRS450", "AnalogGyro", or "None")
-    "gyroType": "AnalogGyro",
+    "gyroType": "NavX",
     # Whatever you put into the constructor of your gyro
     # Could be:
     # "SPI.Port.kMXP" (MXP SPI port for NavX or ADXRS450),
@@ -37,10 +37,8 @@
     # "new WPI_TalonSRX(3)" (Pigeon on a Talon SRX),
     # "leftSlave" (Pigeon on the left slave Talon SRX/FX),
     # "" (NavX using default SPI, ADXRS450 using onboard CS0, or no gyro)
-    "gyroPort": "0",
+    "gyroPort": "SPI.Port.kMXP",
 }
-
-
 
 
 
