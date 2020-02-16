@@ -1,11 +1,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib5k.components.drive.IDifferentialDrivebase;
 import frc.lib5k.components.gyroscopes.NavX;
+import frc.lib5k.framework.RobotFramework;
 import frc.lib5k.logging.USBLogger;
 import frc.lib5k.roborio.FaultReporter;
 import frc.lib5k.roborio.RR_HAL;
@@ -31,7 +31,7 @@ import frc.robot.vision.Limelight2.LEDMode;
  * creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends TimedRobot {
+public class Robot extends RobotFramework {
 
 	/* Robot I/O helpers */
 	RobotLogger logger = RobotLogger.getInstance();
