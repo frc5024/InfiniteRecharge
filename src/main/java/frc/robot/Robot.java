@@ -116,6 +116,7 @@ public class Robot extends RobotFramework {
 
 	@Override
 	public void robotPeriodic() {
+		super.robotPeriodic();
 
 		// Publish telemetry data to smartdashboard if setting enabled
 		if (RobotConstants.PUBLISH_SD_TELEMETRY) {
@@ -127,6 +128,7 @@ public class Robot extends RobotFramework {
 	@Override
 	public void autonomousInit() {
 		logger.log("Robot", "Autonomous started");
+		super.autonomousInit();
 
 		// Determine correct autonomous command to run
 		m_autonomousCommand = m_autonChooser.generateAutonomousCommand();
@@ -164,6 +166,7 @@ public class Robot extends RobotFramework {
 	@Override
 	public void teleopInit() {
 		logger.log("Robot", "Teleop started");
+		super.teleopInit();
 
 		// Enable brakes on the DriveTrain
 		m_driveTrain.setBrakes(true);
@@ -207,6 +210,7 @@ public class Robot extends RobotFramework {
 	@Override
 	public void disabledInit() {
 		logger.log("Robot", "Robot disabled");
+		super.disabledInit();
 
 		// Disable brakes on the DriveTrain
 		m_driveTrain.setBrakes(false);
@@ -233,6 +237,7 @@ public class Robot extends RobotFramework {
 	@Override
 	public void testInit() {
 		logger.log("Robot", "Started test mode");
+		super.testInit();
 
 		// Freeze the intake to stop it from auto-stowing
 		Intake.getInstance().freeze();
