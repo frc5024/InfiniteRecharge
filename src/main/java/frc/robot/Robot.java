@@ -152,6 +152,10 @@ public class Robot extends TimedRobot {
 
 		// Force-set the hopper to recognize 3 power cells
 		Hopper.getInstance().forceCellCount(3);
+
+		// Put the limelight in "Primary" mode to debug aiming
+		Limelight2.getInstance().setCamMode(CameraMode.PIP_MAIN);
+		Limelight2.getInstance().setLED(LEDMode.OFF);
 	}
 
 	@Override
@@ -177,6 +181,7 @@ public class Robot extends TimedRobot {
 
 		// Put the limelight in "Secondary" mode for driver assist
 		Limelight2.getInstance().setCamMode(CameraMode.PIP_SECONDARY);
+		Limelight2.getInstance().setLED(LEDMode.OFF);
 
 		// Disable the autonomous command
 		if (m_autonomousCommand != null) {
