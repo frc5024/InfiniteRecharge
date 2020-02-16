@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.lib5k.roborio.FPGAClock;
 
+/**
+ * A framework for robot applications
+ */
 public abstract class RobotFramework extends TimedRobot {
 
     /**
