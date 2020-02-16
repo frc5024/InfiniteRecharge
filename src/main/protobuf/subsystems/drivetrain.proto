@@ -1,0 +1,8 @@
+syntax = "proto2";
+
+package frc.test.robot.subsystems;
+
+enum DriveMode{
+    OPEN_LOOP =  0;
+    VOLTAGE = 1;
+}

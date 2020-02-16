@@ -1,6 +1,7 @@
 plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2020.2.2"
+    id "com.google.protobuf" version "0.8.11"
 
     // IDE-Support
     id 'idea'
@@ -61,6 +62,10 @@ dependencies {
     // Enable simulation gui support. Must check the box in vscode to enable support
     // upon debugging
     simulation wpi.deps.sim.gui(wpi.platforms.desktop, false)
+
+    // Google protobuf
+    compile group: 'io.grpc', name: 'grpc-all', version: '1.19.0'
+    compile "com.google.protobuf:protobuf-java:3.6.1"
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
@@ -72,8 +77,37 @@ jar {
 }
 
 
+
+sourceSets {
+    main {
+        java {
+            srcDirs 'src/generated/source/proto/main/grpc'
+            srcDirs 'src/generated/source/proto/main/java'
+            srcDirs 'src/main/java'
+        }
+    }
+}
+
 // Generate a javadoc
 javadoc{
     source = "src/main/java"
     destinationDir = reporting.file("docs")
 } 
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.7.0"
+    }
+    plugins {
+        grpc {
+            artifact = "io.grpc:protoc-gen-grpc-java:1.19.0"
+        }
+    }
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {}
+        }
+    }
+
+//   generatedFilesBaseDir = "$projectDir/src/generated"
+}
