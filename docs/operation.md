@@ -1,2 +1,52 @@
-# Robot operation
-This document will eventually contain instructions on operating the robot
+# Backflip Operation Manual
+
+This document outlines how to operate 5024's 2020 season robot, and some notes about operation. Controls are split across two Xbox controllers, the "driver controller" and the "operator controller" 
+
+*This document uses "backflip" in place of the un-released robot name*
+
+## Operator Dashboard
+![Operator Dashboard](https://camo.githubusercontent.com/a333181729568445ae16830c195cdd667e6f7dbc/68747470733a2f2f692e696d6775722e636f6d2f6e5363506868452e706e67)
+
+This dashboard is displayed to the robot operators on the controller laptop. The image above contains:
+ - Main robot vided feed
+   - This automatically focuses on the most important camera based on the robot's current action
+ - Robot voltage display
+ - Internal ball counter
+ - Autonomous mode selection menu
+ - (not shown) Climber video feed
+
+## Driving
+Backflip's drivebase is controlled via the "trigger-drive" scheme developed by @slownie and @johnlownie in 2018. This scheme uses the following inputs on the driver controller: 
+
+| Input             | Output                                  |
+|-------------------|-----------------------------------------|
+| Right trigger     | Forward force                           |
+| Left trigger      | Backwards force                         |
+| Left joystick     | Turning force                           |
+| X button (toggle) | Flip trigger actions (inverts movement) |
+| Y button (hold)   | Free-space auto-aim                     |
+| B button (hold)   | Pivot auto-aim                          |
+
+The **Y** abd **B** buttons are an additional feature built specifically for this bot. 
+
+Free-space auto-aim will completely take over the driver's control of the robot, and use a mix of vision tracking and odometry to drive the bot to an optimal scoring location on the field. This is useful for scoring power cells from anywhere in front of the opponent's sector. 
+
+Pivot auto-aim will take over the driver's control of the robot, and use the robot's cameras to find, and turn to the nearest outer goal. This should be used to sore from areas like the trench, where we have the required power to make a shot, but are outside the optimal scoring zone used by the free-space aim.
+
+## Interacting with the superstructure
+
+Backflip's superstructure contains all mechanisms related to the scoring of power cells. None of these systems can be directly interacted with by the robot operators, as they are all inter-coordinated by software. This software also contains safety-stops for components like the arms that have the ability to break themselves if not correctly controlled. The following high-level controls are exposed to the operator controller:
+
+| Input                 | Output                      |
+|-----------------------|-----------------------------|
+| Right bumper (toggle) | Intake power cells          |
+| Right trigger (hold)  | Shoot power cells           |
+| B button (toggle)     | Un-jam system               |
+| X buton + Right D-pad | Reset internal ball counter |
+
+Both the *intake* and *shoot* actions are heavily controlled by software, and the buttons inputs are only suggestions to the internal component management software. These systems will only run if the robot decides it is safe to do so. The intake will auto-finish once the robot fills its hopper, and the shooter will only run if there are balls available in the hopper to shoot, and the robot is properly aimed.
+
+In the rare chance something goes wrong, the robot provides an *unjam* and a *reset* control. Unjamming will cause the robot to exhaust all stored balls back through the intake. This should be used if balls manage to bind inside the system, or we need to feed balls to another robot. Once all balls have been un-jammed, the reset action can be run to reset the robot's internal ball counter. Occasionally the robot will think it has an extra power cell (this is caused by failing to intake a ball). Pressing the reset button will cause the robot to reset it's counter. The internal ball count is displayed on the top right corner of the operator dashboard.
+
+## Climb
+*WIP*
