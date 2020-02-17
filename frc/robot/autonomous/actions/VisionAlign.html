@@ -179,13 +179,14 @@ extends edu.wpi.first.wpilibj2.command.CommandBase</pre>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr class="altColor">
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E()">VisionAlign</a></span>()</code></th>
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(edu.wpi.first.wpilibj.geometry.Rotation2d)">VisionAlign</a></span>&#8203;(edu.wpi.first.wpilibj.geometry.Rotation2d&nbsp;defaultRotation)</code></th>
 <td class="colLast">
 <div class="block">Turn to align with Limelight target if it exists.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(double)">VisionAlign</a></span>&#8203;(double&nbsp;defaultRotation)</code></th>
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(edu.wpi.first.wpilibj.geometry.Rotation2d,double)">VisionAlign</a></span>&#8203;(edu.wpi.first.wpilibj.geometry.Rotation2d&nbsp;defaultRotation,
+           double&nbsp;epsilon)</code></th>
 <td class="colLast">
 <div class="block">Turn to align with Limelight target if it exists.</div>
 </td>
@@ -273,28 +274,35 @@ extends edu.wpi.first.wpilibj2.command.CommandBase</pre>
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a id="&lt;init&gt;()">
+<a id="&lt;init&gt;(edu.wpi.first.wpilibj.geometry.Rotation2d)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>VisionAlign</h4>
-<pre>public&nbsp;VisionAlign()</pre>
-<div class="block">Turn to align with Limelight target if it exists.</div>
+<pre>public&nbsp;VisionAlign&#8203;(edu.wpi.first.wpilibj.geometry.Rotation2d&nbsp;defaultRotation)</pre>
+<div class="block">Turn to align with Limelight target if it exists. If none exists, turn to a
+ default rotation.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>defaultRotation</code> - Default rotation, in degrees.</dd>
+</dl>
 </li>
 </ul>
-<a id="&lt;init&gt;(double)">
+<a id="&lt;init&gt;(edu.wpi.first.wpilibj.geometry.Rotation2d,double)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>VisionAlign</h4>
-<pre>public&nbsp;VisionAlign&#8203;(double&nbsp;defaultRotation)</pre>
-<div class="block">Turn to align with Limelight target if it exists.
- If none exists, turn to a default rotation.</div>
+<pre>public&nbsp;VisionAlign&#8203;(edu.wpi.first.wpilibj.geometry.Rotation2d&nbsp;defaultRotation,
+                   double&nbsp;epsilon)</pre>
+<div class="block">Turn to align with Limelight target if it exists. If none exists, turn to a
+ default rotation.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>defaultRotation</code> - Default rotation, in degrees.</dd>
+<dd><code>epsilon</code> - Acceptable error in angle</dd>
 </dl>
 </li>
 </ul>

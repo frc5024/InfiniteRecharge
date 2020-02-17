@@ -209,11 +209,19 @@ extends edu.wpi.first.wpilibj2.command.SequentialCommandGroup</pre>
         edu.wpi.first.wpilibj.geometry.Pose2d&nbsp;end,
         <a href="../helpers/SpeedConstraint.html" title="class in frc.robot.autonomous.helpers">SpeedConstraint</a>&nbsp;constraints,
         boolean&nbsp;reversed)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(edu.wpi.first.wpilibj.geometry.Pose2d,edu.wpi.first.wpilibj.geometry.Pose2d,frc.robot.autonomous.helpers.SpeedConstraint,boolean,boolean)">LinePath</a></span>&#8203;(edu.wpi.first.wpilibj.geometry.Pose2d&nbsp;start,
+        edu.wpi.first.wpilibj.geometry.Pose2d&nbsp;end,
+        <a href="../helpers/SpeedConstraint.html" title="class in frc.robot.autonomous.helpers">SpeedConstraint</a>&nbsp;constraints,
+        boolean&nbsp;reversed,
+        boolean&nbsp;stop)</code></th>
 <td class="colLast">
 <div class="block">Generate a LinePath from a start to end pose with various settings</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(edu.wpi.first.wpilibj.geometry.Pose2d,edu.wpi.first.wpilibj.geometry.Translation2d,frc.robot.autonomous.helpers.SpeedConstraint,boolean)">LinePath</a></span>&#8203;(edu.wpi.first.wpilibj.geometry.Pose2d&nbsp;start,
         edu.wpi.first.wpilibj.geometry.Translation2d&nbsp;end,
         <a href="../helpers/SpeedConstraint.html" title="class in frc.robot.autonomous.helpers">SpeedConstraint</a>&nbsp;constraints,
@@ -350,13 +358,26 @@ extends edu.wpi.first.wpilibj2.command.SequentialCommandGroup</pre>
 <a id="&lt;init&gt;(edu.wpi.first.wpilibj.geometry.Pose2d,edu.wpi.first.wpilibj.geometry.Pose2d,frc.robot.autonomous.helpers.SpeedConstraint,boolean)">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>LinePath</h4>
 <pre>public&nbsp;LinePath&#8203;(edu.wpi.first.wpilibj.geometry.Pose2d&nbsp;start,
                 edu.wpi.first.wpilibj.geometry.Pose2d&nbsp;end,
                 <a href="../helpers/SpeedConstraint.html" title="class in frc.robot.autonomous.helpers">SpeedConstraint</a>&nbsp;constraints,
                 boolean&nbsp;reversed)</pre>
+</li>
+</ul>
+<a id="&lt;init&gt;(edu.wpi.first.wpilibj.geometry.Pose2d,edu.wpi.first.wpilibj.geometry.Pose2d,frc.robot.autonomous.helpers.SpeedConstraint,boolean,boolean)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>LinePath</h4>
+<pre>public&nbsp;LinePath&#8203;(edu.wpi.first.wpilibj.geometry.Pose2d&nbsp;start,
+                edu.wpi.first.wpilibj.geometry.Pose2d&nbsp;end,
+                <a href="../helpers/SpeedConstraint.html" title="class in frc.robot.autonomous.helpers">SpeedConstraint</a>&nbsp;constraints,
+                boolean&nbsp;reversed,
+                boolean&nbsp;stop)</pre>
 <div class="block">Generate a LinePath from a start to end pose with various settings</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -364,6 +385,7 @@ extends edu.wpi.first.wpilibj2.command.SequentialCommandGroup</pre>
 <dd><code>end</code> - Desired ending pose (field-relative)</dd>
 <dd><code>constraints</code> - Constraints on profile</dd>
 <dd><code>reversed</code> - Should the path be driven backwards?</dd>
+<dd><code>stop</code> - Should it stop at the end of the path</dd>
 </dl>
 </li>
 </ul>

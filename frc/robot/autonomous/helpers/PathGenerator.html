@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":9,"i1":9,"i2":9};
+var data = {"i0":9,"i1":9,"i2":9,"i3":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -195,9 +195,15 @@ extends java.lang.Object</pre>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#generate(frc.robot.autonomous.helpers.EasyTrajectory,frc.robot.autonomous.helpers.SpeedConstraint,boolean)">generate</a></span>&#8203;(<a href="EasyTrajectory.html" title="class in frc.robot.autonomous.helpers">EasyTrajectory</a>&nbsp;t,
         <a href="SpeedConstraint.html" title="class in frc.robot.autonomous.helpers">SpeedConstraint</a>&nbsp;constraint,
         boolean&nbsp;reversed)</code></th>
-<td class="colLast">
-<div class="block">Generate a path following command group from a trajectory and a constraint</div>
-</td>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>static edu.wpi.first.wpilibj2.command.SequentialCommandGroup</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#generate(frc.robot.autonomous.helpers.EasyTrajectory,frc.robot.autonomous.helpers.SpeedConstraint,boolean,boolean)">generate</a></span>&#8203;(<a href="EasyTrajectory.html" title="class in frc.robot.autonomous.helpers">EasyTrajectory</a>&nbsp;t,
+        <a href="SpeedConstraint.html" title="class in frc.robot.autonomous.helpers">SpeedConstraint</a>&nbsp;constraint,
+        boolean&nbsp;reversed,
+        boolean&nbsp;stop)</code></th>
+<td class="colLast">&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -279,17 +285,38 @@ extends java.lang.Object</pre>
 <a id="generate(frc.robot.autonomous.helpers.EasyTrajectory,frc.robot.autonomous.helpers.SpeedConstraint,boolean)">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>generate</h4>
 <pre class="methodSignature">public static&nbsp;edu.wpi.first.wpilibj2.command.SequentialCommandGroup&nbsp;generate&#8203;(<a href="EasyTrajectory.html" title="class in frc.robot.autonomous.helpers">EasyTrajectory</a>&nbsp;t,
                                                                              <a href="SpeedConstraint.html" title="class in frc.robot.autonomous.helpers">SpeedConstraint</a>&nbsp;constraint,
                                                                              boolean&nbsp;reversed)</pre>
-<div class="block">Generate a path following command group from a trajectory and a constraint</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>t</code> - Trajectory to follow</dd>
-<dd><code>constraint</code> - trajectory constraints</dd>
+<dd><code>constraint</code> - Trajectory constraints</dd>
+<dd><code>reversed</code> - Should the path be reversed</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>generated path following command</dd>
+</dl>
+</li>
+</ul>
+<a id="generate(frc.robot.autonomous.helpers.EasyTrajectory,frc.robot.autonomous.helpers.SpeedConstraint,boolean,boolean)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>generate</h4>
+<pre class="methodSignature">public static&nbsp;edu.wpi.first.wpilibj2.command.SequentialCommandGroup&nbsp;generate&#8203;(<a href="EasyTrajectory.html" title="class in frc.robot.autonomous.helpers">EasyTrajectory</a>&nbsp;t,
+                                                                             <a href="SpeedConstraint.html" title="class in frc.robot.autonomous.helpers">SpeedConstraint</a>&nbsp;constraint,
+                                                                             boolean&nbsp;reversed,
+                                                                             boolean&nbsp;stop)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>t</code> - Trajectory to follow</dd>
+<dd><code>constraint</code> - Trajectory constraints</dd>
+<dd><code>reversed</code> - Should the path be reversed</dd>
+<dd><code>stop</code> - Should the path stop after</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>generated path following command</dd>
 </dl>

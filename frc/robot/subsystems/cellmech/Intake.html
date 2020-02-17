@@ -27,8 +27,8 @@
     catch(err) {
     }
 //-->
-var data = {"i0":9};
-var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
+var data = {"i0":10,"i1":9,"i2":10,"i3":10,"i4":10,"i5":10};
+var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
 var tableTab = "tableTab";
@@ -180,17 +180,50 @@ extends edu.wpi.first.wpilibj2.command.SubsystemBase</pre>
 </a>
 <h3>Method Summary</h3>
 <table class="memberSummary">
-<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t1" class="tableTab"><span><a href="javascript:show(1);">Static Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
+<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t1" class="tableTab"><span><a href="javascript:show(1);">Static Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th class="colSecond" scope="col">Method</th>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#freeze()">freeze</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Safety-freeze the system</div>
+</td>
+</tr>
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>static <a href="Intake.html" title="class in frc.robot.subsystems.cellmech">Intake</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getInstance()">getInstance</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Get the instance of Intake</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#intake()">intake</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Set the harvester to intake</div>
+</td>
+</tr>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#periodic()">periodic</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#stow()">stow</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Stow the harvester</div>
+</td>
+</tr>
+<tr id="i5" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#unjam()">unjam</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Set the harvester to unjam</div>
 </td>
 </tr>
 </table>
@@ -220,7 +253,7 @@ extends edu.wpi.first.wpilibj2.command.SubsystemBase</pre>
 <!--   -->
 </a>
 <h3>Methods inherited from interface&nbsp;edu.wpi.first.wpilibj2.command.Subsystem</h3>
-<code>getCurrentCommand, getDefaultCommand, periodic, register, setDefaultCommand</code></li>
+<code>getCurrentCommand, getDefaultCommand, register, setDefaultCommand</code></li>
 </ul>
 </li>
 </ul>
@@ -260,7 +293,7 @@ extends edu.wpi.first.wpilibj2.command.SubsystemBase</pre>
 <a id="getInstance()">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>getInstance</h4>
 <pre class="methodSignature">public static&nbsp;<a href="Intake.html" title="class in frc.robot.subsystems.cellmech">Intake</a>&nbsp;getInstance()</pre>
@@ -269,6 +302,55 @@ extends edu.wpi.first.wpilibj2.command.SubsystemBase</pre>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>Intake Instance</dd>
 </dl>
+</li>
+</ul>
+<a id="periodic()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>periodic</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;periodic()</pre>
+</li>
+</ul>
+<a id="unjam()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>unjam</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;unjam()</pre>
+<div class="block">Set the harvester to unjam</div>
+</li>
+</ul>
+<a id="intake()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>intake</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;intake()</pre>
+<div class="block">Set the harvester to intake</div>
+</li>
+</ul>
+<a id="stow()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>stow</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;stow()</pre>
+<div class="block">Stow the harvester</div>
+</li>
+</ul>
+<a id="freeze()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>freeze</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;freeze()</pre>
+<div class="block">Safety-freeze the system</div>
 </li>
 </ul>
 </li>

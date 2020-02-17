@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":9,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":9,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -188,6 +188,21 @@ implements <a href="../../lib5k/interfaces/Loggable.html" title="interface in fr
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#alignmentLost()">alignmentLost</a></span>()</code></th>
+<td class="colLast">
+<div class="block">After alignment, check to see if bot loses alignment.</div>
+</td>
+</tr>
+<tr id="i1" class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#autoTarget(frc.robot.vision.LimelightTarget)">autoTarget</a></span>&#8203;(<a href="../vision/LimelightTarget.html" title="class in frc.robot.vision">LimelightTarget</a>&nbsp;target)</code></th>
+<td class="colLast">
+<div class="block">Automatically get to an optimal scoring position based on a limelight target
+ input</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#drive(double,double)">drive</a></span>&#8203;(double&nbsp;speed,
      double&nbsp;rotation)</code></th>
@@ -195,54 +210,76 @@ implements <a href="../../lib5k/interfaces/Loggable.html" title="interface in fr
 <div class="block">Open-loop control the drivebase with a desired speed and rotation factor.</div>
 </td>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#face(double,double)">face</a></span>&#8203;(double&nbsp;error,
+    double&nbsp;eps)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#face(edu.wpi.first.wpilibj.geometry.Rotation2d,double)">face</a></span>&#8203;(edu.wpi.first.wpilibj.geometry.Rotation2d&nbsp;rot,
+    double&nbsp;eps)</code></th>
+<td class="colLast">
+<div class="block">Turn the drivebase to face an angle</div>
+</td>
+</tr>
+<tr id="i5" class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#face(frc.robot.vision.LimelightTarget,double)">face</a></span>&#8203;(<a href="../vision/LimelightTarget.html" title="class in frc.robot.vision">LimelightTarget</a>&nbsp;target,
+    double&nbsp;eps)</code></th>
+<td class="colLast">
+<div class="block">Turn the drivebase to face a Limelihgt target</div>
+</td>
+</tr>
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>static <a href="DriveTrain.html" title="class in frc.robot.subsystems">DriveTrain</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getInstance()">getInstance</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Get the DriveTrain instance.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>double</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLeftMeters()">getLeftMeters</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Get the left side distance traveled in meters</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>edu.wpi.first.wpilibj.geometry.Pose2d</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getPosition()">getPosition</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Get the robot's current field-relative position</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>double</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getRightMeters()">getRightMeters</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Get the right side distance traveled in meters</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getWheelSpeeds()">getWheelSpeeds</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>double</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getWidthMeters()">getWidthMeters</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Get track width in meters</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#logStatus()">logStatus</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Log component status</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#periodic()">periodic</a></span>()</code></th>
 <td class="colLast">
@@ -250,35 +287,40 @@ implements <a href="../../lib5k/interfaces/Loggable.html" title="interface in fr
  this method.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setBrakes(boolean)">setBrakes</a></span>&#8203;(boolean&nbsp;brakesApplied)</code></th>
 <td class="colLast">
 <div class="block">Set the motor brakes.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i15" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setOldYaw(double)">setOldYaw</a></span>&#8203;(double&nbsp;oldYaw)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i16" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setOpenLoop(frc.lib5k.kinematics.DriveSignal)">setOpenLoop</a></span>&#8203;(<a href="../../lib5k/kinematics/DriveSignal.html" title="class in frc.lib5k.kinematics">DriveSignal</a>&nbsp;signal)</code></th>
 <td class="colLast">
 <div class="block">Set the Open loop control signal.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setPosition(edu.wpi.first.wpilibj.geometry.Pose2d)">setPosition</a></span>&#8203;(edu.wpi.first.wpilibj.geometry.Pose2d&nbsp;pose)</code></th>
 <td class="colLast">
 <div class="block">Force-set the robot's position</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setRampRate(double)">setRampRate</a></span>&#8203;(double&nbsp;rampRate)</code></th>
 <td class="colLast">
 <div class="block">Set the number of seconds the drivebase should take to get to full power</div>
 </td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i19" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setVoltage(double,double)">setVoltage</a></span>&#8203;(double&nbsp;left,
           double&nbsp;right)</code></th>
@@ -286,21 +328,21 @@ implements <a href="../../lib5k/interfaces/Loggable.html" title="interface in fr
 <div class="block">Sets Voltage Signal</div>
 </td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i20" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setVoltage(frc.lib5k.kinematics.DriveSignal)">setVoltage</a></span>&#8203;(<a href="../../lib5k/kinematics/DriveSignal.html" title="class in frc.lib5k.kinematics">DriveSignal</a>&nbsp;signal)</code></th>
 <td class="colLast">
 <div class="block">Set the Open loop control signal.</div>
 </td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i21" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#stop()">stop</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Stop the drivetrain</div>
 </td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i22" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#updateTelemetry()">updateTelemetry</a></span>()</code></th>
 <td class="colLast">
@@ -394,6 +436,69 @@ implements <a href="../../lib5k/interfaces/Loggable.html" title="interface in fr
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>speed</code> - Desired speed percentage [-1.0-1.0]</dd>
 <dd><code>rotation</code> - Desired rotation factor [-1.0-1.0]</dd>
+</dl>
+</li>
+</ul>
+<a id="face(frc.robot.vision.LimelightTarget,double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>face</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;face&#8203;(<a href="../vision/LimelightTarget.html" title="class in frc.robot.vision">LimelightTarget</a>&nbsp;target,
+                    double&nbsp;eps)</pre>
+<div class="block">Turn the drivebase to face a Limelihgt target</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>target</code> - Target to face</dd>
+<dd><code>eps</code> - Acceptable error</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>Is facing angle?</dd>
+</dl>
+</li>
+</ul>
+<a id="face(edu.wpi.first.wpilibj.geometry.Rotation2d,double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>face</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;face&#8203;(edu.wpi.first.wpilibj.geometry.Rotation2d&nbsp;rot,
+                    double&nbsp;eps)</pre>
+<div class="block">Turn the drivebase to face an angle</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>rot</code> - Desired angle</dd>
+<dd><code>eps</code> - Acceptable error</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>Is facing angle?</dd>
+</dl>
+</li>
+</ul>
+<a id="face(double,double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>face</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;face&#8203;(double&nbsp;error,
+                    double&nbsp;eps)</pre>
+</li>
+</ul>
+<a id="autoTarget(frc.robot.vision.LimelightTarget)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>autoTarget</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;autoTarget&#8203;(<a href="../vision/LimelightTarget.html" title="class in frc.robot.vision">LimelightTarget</a>&nbsp;target)</pre>
+<div class="block">Automatically get to an optimal scoring position based on a limelight target
+ input</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>target</code> - Limelight target</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>Is in an optimal scoring position?</dd>
 </dl>
 </li>
 </ul>
@@ -542,6 +647,33 @@ implements <a href="../../lib5k/interfaces/Loggable.html" title="interface in fr
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>Robot position</dd>
+</dl>
+</li>
+</ul>
+<a id="alignmentLost()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>alignmentLost</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;alignmentLost()</pre>
+<div class="block">After alignment, check to see if bot loses alignment.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>If yaw difference is greater than 3 degrees since last alignment;</dd>
+</dl>
+</li>
+</ul>
+<a id="setOldYaw(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setOldYaw</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;setOldYaw&#8203;(double&nbsp;oldYaw)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>oldYaw</code> - the oldYaw to set</dd>
 </dl>
 </li>
 </ul>

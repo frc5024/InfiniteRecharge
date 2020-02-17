@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10};
+var data = {"i0":10,"i1":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -157,6 +157,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre>public class <span class="typeNameLabel">SimTalon</span>
 extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX</pre>
+<div class="block">A simulation wrapper for the WPI_TalonSRX</div>
 </li>
 </ul>
 </div>
@@ -224,20 +225,10 @@ extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX</pre>
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>double</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#get()">get</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
-</tr>
-<tr id="i1" class="rowColor">
-<td class="colFirst"><code>double</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getMotorOutputVoltage()">getMotorOutputVoltage</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i2" class="altColor">
-<td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#set(double)">set</a></span>&#8203;(double&nbsp;speed)</code></th>
-<td class="colLast">&nbsp;</td>
-</tr>
-<tr id="i3" class="rowColor">
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setVoltage(double)">setVoltage</a></span>&#8203;(double&nbsp;outputVolts)</code></th>
 <td class="colLast">&nbsp;</td>
@@ -248,7 +239,7 @@ extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX</pre>
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX</h3>
-<code>addChild, disable, feed, free, getDescription, getExpiration, getInverted, getName, getSubsystem, initSendable, isAlive, isSafetyEnabled, pidWrite, set, set, set, setExpiration, setInverted, setName, setName, setName, setSafetyEnabled, setSubsystem, stopMotor</code></li>
+<code>addChild, disable, feed, free, get, getDescription, getExpiration, getInverted, getName, getSubsystem, initSendable, isAlive, isSafetyEnabled, pidWrite, set, set, set, set, setExpiration, setInverted, setName, setName, setName, setSafetyEnabled, setSubsystem, stopMotor</code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.com.ctre.phoenix.motorcontrol.can.TalonSRX">
@@ -269,7 +260,7 @@ extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX</pre>
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;com.ctre.phoenix.motorcontrol.can.BaseMotorController</h3>
-<code>baseConfigAllSettings, baseConfigurePID, baseGetAllConfigs, baseGetPIDConfigs, changeMotionControlFramePeriod, clearMotionProfileHasUnderrun, clearMotionProfileHasUnderrun, clearMotionProfileTrajectories, clearStickyFaults, clearStickyFaults, config_IntegralZone, config_IntegralZone, config_kD, config_kD, config_kF, config_kF, config_kI, config_kI, config_kP, config_kP, configAllowableClosedloopError, configAllowableClosedloopError, configAuxPIDPolarity, configAuxPIDPolarity, configClearPositionOnLimitF, configClearPositionOnLimitR, configClearPositionOnQuadIdx, configClosedLoopPeakOutput, configClosedLoopPeakOutput, configClosedLoopPeriod, configClosedLoopPeriod, configClosedloopRamp, configClosedloopRamp, configFactoryDefault, configFactoryDefault, configFeedbackNotContinuous, configForwardLimitSwitchSource, configForwardLimitSwitchSource, configForwardLimitSwitchSource, configForwardSoftLimitEnable, configForwardSoftLimitEnable, configForwardSoftLimitThreshold, configForwardSoftLimitThreshold, configGetCustomParam, configGetCustomParam, configGetParameter, configGetParameter, configGetParameter, configGetParameter, configLimitSwitchDisableNeutralOnLOS, configMaxIntegralAccumulator, configMaxIntegralAccumulator, configMotionAcceleration, configMotionAcceleration, configMotionCruiseVelocity, configMotionCruiseVelocity, configMotionProfileTrajectoryInterpolationEnable, configMotionProfileTrajectoryInterpolationEnable, configMotionProfileTrajectoryPeriod, configMotionProfileTrajectoryPeriod, configMotionSCurveStrength, configMotionSCurveStrength, configNeutralDeadband, configNeutralDeadband, configNominalOutputForward, configNominalOutputForward, configNominalOutputReverse, configNominalOutputReverse, configOpenloopRamp, configOpenloopRamp, configPeakOutputForward, configPeakOutputForward, configPeakOutputReverse, configPeakOutputReverse, configPulseWidthPeriod_EdgesPerRot, configPulseWidthPeriod_FilterWindowSz, configRemoteFeedbackFilter, configRemoteFeedbackFilter, configRemoteSensorClosedLoopDisableNeutralOnLOS, configReverseLimitSwitchSource, configReverseLimitSwitchSource, configReverseLimitSwitchSource, configReverseSoftLimitEnable, configReverseSoftLimitEnable, configReverseSoftLimitThreshold, configReverseSoftLimitThreshold, configSelectedFeedbackCoefficient, configSelectedFeedbackCoefficient, configSelectedFeedbackSensor, configSelectedFeedbackSensor, configSelectedFeedbackSensor, configSelectedFeedbackSensor, configSensorTerm, configSensorTerm, configSensorTerm, configSensorTerm, configSetCustomParam, configSetCustomParam, configSetParameter, configSetParameter, configSetParameter, configSetParameter, configSoftLimitDisableNeutralOnLOS, configureFilter, configureFilter, configureFilter, configureSlot, configureSlot, configVoltageCompSaturation, configVoltageCompSaturation, configVoltageMeasurementFilter, configVoltageMeasurementFilter, DestroyObject, enableHeadingHold, enableVoltageCompensation, follow, follow, getActiveTrajectoryArbFeedFwd, getActiveTrajectoryArbFeedFwd, getActiveTrajectoryHeading, getActiveTrajectoryPosition, getActiveTrajectoryPosition, getActiveTrajectoryVelocity, getActiveTrajectoryVelocity, getBaseID, getBusVoltage, getClosedLoopError, getClosedLoopError, getClosedLoopTarget, getClosedLoopTarget, getControlMode, getDeviceID, getErrorDerivative, getErrorDerivative, getFaults, getFilterConfigs, getFilterConfigs, getFirmwareVersion, getHandle, getIntegralAccumulator, getIntegralAccumulator, getLastError, getMotionProfileStatus, getMotionProfileTopLevelBufferCount, getMotorOutputPercent, getSelectedSensorPosition, getSelectedSensorPosition, getSelectedSensorVelocity, getSelectedSensorVelocity, getSlotConfigs, getSlotConfigs, getStatusFramePeriod, getStatusFramePeriod, getStatusFramePeriod, getStatusFramePeriod, getStickyFaults, getTemperature, hasResetOccurred, isMotionProfileFinished, isMotionProfileTopLevelBufferFull, neutralOutput, overrideLimitSwitchesEnable, overrideSoftLimitsEnable, processMotionProfileBuffer, pushMotionProfileTrajectory, selectDemandType, selectProfileSlot, setControlFramePeriod, setControlFramePeriod, setIntegralAccumulator, setIntegralAccumulator, setInverted, setNeutralMode, setSelectedSensorPosition, setSelectedSensorPosition, setSensorPhase, setStatusFramePeriod, setStatusFramePeriod, setStatusFramePeriod, setStatusFramePeriod, startMotionProfile, valueUpdated</code></li>
+<code>baseConfigAllSettings, baseConfigurePID, baseGetAllConfigs, baseGetPIDConfigs, changeMotionControlFramePeriod, clearMotionProfileHasUnderrun, clearMotionProfileHasUnderrun, clearMotionProfileTrajectories, clearStickyFaults, clearStickyFaults, config_IntegralZone, config_IntegralZone, config_kD, config_kD, config_kF, config_kF, config_kI, config_kI, config_kP, config_kP, configAllowableClosedloopError, configAllowableClosedloopError, configAuxPIDPolarity, configAuxPIDPolarity, configClearPositionOnLimitF, configClearPositionOnLimitR, configClearPositionOnQuadIdx, configClosedLoopPeakOutput, configClosedLoopPeakOutput, configClosedLoopPeriod, configClosedLoopPeriod, configClosedloopRamp, configClosedloopRamp, configFactoryDefault, configFactoryDefault, configFeedbackNotContinuous, configForwardLimitSwitchSource, configForwardLimitSwitchSource, configForwardLimitSwitchSource, configForwardSoftLimitEnable, configForwardSoftLimitEnable, configForwardSoftLimitThreshold, configForwardSoftLimitThreshold, configGetCustomParam, configGetCustomParam, configGetParameter, configGetParameter, configGetParameter, configGetParameter, configLimitSwitchDisableNeutralOnLOS, configMaxIntegralAccumulator, configMaxIntegralAccumulator, configMotionAcceleration, configMotionAcceleration, configMotionCruiseVelocity, configMotionCruiseVelocity, configMotionProfileTrajectoryInterpolationEnable, configMotionProfileTrajectoryInterpolationEnable, configMotionProfileTrajectoryPeriod, configMotionProfileTrajectoryPeriod, configMotionSCurveStrength, configMotionSCurveStrength, configNeutralDeadband, configNeutralDeadband, configNominalOutputForward, configNominalOutputForward, configNominalOutputReverse, configNominalOutputReverse, configOpenloopRamp, configOpenloopRamp, configPeakOutputForward, configPeakOutputForward, configPeakOutputReverse, configPeakOutputReverse, configPulseWidthPeriod_EdgesPerRot, configPulseWidthPeriod_FilterWindowSz, configRemoteFeedbackFilter, configRemoteFeedbackFilter, configRemoteFeedbackFilter, configRemoteFeedbackFilter, configRemoteSensorClosedLoopDisableNeutralOnLOS, configReverseLimitSwitchSource, configReverseLimitSwitchSource, configReverseLimitSwitchSource, configReverseSoftLimitEnable, configReverseSoftLimitEnable, configReverseSoftLimitThreshold, configReverseSoftLimitThreshold, configSelectedFeedbackCoefficient, configSelectedFeedbackCoefficient, configSelectedFeedbackSensor, configSelectedFeedbackSensor, configSelectedFeedbackSensor, configSelectedFeedbackSensor, configSensorTerm, configSensorTerm, configSensorTerm, configSensorTerm, configSetCustomParam, configSetCustomParam, configSetParameter, configSetParameter, configSetParameter, configSetParameter, configSoftLimitDisableNeutralOnLOS, configureFilter, configureFilter, configureFilter, configureSlot, configureSlot, configVoltageCompSaturation, configVoltageCompSaturation, configVoltageMeasurementFilter, configVoltageMeasurementFilter, DestroyObject, enableHeadingHold, enableVoltageCompensation, follow, follow, getActiveTrajectoryArbFeedFwd, getActiveTrajectoryArbFeedFwd, getActiveTrajectoryHeading, getActiveTrajectoryPosition, getActiveTrajectoryPosition, getActiveTrajectoryVelocity, getActiveTrajectoryVelocity, getBaseID, getBusVoltage, getClosedLoopError, getClosedLoopError, getClosedLoopTarget, getClosedLoopTarget, getControlMode, getDeviceID, getErrorDerivative, getErrorDerivative, getFaults, getFilterConfigs, getFilterConfigs, getFirmwareVersion, getHandle, getIntegralAccumulator, getIntegralAccumulator, getLastError, getMotionProfileStatus, getMotionProfileTopLevelBufferCount, getMotorOutputPercent, getSelectedSensorPosition, getSelectedSensorPosition, getSelectedSensorVelocity, getSelectedSensorVelocity, getSlotConfigs, getSlotConfigs, getStatusFramePeriod, getStatusFramePeriod, getStatusFramePeriod, getStatusFramePeriod, getStickyFaults, getTemperature, hasResetOccurred, isMotionProfileFinished, isMotionProfileTopLevelBufferFull, isVoltageCompensationEnabled, neutralOutput, overrideLimitSwitchesEnable, overrideSoftLimitsEnable, processMotionProfileBuffer, pushMotionProfileTrajectory, selectDemandType, selectProfileSlot, setControlFramePeriod, setControlFramePeriod, setIntegralAccumulator, setIntegralAccumulator, setInverted, setNeutralMode, setSelectedSensorPosition, setSelectedSensorPosition, setSensorPhase, setStatusFramePeriod, setStatusFramePeriod, setStatusFramePeriod, setStatusFramePeriod, startMotionProfile, valueUpdated</code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
@@ -290,7 +281,7 @@ extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX</pre>
 <!--   -->
 </a>
 <h3>Methods inherited from interface&nbsp;com.ctre.phoenix.motorcontrol.IMotorController</h3>
-<code>changeMotionControlFramePeriod, clearMotionProfileHasUnderrun, clearMotionProfileTrajectories, clearStickyFaults, config_IntegralZone, config_kD, config_kF, config_kI, config_kP, configAllowableClosedloopError, configAuxPIDPolarity, configClosedLoopPeakOutput, configClosedLoopPeriod, configClosedloopRamp, configForwardLimitSwitchSource, configForwardSoftLimitEnable, configForwardSoftLimitThreshold, configGetCustomParam, configGetParameter, configGetParameter, configMaxIntegralAccumulator, configMotionAcceleration, configMotionCruiseVelocity, configMotionProfileTrajectoryPeriod, configMotionSCurveStrength, configNeutralDeadband, configNominalOutputForward, configNominalOutputReverse, configOpenloopRamp, configPeakOutputForward, configPeakOutputReverse, configRemoteFeedbackFilter, configReverseLimitSwitchSource, configReverseSoftLimitEnable, configReverseSoftLimitThreshold, configSelectedFeedbackCoefficient, configSelectedFeedbackSensor, configSensorTerm, configSetCustomParam, configSetParameter, configSetParameter, configVoltageCompSaturation, configVoltageMeasurementFilter, enableVoltageCompensation, getActiveTrajectoryHeading, getActiveTrajectoryPosition, getActiveTrajectoryVelocity, getBaseID, getBusVoltage, getClosedLoopError, getClosedLoopTarget, getControlMode, getDeviceID, getErrorDerivative, getFaults, getFirmwareVersion, getIntegralAccumulator, getLastError, getMotionProfileStatus, getMotionProfileTopLevelBufferCount, getMotorOutputPercent, getSelectedSensorPosition, getSelectedSensorVelocity, getStatusFramePeriod, getStickyFaults, getTemperature, hasResetOccurred, isMotionProfileTopLevelBufferFull, neutralOutput, overrideLimitSwitchesEnable, overrideSoftLimitsEnable, processMotionProfileBuffer, pushMotionProfileTrajectory, selectProfileSlot, setControlFramePeriod, setIntegralAccumulator, setNeutralMode, setSelectedSensorPosition, setSensorPhase, setStatusFramePeriod</code></li>
+<code>changeMotionControlFramePeriod, clearMotionProfileHasUnderrun, clearMotionProfileTrajectories, clearStickyFaults, config_IntegralZone, config_kD, config_kF, config_kI, config_kP, configAllowableClosedloopError, configAuxPIDPolarity, configClosedLoopPeakOutput, configClosedLoopPeriod, configClosedloopRamp, configForwardLimitSwitchSource, configForwardSoftLimitEnable, configForwardSoftLimitThreshold, configGetCustomParam, configGetParameter, configGetParameter, configMaxIntegralAccumulator, configMotionAcceleration, configMotionCruiseVelocity, configMotionProfileTrajectoryPeriod, configMotionSCurveStrength, configNeutralDeadband, configNominalOutputForward, configNominalOutputReverse, configOpenloopRamp, configPeakOutputForward, configPeakOutputReverse, configRemoteFeedbackFilter, configRemoteFeedbackFilter, configReverseLimitSwitchSource, configReverseSoftLimitEnable, configReverseSoftLimitThreshold, configSelectedFeedbackCoefficient, configSelectedFeedbackSensor, configSensorTerm, configSetCustomParam, configSetParameter, configSetParameter, configVoltageCompSaturation, configVoltageMeasurementFilter, enableVoltageCompensation, getActiveTrajectoryHeading, getActiveTrajectoryPosition, getActiveTrajectoryVelocity, getBaseID, getBusVoltage, getClosedLoopError, getClosedLoopTarget, getControlMode, getDeviceID, getErrorDerivative, getFaults, getFirmwareVersion, getIntegralAccumulator, getLastError, getMotionProfileStatus, getMotionProfileTopLevelBufferCount, getMotorOutputPercent, getSelectedSensorPosition, getSelectedSensorVelocity, getStatusFramePeriod, getStickyFaults, getTemperature, hasResetOccurred, isMotionProfileTopLevelBufferFull, neutralOutput, overrideLimitSwitchesEnable, overrideSoftLimitsEnable, processMotionProfileBuffer, pushMotionProfileTrajectory, selectProfileSlot, setControlFramePeriod, setIntegralAccumulator, setNeutralMode, setSelectedSensorPosition, setSensorPhase, setStatusFramePeriod</code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.com.ctre.phoenix.motorcontrol.IMotorControllerEnhanced">
@@ -341,36 +332,6 @@ extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a id="set(double)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>set</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;set&#8203;(double&nbsp;speed)</pre>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>set</code>&nbsp;in interface&nbsp;<code>edu.wpi.first.wpilibj.SpeedController</code></dd>
-<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>set</code>&nbsp;in class&nbsp;<code>com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX</code></dd>
-</dl>
-</li>
-</ul>
-<a id="get()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>get</h4>
-<pre class="methodSignature">public&nbsp;double&nbsp;get()</pre>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>get</code>&nbsp;in interface&nbsp;<code>edu.wpi.first.wpilibj.SpeedController</code></dd>
-<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>get</code>&nbsp;in class&nbsp;<code>com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX</code></dd>
-</dl>
-</li>
-</ul>
 <a id="getMotorOutputVoltage()">
 <!--   -->
 </a>
@@ -393,6 +354,12 @@ extends com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX</pre>
 <li class="blockList">
 <h4>setVoltage</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;setVoltage&#8203;(double&nbsp;outputVolts)</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code>setVoltage</code>&nbsp;in interface&nbsp;<code>edu.wpi.first.wpilibj.SpeedController</code></dd>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code>setVoltage</code>&nbsp;in class&nbsp;<code>com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX</code></dd>
+</dl>
 </li>
 </ul>
 </li>

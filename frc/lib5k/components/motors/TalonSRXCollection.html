@@ -137,12 +137,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><code>edu.wpi.first.wpilibj.PIDOutput</code>, <code>edu.wpi.first.wpilibj.Sendable</code>, <code>edu.wpi.first.wpilibj.SpeedController</code>, <code><a href="interfaces/ICurrentController.html" title="interface in frc.lib5k.components.motors.interfaces">ICurrentController</a></code>, <code><a href="interfaces/IMotorCollection.html" title="interface in frc.lib5k.components.motors.interfaces">IMotorCollection</a></code>, <code><a href="interfaces/IMotorGroupSafety.html" title="interface in frc.lib5k.components.motors.interfaces">IMotorGroupSafety</a></code>, <code><a href="interfaces/IRampRateController.html" title="interface in frc.lib5k.components.motors.interfaces">IRampRateController</a></code>, <code><a href="interfaces/IVoltageOutputController.html" title="interface in frc.lib5k.components.motors.interfaces">IVoltageOutputController</a></code>, <code><a href="../sensors/IEncoderProvider.html" title="interface in frc.lib5k.components.sensors">IEncoderProvider</a></code>, <code><a href="../../interfaces/Loggable.html" title="interface in frc.lib5k.interfaces">Loggable</a></code>, <code>java.lang.AutoCloseable</code></dd>
+<dd><code>edu.wpi.first.wpilibj.PIDOutput</code>, <code>edu.wpi.first.wpilibj.Sendable</code>, <code>edu.wpi.first.wpilibj.SpeedController</code>, <code><a href="interfaces/ICurrentController.html" title="interface in frc.lib5k.components.motors.interfaces">ICurrentController</a></code>, <code><a href="interfaces/IMotorCollection.html" title="interface in frc.lib5k.components.motors.interfaces">IMotorCollection</a></code>, <code><a href="interfaces/IMotorGroupSafety.html" title="interface in frc.lib5k.components.motors.interfaces">IMotorGroupSafety</a></code>, <code><a href="interfaces/IRampRateController.html" title="interface in frc.lib5k.components.motors.interfaces">IRampRateController</a></code>, <code><a href="interfaces/IVoltageOutputController.html" title="interface in frc.lib5k.components.motors.interfaces">IVoltageOutputController</a></code>, <code><a href="../sensors/interfaces/IEncoderProvider.html" title="interface in frc.lib5k.components.sensors.interfaces">IEncoderProvider</a></code>, <code><a href="../../interfaces/Loggable.html" title="interface in frc.lib5k.interfaces">Loggable</a></code>, <code>java.lang.AutoCloseable</code></dd>
 </dl>
 <hr>
 <pre>public class <span class="typeNameLabel">TalonSRXCollection</span>
 extends edu.wpi.first.wpilibj.SpeedControllerGroup
-implements <a href="interfaces/IMotorCollection.html" title="interface in frc.lib5k.components.motors.interfaces">IMotorCollection</a>, <a href="interfaces/ICurrentController.html" title="interface in frc.lib5k.components.motors.interfaces">ICurrentController</a>, <a href="../sensors/IEncoderProvider.html" title="interface in frc.lib5k.components.sensors">IEncoderProvider</a>, <a href="interfaces/IMotorGroupSafety.html" title="interface in frc.lib5k.components.motors.interfaces">IMotorGroupSafety</a>, <a href="interfaces/IVoltageOutputController.html" title="interface in frc.lib5k.components.motors.interfaces">IVoltageOutputController</a>, <a href="interfaces/IRampRateController.html" title="interface in frc.lib5k.components.motors.interfaces">IRampRateController</a>, <a href="../../interfaces/Loggable.html" title="interface in frc.lib5k.interfaces">Loggable</a></pre>
+implements <a href="interfaces/IMotorCollection.html" title="interface in frc.lib5k.components.motors.interfaces">IMotorCollection</a>, <a href="interfaces/ICurrentController.html" title="interface in frc.lib5k.components.motors.interfaces">ICurrentController</a>, <a href="../sensors/interfaces/IEncoderProvider.html" title="interface in frc.lib5k.components.sensors.interfaces">IEncoderProvider</a>, <a href="interfaces/IMotorGroupSafety.html" title="interface in frc.lib5k.components.motors.interfaces">IMotorGroupSafety</a>, <a href="interfaces/IVoltageOutputController.html" title="interface in frc.lib5k.components.motors.interfaces">IVoltageOutputController</a>, <a href="interfaces/IRampRateController.html" title="interface in frc.lib5k.components.motors.interfaces">IRampRateController</a>, <a href="../../interfaces/Loggable.html" title="interface in frc.lib5k.interfaces">Loggable</a></pre>
 <div class="block">Collection of multiple WPI_TalonSRX controllers that wraps a
  SpeedControllerGroup</div>
 </li>
@@ -645,11 +645,11 @@ implements <a href="interfaces/IMotorCollection.html" title="interface in frc.li
 <li class="blockList">
 <h4>getDefaultEncoder</h4>
 <pre class="methodSignature">public&nbsp;<a href="../sensors/EncoderBase.html" title="class in frc.lib5k.components.sensors">EncoderBase</a>&nbsp;getDefaultEncoder()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../sensors/IEncoderProvider.html#getDefaultEncoder()">IEncoderProvider</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../sensors/interfaces/IEncoderProvider.html#getDefaultEncoder()">IEncoderProvider</a></code></span></div>
 <div class="block">Get the default encoder</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../sensors/IEncoderProvider.html#getDefaultEncoder()">getDefaultEncoder</a></code>&nbsp;in interface&nbsp;<code><a href="../sensors/IEncoderProvider.html" title="interface in frc.lib5k.components.sensors">IEncoderProvider</a></code></dd>
+<dd><code><a href="../sensors/interfaces/IEncoderProvider.html#getDefaultEncoder()">getDefaultEncoder</a></code>&nbsp;in interface&nbsp;<code><a href="../sensors/interfaces/IEncoderProvider.html" title="interface in frc.lib5k.components.sensors.interfaces">IEncoderProvider</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>Default encoder</dd>
 </dl>
@@ -663,7 +663,7 @@ implements <a href="interfaces/IMotorCollection.html" title="interface in frc.li
 <h4>getEncoder</h4>
 <pre class="methodSignature">public&nbsp;<a href="../sensors/EncoderBase.html" title="class in frc.lib5k.components.sensors">EncoderBase</a>&nbsp;getEncoder&#8203;(int&nbsp;id,
                               boolean&nbsp;phase)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../sensors/IEncoderProvider.html#getEncoder(int,boolean)">IEncoderProvider</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../sensors/interfaces/IEncoderProvider.html#getEncoder(int,boolean)">IEncoderProvider</a></code></span></div>
 <div class="block">Get an encoder of a specific ID. This is useful if a system has more than one
  sensor, or if it has more than one input, but only one sensor.
  
@@ -671,7 +671,7 @@ implements <a href="interfaces/IMotorCollection.html" title="interface in frc.li
  getDefaultEncoder()</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../sensors/IEncoderProvider.html#getEncoder(int,boolean)">getEncoder</a></code>&nbsp;in interface&nbsp;<code><a href="../sensors/IEncoderProvider.html" title="interface in frc.lib5k.components.sensors">IEncoderProvider</a></code></dd>
+<dd><code><a href="../sensors/interfaces/IEncoderProvider.html#getEncoder(int,boolean)">getEncoder</a></code>&nbsp;in interface&nbsp;<code><a href="../sensors/interfaces/IEncoderProvider.html" title="interface in frc.lib5k.components.sensors.interfaces">IEncoderProvider</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>id</code> - Encoder ID</dd>
 <dt><span class="returnLabel">Returns:</span></dt>

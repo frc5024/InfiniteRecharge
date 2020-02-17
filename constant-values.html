@@ -152,6 +152,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tbody>
 <tr class="altColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.ENABLE_PID_TUNING_OUTPUTS">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;boolean</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.html#ENABLE_PID_TUNING_OUTPUTS">ENABLE_PID_TUNING_OUTPUTS</a></code></th>
+<td class="colLast"><code>false</code></td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><a id="frc.robot.RobotConstants.PUBLISH_SD_TELEMETRY">
 <!--   -->
 </a><code>public&nbsp;static&nbsp;final&nbsp;boolean</code></td>
@@ -171,11 +178,65 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tbody>
 <tr class="altColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Autonomous.AUTO_TARGET_DISTANCE_EPSILON">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Autonomous.html#AUTO_TARGET_DISTANCE_EPSILON">AUTO_TARGET_DISTANCE_EPSILON</a></code></th>
+<td class="colLast"><code>5.0</code></td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><a id="frc.robot.RobotConstants.Autonomous.SCORE_LATE_DELAY">
 <!--   -->
 </a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
 <th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Autonomous.html#SCORE_LATE_DELAY">SCORE_LATE_DELAY</a></code></th>
 <td class="colLast"><code>5.0</code></td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Autonomous.VISION_DISTANCE_KP">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Autonomous.html#VISION_DISTANCE_KP">VISION_DISTANCE_KP</a></code></th>
+<td class="colLast"><code>-0.1</code></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li class="blockList">
+<table class="constantsSummary">
+<caption><span>frc.robot.<a href="frc/robot/RobotConstants.Climber.html" title="class in frc.robot">RobotConstants.Climber</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colSecond" scope="col">Constant Field</th>
+<th class="colLast" scope="col">Value</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Climber.HIGH_HALL_ID">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;int</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Climber.html#HIGH_HALL_ID">HIGH_HALL_ID</a></code></th>
+<td class="colLast"><code>5</code></td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Climber.LOW_HALL_ID">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;int</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Climber.html#LOW_HALL_ID">LOW_HALL_ID</a></code></th>
+<td class="colLast"><code>6</code></td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Climber.MOTOR_CONTROLLER_ID">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;int</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Climber.html#MOTOR_CONTROLLER_ID">MOTOR_CONTROLLER_ID</a></code></th>
+<td class="colLast"><code>21</code></td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Climber.PIN_RELEASE_SOLENOID">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;int</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Climber.html#PIN_RELEASE_SOLENOID">PIN_RELEASE_SOLENOID</a></code></th>
+<td class="colLast"><code>4</code></td>
 </tr>
 </tbody>
 </table>
@@ -194,7 +255,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <!--   -->
 </a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
 <th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.ControlGains.html#kaVoltsSecondsSquaredPerMeter">kaVoltsSecondsSquaredPerMeter</a></code></th>
-<td class="colLast"><code>0.0231</code></td>
+<td class="colLast"><code>2.64</code></td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><a id="frc.robot.RobotConstants.ControlGains.kDDriveVel">
@@ -222,7 +283,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <!--   -->
 </a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
 <th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.ControlGains.html#kITurnVel">kITurnVel</a></code></th>
-<td class="colLast"><code>0.1</code></td>
+<td class="colLast"><code>0.01</code></td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><a id="frc.robot.RobotConstants.ControlGains.kMaxAccelerationMetersPerSecondSquared">
@@ -250,7 +311,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <!--   -->
 </a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
 <th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.ControlGains.html#kPTurnVel">kPTurnVel</a></code></th>
-<td class="colLast"><code>0.0268</code></td>
+<td class="colLast"><code>0.0275</code></td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><a id="frc.robot.RobotConstants.ControlGains.kRamseteB">
@@ -278,7 +339,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <!--   -->
 </a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
 <th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.ControlGains.html#ksVolts">ksVolts</a></code></th>
-<td class="colLast"><code>2.37</code></td>
+<td class="colLast"><code>1.02</code></td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><a id="frc.robot.RobotConstants.ControlGains.kTrackWidthMeters">
@@ -292,7 +353,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <!--   -->
 </a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
 <th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.ControlGains.html#kvVoltsSecondsPerMeter">kvVoltsSecondsPerMeter</a></code></th>
-<td class="colLast"><code>1.8</code></td>
+<td class="colLast"><code>7.01</code></td>
 </tr>
 </tbody>
 </table>
@@ -311,21 +372,21 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <!--   -->
 </a><code>public&nbsp;static&nbsp;final&nbsp;int</code></td>
 <th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.DriveTrain.CurrentLimits.html#HOLD_AMPS">HOLD_AMPS</a></code></th>
-<td class="colLast"><code>33</code></td>
+<td class="colLast"><code>30</code></td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><a id="frc.robot.RobotConstants.DriveTrain.CurrentLimits.PEAK_AMPS">
 <!--   -->
 </a><code>public&nbsp;static&nbsp;final&nbsp;int</code></td>
 <th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.DriveTrain.CurrentLimits.html#PEAK_AMPS">PEAK_AMPS</a></code></th>
-<td class="colLast"><code>35</code></td>
+<td class="colLast"><code>33</code></td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><a id="frc.robot.RobotConstants.DriveTrain.CurrentLimits.TIMEOUT_MS">
 <!--   -->
 </a><code>public&nbsp;static&nbsp;final&nbsp;int</code></td>
 <th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.DriveTrain.CurrentLimits.html#TIMEOUT_MS">TIMEOUT_MS</a></code></th>
-<td class="colLast"><code>30</code></td>
+<td class="colLast"><code>15</code></td>
 </tr>
 </tbody>
 </table>
@@ -358,7 +419,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <!--   -->
 </a><code>public&nbsp;static&nbsp;final&nbsp;int</code></td>
 <th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.DriveTrain.Encoders.html#PULSES_PER_REVOLUTION">PULSES_PER_REVOLUTION</a></code></th>
-<td class="colLast"><code>1024</code></td>
+<td class="colLast"><code>4096</code></td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><a id="frc.robot.RobotConstants.DriveTrain.Encoders.RIGHT_ENCODER_SLOT">
@@ -372,7 +433,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <!--   -->
 </a><code>public&nbsp;static&nbsp;final&nbsp;boolean</code></td>
 <th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.DriveTrain.Encoders.html#RIGHT_SENSOR_PHASE">RIGHT_SENSOR_PHASE</a></code></th>
-<td class="colLast"><code>true</code></td>
+<td class="colLast"><code>false</code></td>
 </tr>
 </tbody>
 </table>
@@ -478,6 +539,88 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </li>
 <li class="blockList">
 <table class="constantsSummary">
+<caption><span>frc.robot.<a href="frc/robot/RobotConstants.Hopper.html" title="class in frc.robot">RobotConstants.Hopper</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colSecond" scope="col">Constant Field</th>
+<th class="colLast" scope="col">Value</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Hopper.HOPPER_BELT_MOTOR">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;int</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Hopper.html#HOPPER_BELT_MOTOR">HOPPER_BELT_MOTOR</a></code></th>
+<td class="colLast"><code>12</code></td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Hopper.HOPPER_BELT_MOTOR_INVERTED">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;boolean</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Hopper.html#HOPPER_BELT_MOTOR_INVERTED">HOPPER_BELT_MOTOR_INVERTED</a></code></th>
+<td class="colLast"><code>true</code></td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Hopper.HOPPER_LINEBREAK_BOTTOM">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;int</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Hopper.html#HOPPER_LINEBREAK_BOTTOM">HOPPER_LINEBREAK_BOTTOM</a></code></th>
+<td class="colLast"><code>2</code></td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Hopper.HOPPER_LINEBREAK_BOTTOM_POWER_CHANNEL">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;int</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Hopper.html#HOPPER_LINEBREAK_BOTTOM_POWER_CHANNEL">HOPPER_LINEBREAK_BOTTOM_POWER_CHANNEL</a></code></th>
+<td class="colLast"><code>1</code></td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Hopper.HOPPER_LINEBREAK_MIDDLE">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;int</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Hopper.html#HOPPER_LINEBREAK_MIDDLE">HOPPER_LINEBREAK_MIDDLE</a></code></th>
+<td class="colLast"><code>4</code></td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Hopper.HOPPER_LINEBREAK_MIDDLE_POWER_CHANNEL">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;int</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Hopper.html#HOPPER_LINEBREAK_MIDDLE_POWER_CHANNEL">HOPPER_LINEBREAK_MIDDLE_POWER_CHANNEL</a></code></th>
+<td class="colLast"><code>2</code></td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Hopper.HOPPER_LINEBREAK_TOP">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;int</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Hopper.html#HOPPER_LINEBREAK_TOP">HOPPER_LINEBREAK_TOP</a></code></th>
+<td class="colLast"><code>3</code></td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Hopper.HOPPER_LINEBREAK_TOP_POWER_CHANNEL">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;int</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Hopper.html#HOPPER_LINEBREAK_TOP_POWER_CHANNEL">HOPPER_LINEBREAK_TOP_POWER_CHANNEL</a></code></th>
+<td class="colLast"><code>3</code></td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Hopper.REVOLUTIONS_PER_INCH">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Hopper.html#REVOLUTIONS_PER_INCH">REVOLUTIONS_PER_INCH</a></code></th>
+<td class="colLast"><code>2.0</code></td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Hopper.SHOOTER_FEED_SPEED">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Hopper.html#SHOOTER_FEED_SPEED">SHOOTER_FEED_SPEED</a></code></th>
+<td class="colLast"><code>0.5</code></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li class="blockList">
+<table class="constantsSummary">
 <caption><span>frc.robot.<a href="frc/robot/RobotConstants.HumanInputs.html" title="class in frc.robot">RobotConstants.HumanInputs</a></span><span class="tabEnd">&nbsp;</span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
@@ -491,6 +634,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </a><code>public&nbsp;static&nbsp;final&nbsp;int</code></td>
 <th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.HumanInputs.html#DRIVER_CONTROLLER_ID">DRIVER_CONTROLLER_ID</a></code></th>
 <td class="colLast"><code>0</code></td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.HumanInputs.OPERATOR_CONTROLLER_ID">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;int</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.HumanInputs.html#OPERATOR_CONTROLLER_ID">OPERATOR_CONTROLLER_ID</a></code></th>
+<td class="colLast"><code>1</code></td>
 </tr>
 </tbody>
 </table>
@@ -516,6 +666,109 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </li>
 <li class="blockList">
 <table class="constantsSummary">
+<caption><span>frc.robot.<a href="frc/robot/RobotConstants.Intake.html" title="class in frc.robot">RobotConstants.Intake</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colSecond" scope="col">Constant Field</th>
+<th class="colLast" scope="col">Value</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Intake.ARM_DOWN_SPEED">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Intake.html#ARM_DOWN_SPEED">ARM_DOWN_SPEED</a></code></th>
+<td class="colLast"><code>0.35</code></td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Intake.ARM_TICKS_PER_DEGREE">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Intake.html#ARM_TICKS_PER_DEGREE">ARM_TICKS_PER_DEGREE</a></code></th>
+<td class="colLast"><code>1000.0</code></td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Intake.ARM_UP_SPEED">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Intake.html#ARM_UP_SPEED">ARM_UP_SPEED</a></code></th>
+<td class="colLast"><code>-0.9</code></td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Intake.INTAKE_ACTUATOR_TALON">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;int</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Intake.html#INTAKE_ACTUATOR_TALON">INTAKE_ACTUATOR_TALON</a></code></th>
+<td class="colLast"><code>13</code></td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Intake.INTAKE_ACTUATOR_TALON_INVERTED">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;boolean</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Intake.html#INTAKE_ACTUATOR_TALON_INVERTED">INTAKE_ACTUATOR_TALON_INVERTED</a></code></th>
+<td class="colLast"><code>false</code></td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Intake.INTAKE_LIMIT_BOTTOM">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;int</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Intake.html#INTAKE_LIMIT_BOTTOM">INTAKE_LIMIT_BOTTOM</a></code></th>
+<td class="colLast"><code>0</code></td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Intake.INTAKE_LIMIT_TOP">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;int</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Intake.html#INTAKE_LIMIT_TOP">INTAKE_LIMIT_TOP</a></code></th>
+<td class="colLast"><code>1</code></td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Intake.INTAKE_ROLLER_TALON">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;int</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Intake.html#INTAKE_ROLLER_TALON">INTAKE_ROLLER_TALON</a></code></th>
+<td class="colLast"><code>14</code></td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Intake.INTAKE_ROLLER_TALON_INVERTED">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;boolean</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Intake.html#INTAKE_ROLLER_TALON_INVERTED">INTAKE_ROLLER_TALON_INVERTED</a></code></th>
+<td class="colLast"><code>false</code></td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Intake.kDArm">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Intake.html#kDArm">kDArm</a></code></th>
+<td class="colLast"><code>0.0</code></td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Intake.kIArm">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Intake.html#kIArm">kIArm</a></code></th>
+<td class="colLast"><code>0.0</code></td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Intake.kPArm">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Intake.html#kPArm">kPArm</a></code></th>
+<td class="colLast"><code>0.011111111111</code></td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Intake.ROLLER_SPEED">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Intake.html#ROLLER_SPEED">ROLLER_SPEED</a></code></th>
+<td class="colLast"><code>0.7</code></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li class="blockList">
+<table class="constantsSummary">
 <caption><span>frc.robot.<a href="frc/robot/RobotConstants.PanelManipulator.html" title="class in frc.robot">RobotConstants.PanelManipulator</a></span><span class="tabEnd">&nbsp;</span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
@@ -535,6 +788,25 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </li>
 <li class="blockList">
 <table class="constantsSummary">
+<caption><span>frc.robot.<a href="frc/robot/RobotConstants.Pneumatics.html" title="class in frc.robot">RobotConstants.Pneumatics</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colSecond" scope="col">Constant Field</th>
+<th class="colLast" scope="col">Value</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Pneumatics.PCM_CAN_ID">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;int</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Pneumatics.html#PCM_CAN_ID">PCM_CAN_ID</a></code></th>
+<td class="colLast"><code>8</code></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li class="blockList">
+<table class="constantsSummary">
 <caption><span>frc.robot.<a href="frc/robot/RobotConstants.Shooter.html" title="class in frc.robot">RobotConstants.Shooter</a></span><span class="tabEnd">&nbsp;</span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
@@ -543,67 +815,109 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tbody>
 <tr class="altColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Shooter.DEFAULT_VELOCITY">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Shooter.html#DEFAULT_VELOCITY">DEFAULT_VELOCITY</a></code></th>
+<td class="colLast"><code>3782.5</code></td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><a id="frc.robot.RobotConstants.Shooter.kDVel">
 <!--   -->
 </a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
 <th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Shooter.html#kDVel">kDVel</a></code></th>
 <td class="colLast"><code>0.0</code></td>
 </tr>
-<tr class="rowColor">
-<td class="colFirst"><a id="frc.robot.RobotConstants.Shooter.kF">
+<tr class="altColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Shooter.kFF">
 <!--   -->
 </a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
-<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Shooter.html#kF">kF</a></code></th>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Shooter.html#kFF">kFF</a></code></th>
 <td class="colLast"><code>0.0</code></td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><a id="frc.robot.RobotConstants.Shooter.kIVel">
 <!--   -->
 </a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
 <th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Shooter.html#kIVel">kIVel</a></code></th>
-<td class="colLast"><code>0.0</code></td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><a id="frc.robot.RobotConstants.Shooter.kJ">
-<!--   -->
-</a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
-<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Shooter.html#kJ">kJ</a></code></th>
-<td class="colLast"><code>0.0</code></td>
+<td class="colLast"><code>8.0E-7</code></td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><a id="frc.robot.RobotConstants.Shooter.kLoadRatio">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Shooter.kIz">
 <!--   -->
 </a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
-<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Shooter.html#kLoadRatio">kLoadRatio</a></code></th>
-<td class="colLast"><code>0.1</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Shooter.html#kIz">kIz</a></code></th>
+<td class="colLast"><code>0.0</code></td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><a id="frc.robot.RobotConstants.Shooter.kPVel">
 <!--   -->
 </a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
 <th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Shooter.html#kPVel">kPVel</a></code></th>
-<td class="colLast"><code>0.38</code></td>
+<td class="colLast"><code>5.5E-4</code></td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><a id="frc.robot.RobotConstants.Shooter.MAX_VOLTAGE">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Shooter.LAUNCH_ANGLE">
 <!--   -->
 </a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
-<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Shooter.html#MAX_VOLTAGE">MAX_VOLTAGE</a></code></th>
-<td class="colLast"><code>12.0</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Shooter.html#LAUNCH_ANGLE">LAUNCH_ANGLE</a></code></th>
+<td class="colLast"><code>45.0</code></td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Shooter.LIMELIGHT_HEIGHT">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Shooter.html#LIMELIGHT_HEIGHT">LIMELIGHT_HEIGHT</a></code></th>
+<td class="colLast"><code>1.0</code></td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Shooter.LIMELIGHT_MOUNT_ANGLE">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Shooter.html#LIMELIGHT_MOUNT_ANGLE">LIMELIGHT_MOUNT_ANGLE</a></code></th>
+<td class="colLast"><code>13.0</code></td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><a id="frc.robot.RobotConstants.Shooter.MOTOR_ID">
 <!--   -->
 </a><code>public&nbsp;static&nbsp;final&nbsp;int</code></td>
 <th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Shooter.html#MOTOR_ID">MOTOR_ID</a></code></th>
-<td class="colLast"><code>5</code></td>
+<td class="colLast"><code>16</code></td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Shooter.MOTOR_KV">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Shooter.html#MOTOR_KV">MOTOR_KV</a></code></th>
+<td class="colLast"><code>473.0</code></td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Shooter.MOTOR_MAX_RPM">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Shooter.html#MOTOR_MAX_RPM">MOTOR_MAX_RPM</a></code></th>
+<td class="colLast"><code>4450.0</code></td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Shooter.RPM_EPSILON">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Shooter.html#RPM_EPSILON">RPM_EPSILON</a></code></th>
+<td class="colLast"><code>189.20000000000002</code></td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a id="frc.robot.RobotConstants.Shooter.TARGET_HEIGHT">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
+<th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Shooter.html#TARGET_HEIGHT">TARGET_HEIGHT</a></code></th>
+<td class="colLast"><code>2.49</code></td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><a id="frc.robot.RobotConstants.Shooter.VOLTAGE_EPSILON">
 <!--   -->
 </a><code>public&nbsp;static&nbsp;final&nbsp;double</code></td>
 <th class="colSecond" scope="row"><code><a href="frc/robot/RobotConstants.Shooter.html#VOLTAGE_EPSILON">VOLTAGE_EPSILON</a></code></th>
-<td class="colLast"><code>0.2</code></td>
+<td class="colLast"><code>0.4</code></td>
 </tr>
 </tbody>
 </table>

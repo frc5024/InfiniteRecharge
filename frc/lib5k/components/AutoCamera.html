@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -189,26 +189,40 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code>edu.wpi.cscore.VideoSource</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getFeed()">getFeed</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Get the camera feed object</div>
+</td>
+</tr>
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#keepCameraAwake(boolean)">keepCameraAwake</a></span>&#8203;(boolean&nbsp;enabled)</code></th>
 <td class="colLast">
 <div class="block">Set the camera connection mode</div>
 </td>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#loadJsonConfig(java.lang.String)">loadJsonConfig</a></span>&#8203;(java.lang.String&nbsp;filepath)</code></th>
 <td class="colLast">
 <div class="block">Load a json file as a config</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setResolution(int,int,int)">setResolution</a></span>&#8203;(int&nbsp;height,
              int&nbsp;width,
              int&nbsp;fps)</code></th>
 <td class="colLast">
 <div class="block">Set the camera resolution and framerate</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#showCamera(boolean)">showCamera</a></span>&#8203;(boolean&nbsp;show)</code></th>
+<td class="colLast">
+<div class="block">Set camera visable</div>
 </td>
 </tr>
 </table>
@@ -273,6 +287,20 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a id="showCamera(boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>showCamera</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;showCamera&#8203;(boolean&nbsp;show)</pre>
+<div class="block">Set camera visable</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>show</code> - </dd>
+</dl>
+</li>
+</ul>
 <a id="setResolution(int,int,int)">
 <!--   -->
 </a>
@@ -308,7 +336,7 @@ extends java.lang.Object</pre>
 <a id="keepCameraAwake(boolean)">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>keepCameraAwake</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;keepCameraAwake&#8203;(boolean&nbsp;enabled)</pre>
@@ -316,6 +344,20 @@ extends java.lang.Object</pre>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>enabled</code> - Should the camera always be streaming video?</dd>
+</dl>
+</li>
+</ul>
+<a id="getFeed()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>getFeed</h4>
+<pre class="methodSignature">public&nbsp;edu.wpi.cscore.VideoSource&nbsp;getFeed()</pre>
+<div class="block">Get the camera feed object</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>Camera VideoSource</dd>
 </dl>
 </li>
 </ul>

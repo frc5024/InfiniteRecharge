@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":9,"i1":10,"i2":10,"i3":10,"i4":10};
+var data = {"i0":9,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -177,15 +177,79 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
+<td class="colFirst"><code><a href="subsystems/Climber.Position.html" title="enum in frc.robot.subsystems">Climber.Position</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getWantedClimbPosition()">getWantedClimbPosition</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isDriveInverted()">isDriveInverted</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Check if the driver has enabled drivetrain inversion.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#resetIntakeInput()">resetIntakeInput</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Reset the intake input toggle</div>
+</td>
+</tr>
+<tr id="i6" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#resetUnjamInput()">resetUnjamInput</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i7" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#rumbleDriver(double)">rumbleDriver</a></span>&#8203;(double&nbsp;force)</code></th>
+<td class="colLast">
+<div class="block">Send a rumble command to the driver controller</div>
+</td>
+</tr>
+<tr id="i8" class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#shouldAutoAim()">shouldAutoAim</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Get if the drivebase should switch to auto-aim mode</div>
+</td>
+</tr>
+<tr id="i9" class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#shouldCancelClimb()">shouldCancelClimb</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i10" class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#shouldEjectClimber()">shouldEjectClimber</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Check if the climber should be ejected</div>
+</td>
+</tr>
+<tr id="i11" class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#shouldIntake()">shouldIntake</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Check if the robot should be intaking balls right now</div>
+</td>
+</tr>
+<tr id="i12" class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#shouldResetCellCount()">shouldResetCellCount</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Should the cell counter be reset?</div>
+</td>
+</tr>
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#shouldShoot()">shouldShoot</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Check if the robot should be shooting balls right now</div>
+</td>
+</tr>
+<tr id="i14" class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#shouldUnjam()">shouldUnjam</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 </table>
@@ -223,6 +287,20 @@ extends java.lang.Object</pre>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>OI instance</dd>
+</dl>
+</li>
+</ul>
+<a id="rumbleDriver(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>rumbleDriver</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;rumbleDriver&#8203;(double&nbsp;force)</pre>
+<div class="block">Send a rumble command to the driver controller</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>force</code> - Force from 0-2</dd>
 </dl>
 </li>
 </ul>
@@ -268,13 +346,116 @@ extends java.lang.Object</pre>
 </dl>
 </li>
 </ul>
+<a id="shouldAutoAim()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>shouldAutoAim</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;shouldAutoAim()</pre>
+<div class="block">Get if the drivebase should switch to auto-aim mode</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>Should be auto-aiming?</dd>
+</dl>
+</li>
+</ul>
 <a id="shouldShoot()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>shouldShoot</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;shouldShoot()</pre>
+<div class="block">Check if the robot should be shooting balls right now</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>Should be shooting?</dd>
+</dl>
+</li>
+</ul>
+<a id="shouldEjectClimber()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>shouldEjectClimber</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;shouldEjectClimber()</pre>
+<div class="block">Check if the climber should be ejected</div>
+</li>
+</ul>
+<a id="shouldCancelClimb()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>shouldCancelClimb</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;shouldCancelClimb()</pre>
+</li>
+</ul>
+<a id="getWantedClimbPosition()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getWantedClimbPosition</h4>
+<pre class="methodSignature">public&nbsp;<a href="subsystems/Climber.Position.html" title="enum in frc.robot.subsystems">Climber.Position</a>&nbsp;getWantedClimbPosition()</pre>
+</li>
+</ul>
+<a id="shouldIntake()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>shouldIntake</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;shouldIntake()</pre>
+<div class="block">Check if the robot should be intaking balls right now</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>Should intake</dd>
+</dl>
+</li>
+</ul>
+<a id="resetIntakeInput()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>resetIntakeInput</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;resetIntakeInput()</pre>
+<div class="block">Reset the intake input toggle</div>
+</li>
+</ul>
+<a id="shouldResetCellCount()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>shouldResetCellCount</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;shouldResetCellCount()</pre>
+<div class="block">Should the cell counter be reset?</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>Should reset</dd>
+</dl>
+</li>
+</ul>
+<a id="shouldUnjam()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>shouldUnjam</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;shouldUnjam()</pre>
+</li>
+</ul>
+<a id="resetUnjamInput()">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>shouldShoot</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;shouldShoot()</pre>
+<h4>resetUnjamInput</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;resetUnjamInput()</pre>
 </li>
 </ul>
 </li>
