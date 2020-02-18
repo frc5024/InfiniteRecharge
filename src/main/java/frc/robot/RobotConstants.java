@@ -224,7 +224,7 @@ public class RobotConstants {
         public static final double ARM_UP_SPEED = -0.9;
         public static final double ARM_DOWN_SPEED = 0.35;
 
-        public static final double ROLLER_SPEED = 0.7;
+        public static final double ROLLER_SPEED = 0.9;
     }
 
     /**
