@@ -463,7 +463,6 @@ public class Hopper extends SubsystemBase {
     /**
      * Supply cells to shooter until there are none left
      * 
-     * @param amountToEndUpWith amount of cells to have in the hopper after shooting
      */
     public void supplyCellsToShooter() {
         // Do not log here, because this method gets spammed by the superstructure

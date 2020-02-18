@@ -78,7 +78,7 @@ public class RobotConstants {
 
             /* Motor inversions */
             public static final boolean LEFT_SIDE_INVERTED = false;
-            public static final boolean RIGHT_SIDE_INVERTED = false;
+            public static final boolean RIGHT_SIDE_INVERTED = true;
 
             /* Left side Talons */
             public static final int LEFT_FRONT_TALON = 1;
@@ -109,11 +109,12 @@ public class RobotConstants {
 
             /* Encoder phases */
             public static final boolean LEFT_SENSOR_PHASE = false;
-            public static final boolean RIGHT_SENSOR_PHASE = true;
+            public static final boolean RIGHT_SENSOR_PHASE = false;
 
             /* Ticks per revolution of the encoder */
 
-            public static final int PULSES_PER_REVOLUTION = 4096;// 1024 // 2880;//1440; // (isCompBot())? 4096 : 1440;
+            public static final int PULSES_PER_REVOLUTION = 2880;// 4096;// 1024 // 2880;//1440; // (isCompBot())? 4096
+                                                                 // : 1440;
 
         }
 
@@ -143,13 +144,14 @@ public class RobotConstants {
     public static class ControlGains {
 
         // Feedforward Gains
-        public static final double ksVolts = 1.02; //Practice Base 0.837; // MiniBot 2.37
+        public static final double ksVolts = 1.02; // Practice Base 0.837; // MiniBot 2.37
         public static final double kvVoltsSecondsPerMeter = 7.01; // Practice Base 2.46; // 1.8 MiniBot 1.73
-        public static final double kaVoltsSecondsSquaredPerMeter = 2.64; // Practice Base 0.0455; // 0.0231 MiniBot .0304
+        public static final double kaVoltsSecondsSquaredPerMeter = 2.64; // Practice Base 0.0455; // 0.0231 MiniBot
+                                                                         // .0304
 
         // Optimal Control Gain for driving
         public static final double kPDriveVel = 0.478;// 0.68; //0.478;
-        public static final double kIDriveVel = 0.0;    
+        public static final double kIDriveVel = 0.0;
         public static final double kDDriveVel = 0.008;
 
         // Optimal Control Gain for turning
@@ -271,7 +273,7 @@ public class RobotConstants {
         public static final double RPM_EPSILON = VOLTAGE_EPSILON * MOTOR_KV;
 
         /* Shooter PID */
-        public static final double kPVel = 0.00055; //;
+        public static final double kPVel = 0.00055; // ;
         public static final double kIVel = 8e-7;// ;
         public static final double kDVel = 0.0;
         public static final double kIz = 0.0;

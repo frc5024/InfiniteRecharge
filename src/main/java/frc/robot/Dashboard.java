@@ -18,7 +18,7 @@ import frc.robot.subsystems.cellmech.Intake;
 import frc.robot.subsystems.cellmech.Shooter;
 
 /**
- * Robot status & data interface for driver dashboard
+ * Robot status and2 data interface for driver dashboard
  */
 public class Dashboard {
     RobotLogger logger = RobotLogger.getInstance();

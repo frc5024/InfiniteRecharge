@@ -27,7 +27,7 @@ public class TurnToCommand extends CommandBase {
     /**
      * Turn to a field-relative angle
      * 
-     * @param setpoint Desired angle in degrees (field-relative)
+     * @param angleDegs Desired angle in degrees (field-relative)
      */
     public TurnToCommand(double angleDegs) {
         this(angleDegs, DEFAULT_EPSILON);
@@ -36,7 +36,7 @@ public class TurnToCommand extends CommandBase {
     /**
      * Turn to a field-relative angle
      * 
-     * @param setpoint Desired angle in degrees (field-relative)
+     * @param angleDegs Desired angle in degrees (field-relative)
      * @param epsilon  Allowed error (in degrees)
      */
     public TurnToCommand(double angleDegs, double epsilon) {

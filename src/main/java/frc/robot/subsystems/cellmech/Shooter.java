@@ -279,8 +279,8 @@ public class Shooter extends SubsystemBase {
      * 
      * @param newState Is this state new?
      */
-    public void handleUnjam(boolean isNewState) {
-        if (isNewState) {
+    public void handleUnjam(boolean newState) {
+        if (newState) {
             // TODO
         }
     }
