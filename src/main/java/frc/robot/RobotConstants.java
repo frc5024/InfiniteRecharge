@@ -232,6 +232,9 @@ public class RobotConstants {
      */
     public static class Hopper {
 
+        // Reset Timer
+        public static final double RESET_TIMEOUT_SECONDS = 4.0;
+
         // Motor
         public static final int HOPPER_BELT_MOTOR = 12;
 
