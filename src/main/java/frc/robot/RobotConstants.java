@@ -232,6 +232,9 @@ public class RobotConstants {
      */
     public static class Hopper {
 
+        // Reset Timer
+        public static final double RESET_TIMEOUT_SECONDS = 4.0;
+
         // Motor
         public static final int HOPPER_BELT_MOTOR = 12;
 
@@ -251,6 +254,12 @@ public class RobotConstants {
         public static final double SHOOTER_FEED_SPEED = 0.5;
         // how many times the belt gearbox output rotates to move 1 inch
         public static final double REVOLUTIONS_PER_INCH = 2;
+
+        // cycles the robot goes through with the bottom ensor tripped before moving the hopper
+        public static final int CYCLES_BEFORE_INTAKE = 10;
+
+        // array of value, cycle duration pairs
+        public static final int[][] HOPPER_DONE_RUMBLE_SEQUENCE = {{1,5},{0,3},{1,5},{0,1}};
     }
 
     public static class Shooter {
