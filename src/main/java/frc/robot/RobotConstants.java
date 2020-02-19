@@ -113,7 +113,7 @@ public class RobotConstants {
 
             /* Ticks per revolution of the encoder */
 
-            public static final int PULSES_PER_REVOLUTION = 2880;// 4096;// 1024 // 2880;//1440; // (isCompBot())? 4096
+            public static final int PULSES_PER_REVOLUTION = 5760; //4096;// 1024 // 2880;//1440; // (isCompBot())? 4096
                                                                  // : 1440;
 
         }
@@ -155,9 +155,9 @@ public class RobotConstants {
         public static final double kDDriveVel = 0.008;
 
         // Optimal Control Gain for turning
-        public static final double kPTurnVel = 0.0275;// 0.030;
+        public static final double kPTurnVel = 0.0085;// 0.030;
         public static final double kITurnVel = 0.01; // 0.12;
-        public static final double kDTurnVel = 0.0066; // 0.0066
+        public static final double kDTurnVel = 0.0106; // 0.0066
 
         // Basic P control for encoder-only distance driving
         public static final double kRP = 0.05;
@@ -178,7 +178,7 @@ public class RobotConstants {
 
         // Max Trajectory of Velocity and Acceleration
         public static final double kMaxSpeedMetersPerSecond = 3; // This value will most likely need to be changed
-        public static final double kMaxAccelerationMetersPerSecondSquared = 3.5; // This value will most likely need to
+        public static final double kMaxAccelerationMetersPerSecondSquared = 1.5; // This value will most likely need to
                                                                                  // be
                                                                                  // changed
 
