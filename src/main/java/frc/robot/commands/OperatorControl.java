@@ -22,8 +22,8 @@ public class OperatorControl extends CommandBase {
     private ShootCells m_shootCellsCommand = new ShootCells(5);
     private UnjamCells m_unjamCommend = new UnjamCells();
     private ClimbController m_climbController = new ClimbController();
-    private PositionPanel m_positionCommand = new PositionPanel(new Translation2d(5, 5));
-    private RotatePanel m_rotateCommand = new RotatePanel(4, new Translation2d(5, 5));
+    private PositionPanel m_positionCommand = new PositionPanel(new Translation2d(1, 1));
+    private RotatePanel m_rotateCommand = new RotatePanel(4, new Translation2d(1, 1));
 
     /** Instance of OI */
     private OI m_oi = OI.getInstance();
@@ -75,7 +75,7 @@ public class OperatorControl extends CommandBase {
             m_oi.resetUnjamInput();
 
             // When the cell capacity is reached, ruble the operator controller
-            if(m_cellStructure.isDoneIntake()) {
+            if (m_cellStructure.isDoneIntake()) {
                 m_hopper.startRumble();
             }
 
@@ -107,18 +107,25 @@ public class OperatorControl extends CommandBase {
             m_unjamCommend.cancel();
         }
 
-        if(m_oi.shouldRotate()) {
+        if (m_oi.shouldRotate()) {
             m_rotateCommand.schedule();
             m_positionCommand.cancel();
+        }
+
+        if (m_oi.shouldPosition()) {
+            m_positionCommand.schedule();
+            m_rotateCommand.cancel();
         } 
 
-        if(m_oi.shouldPosition()) {
-            m_positionCommand.schedule();
+        if (m_oi.shouldKillPanel()) {
+            m_positionCommand.cancel();
             m_rotateCommand.cancel();
         }
 
+
+
         // else if(m_positionCommand.isFinished()) {
-        //     m_positionCommand.cancel();
+        // m_positionCommand.cancel();
         // }
     }
 

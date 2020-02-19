@@ -131,12 +131,22 @@ public class OI {
     }
 
     public boolean shouldRotate() {
-        return m_shouldRotateToggle.feed(m_operatorController.getStickButton(Hand.kLeft));
+        return m_operatorController.getStickButton(Hand.kLeft);
     }
 
+
     public boolean shouldPosition() {
-        return m_shouldPositionToggle.feed(m_operatorController.getStickButton(Hand.kRight));
+        return m_operatorController.getStickButton(Hand.kRight);
     }
+
+
+    public boolean shouldKillPanel(){
+        return m_operatorController.getBackButtonPressed();
+    }
+    
+
+    
+    
     /**
      * Check if the climber should be ejected
      */
