@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableRegistry;
 import frc.lib5k.kinematics.Error2D;
 import frc.lib5k.kinematics.FieldPosition;
 import frc.lib5k.spatial.LocalizationEngine;
-import frc.lib5k.utils.MathUtils;
+import frc.lib5k.utils.Mathutils;
 
 public class Compass implements Sendable {
     FieldPosition point;
@@ -72,13 +72,13 @@ public class Compass implements Sendable {
         angle -= (error.getY() < 0 && angle >= 180) ? 90 : 0;
 
         // Wrap the angle
-        angle = MathUtils.wrapGyro(angle);
+        angle = Mathutils.wrapGyro(angle);
 
         // System.out.println(angle + " " + theta + " " + error.toString());
 
         // Return the calculated angle error
         // This must be negative
-        return -MathUtils.getWrappedError(robotPos.getTheta(), angle);
+        return -Mathutils.getWrappedError(robotPos.getTheta(), angle);
     }
 
     /**

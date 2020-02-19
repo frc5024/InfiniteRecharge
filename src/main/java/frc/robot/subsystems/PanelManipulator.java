@@ -18,7 +18,7 @@ import edu.wpi.first.wpiutil.CircularBuffer;
 import frc.lib5k.components.motors.TalonHelper;
 import frc.lib5k.components.sensors.ColorSensor5k;
 import frc.lib5k.simulation.wrappers.SimTalon;
-import frc.lib5k.utils.MathUtils;
+import frc.lib5k.utils.Mathutils;
 import frc.lib5k.utils.RobotLogger;
 import frc.lib5k.utils.RobotLogger.Level;
 import frc.robot.RobotConstants;
@@ -334,7 +334,7 @@ public class PanelManipulator extends SubsystemBase {
 
         // All we have to do here is set the motor input to the clamped offset (yay for
         // math!)
-        m_spinner.set(MathUtils.clamp(m_desiredColorOffset, RobotConstants.PanelManipulator.SPINNER_SPEED * -1,
+        m_spinner.set(Mathutils.clamp(m_desiredColorOffset, RobotConstants.PanelManipulator.SPINNER_SPEED * -1,
                 RobotConstants.PanelManipulator.SPINNER_SPEED));
 
     }
@@ -358,7 +358,7 @@ public class PanelManipulator extends SubsystemBase {
         m_colorBufffer.addLast(currentIdx);
 
         // Find mode color
-        int mainColor = MathUtils.mode(m_colorBufffer, RobotConstants.PanelManipulator.SENSOR_BUFFER_SIZE);
+        int mainColor = Mathutils.mode(m_colorBufffer, RobotConstants.PanelManipulator.SENSOR_BUFFER_SIZE);
 
         // If this is the first time seeing a color, we have not moved.
         if (m_lastColor == null) {

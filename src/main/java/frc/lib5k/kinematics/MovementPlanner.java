@@ -3,7 +3,7 @@ package frc.lib5k.kinematics;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.lib5k.control.PIDv2;
 import frc.lib5k.spatial.LocalizationEngine;
-import frc.lib5k.utils.MathUtils;
+import frc.lib5k.utils.Mathutils;
 
 public class MovementPlanner {
     PIDv2 m_forwardController;
@@ -71,7 +71,7 @@ public class MovementPlanner {
         double targetHeading = end.getTheta() - turnModifier;
 
         // Determine the error from the current angle to the end angle
-        double headingErr = MathUtils.getWrappedError(robotPosition.getTheta(), targetHeading);
+        double headingErr = Mathutils.getWrappedError(robotPosition.getTheta(), targetHeading);
 
         // Determine the desired robot speed
         double speed = m_forwardController.calculate(error.getY());

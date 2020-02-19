@@ -2,7 +2,7 @@ package frc.lib5k.spatial;
 
 import frc.lib5k.kinematics.Error2D;
 import frc.lib5k.kinematics.FieldPosition;
-import frc.lib5k.utils.MathUtils;
+import frc.lib5k.utils.Mathutils;
 
 public class LocalizationEngine {
     /* Current instance */
@@ -63,7 +63,7 @@ public class LocalizationEngine {
 
         //TODO: a heading diffrence may be needed here
         // Set the robot heading
-        m_robotPosition.setTheta(MathUtils.wrapGyro(heading));
+        m_robotPosition.setTheta(Mathutils.wrapGyro(heading));
 
         // System.out.println(m_robotPosition);
 

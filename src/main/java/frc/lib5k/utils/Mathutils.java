@@ -3,8 +3,8 @@ package frc.lib5k.utils;
 import java.util.HashMap;
 
 import edu.wpi.first.wpiutil.CircularBuffer;
- 
-public class MathUtils {
+
+public class Mathutils {
 
     public static void main(String[] args) {
         System.out.println(getWrappedError(270, 0.0));

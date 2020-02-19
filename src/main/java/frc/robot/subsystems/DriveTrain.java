@@ -19,7 +19,7 @@ import frc.lib5k.components.gyroscopes.NavX;
 import frc.lib5k.components.motors.TalonSRXCollection;
 import frc.lib5k.components.sensors.EncoderBase;
 import frc.lib5k.interfaces.Loggable;
-import frc.lib5k.utils.MathUtils;
+import frc.lib5k.utils.Mathutils;
 import frc.lib5k.utils.RobotLogger;
 import frc.robot.RobotConstants;
 import frc.robot.vision.LimelightTarget;
@@ -244,14 +244,14 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
      */
     public boolean face(LimelightTarget target, double eps) {
 
-        double targetAngle = MathUtils.wpiAngleTo5k(target.getRotation().getDegrees());
+        double targetAngle = Mathutils.wpiAngleTo5k(target.getRotation().getDegrees());
         // double drivebaseAngle =
-        // MathUtils.wpiAngleTo5k(getPosition().getRotation().getDegrees());
+        // Mathutils.wpiAngleTo5k(getPosition().getRotation().getDegrees());
 
         // Add them
         // targetAngle += drivebaseAngle;
-        System.out.println(MathUtils.getWrappedError(0.0, targetAngle * -1));
-        return face(MathUtils.getWrappedError(0.0, targetAngle * -1), eps);
+        System.out.println(Mathutils.getWrappedError(0.0, targetAngle * -1));
+        return face(Mathutils.getWrappedError(0.0, targetAngle * -1), eps);
     }
 
     /**
@@ -264,11 +264,11 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
     public boolean face(Rotation2d rot, double eps) {
 
         // Convert the WPILib angles to Lib5K-compatible angles
-        double setpointAngle = MathUtils.wpiAngleTo5k(rot.getDegrees());
-        double drivebaseAngle = MathUtils.wpiAngleTo5k(getPosition().getRotation().getDegrees());
+        double setpointAngle = Mathutils.wpiAngleTo5k(rot.getDegrees());
+        double drivebaseAngle = Mathutils.wpiAngleTo5k(getPosition().getRotation().getDegrees());
 
         // Find error between angles
-        double error = MathUtils.getWrappedError(drivebaseAngle, setpointAngle);
+        double error = Mathutils.getWrappedError(drivebaseAngle, setpointAngle);
 
         return face(error, eps);
     }
@@ -282,7 +282,7 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
         double force = m_turnController.calculate(error, 0.0);
 
         // Clamp turn force
-        force = MathUtils.clamp(force, -1.0, 1.0);
+        force = Mathutils.clamp(force, -1.0, 1.0);
         force *= 0.9;
         // Set motor command
         setOpenLoop(new DriveSignal(force, -force));
@@ -320,13 +320,13 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
         double throttle = target.ty * RobotConstants.Autonomous.VISION_DISTANCE_KP;
 
         // Clamp the throttle
-        throttle = MathUtils.clamp(throttle, -1.0, 1.0);
+        throttle = Mathutils.clamp(throttle, -1.0, 1.0);
 
         // Send motor command
         setOpenLoop(new DriveSignal(throttle, throttle));
 
         // Return if we are in range
-        return MathUtils.epsilonEquals(target.ty, 0.0, RobotConstants.Autonomous.AUTO_TARGET_DISTANCE_EPSILON);
+        return Mathutils.epsilonEquals(target.ty, 0.0, RobotConstants.Autonomous.AUTO_TARGET_DISTANCE_EPSILON);
 
     }
 

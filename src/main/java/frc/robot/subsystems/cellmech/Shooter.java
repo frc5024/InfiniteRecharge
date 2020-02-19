@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib5k.control.JRADController;
 import frc.lib5k.simulation.wrappers.SimSparkMax;
-import frc.lib5k.utils.MathUtils;
+import frc.lib5k.utils.Mathutils;
 import frc.lib5k.utils.RobotLogger;
 import frc.robot.RobotConstants;
 
@@ -189,7 +189,7 @@ public class Shooter extends SubsystemBase {
         this.m_systemState = SystemState.HOLD;
 
         // Switch to HOLD state if spinup complete
-        if (MathUtils.epsilonEquals(m_motorController.getEncoder().getVelocity(), this.output,
+        if (Mathutils.epsilonEquals(m_motorController.getEncoder().getVelocity(), this.output,
                 RobotConstants.Shooter.RPM_EPSILON)) {
 
             // Move to next state
@@ -241,7 +241,7 @@ public class Shooter extends SubsystemBase {
         // motorOutput += voltage;
 
         // // Disallow reverse motor output
-        // // motorOutput = MathUtils.clamp(motorOutput, 0, 12);
+        // // motorOutput = Mathutils.clamp(motorOutput, 0, 12);
 
         // System.out.println(motorOutput);
 
