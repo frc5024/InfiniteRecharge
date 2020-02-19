@@ -164,9 +164,8 @@ public class OI {
         direction += m_driverController.getTriggerAxis(Hand.kRight);
 
         // Dead zone for the climber
-        if (direction > 0.8) direction = 1;
-        if (direction < 0.8) direction = -1;
-
+        if (Math.abs(direction) <= 0.1) direction = 1;
+        if (Math.abs(direction) >= 0.1) direction = -1;
 
         if (direction == 1) {
             return Position.LEVEL;
