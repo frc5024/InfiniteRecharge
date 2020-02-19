@@ -31,8 +31,10 @@ public class Climber extends SubsystemBase {
     // Hall effect sensors on the climbers
     private HallEffect m_lowHall;
     private HallEffect m_highHall;
+    private HallEffect m_topHall;
 
-    // Line break sensor on the hook of the climber
+    // Guard boolean
+    private boolean m_isPastLevel;
 
     /**
      * System states
@@ -48,6 +50,7 @@ public class Climber extends SubsystemBase {
      * System positions
      */
     public enum Position {
+        EXTENDED, // Top climber position
         LEVEL, // High climb bar position
         RETRACTED, // Low climb bar position
         CURRENT, // Hold at current position
@@ -71,9 +74,10 @@ public class Climber extends SubsystemBase {
         // Climb motor
         m_liftMotor = new SimTalon(RobotConstants.Climber.MOTOR_CONTROLLER_ID);
         
-        // Low and High Hall sensors
+        // Low, High, and Top Hall sensors
         m_lowHall = new HallEffect(RobotConstants.Climber.LOW_HALL_ID);
         m_highHall = new HallEffect(RobotConstants.Climber.HIGH_HALL_ID);
+        m_topHall = new HallEffect(RobotConstants.Climber.TOP_HALL_ID);
 
         // Set up the camera
         m_camera = new AutoCamera("Climb camera", 0);
@@ -87,6 +91,8 @@ public class Climber extends SubsystemBase {
         m_releasePin.set(ActuatorState.kINACTIVE);
         m_releasePin.clearAllFaults();
 
+        // Guard boolean is not triggered
+        m_isPastLevel = false;
     }
 
     /**
@@ -187,6 +193,11 @@ public class Climber extends SubsystemBase {
         // Read the current position
         Position current = getPosition();
 
+        // Prevents the climber from trying to reach Level position when it is past it
+        if (m_isPastLevel && m_wantedPosition == Position.LEVEL) {
+            m_liftMotor.set(0.0);
+        }
+
         // If we are not at our desired position, get there
         if (m_wantedPosition != current && m_wantedPosition != Position.CURRENT) {
 
@@ -269,7 +280,12 @@ public class Climber extends SubsystemBase {
          * otherwise, return CURRENT
          */
 
-        if (m_highHall.get()) {
+        if (m_topHall.get()) {
+            // Prevents the halleffect sensor from being tripped when the climber is extending
+            m_isPastLevel = false;
+            return Position.EXTENDED;
+        } else if (m_highHall.get()) {
+            m_isPastLevel = true;
             return Position.LEVEL;
         } else if (m_lowHall.get()) {
             return Position.RETRACTED;
