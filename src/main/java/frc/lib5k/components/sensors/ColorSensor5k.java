@@ -1,4 +1,4 @@
-package frc.lib5k.components;
+package frc.lib5k.components.sensors;
 
 import com.revrobotics.ColorSensorV3;
 
