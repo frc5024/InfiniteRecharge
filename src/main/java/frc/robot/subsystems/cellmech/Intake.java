@@ -181,18 +181,23 @@ public class Intake extends SubsystemBase {
             // Ensure our roller is stopped before arm deployment
             setRollerSpeed(0.0);
 
+            setArmSpeed(0.0);
+
+
         }
 
         // As long as we are not at our deployed position, lower the arms
-        if (getArmPosition() != ArmPosition.DEPLOYED) {
-            setArmSpeed(RobotConstants.Intake.ARM_DOWN_SPEED);
+        if (getArmPosition() != ArmPosition.STOWED) {
+            setArmSpeed(RobotConstants.Intake.ARM_UP_SPEED);
         } else {
             // Stop the arms
             setArmSpeed(0.0);
 
-            // Handle intake of cells
-            setRollerSpeed(RobotConstants.Intake.ROLLER_SPEED * -1);
+            
         }
+
+        // Handle exhaust of cells
+        setRollerSpeed(RobotConstants.Intake.ROLLER_SPEED * -1);
 
         // NOTE: This action does not stop automatically
     }

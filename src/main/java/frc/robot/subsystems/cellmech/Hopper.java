@@ -6,6 +6,7 @@ import frc.lib5k.components.motors.motorsensors.TalonEncoder;
 import frc.lib5k.components.sensors.EncoderBase;
 import frc.lib5k.components.sensors.LineBreak;
 import frc.lib5k.simulation.wrappers.SimTalon;
+import frc.lib5k.utils.Mathutils;
 import frc.lib5k.utils.RobotLogger;
 import frc.robot.RobotConstants;
 
@@ -63,11 +64,6 @@ public class Hopper extends SubsystemBase {
     /** amount of cells currently in hopper */
     private int m_cellCount = 0;
 
-    /** amount of cells to have after intaking */
-    private int m_desiredAmountToIntake = 5;
-    /** amount of cells to have after shooting */
-    private int m_desiredAmountToHaveAfterShooting = 0;
-
     private Hopper() {
         // Construct motor controller
         m_hopperBelt = new SimTalon(RobotConstants.Hopper.HOPPER_BELT_MOTOR);
@@ -94,6 +90,7 @@ public class Hopper extends SubsystemBase {
         m_revolutionsPerInch = RobotConstants.Hopper.REVOLUTIONS_PER_INCH;
 
         m_lineBottomLastValue = false;
+        m_lineMiddleLastValue = false;
         m_lineTopLastValue = false;
 
         // Add children
@@ -120,38 +117,35 @@ public class Hopper extends SubsystemBase {
     @Override
     public void periodic() {
 
-        // Count cells
 
-        // cache values of line break sensors
-        boolean bottomValue = m_lineBottom.get();
-        boolean topValue = m_lineTop.get();
+        if(m_systemState == SystemState.INTAKING || m_systemState == SystemState.INTAKEREADY || m_systemState == SystemState.UNJAM || m_systemState == SystemState.SHOOTING) {
+            // Count cells
 
-        // If belt is moving up
-        if (m_hopperBelt.get() > 0.0) {
+            // cache values of line break sensors
+            boolean middleValue = m_lineMiddle.get();
+            boolean topValue = m_lineTop.get();
 
-            // add when cell enters bottom
-            if (bottomValue == true && m_lineBottomLastValue == false) {
-                m_cellCount += 1;
+            // If belt is moving up
+            if (m_hopperBelt.get() > 0.0) {
+
+                // add when cell enters bottom
+                if (middleValue == true && m_lineMiddleLastValue == false) {
+                    modifyCellCount(1);
+                }
+
+                // subtract when cell exits top
+                if (topValue == false && m_lineTopLastValue == true) {
+                    modifyCellCount(-1);
+                }
+
+                // If belt is moving down
+            } else if (m_hopperBelt.get() < 0.0) {
+
+                // subtract when cell exits bottom
+                if (middleValue == false && m_lineMiddleLastValue == true) {
+                    modifyCellCount(-1);
+                }
             }
-
-            // subtract when cell exits top
-            if (topValue == false && m_lineTopLastValue == true) {
-                m_cellCount -= 1;
-            }
-
-            // If belt is moving down
-        } else if (m_hopperBelt.get() < 0.0) {
-
-            // subtract when cell exits bottom
-            if (bottomValue == false && m_lineBottomLastValue == true) {
-                m_cellCount -= 1;
-            }
-
-            // add when cell enters top
-            if (topValue == true && m_lineTopLastValue == false) {
-                m_cellCount += 1;
-            }
-
         }
 
         // Determine if this state is new
@@ -195,7 +189,6 @@ public class Hopper extends SubsystemBase {
         m_lineBottomLastValue = m_lineBottom.get();
         m_lineMiddleLastValue = m_lineMiddle.get();
         m_lineTopLastValue = m_lineTop.get();
-
     }
 
     /**
@@ -231,17 +224,9 @@ public class Hopper extends SubsystemBase {
 
         // if the bottom line break is tripped off for the first time
         if (bottomValue == true && m_lineBottomLastValue == false) {
-            // only intake if the hopper doesn't have the desired amount of cells
-            if (m_cellCount < m_desiredAmountToIntake) {
-                m_systemState = SystemState.INTAKING;
-            }
-
+            m_systemState = SystemState.INTAKING;
         }
 
-        // if the hopper has the desired amount of cells, stop intaking
-        if (m_cellCount >= 5 || m_cellCount == m_desiredAmountToIntake) {
-            m_systemState = SystemState.IDLE;
-        }
     }
 
     /**
@@ -266,9 +251,12 @@ public class Hopper extends SubsystemBase {
             m_systemState = SystemState.INTAKEREADY;
         }
 
-        // if belt has gone 12 inches, stop tying and set state to ready to intake
-        if (m_ticksAtStartOfIntake - m_hopperEncoder.getTicks()  >= 41583) {
-            m_systemState = SystemState.INTAKEREADY;
+        // if no cells in hopper, only rely on sensors 
+        if(m_cellCount > 0) {
+            // if belt has gone 12 inches, stop tying and set state to ready to intake
+            if (m_ticksAtStartOfIntake - m_hopperEncoder.getTicks() >= 41583) {
+                m_systemState = SystemState.INTAKEREADY;
+            }
         }
     }
 
@@ -380,10 +368,25 @@ public class Hopper extends SubsystemBase {
     }
 
     /**
+     * @return state of the top line break sensor
+     */
+    public boolean getTopLineBreak() {
+        return m_lineTop.get();
+    }
+
+    /**
      * @return current amount of cells in the hopper
      */
     public int getCellCount() {
         return m_cellCount;
+    }
+
+    /**
+     * @param changeAmount amount to increase or decrease the cell count by
+     */
+    public void modifyCellCount(int changeAmount) {
+        m_cellCount += changeAmount;
+        m_cellCount = (int) Mathutils.clamp(m_cellCount, 0, 5);
     }
 
     /**
@@ -406,7 +409,9 @@ public class Hopper extends SubsystemBase {
      */
     public void interruptShooting() {
         logger.log("Hopper", "Shooting interrupt requested");
-        m_systemState = SystemState.MOVETOBOTTOM;
+        if(m_cellCount > 0) {
+            m_systemState = SystemState.MOVETOBOTTOM;
+        }
     }
 
     /**
@@ -415,7 +420,7 @@ public class Hopper extends SubsystemBase {
      * @param amountToEndUpWith amount of cells to have in the hopper after shooting
      */
     public void supplyCellsToShooter() {
-        logger.log("Hopper", "Supply cells to shooter requested");
+        // Do not log here, because this method gets spammed by the superstructure
         m_systemState = SystemState.SHOOTING;
     }
 
@@ -430,12 +435,8 @@ public class Hopper extends SubsystemBase {
     /**
      * Set the hopper to intake
      */
-    public void startIntake(int amountToEndUpWith) {
-        logger.log("Hopper", String.format("Intake action requested with a final cell count of %d", amountToEndUpWith));
-
-        // set desired amount
-        m_desiredAmountToIntake = amountToEndUpWith;
-        // start intaking
+    public void startIntake() {
+        logger.log("Hopper", "Intake requested");
         m_systemState = SystemState.INTAKEREADY;
     }
 
@@ -443,7 +444,6 @@ public class Hopper extends SubsystemBase {
      * Stop the hopper
      */
     public void stop() {
-        logger.log("Hopper", "Stopping hopper");
         m_systemState = SystemState.IDLE;
     }
 
@@ -454,6 +454,16 @@ public class Hopper extends SubsystemBase {
      */
     public void manuallyControlBelt(double speed) {
         m_hopperBelt.set(speed);
+    }
+
+    /**
+     * Force-override the internal power cell counter
+     * 
+     * @param count New cell count [0-5]
+     */
+    public void forceCellCount(int count) {
+        logger.log("Hopper", String.format("Cell count force-set to: %d", count));
+        m_cellCount = (int) Mathutils.clamp(count, 0, 5);
     }
 
 }

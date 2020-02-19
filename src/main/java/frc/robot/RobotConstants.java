@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.util.Units;
+import frc.lib5k.kinematics.PIDProfile;
 import frc.lib5k.roborio.RR_HAL;
 
 /**
@@ -20,6 +21,7 @@ public class RobotConstants {
     }
 
     public static final boolean PUBLISH_SD_TELEMETRY = true;
+    public static final boolean ENABLE_PID_TUNING_OUTPUTS = false;
 
     public static class Autonomous {
 
@@ -76,7 +78,7 @@ public class RobotConstants {
 
             /* Motor inversions */
             public static final boolean LEFT_SIDE_INVERTED = false;
-            public static final boolean RIGHT_SIDE_INVERTED = true;
+            public static final boolean RIGHT_SIDE_INVERTED = false;
 
             /* Left side Talons */
             public static final int LEFT_FRONT_TALON = 1;
@@ -131,6 +133,8 @@ public class RobotConstants {
 
         }
 
+        public static int ALIGNMENT_EPSILON = 3;
+
     }
 
     /**
@@ -139,13 +143,13 @@ public class RobotConstants {
     public static class ControlGains {
 
         // Feedforward Gains
-        public static final double ksVolts = 0.837; // MiniBot 2.37
-        public static final double kvVoltsSecondsPerMeter = 2.46; // 1.8 MiniBot 1.73
-        public static final double kaVoltsSecondsSquaredPerMeter = 0.0455; // 0.0231 MiniBot .0304
+        public static final double ksVolts = 1.02; //Practice Base 0.837; // MiniBot 2.37
+        public static final double kvVoltsSecondsPerMeter = 7.01; // Practice Base 2.46; // 1.8 MiniBot 1.73
+        public static final double kaVoltsSecondsSquaredPerMeter = 2.64; // Practice Base 0.0455; // 0.0231 MiniBot .0304
 
         // Optimal Control Gain for driving
         public static final double kPDriveVel = 0.478;// 0.68; //0.478;
-        public static final double kIDriveVel = 0.0;
+        public static final double kIDriveVel = 0.0;    
         public static final double kDDriveVel = 0.008;
 
         // Optimal Control Gain for turning
@@ -215,10 +219,10 @@ public class RobotConstants {
 
         public static final double ARM_TICKS_PER_DEGREE = 1000;
 
-        public static final double ARM_UP_SPEED = -0.85;
-        public static final double ARM_DOWN_SPEED = 0.35; 
+        public static final double ARM_UP_SPEED = -0.9;
+        public static final double ARM_DOWN_SPEED = 0.35;
 
-        public static final double ROLLER_SPEED = 0.8;
+        public static final double ROLLER_SPEED = 0.7;
     }
 
     /**
@@ -233,13 +237,13 @@ public class RobotConstants {
 
         // Sensors
         public static final int HOPPER_LINEBREAK_BOTTOM = 2;
-        public static final int HOPPER_LINEBREAK_BOTTOM_POWER_CHANNEL = 0;
+        public static final int HOPPER_LINEBREAK_BOTTOM_POWER_CHANNEL = 1;
 
         public static final int HOPPER_LINEBREAK_MIDDLE = 4;
-        public static final int HOPPER_LINEBREAK_MIDDLE_POWER_CHANNEL = 1;
+        public static final int HOPPER_LINEBREAK_MIDDLE_POWER_CHANNEL = 2;
 
         public static final int HOPPER_LINEBREAK_TOP = 3;
-        public static final int HOPPER_LINEBREAK_TOP_POWER_CHANNEL = 2;
+        public static final int HOPPER_LINEBREAK_TOP_POWER_CHANNEL = 3;
 
         // Belt speed during shooting
         public static final double SHOOTER_FEED_SPEED = 0.5;
@@ -254,18 +258,36 @@ public class RobotConstants {
          */
         public static final int MOTOR_ID = 16;
 
-        public static final double MOTOR_MAX_RPM = 5700;
+        public static final double MOTOR_MAX_RPM = 4450; // 5700;
 
         public static final double MOTOR_KV = 473;
-        public static final double VOLTAGE_EPSILON = 0.2;
+        public static final double VOLTAGE_EPSILON = 0.4;
         public static final double RPM_EPSILON = VOLTAGE_EPSILON * MOTOR_KV;
 
         /* Shooter PID */
-        public static final double kPVel = 5e-5;
-        public static final double kIVel = 1e-6;
+        public static final double kPVel = 0.00055; //;
+        public static final double kIVel = 8e-7;// ;
         public static final double kDVel = 0.0;
         public static final double kIz = 0.0;
         public static final double kFF = 0.0;
+
+        // public static PIDProfile PID_PROFILE = new PIDProfile(kp)
+
+        /* Limelight */
+        public static final double TARGET_HEIGHT = 2.49;
+        public static final double LIMELIGHT_HEIGHT = 1;
+        public static final double LIMELIGHT_MOUNT_ANGLE = 13;
+
+        /* Launch Angle */
+        public static final double LAUNCH_ANGLE = 45;
+
+        /* RPM to m/s */
+        public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);
+        public static final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
+        public static final double RPM_PER_METER = 1 / WHEEL_CIRCUMFERENCE;
+        public static final double RPM_PER_MPS = RPM_PER_METER / 60;
+
+        public static final double DEFAULT_VELOCITY = MOTOR_MAX_RPM * 0.85;
 
     }
 
