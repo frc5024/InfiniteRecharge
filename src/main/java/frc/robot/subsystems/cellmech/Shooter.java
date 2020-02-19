@@ -61,6 +61,7 @@ public class Shooter extends SubsystemBase {
     private double output = 0.0;
 
     // Velocity calculating encoder
+    private CANPIDController m_motorPID;
     private CANEncoder m_motorEncoder;
 
     // Limelight
@@ -78,6 +79,17 @@ public class Shooter extends SubsystemBase {
         m_motorController = new SimSparkMax(RobotConstants.Shooter.MOTOR_ID, MotorType.kBrushless);
         m_motorController.restoreFactoryDefaults();
         m_motorEncoder = m_motorController.getEncoder();
+        m_motorPID = m_motorController.getPIDController();
+
+        m_motorPID.setP(RobotConstants.Shooter.kPVel);
+        m_motorPID.setI(RobotConstants.Shooter.kIVel);
+        m_motorPID.setD(RobotConstants.Shooter.kDVel);
+        m_motorPID.setIZone(RobotConstants.Shooter.kIz);
+        m_motorPID.setFF(RobotConstants.Shooter.kFF);
+        m_motorPID.setOutputRange(-1.0, 1.0);
+
+        // Stop the motor
+        m_motorPID.setReference(0.0, ControlType.kVelocity);
 
         addChild("SimSparkMax", m_motorController);
 
@@ -280,8 +292,7 @@ public class Shooter extends SubsystemBase {
      */
     private void sendMotorCommand(double desiredRPM) {
 
-        m_motorController.set(((desiredRPM / RobotConstants.Shooter.MOTOR_KV)
-                +(RobotConstants.Shooter.kPVel * RR_HAL.getSimSafeVoltage()))/12);
+        m_motorPID.setReference(output, ControlType.kVelocity);
 
     }
 

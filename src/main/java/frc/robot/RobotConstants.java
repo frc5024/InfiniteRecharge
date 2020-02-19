@@ -285,7 +285,11 @@ public class RobotConstants {
         public static final double RPM_EPSILON = VOLTAGE_EPSILON * MOTOR_KV;
 
         /* Shooter PID */
-        public static final double kPVel = 0.05;
+        public static final double kPVel = 0.00055; // ;
+        public static final double kIVel = 8e-7;// ;
+        public static final double kDVel = 0.0;
+        public static final double kIz = 0.0;
+        public static final double kFF = 0.0;
 
         /* Limelight */
         public static final double TARGET_HEIGHT = 2.49;
