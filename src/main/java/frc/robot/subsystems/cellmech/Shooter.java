@@ -323,7 +323,7 @@ public class Shooter extends SubsystemBase {
      * @return At setpoint?
      */
     private boolean atRPMSetpoint() {
-        return Mathutils.epsilonEquals(m_motorController.getEncoder().getVelocity(), this.output,
+        return Mathutils.epsilonEquals(m_motorController.getEncoder().getVelocity(), Mathutils.clamp(this.output, 0, RobotConstants.Shooter.MOTOR_MAX_RPM),
                 RobotConstants.Shooter.RPM_EPSILON);
     }
 
