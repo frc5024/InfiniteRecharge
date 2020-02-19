@@ -159,9 +159,18 @@ public class OI {
     }
 
     public Position getWantedClimbPosition() {
-        if (m_operatorController.getPOV() == 0) {
+        double direction = 0;
+
+        direction += m_driverController.getTriggerAxis(Hand.kRight);
+
+        // Dead zone for the climber
+        if (direction > 0.8) direction = 1;
+        if (direction < 0.8) direction = -1;
+
+
+        if (direction == 1) {
             return Position.LEVEL;
-        } else if (m_operatorController.getPOV() == 180) {
+        } else if (direction == -1 ){
             return Position.RETRACTED;
         } else {
             return Position.CURRENT;
