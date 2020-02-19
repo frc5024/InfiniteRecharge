@@ -7,11 +7,14 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib5k.control.JRADController;
 import frc.lib5k.simulation.wrappers.SimSparkMax;
 import frc.lib5k.utils.Mathutils;
 import frc.lib5k.utils.RobotLogger;
+import frc.lib5k.utils.telemetry.FlywheelTuner;
 import frc.robot.RobotConstants;
+import frc.robot.subsystems.DriveTrain;
+import frc.robot.vision.Limelight2;
+import frc.robot.vision.Limelight2.LEDMode;
 
 /**
  * Robot Shooter subsystem
@@ -21,6 +24,9 @@ public class Shooter extends SubsystemBase {
 
     // Wind-up time
     private long windUpStartTime, windUpEndTime, windUpTotalTime;
+
+    // Optimal Position
+    boolean inPosition;
 
     // Logger
     RobotLogger logger = RobotLogger.getInstance();
@@ -56,7 +62,16 @@ public class Shooter extends SubsystemBase {
     private CANPIDController m_motorPID;
     private CANEncoder m_motorEncoder;
 
+    // Limelight
+    private Limelight2 m_limelight;
+
+    // Telemetry object for tuning the flywheel
+    private FlywheelTuner m_tuner;
+
     private Shooter() {
+
+        // Create Limelight
+        m_limelight = Limelight2.getInstance();
 
         // Create and configure motor
         m_motorController = new SimSparkMax(RobotConstants.Shooter.MOTOR_ID, MotorType.kBrushless);
@@ -76,6 +91,10 @@ public class Shooter extends SubsystemBase {
         m_motorPID.setReference(0.0, ControlType.kVelocity);
 
         addChild("SimSparkMax", m_motorController);
+
+        // Configure the tuner
+        m_tuner = new FlywheelTuner("Shooter", m_motorEncoder::getVelocity);
+        m_tuner.setEnabled(RobotConstants.ENABLE_PID_TUNING_OUTPUTS);
 
     }
 
@@ -133,7 +152,8 @@ public class Shooter extends SubsystemBase {
 
         case UNJAM:
 
-            // TODO: Unjam code
+            // Handle unjamming
+            handleUnjam(isNewState);
             break;
 
         default:
@@ -143,7 +163,9 @@ public class Shooter extends SubsystemBase {
 
         }
 
-        
+        // Update the tuner
+        m_tuner.update();
+
     }
 
     /**
@@ -158,7 +180,6 @@ public class Shooter extends SubsystemBase {
 
             // Force-set the motor to 0.0V
             m_motorController.set(0.0);
-            m_motorPID.setReference(0.0, ControlType.kVelocity);
 
             // Force-set output
             output = 0.0;
@@ -183,14 +204,21 @@ public class Shooter extends SubsystemBase {
 
             // Configure the spinup controller
             m_motorPID.setReference(output, ControlType.kVelocity);
+            m_tuner.setSetpoint(output);
+
+            // Use Limelight
+            m_limelight.use(true);
+
+            // Enable telemetry
+            m_tuner.enableLogging(true);
         }
 
-        // TODO: Remove this
-        this.m_systemState = SystemState.HOLD;
+        // Log the speeds
+        System.out.println(
+                String.format("Setpoint: %.1f, Curent: %.1f", output, m_motorController.getEncoder().getVelocity()));
 
         // Switch to HOLD state if spinup complete
-        if (Mathutils.epsilonEquals(m_motorController.getEncoder().getVelocity(), this.output,
-                RobotConstants.Shooter.RPM_EPSILON)) {
+        if (atRPMSetpoint()) {
 
             // Move to next state
             this.m_systemState = SystemState.HOLD;
@@ -198,17 +226,22 @@ public class Shooter extends SubsystemBase {
     }
 
     /**
-     * Handle flywheel spindown to 0
+     * Handle flywheel spindown to 0 RPM
      * 
      * @param newState Is this state new?
      */
     private void handleSpinDown(boolean newState) {
 
         if (newState) {
-            logger.log("Shooter", "Spinning down");
 
-            m_motorController.setOpenLoopRampRate(1.3);
+            // Turn off the LEDs
+            m_limelight.setLED(LEDMode.OFF);
+            m_limelight.use(false);
+
             m_motorController.set(0);
+
+            // Disable telemetry
+            m_tuner.enableLogging(false);
         }
 
         m_systemState = SystemState.IDLE;
@@ -226,28 +259,30 @@ public class Shooter extends SubsystemBase {
 
             windUpEndTime = System.currentTimeMillis();
             windUpTotalTime = windUpEndTime - windUpStartTime;
-            // Set the JRAD setpoint
-            // m_holdController.setSetpoint(this.output);
             logger.log("Shooter", "Holding. Spin-Up took " + (windUpTotalTime / 1000.0) + " seconds");
+
+            // Set the motor output
+            m_motorPID.setReference(output, ControlType.kVelocity);
+            m_tuner.setSetpoint(output);
 
         }
 
-        // // Get the current motor output voltage
-        // double voltage = m_motorController.getMotorOutputVoltage();
+        // If we are under-RPM, spin up more
+        if (!atRPMSetpoint()) {
+            m_systemState = SystemState.SPIN_UP;
+        }
 
-        // // Calculate the motor output
-        // double motorOutput = m_holdController.calculate(voltage);
+    }
 
-        // motorOutput += voltage;
-
-        // // Disallow reverse motor output
-        // // motorOutput = Mathutils.clamp(motorOutput, 0, 12);
-
-        // System.out.println(motorOutput);
-
-        // Set the motor output
-        m_motorController.setVoltage(this.output);
-
+    /**
+     * Handle unjamming the power cells
+     * 
+     * @param newState Is this state new?
+     */
+    public void handleUnjam(boolean newState) {
+        if (newState) {
+            // TODO
+        }
     }
 
     public void setOutputPercent(double val) {
@@ -274,12 +309,78 @@ public class Shooter extends SubsystemBase {
 
     }
 
+    /**
+     * Check if the flywheel has spun up
+     * 
+     * @return Has spun up?
+     */
     public boolean isSpunUp() {
         return m_systemState == SystemState.HOLD;
     }
 
+    /**
+     * Check if the flywheel is currently at it's RPM setpoint.
+     * 
+     * @return At setpoint?
+     */
+    private boolean atRPMSetpoint() {
+        return Mathutils.epsilonEquals(m_motorController.getEncoder().getVelocity(), this.output,
+                RobotConstants.Shooter.RPM_EPSILON);
+    }
+
     public double getOutput() {
         return m_motorController.get();
+    }
+
+    /**
+     * @param inPosition Is the bot in position to score?
+     */
+    public void setInPosition(boolean inPosition) {
+        this.inPosition = inPosition;
+    }
+
+    /**
+     * @return Is the bot in position to score?
+     */
+    public boolean isInPosition() {
+
+        // Check if drivetrain has been moved off-target since alignment
+        if (DriveTrain.getInstance().alignmentLost())
+            inPosition = false;
+        return inPosition;
+    }
+
+    /**
+     * 
+     * @return Desired flywheel velocity in RPM based on distance to target.
+     */
+    public double getVelocityFromLimelight() {
+
+        // If there is no target found, default to a constant shooting point
+        if (!m_limelight.hasTarget()) {
+            return RobotConstants.Shooter.DEFAULT_VELOCITY;
+        }
+
+        // Get distance to target
+        double angleToTarget = m_limelight.getTarget().ty;
+
+        // d = (h2-h1) / tan(a1+a2)
+        double distance = (RobotConstants.Shooter.TARGET_HEIGHT - RobotConstants.Shooter.LIMELIGHT_HEIGHT)
+                / Math.tan(RobotConstants.Shooter.LIMELIGHT_MOUNT_ANGLE + angleToTarget);
+        RobotLogger.getInstance().log(
+                "[LIMELIGHT]: Distance to target calculated. Distance is " + String.format("%.4f", distance) + "m.");
+
+        // Calculate necessary linear velocity of ball
+        double ballVel = (Math.sqrt(9.81) * Math.sqrt(distance) * Math.sqrt(
+                (Math.tan(RobotConstants.Shooter.LAUNCH_ANGLE) * Math.tan(RobotConstants.Shooter.LAUNCH_ANGLE)) + 1))
+                / Math.sqrt(2 * Math.tan(RobotConstants.Shooter.LAUNCH_ANGLE)
+                        - (2 * 9.81 * RobotConstants.Shooter.TARGET_HEIGHT) / distance);
+
+        // Tangential velocity of flywheel, in RPM
+        double wheelVel = (ballVel * 2) * RobotConstants.Shooter.RPM_PER_MPS;
+        RobotLogger.getInstance().log("[LIMELIGHT]: Desired velocity calculated. Desired velocity is "
+                + String.format("%.4f", wheelVel) + "RPM.");
+        return wheelVel;
     }
 
 }

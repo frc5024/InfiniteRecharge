@@ -32,6 +32,9 @@ public class OI {
     // Panel Manipulator Toggle(s)
     private Toggle m_shouldPositionToggle = new Toggle();
     private Toggle m_shouldRotateToggle = new Toggle();
+    // Unjam toggle
+    private Toggle m_shouldUnjamToggle = new Toggle();
+
     /**
      * Force the use of getInstance() by setting this class private
      */
@@ -58,6 +61,16 @@ public class OI {
      */
     public void rumbleDriver(double force) {
         m_driverController.setRumble((force > 1.0) ? RumbleType.kLeftRumble : RumbleType.kRightRumble,
+                (force > 1.0) ? force - 1.0 : force);
+    }
+
+    /**
+     * Send a rumble command to the operator controller
+     * 
+     * @param force Force from 0-2
+     */
+    public void rumbleOperator(double force) {
+        m_operatorController.setRumble((force > 1.0) ? RumbleType.kLeftRumble : RumbleType.kRightRumble,
                 (force > 1.0) ? force - 1.0 : force);
     }
 
@@ -114,7 +127,7 @@ public class OI {
      * @return Should be shooting?
      */
     public boolean shouldShoot() {
-        return m_shouldShootToggle.feed(m_operatorController.getYButtonPressed());
+        return m_operatorController.getTriggerAxis(Hand.kRight) > 0.8;
     }
 
     public boolean shouldRotate() {
@@ -146,13 +159,6 @@ public class OI {
     }
 
     /**
-     * Reset the shooter input toggle
-     */
-    public void resetShooterInput() {
-        m_shouldShootToggle.reset();
-    }
-
-    /**
      * Check if the robot should be intaking balls right now
      * 
      * @return Should intake
@@ -166,6 +172,23 @@ public class OI {
      */
     public void resetIntakeInput() {
         m_shouldIntakeToggle.reset();
+    }
+
+    /**
+     * Should the cell counter be reset?
+     * 
+     * @return Should reset
+     */
+    public boolean shouldResetCellCount() {
+        return (m_operatorController.getPOV() == 90) && m_operatorController.getXButtonPressed();
+    }
+
+    public boolean shouldUnjam() {
+        return m_shouldUnjamToggle.feed(m_operatorController.getBButtonPressed());
+    }
+
+    public void resetUnjamInput() {
+        m_shouldUnjamToggle.reset();
     }
 
 }
