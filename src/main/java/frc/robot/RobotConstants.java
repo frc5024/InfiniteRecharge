@@ -78,7 +78,7 @@ public class RobotConstants {
 
             /* Motor inversions */
             public static final boolean LEFT_SIDE_INVERTED = false;
-            public static final boolean RIGHT_SIDE_INVERTED = false;
+            public static final boolean RIGHT_SIDE_INVERTED = true;
 
             /* Left side Talons */
             public static final int LEFT_FRONT_TALON = 1;
@@ -109,11 +109,12 @@ public class RobotConstants {
 
             /* Encoder phases */
             public static final boolean LEFT_SENSOR_PHASE = false;
-            public static final boolean RIGHT_SENSOR_PHASE = true;
+            public static final boolean RIGHT_SENSOR_PHASE = false;
 
             /* Ticks per revolution of the encoder */
 
-            public static final int PULSES_PER_REVOLUTION = 4096;// 1024 // 2880;//1440; // (isCompBot())? 4096 : 1440;
+            public static final int PULSES_PER_REVOLUTION = 5760; //4096;// 1024 // 2880;//1440; // (isCompBot())? 4096
+                                                                 // : 1440;
 
         }
 
@@ -143,19 +144,20 @@ public class RobotConstants {
     public static class ControlGains {
 
         // Feedforward Gains
-        public static final double ksVolts = 1.02; //Practice Base 0.837; // MiniBot 2.37
+        public static final double ksVolts = 1.02; // Practice Base 0.837; // MiniBot 2.37
         public static final double kvVoltsSecondsPerMeter = 7.01; // Practice Base 2.46; // 1.8 MiniBot 1.73
-        public static final double kaVoltsSecondsSquaredPerMeter = 2.64; // Practice Base 0.0455; // 0.0231 MiniBot .0304
+        public static final double kaVoltsSecondsSquaredPerMeter = 2.64; // Practice Base 0.0455; // 0.0231 MiniBot
+                                                                         // .0304
 
         // Optimal Control Gain for driving
         public static final double kPDriveVel = 0.478;// 0.68; //0.478;
-        public static final double kIDriveVel = 0.0;    
+        public static final double kIDriveVel = 0.0;
         public static final double kDDriveVel = 0.008;
 
         // Optimal Control Gain for turning
-        public static final double kPTurnVel = 0.0275;// 0.030;
+        public static final double kPTurnVel = 0.0085;// 0.030;
         public static final double kITurnVel = 0.01; // 0.12;
-        public static final double kDTurnVel = 0.0066; // 0.0066
+        public static final double kDTurnVel = 0.0106; // 0.0066
 
         // Basic P control for encoder-only distance driving
         public static final double kRP = 0.05;
@@ -176,7 +178,7 @@ public class RobotConstants {
 
         // Max Trajectory of Velocity and Acceleration
         public static final double kMaxSpeedMetersPerSecond = 3; // This value will most likely need to be changed
-        public static final double kMaxAccelerationMetersPerSecondSquared = 3.5; // This value will most likely need to
+        public static final double kMaxAccelerationMetersPerSecondSquared = 1.5; // This value will most likely need to
                                                                                  // be
                                                                                  // changed
 
@@ -189,10 +191,18 @@ public class RobotConstants {
 
     public static class PanelManipulator {
 
+        public static final int MOTOR_ID = 22;
+
+        public static final int SENSOR_BUFFER_SIZE = 5;
+
+        public static final int DISTANCE_THRESHOLD = 200;
+
+        public static final double SPINNER_SPEED = 1.0;
+
         /**
-         * Threshold for color comparison
+         * Threshold for color comparison (taken from REV ColorMatch)
          */
-        public static final double DEFAULT_COLOR_THRESHOLD = 20;
+        public static final double DEFAULT_COLOR_THRESHOLD = 0.91;
 
     }
 
@@ -222,13 +232,16 @@ public class RobotConstants {
         public static final double ARM_UP_SPEED = -0.9;
         public static final double ARM_DOWN_SPEED = 0.35;
 
-        public static final double ROLLER_SPEED = 0.7;
+        public static final double ROLLER_SPEED = 0.9;
     }
 
     /**
      * Constants regarding the hopper
      */
     public static class Hopper {
+
+        // Reset Timer
+        public static final double RESET_TIMEOUT_SECONDS = 4.0;
 
         // Motor
         public static final int HOPPER_BELT_MOTOR = 12;
@@ -249,6 +262,13 @@ public class RobotConstants {
         public static final double SHOOTER_FEED_SPEED = 0.5;
         // how many times the belt gearbox output rotates to move 1 inch
         public static final double REVOLUTIONS_PER_INCH = 2;
+
+        // cycles the robot goes through with the bottom ensor tripped before moving the
+        // hopper
+        public static final int CYCLES_BEFORE_INTAKE = 10;
+
+        // array of value, cycle duration pairs
+        public static final int[][] HOPPER_DONE_RUMBLE_SEQUENCE = { { 1, 5 }, { 0, 3 }, { 1, 5 }, { 0, 1 } };
     }
 
     public static class Shooter {
@@ -260,18 +280,16 @@ public class RobotConstants {
 
         public static final double MOTOR_MAX_RPM = 4450; // 5700;
 
-        public static final double MOTOR_KV = 473;
+        public static final double MOTOR_KV = 371;
         public static final double VOLTAGE_EPSILON = 0.4;
         public static final double RPM_EPSILON = VOLTAGE_EPSILON * MOTOR_KV;
 
         /* Shooter PID */
-        public static final double kPVel = 0.00055; //;
+        public static final double kPVel = 0.00055; // ;
         public static final double kIVel = 8e-7;// ;
         public static final double kDVel = 0.0;
         public static final double kIz = 0.0;
         public static final double kFF = 0.0;
-
-        // public static PIDProfile PID_PROFILE = new PIDProfile(kp)
 
         /* Limelight */
         public static final double TARGET_HEIGHT = 2.49;

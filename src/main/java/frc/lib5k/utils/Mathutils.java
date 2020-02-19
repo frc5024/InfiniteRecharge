@@ -1,5 +1,9 @@
 package frc.lib5k.utils;
 
+import java.util.HashMap;
+
+import edu.wpi.first.wpiutil.CircularBuffer;
+
 public class Mathutils {
 
     public static void main(String[] args) {
@@ -87,9 +91,59 @@ public class Mathutils {
     public static boolean epsilonEquals(double a, double b, double epsilon) {
         return (a - epsilon <= b) && (a + epsilon >= b);
     }
-    
+
     public static double map(double value, double input_low, double input_high, double output_low, double output_high) {
         return (value - input_low) * (output_high - output_low) / (input_high - input_low) + output_low;
+    }
+
+    public static int mode(int[] array) {
+        HashMap<Integer, Integer> hm = new HashMap<Integer, Integer>();
+        int max = 1;
+        int temp = 0;
+
+        for (int i = 0; i < array.length; i++) {
+
+            if (hm.get(array[i]) != null) {
+
+                int count = hm.get(array[i]);
+                count++;
+                hm.put(array[i], count);
+
+                if (count > max) {
+                    max = count;
+                    temp = array[i];
+                }
+            }
+
+            else
+                hm.put(array[i], 1);
+        }
+        return temp;
+    }
+
+    public static int mode(CircularBuffer array, int size) {
+        HashMap<Integer, Integer> hm = new HashMap<Integer, Integer>();
+        int max = 1;
+        int temp = 0;
+
+        for (int i = 0; i < size; i++) {
+
+            if (hm.get((int) array.get(i)) != null) {
+
+                int count = hm.get((int) array.get(i));
+                count++;
+                hm.put((int) array.get(i), count);
+
+                if (count > max) {
+                    max = count;
+                    temp = (int) array.get(i);
+                }
+            }
+
+            else
+                hm.put((int) array.get(i), 1);
+        }
+        return temp;
     }
 
 }

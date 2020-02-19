@@ -29,6 +29,9 @@ public class OI {
     // Intake action toggle
     private Toggle m_shouldIntakeToggle = new Toggle();
 
+    // Panel Manipulator Toggle(s)
+    private Toggle m_shouldPositionToggle = new Toggle();
+    private Toggle m_shouldRotateToggle = new Toggle();
     // Unjam toggle
     private Toggle m_shouldUnjamToggle = new Toggle();
 
@@ -58,6 +61,16 @@ public class OI {
      */
     public void rumbleDriver(double force) {
         m_driverController.setRumble((force > 1.0) ? RumbleType.kLeftRumble : RumbleType.kRightRumble,
+                (force > 1.0) ? force - 1.0 : force);
+    }
+
+    /**
+     * Send a rumble command to the operator controller
+     * 
+     * @param force Force from 0-2
+     */
+    public void rumbleOperator(double force) {
+        m_operatorController.setRumble((force > 1.0) ? RumbleType.kLeftRumble : RumbleType.kRightRumble,
                 (force > 1.0) ? force - 1.0 : force);
     }
 
@@ -117,6 +130,23 @@ public class OI {
         return m_operatorController.getTriggerAxis(Hand.kRight) > 0.8;
     }
 
+    public boolean shouldRotate() {
+        return m_operatorController.getStickButton(Hand.kLeft);
+    }
+
+
+    public boolean shouldPosition() {
+        return m_operatorController.getStickButton(Hand.kRight);
+    }
+
+
+    public boolean shouldKillPanel(){
+        return m_operatorController.getBackButtonPressed();
+    }
+    
+
+    
+    
     /**
      * Check if the climber should be ejected
      */
