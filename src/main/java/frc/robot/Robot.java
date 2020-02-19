@@ -163,8 +163,6 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-
-		Hopper.getInstance().forceCellCount(1);
 		logger.log("Robot", "Teleop started");
 
 		// Enable brakes on the DriveTrain
