@@ -5,8 +5,10 @@ import com.revrobotics.CANPIDController;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib5k.roborio.RR_HAL;
 import frc.lib5k.simulation.wrappers.SimSparkMax;
 import frc.lib5k.utils.Mathutils;
 import frc.lib5k.utils.RobotLogger;
@@ -113,40 +115,40 @@ public class Shooter extends SubsystemBase {
 
         /* Handle states */
         switch (m_systemState) {
-        case IDLE:
+            case IDLE:
 
-            // Handle the idle state
-            handleIdle(isNewState);
-            break;
+                // Handle the idle state
+                handleIdle(isNewState);
+                break;
 
-        case SPIN_UP:
+            case SPIN_UP:
 
-            // Handle the spinup state
-            handleSpinUp(isNewState);
-            break;
+                // Handle the spinup state
+                handleSpinUp(isNewState);
+                break;
 
-        case SPIN_DOWN:
+            case SPIN_DOWN:
 
-            // Handle the spindown state
-            handleSpinDown(isNewState);
-            break;
+                // Handle the spindown state
+                handleSpinDown(isNewState);
+                break;
 
-        case HOLD:
+            case HOLD:
 
-            // Handle holding motor at velocity
-            handleHold(isNewState);
-            break;
+                // Handle holding motor at velocity
+                handleHold(isNewState);
+                break;
 
-        case UNJAM:
+            case UNJAM:
 
-            // Handle unjamming
-            handleUnjam(isNewState);
-            break;
+                // Handle unjamming
+                handleUnjam(isNewState);
+                break;
 
-        default:
+            default:
 
-            // Set the system to spin down in case it is spinning and loses track of state.
-            m_systemState = SystemState.SPIN_DOWN;
+                // Set the system to spin down in case it is spinning and loses track of state.
+                m_systemState = SystemState.SPIN_DOWN;
 
         }
 
@@ -249,8 +251,6 @@ public class Shooter extends SubsystemBase {
             windUpTotalTime = windUpEndTime - windUpStartTime;
             logger.log("Shooter", "Holding. Spin-Up took " + (windUpTotalTime / 1000.0) + " seconds");
 
-            // Set the motor output
-            sendMotorCommand(output);
             m_tuner.setSetpoint(output);
 
         }
@@ -280,7 +280,8 @@ public class Shooter extends SubsystemBase {
      */
     private void sendMotorCommand(double desiredRPM) {
 
-        m_motorController.setVoltage((desiredRPM / RobotConstants.Shooter.MOTOR_KV) * RobotConstants.Shooter.kPVel);
+        m_motorController.setVoltage((desiredRPM / (RobotConstants.Shooter.MOTOR_MAX_RPM / RR_HAL.getSimSafeVoltage()))
+                * RobotConstants.Shooter.kPVel);
 
     }
 
@@ -323,7 +324,8 @@ public class Shooter extends SubsystemBase {
      * @return At setpoint?
      */
     private boolean atRPMSetpoint() {
-        return Mathutils.epsilonEquals(m_motorController.getEncoder().getVelocity(), Mathutils.clamp(this.output, 0, RobotConstants.Shooter.MOTOR_MAX_RPM),
+        return Mathutils.epsilonEquals(m_motorController.getEncoder().getVelocity(),
+                Mathutils.clamp(this.output, 0, RobotConstants.Shooter.MOTOR_MAX_RPM),
                 RobotConstants.Shooter.RPM_EPSILON);
     }
 
@@ -360,26 +362,33 @@ public class Shooter extends SubsystemBase {
             return RobotConstants.Shooter.DEFAULT_VELOCITY;
         }
 
-        // Get distance to target
-        double angleToTarget = m_limelight.getTarget().ty;
+        // TODO: Temp
+        return RobotConstants.Shooter.DEFAULT_VELOCITY;
 
-        // d = (h2-h1) / tan(a1+a2)
-        double distance = (RobotConstants.Shooter.TARGET_HEIGHT - RobotConstants.Shooter.LIMELIGHT_HEIGHT)
-                / Math.tan(RobotConstants.Shooter.LIMELIGHT_MOUNT_ANGLE + angleToTarget);
-        RobotLogger.getInstance().log(
-                "[LIMELIGHT]: Distance to target calculated. Distance is " + String.format("%.4f", distance) + "m.");
+        // // Get distance to target
+        // double angleToTarget = m_limelight.getTarget().ty;
 
-        // Calculate necessary linear velocity of ball
-        double ballVel = (Math.sqrt(9.81) * Math.sqrt(distance) * Math.sqrt(
-                (Math.tan(RobotConstants.Shooter.LAUNCH_ANGLE) * Math.tan(RobotConstants.Shooter.LAUNCH_ANGLE)) + 1))
-                / Math.sqrt(2 * Math.tan(RobotConstants.Shooter.LAUNCH_ANGLE)
-                        - (2 * 9.81 * RobotConstants.Shooter.TARGET_HEIGHT) / distance);
+        // // d = (h2-h1) / tan(a1+a2)
+        // double distance = (RobotConstants.Shooter.TARGET_HEIGHT -
+        // RobotConstants.Shooter.LIMELIGHT_HEIGHT)
+        // / Math.tan(RobotConstants.Shooter.LIMELIGHT_MOUNT_ANGLE + angleToTarget);
+        // RobotLogger.getInstance().log(
+        // "[LIMELIGHT]: Distance to target calculated. Distance is " +
+        // String.format("%.4f", distance) + "m.");
 
-        // Tangential velocity of flywheel, in RPM
-        double wheelVel = (ballVel * 2) * RobotConstants.Shooter.RPM_PER_MPS;
-        RobotLogger.getInstance().log("[LIMELIGHT]: Desired velocity calculated. Desired velocity is "
-                + String.format("%.4f", wheelVel) + "RPM.");
-        return wheelVel;
+        // // Calculate necessary linear velocity of ball
+        // double ballVel = (Math.sqrt(9.81) * Math.sqrt(distance) * Math.sqrt(
+        // (Math.tan(RobotConstants.Shooter.LAUNCH_ANGLE) *
+        // Math.tan(RobotConstants.Shooter.LAUNCH_ANGLE)) + 1))
+        // / Math.sqrt(2 * Math.tan(RobotConstants.Shooter.LAUNCH_ANGLE)
+        // - (2 * 9.81 * RobotConstants.Shooter.TARGET_HEIGHT) / distance);
+
+        // // Tangential velocity of flywheel, in RPM
+        // double wheelVel = (ballVel * 2) * RobotConstants.Shooter.RPM_PER_MPS;
+        // RobotLogger.getInstance().log("[LIMELIGHT]: Desired velocity calculated.
+        // Desired velocity is "
+        // + String.format("%.4f", wheelVel) + "RPM.");
+        // return wheelVel;
     }
 
 }
