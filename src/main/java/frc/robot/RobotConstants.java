@@ -255,11 +255,12 @@ public class RobotConstants {
         // how many times the belt gearbox output rotates to move 1 inch
         public static final double REVOLUTIONS_PER_INCH = 2;
 
-        // cycles the robot goes through with the bottom ensor tripped before moving the hopper
+        // cycles the robot goes through with the bottom ensor tripped before moving the
+        // hopper
         public static final int CYCLES_BEFORE_INTAKE = 10;
 
         // array of value, cycle duration pairs
-        public static final int[][] HOPPER_DONE_RUMBLE_SEQUENCE = {{1,5},{0,3},{1,5},{0,1}};
+        public static final int[][] HOPPER_DONE_RUMBLE_SEQUENCE = { { 1, 5 }, { 0, 3 }, { 1, 5 }, { 0, 1 } };
     }
 
     public static class Shooter {
@@ -271,18 +272,12 @@ public class RobotConstants {
 
         public static final double MOTOR_MAX_RPM = 4450; // 5700;
 
-        public static final double MOTOR_KV = 473;
+        public static final double MOTOR_KV = 371;
         public static final double VOLTAGE_EPSILON = 0.4;
         public static final double RPM_EPSILON = VOLTAGE_EPSILON * MOTOR_KV;
 
         /* Shooter PID */
-        public static final double kPVel = 0.00055; // ;
-        public static final double kIVel = 8e-7;// ;
-        public static final double kDVel = 0.0;
-        public static final double kIz = 0.0;
-        public static final double kFF = 0.0;
-
-        // public static PIDProfile PID_PROFILE = new PIDProfile(kp)
+        public static final double kPVel = 1.0;
 
         /* Limelight */
         public static final double TARGET_HEIGHT = 2.49;

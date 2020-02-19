@@ -58,8 +58,7 @@ public class Shooter extends SubsystemBase {
     // Output value. Depending on mode, this will become different things
     private double output = 0.0;
 
-    // Velocity PID controller
-    private CANPIDController m_motorPID;
+    // Velocity calculating encoder
     private CANEncoder m_motorEncoder;
 
     // Limelight
@@ -76,19 +75,7 @@ public class Shooter extends SubsystemBase {
         // Create and configure motor
         m_motorController = new SimSparkMax(RobotConstants.Shooter.MOTOR_ID, MotorType.kBrushless);
         m_motorController.restoreFactoryDefaults();
-        m_motorPID = m_motorController.getPIDController();
         m_motorEncoder = m_motorController.getEncoder();
-
-        // Configure shooter PID gains
-        m_motorPID.setP(RobotConstants.Shooter.kPVel);
-        m_motorPID.setI(RobotConstants.Shooter.kIVel);
-        m_motorPID.setD(RobotConstants.Shooter.kDVel);
-        m_motorPID.setIZone(RobotConstants.Shooter.kIz);
-        m_motorPID.setFF(RobotConstants.Shooter.kFF);
-        m_motorPID.setOutputRange(-1.0, 1.0);
-
-        // Stop the motor
-        m_motorPID.setReference(0.0, ControlType.kVelocity);
 
         addChild("SimSparkMax", m_motorController);
 
@@ -203,7 +190,7 @@ public class Shooter extends SubsystemBase {
             m_motorController.setOpenLoopRampRate(0);
 
             // Configure the spinup controller
-            m_motorPID.setReference(output, ControlType.kVelocity);
+            sendMotorCommand(output);
             m_tuner.setSetpoint(output);
 
             // Use Limelight
@@ -238,6 +225,7 @@ public class Shooter extends SubsystemBase {
             m_limelight.setLED(LEDMode.OFF);
             m_limelight.use(false);
 
+            m_motorController.setClosedLoopRampRate(1.0);
             m_motorController.set(0);
 
             // Disable telemetry
@@ -262,7 +250,7 @@ public class Shooter extends SubsystemBase {
             logger.log("Shooter", "Holding. Spin-Up took " + (windUpTotalTime / 1000.0) + " seconds");
 
             // Set the motor output
-            m_motorPID.setReference(output, ControlType.kVelocity);
+            sendMotorCommand(output);
             m_tuner.setSetpoint(output);
 
         }
@@ -283,6 +271,17 @@ public class Shooter extends SubsystemBase {
         if (newState) {
             // TODO
         }
+    }
+
+    /**
+     * Roughly convert RPM to voltage, and send to motor.
+     * 
+     * @param desiredRPM Desired RPM of motor
+     */
+    private void sendMotorCommand(double desiredRPM) {
+
+        m_motorController.setVoltage((desiredRPM / RobotConstants.Shooter.MOTOR_KV) * RobotConstants.Shooter.kPVel);
+
     }
 
     public void setOutputPercent(double val) {
