@@ -62,6 +62,16 @@ public class OI {
     }
 
     /**
+     * Send a rumble command to the operator controller
+     * 
+     * @param force Force from 0-2
+     */
+    public void rumbleOperator(double force) {
+        m_operatorController.setRumble((force > 1.0) ? RumbleType.kLeftRumble : RumbleType.kRightRumble,
+                (force > 1.0) ? force - 1.0 : force);
+    }
+
+    /**
      * Get the robot "throttle" input
      * 
      * @return Throttle [-1.0-1.0]

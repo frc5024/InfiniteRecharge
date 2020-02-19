@@ -55,6 +55,9 @@ public class CellSuperstructure extends SubsystemBase {
     /** Amount of cells hopper should have after shooting */
     private int m_wantedCellsAfterShot = 0;
 
+    /** True when intake just stopped itself */
+    private boolean m_intakeDone = false;
+
     private CellSuperstructure() {
 
         // Register all sub-subsystems
@@ -80,6 +83,10 @@ public class CellSuperstructure extends SubsystemBase {
 
     @Override
     public void periodic() {
+
+        if(m_intakeDone = true) {
+            m_intakeDone = false;
+        }
 
         // Determine if this state is new
         boolean isNewState = false;
@@ -151,6 +158,7 @@ public class CellSuperstructure extends SubsystemBase {
         // stop once there are enough cells
         if (cellCount >= 5 || cellCount == m_wantedCellsIntake || m_hopper.getTopLineBreak()) {
             m_systemState = SystemState.IDLE;
+            m_intakeDone = true;
         }
     }
 
@@ -209,6 +217,13 @@ public class CellSuperstructure extends SubsystemBase {
      */
     public boolean isDone() {
         return m_systemState == SystemState.IDLE;
+    }
+
+    /**
+     * @return wether or not the superStructure has completed intake
+     */
+    public boolean isDoneIntake() {
+        return m_intakeDone;
     }
 
     /**

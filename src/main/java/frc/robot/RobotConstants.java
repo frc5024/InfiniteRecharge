@@ -113,7 +113,8 @@ public class RobotConstants {
 
             /* Ticks per revolution of the encoder */
 
-            public static final int PULSES_PER_REVOLUTION = 4096;// 1024 // 2880;//1440; // (isCompBot())? 4096 : 1440;
+            public static final int PULSES_PER_REVOLUTION = 2880;// 4096;// 1024 // 2880;//1440; // (isCompBot())? 4096
+                                                                 // : 1440;
 
         }
 
@@ -143,13 +144,14 @@ public class RobotConstants {
     public static class ControlGains {
 
         // Feedforward Gains
-        public static final double ksVolts = 1.02; //Practice Base 0.837; // MiniBot 2.37
+        public static final double ksVolts = 1.02; // Practice Base 0.837; // MiniBot 2.37
         public static final double kvVoltsSecondsPerMeter = 7.01; // Practice Base 2.46; // 1.8 MiniBot 1.73
-        public static final double kaVoltsSecondsSquaredPerMeter = 2.64; // Practice Base 0.0455; // 0.0231 MiniBot .0304
+        public static final double kaVoltsSecondsSquaredPerMeter = 2.64; // Practice Base 0.0455; // 0.0231 MiniBot
+                                                                         // .0304
 
         // Optimal Control Gain for driving
         public static final double kPDriveVel = 0.478;// 0.68; //0.478;
-        public static final double kIDriveVel = 0.0;    
+        public static final double kIDriveVel = 0.0;
         public static final double kDDriveVel = 0.008;
 
         // Optimal Control Gain for turning
@@ -222,13 +224,16 @@ public class RobotConstants {
         public static final double ARM_UP_SPEED = -0.9;
         public static final double ARM_DOWN_SPEED = 0.35;
 
-        public static final double ROLLER_SPEED = 0.7;
+        public static final double ROLLER_SPEED = 0.9;
     }
 
     /**
      * Constants regarding the hopper
      */
     public static class Hopper {
+
+        // Reset Timer
+        public static final double RESET_TIMEOUT_SECONDS = 4.0;
 
         // Motor
         public static final int HOPPER_BELT_MOTOR = 12;
@@ -249,6 +254,13 @@ public class RobotConstants {
         public static final double SHOOTER_FEED_SPEED = 0.5;
         // how many times the belt gearbox output rotates to move 1 inch
         public static final double REVOLUTIONS_PER_INCH = 2;
+
+        // cycles the robot goes through with the bottom ensor tripped before moving the
+        // hopper
+        public static final int CYCLES_BEFORE_INTAKE = 10;
+
+        // array of value, cycle duration pairs
+        public static final int[][] HOPPER_DONE_RUMBLE_SEQUENCE = { { 1, 5 }, { 0, 3 }, { 1, 5 }, { 0, 1 } };
     }
 
     public static class Shooter {
@@ -260,18 +272,12 @@ public class RobotConstants {
 
         public static final double MOTOR_MAX_RPM = 4450; // 5700;
 
-        public static final double MOTOR_KV = 473;
+        public static final double MOTOR_KV = 371;
         public static final double VOLTAGE_EPSILON = 0.4;
         public static final double RPM_EPSILON = VOLTAGE_EPSILON * MOTOR_KV;
 
         /* Shooter PID */
-        public static final double kPVel = 0.00055; //;
-        public static final double kIVel = 8e-7;// ;
-        public static final double kDVel = 0.0;
-        public static final double kIz = 0.0;
-        public static final double kFF = 0.0;
-
-        // public static PIDProfile PID_PROFILE = new PIDProfile(kp)
+        public static final double kPVel = 1.0;
 
         /* Limelight */
         public static final double TARGET_HEIGHT = 2.49;
