@@ -280,8 +280,8 @@ public class Shooter extends SubsystemBase {
      */
     private void sendMotorCommand(double desiredRPM) {
 
-        m_motorController.setVoltage((desiredRPM / (RobotConstants.Shooter.MOTOR_MAX_RPM / RR_HAL.getSimSafeVoltage()))
-                * RobotConstants.Shooter.kPVel);
+        m_motorController.set(((desiredRPM / RobotConstants.Shooter.MOTOR_KV)
+                +(RobotConstants.Shooter.kPVel * RR_HAL.getSimSafeVoltage()))/12);
 
     }
 
