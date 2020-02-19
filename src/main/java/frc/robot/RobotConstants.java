@@ -191,10 +191,18 @@ public class RobotConstants {
 
     public static class PanelManipulator {
 
+        public static final int MOTOR_ID = 22;
+
+        public static final int SENSOR_BUFFER_SIZE = 5;
+
+        public static final int DISTANCE_THRESHOLD = 200;
+
+        public static final double SPINNER_SPEED = 1.0;
+
         /**
-         * Threshold for color comparison
+         * Threshold for color comparison (taken from REV ColorMatch)
          */
-        public static final double DEFAULT_COLOR_THRESHOLD = 20;
+        public static final double DEFAULT_COLOR_THRESHOLD = 0.91;
 
     }
 
