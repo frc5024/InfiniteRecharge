@@ -161,15 +161,15 @@ public class OI {
     public Position getWantedClimbPosition() {
         double direction = 0;
 
-        direction += m_driverController.getTriggerAxis(Hand.kRight);
+        direction = m_driverController.getTriggerAxis(Hand.kRight);
 
         // Dead zone for the climber
-        if (Math.abs(direction) <= 0.1) direction = 1;
-        if (Math.abs(direction) >= 0.1) direction = -1;
+        if (Math.abs(direction) <= 0.1) direction = -1; // Up, Level
+        if (Math.abs(direction) >= 0.1) direction = 1; // Down, Retracted
 
-        if (direction == 1) {
+        if (direction == -1) {
             return Position.LEVEL;
-        } else if (direction == -1 ){
+        } else if (direction == 1 ){
             return Position.RETRACTED;
         } else {
             return Position.CURRENT;
