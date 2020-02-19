@@ -138,6 +138,9 @@ public class Climber extends SubsystemBase {
         // Set the last state
         m_lastState = m_state;
 
+        // Debugging
+        System.out.println(m_isPastLevel);
+
     }
 
     /**
