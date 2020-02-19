@@ -18,9 +18,11 @@ import frc.lib5k.components.drive.InputUtils.ScalingMode;
 import frc.lib5k.components.gyroscopes.NavX;
 import frc.lib5k.components.motors.TalonSRXCollection;
 import frc.lib5k.components.sensors.EncoderBase;
+import frc.lib5k.framework.Subsystem5k;
 import frc.lib5k.interfaces.Loggable;
 import frc.lib5k.utils.Mathutils;
 import frc.lib5k.utils.RobotLogger;
+import frc.robot.Robot;
 import frc.robot.RobotConstants;
 import frc.robot.vision.LimelightTarget;
 import frc.lib5k.kinematics.DriveSignal;
@@ -28,7 +30,7 @@ import frc.lib5k.kinematics.DriveSignal;
 /**
  * The DriveTrain handles all robot movement.
  */
-public class DriveTrain extends SubsystemBase implements Loggable, IDifferentialDrivebase {
+public class DriveTrain extends Subsystem5k implements Loggable, IDifferentialDrivebase {
     private static RobotLogger logger = RobotLogger.getInstance();
     private static DriveTrain s_instance = null;
 
@@ -95,6 +97,9 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
      * All subsystem components should be created and configured here.
      */
     private DriveTrain() {
+
+        // Register with robot state notifier
+        Robot.notify(this);
 
         // Construct both gearboxes
         m_leftGearbox = new TalonSRXCollection(
@@ -527,6 +532,17 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
     public void updateTelemetry() {
 
         SmartDashboard.putString("[DriveTrain] pose", getPosition().toString());
+
+    }
+
+    @Override
+    public void onRobotEnable() {
+
+    }
+
+    @Override
+    public void onRobotDisable() {
+        stop();
 
     }
 }

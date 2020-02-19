@@ -1,5 +1,6 @@
 package frc.lib5k.components.sensors.interfaces;
 
+
 /**
  * Interface for binary sensors
  */
