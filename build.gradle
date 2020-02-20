@@ -41,6 +41,20 @@ deploy {
     }
 }
 
+sourceSets{
+    main{
+        java{
+            srcDirs = ["src/main/java", "src/generated/java"]
+        }
+    }
+
+    test{
+        java{
+            srcDirs = ["src/main/java", "src/generated/java"]
+        }
+    }
+}
+
 // Set this to true to enable desktop support.
 def includeDesktopSupport = true
 
@@ -61,6 +75,9 @@ dependencies {
     // Enable simulation gui support. Must check the box in vscode to enable support
     // upon debugging
     simulation wpi.deps.sim.gui(wpi.platforms.desktop, false)
+
+    // https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java
+    compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.11.4'
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')

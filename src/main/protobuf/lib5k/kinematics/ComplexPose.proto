@@ -1,0 +1,19 @@
+syntax = "proto2";
+
+package lib5k.kinematics;
+
+option java_package = "frc.lib5k.kinematics.models";
+
+message ComplexPoseProto{
+
+    required double x = 1;
+    required double y = 2;
+    optional double theta = 3;
+
+    optional double dx = 4;
+    optional double dy = 5;
+    optional double dtheta = 6;
+    optional double dt = 7;
+
+
+}
