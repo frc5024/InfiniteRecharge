@@ -113,8 +113,8 @@ public class RobotConstants {
 
             /* Ticks per revolution of the encoder */
 
-            public static final int PULSES_PER_REVOLUTION = 5760; //4096;// 1024 // 2880;//1440; // (isCompBot())? 4096
-                                                                 // : 1440;
+            public static final int PULSES_PER_REVOLUTION = 5760; // 4096;// 1024 // 2880;//1440; // (isCompBot())? 4096
+                                                                  // : 1440;
 
         }
 
@@ -285,11 +285,16 @@ public class RobotConstants {
         public static final double RPM_EPSILON = VOLTAGE_EPSILON * MOTOR_KV;
 
         /* Shooter PID */
-        public static final double kPVel = 0.00055; // ;
-        public static final double kIVel = 8e-7;// ;
+        public static final double kPVel = 0.911;
+        public static final double kIVel = 0.0;
         public static final double kDVel = 0.0;
         public static final double kIz = 0.0;
         public static final double kFF = 0.0;
+
+        /* Shooter FF */
+        public static final double Ks = 0.604;
+        public static final double Kv = 0.135;
+        public static final double Ka = 0.0241;
 
         /* Limelight */
         public static final double TARGET_HEIGHT = 2.49;

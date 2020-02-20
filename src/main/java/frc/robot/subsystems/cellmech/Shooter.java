@@ -1,14 +1,11 @@
 package frc.robot.subsystems.cellmech;
 
 import com.revrobotics.CANEncoder;
-import com.revrobotics.CANPIDController;
-import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib5k.roborio.RR_HAL;
 import frc.lib5k.simulation.wrappers.SimSparkMax;
 import frc.lib5k.utils.Mathutils;
 import frc.lib5k.utils.RobotLogger;
@@ -61,8 +58,13 @@ public class Shooter extends SubsystemBase {
     private double output = 0.0;
 
     // Velocity calculating encoder
-    private CANPIDController m_motorPID;
     private CANEncoder m_motorEncoder;
+
+    // Add a FeedForward calculator
+    private SimpleMotorFeedforward m_ffController;
+
+    // PID Controller
+    private PIDController m_pidController;
 
     // Limelight
     private Limelight2 m_limelight;
@@ -75,21 +77,18 @@ public class Shooter extends SubsystemBase {
         // Create Limelight
         m_limelight = Limelight2.getInstance();
 
+        // Set up feedforward
+        m_ffController = new SimpleMotorFeedforward(RobotConstants.Shooter.Ks, RobotConstants.Shooter.Kv,
+                RobotConstants.Shooter.Ka);
+
+        // Set up PID
+        m_pidController = new PIDController(RobotConstants.Shooter.kPVel, RobotConstants.Shooter.kIVel,
+                RobotConstants.Shooter.kDVel);
+
         // Create and configure motor
         m_motorController = new SimSparkMax(RobotConstants.Shooter.MOTOR_ID, MotorType.kBrushless);
         m_motorController.restoreFactoryDefaults();
         m_motorEncoder = m_motorController.getEncoder();
-        m_motorPID = m_motorController.getPIDController();
-
-        m_motorPID.setP(RobotConstants.Shooter.kPVel);
-        m_motorPID.setI(RobotConstants.Shooter.kIVel);
-        m_motorPID.setD(RobotConstants.Shooter.kDVel);
-        m_motorPID.setIZone(RobotConstants.Shooter.kIz);
-        m_motorPID.setFF(RobotConstants.Shooter.kFF);
-        m_motorPID.setOutputRange(-1.0, 1.0);
-
-        // Stop the motor
-        m_motorPID.setReference(0.0, ControlType.kVelocity);
 
         addChild("SimSparkMax", m_motorController);
 
@@ -203,8 +202,7 @@ public class Shooter extends SubsystemBase {
 
             m_motorController.setOpenLoopRampRate(0);
 
-            // Configure the spinup controller
-            sendMotorCommand(output);
+            // Publish the setpoint
             m_tuner.setSetpoint(output);
 
             // Use Limelight
@@ -213,6 +211,9 @@ public class Shooter extends SubsystemBase {
             // Enable telemetry
             m_tuner.enableLogging(true);
         }
+
+        // Send a motor command
+        sendMotorCommand(output);
 
         // Log the speeds
         System.out.println(
@@ -292,7 +293,14 @@ public class Shooter extends SubsystemBase {
      */
     private void sendMotorCommand(double desiredRPM) {
 
-        m_motorPID.setReference(output, ControlType.kVelocity);
+        // Determine the motor feedforward
+        double feedforward = m_ffController.calculate(desiredRPM);
+
+        // Determine the PID-adjusted motor output
+        double pidOutput = m_pidController.calculate(m_motorController.getEncoder().getVelocity(), desiredRPM);
+
+        // Send motor command
+        m_motorController.setVoltage(pidOutput + feedforward);
 
     }
 
