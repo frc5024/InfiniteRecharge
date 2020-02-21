@@ -41,7 +41,8 @@ public class CellSuperstructure extends SubsystemBase {
         IDLE, // System idle
         INTAKING, // Intaking cells
         SHOOTING, // Shooting cells
-        UNJAMING // Unjamming cells
+        UNJAMING, // Unjamming cells
+        MOVETOBOTTOM // Moves cells to bottom
     }
 
     /** Tracker for intake system state */
@@ -110,6 +111,9 @@ public class CellSuperstructure extends SubsystemBase {
             break;
         case UNJAMING:
             handleUnjamming(isNewState);
+            break;
+        case MOVETOBOTTOM:
+            handleMoveToBottom(isNewState);
             break;
         default:
             m_systemState = SystemState.IDLE;
@@ -212,6 +216,18 @@ public class CellSuperstructure extends SubsystemBase {
     }
 
     /**
+     * Set subsystems to intake cells
+     * 
+     * @param newState Is this state new?
+     */
+    private void handleMoveToBottom(boolean newState) {
+        if (newState) {
+            m_hopper.moveCellsToBottom();
+        }
+
+    }
+
+    /**
      * @return wether or not the superStructure has completed it's actions (if it is
      *         idle or not)
      */
@@ -224,6 +240,10 @@ public class CellSuperstructure extends SubsystemBase {
      */
     public boolean isDoneIntake() {
         return m_intakeDone;
+    }
+
+    public void moveToBottom(){
+        m_systemState = SystemState.MOVETOBOTTOM;
     }
 
     /**

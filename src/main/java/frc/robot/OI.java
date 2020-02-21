@@ -34,6 +34,8 @@ public class OI {
     private Toggle m_shouldRotateToggle = new Toggle();
     // Unjam toggle
     private Toggle m_shouldUnjamToggle = new Toggle();
+    // Lower balls Toggle
+    private Toggle m_ShouldLowerBallsToggle = new Toggle();
 
     /**
      * Force the use of getInstance() by setting this class private
@@ -195,6 +197,14 @@ public class OI {
 
     public boolean shouldUnjam() {
         return m_shouldUnjamToggle.feed(m_operatorController.getBButtonPressed());
+    }
+
+    public boolean shouldLowerBallsToBottom(){
+        return m_ShouldLowerBallsToggle.feed(m_operatorController.getYButtonPressed());
+    }
+
+    public void resetLower(){
+        m_ShouldLowerBallsToggle.reset();
     }
 
     public void resetUnjamInput() {
