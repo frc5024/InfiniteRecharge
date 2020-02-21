@@ -7,6 +7,7 @@ import frc.robot.autonomous.actions.cells.IntakeCells;
 import frc.robot.autonomous.actions.cells.ShootCells;
 import frc.robot.autonomous.actions.cells.UnjamCells;
 import frc.robot.subsystems.CellSuperstructure;
+import frc.robot.commands.actions.LowerBalls;
 import frc.robot.commands.actions.controlpanel.PositionPanel;
 import frc.robot.commands.actions.controlpanel.RotatePanel;
 import frc.robot.subsystems.Climber;
@@ -21,9 +22,11 @@ public class OperatorControl extends CommandBase {
     private IntakeCells m_intakeCellsCommand = new IntakeCells(5);
     private ShootCells m_shootCellsCommand = new ShootCells(5);
     private UnjamCells m_unjamCommend = new UnjamCells();
+    
     private ClimbController m_climbController = new ClimbController();
     private PositionPanel m_positionCommand = new PositionPanel(new Translation2d(1, 1));
     private RotatePanel m_rotateCommand = new RotatePanel(4, new Translation2d(1, 1));
+    private LowerBalls m_lowerBallsCommand = new LowerBalls();
 
     /** Instance of OI */
     private OI m_oi = OI.getInstance();
@@ -122,6 +125,13 @@ public class OperatorControl extends CommandBase {
             m_rotateCommand.cancel();
         }
 
+        if(m_oi.shouldLowerBallsToBottom()){
+            
+            m_lowerBallsCommand.schedule();
+        }else{
+            m_lowerBallsCommand.cancel();
+        }
+
 
 
         // else if(m_positionCommand.isFinished()) {
@@ -138,6 +148,7 @@ public class OperatorControl extends CommandBase {
         m_climbController.cancel();
         m_rotateCommand.cancel();
         m_positionCommand.cancel();
+        m_lowerBallsCommand.cancel();
     }
 
 }
