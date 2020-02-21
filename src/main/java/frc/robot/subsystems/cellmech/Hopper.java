@@ -78,6 +78,10 @@ public class Hopper extends SubsystemBase {
     // Timer for reset action
     private Timer m_resetTimer;
 
+    // TODO remove
+    private int midRepeat = 0;
+    private int topRepeat = 0;
+
     private Hopper() {
         // Construct motor controller
         m_hopperBelt = new SimTalon(RobotConstants.Hopper.HOPPER_BELT_MOTOR);
@@ -156,6 +160,18 @@ public class Hopper extends SubsystemBase {
 
     @Override
     public void periodic() {
+        // TODO remove counting for logs
+        midRepeat++;
+        topRepeat++;
+        if (m_lineTop.get() != m_lineTopLastValue) {
+            logger.log("Hopper Sensors", "top sensor on for " + topRepeat + " cycles before change");
+            topRepeat = 0;
+        }
+        if (m_lineMiddle.get() != m_lineMiddleLastValue) {
+            logger.log("Hopper Sensors", "middle sensor on for " + midRepeat + " cycles before change");
+            midRepeat = 0;
+        }
+
         if (m_rumbleCounter < m_rumbleSequence.length) {
             m_OI.rumbleOperator((double) m_rumbleSequence[m_rumbleCounter]);
             System.out.println(m_rumbleSequence[m_rumbleCounter]);
@@ -168,19 +184,12 @@ public class Hopper extends SubsystemBase {
 
             // cache values of line break sensors
             boolean middleValue = m_lineMiddle.get();
-            boolean topValue = m_lineTop.get();
-
             // If belt is moving up
             if (m_hopperBelt.get() > 0.0) {
 
                 // add when cell enters bottom
                 if (middleValue == true && m_lineMiddleLastValue == false) {
                     modifyCellCount(1);
-                }
-
-                // subtract when cell exits top
-                if (topValue == false && m_lineTopLastValue == true) {
-                    modifyCellCount(-1);
                 }
 
                 // If belt is moving down
@@ -190,6 +199,16 @@ public class Hopper extends SubsystemBase {
                 if (middleValue == false && m_lineMiddleLastValue == true) {
                     modifyCellCount(-1);
                 }
+
+            }
+
+        }
+
+        // subtract when cell exits top when hopper is moving up and in shoot or idle
+        // mode
+        if ((m_systemState == SystemState.SHOOTING || m_systemState == SystemState.IDLE) && m_hopperBelt.get() != 0.0) {
+            if (m_lineTop.get() == false && m_lineTopLastValue == true) {
+                modifyCellCount(-1);
             }
         }
 
@@ -203,32 +222,32 @@ public class Hopper extends SubsystemBase {
 
         // Handle states
         switch (m_systemState) {
-        case IDLE:
-            handleIdle(isNewState);
-            break;
-        case INTAKEREADY:
-            handleIntakeReady(isNewState);
-            break;
-        case INTAKING:
-            handleIntaking(isNewState);
-            break;
-        case UNJAM:
-            handleUnjam(isNewState);
-            break;
-        case MOVETOTOP:
-            handleMoveToTop(isNewState);
-            break;
-        case MOVETOBOTTOM:
-            handleMoveToBottom(isNewState);
-            break;
-        case MOVEUPONEPLACE:
-            handleMoveUpOnePlace(isNewState);
-            break;
-        case SHOOTING:
-            handleShooting(isNewState);
-            break;
-        default:
-            m_systemState = SystemState.IDLE;
+            case IDLE:
+                handleIdle(isNewState);
+                break;
+            case INTAKEREADY:
+                handleIntakeReady(isNewState);
+                break;
+            case INTAKING:
+                handleIntaking(isNewState);
+                break;
+            case UNJAM:
+                handleUnjam(isNewState);
+                break;
+            case MOVETOTOP:
+                handleMoveToTop(isNewState);
+                break;
+            case MOVETOBOTTOM:
+                handleMoveToBottom(isNewState);
+                break;
+            case MOVEUPONEPLACE:
+                handleMoveUpOnePlace(isNewState);
+                break;
+            case SHOOTING:
+                handleShooting(isNewState);
+                break;
+            default:
+                m_systemState = SystemState.IDLE;
         }
 
         m_lineBottomLastValue = m_lineBottom.get();
@@ -393,8 +412,8 @@ public class Hopper extends SubsystemBase {
 
         }
 
-        // stop if middle sensor is tripped
-        if (m_lineMiddle.get()) {
+        // stop if middle or top sensor is tripped
+        if (m_lineMiddle.get() || m_lineTop.get()) {
             m_systemState = SystemState.IDLE;
         }
 
