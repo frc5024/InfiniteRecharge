@@ -78,7 +78,7 @@ public class LinePath extends SequentialCommandGroup {
                 end.getTranslation().getX() - start.getTranslation().getX()) - angleFlipOffset);
 
         // Turn to face the end pose
-        addCommands(new TurnToCommand(theta, 2.0));
+        addCommands(new TurnToCommand(theta, 8.0));
 
         // Get from start to end
         addCommands(PathGenerator.generate(new EasyTrajectory(new Pose2d(start.getTranslation(), theta), end),

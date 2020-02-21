@@ -286,7 +286,7 @@ public class RobotConstants {
 
         /* Shooter PID */
         public static final double kPVel = 0.00055; // ;
-        public static final double kIVel = 8e-7;// ;
+        public static final double kIVel = 7.5e-7;// ;
         public static final double kDVel = 0.0;
         public static final double kIz = 0.0;
         public static final double kFF = 0.0;
