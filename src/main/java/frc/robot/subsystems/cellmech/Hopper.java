@@ -78,10 +78,6 @@ public class Hopper extends SubsystemBase {
     // Timer for reset action
     private Timer m_resetTimer;
 
-    // TODO remove
-    private int midRepeat = 0;
-    private int topRepeat = 0;
-
     private Hopper() {
         // Construct motor controller
         m_hopperBelt = new SimTalon(RobotConstants.Hopper.HOPPER_BELT_MOTOR);
@@ -160,18 +156,6 @@ public class Hopper extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // TODO remove counting for logs
-        midRepeat++;
-        topRepeat++;
-        if (m_lineTop.get() != m_lineTopLastValue) {
-            logger.log("Hopper Sensors", "top sensor on for " + topRepeat + " cycles before change");
-            topRepeat = 0;
-        }
-        if (m_lineMiddle.get() != m_lineMiddleLastValue) {
-            logger.log("Hopper Sensors", "middle sensor on for " + midRepeat + " cycles before change");
-            midRepeat = 0;
-        }
-
         if (m_rumbleCounter < m_rumbleSequence.length) {
             m_OI.rumbleOperator((double) m_rumbleSequence[m_rumbleCounter]);
             System.out.println(m_rumbleSequence[m_rumbleCounter]);
@@ -179,7 +163,8 @@ public class Hopper extends SubsystemBase {
         }
 
         if (m_systemState == SystemState.INTAKING || m_systemState == SystemState.INTAKEREADY
-                || m_systemState == SystemState.UNJAM || m_systemState == SystemState.SHOOTING) {
+                || m_systemState == SystemState.UNJAM || m_systemState == SystemState.SHOOTING
+                || m_systemState == SystemState.MOVETOTOP) {
             // Count cells
 
             // cache values of line break sensors
@@ -206,7 +191,8 @@ public class Hopper extends SubsystemBase {
 
         // subtract when cell exits top when hopper is moving up and in shoot or idle
         // mode
-        if ((m_systemState == SystemState.SHOOTING || m_systemState == SystemState.IDLE) && m_hopperBelt.get() != 0.0) {
+        if ((m_systemState == SystemState.SHOOTING || m_systemState == SystemState.IDLE
+                || m_systemState == SystemState.MOVETOTOP)) {
             if (m_lineTop.get() == false && m_lineTopLastValue == true) {
                 modifyCellCount(-1);
             }
@@ -222,32 +208,32 @@ public class Hopper extends SubsystemBase {
 
         // Handle states
         switch (m_systemState) {
-            case IDLE:
-                handleIdle(isNewState);
-                break;
-            case INTAKEREADY:
-                handleIntakeReady(isNewState);
-                break;
-            case INTAKING:
-                handleIntaking(isNewState);
-                break;
-            case UNJAM:
-                handleUnjam(isNewState);
-                break;
-            case MOVETOTOP:
-                handleMoveToTop(isNewState);
-                break;
-            case MOVETOBOTTOM:
-                handleMoveToBottom(isNewState);
-                break;
-            case MOVEUPONEPLACE:
-                handleMoveUpOnePlace(isNewState);
-                break;
-            case SHOOTING:
-                handleShooting(isNewState);
-                break;
-            default:
-                m_systemState = SystemState.IDLE;
+        case IDLE:
+            handleIdle(isNewState);
+            break;
+        case INTAKEREADY:
+            handleIntakeReady(isNewState);
+            break;
+        case INTAKING:
+            handleIntaking(isNewState);
+            break;
+        case UNJAM:
+            handleUnjam(isNewState);
+            break;
+        case MOVETOTOP:
+            handleMoveToTop(isNewState);
+            break;
+        case MOVETOBOTTOM:
+            handleMoveToBottom(isNewState);
+            break;
+        case MOVEUPONEPLACE:
+            handleMoveUpOnePlace(isNewState);
+            break;
+        case SHOOTING:
+            handleShooting(isNewState);
+            break;
+        default:
+            m_systemState = SystemState.IDLE;
         }
 
         m_lineBottomLastValue = m_lineBottom.get();
@@ -533,7 +519,7 @@ public class Hopper extends SubsystemBase {
     /**
      * moves cells to bottom
      */
-    public void moveCellsToBottom(){
+    public void moveCellsToBottom() {
         m_systemState = SystemState.MOVETOBOTTOM;
     }
 
