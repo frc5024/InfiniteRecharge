@@ -1,5 +1,6 @@
 package frc.robot.autonomous.actions.cells;
 
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lib5k.utils.RobotLogger;
 import frc.robot.subsystems.CellSuperstructure;
@@ -41,6 +42,6 @@ public class IntakeCells extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return m_cellSuperstructure.isDone();
+        return m_cellSuperstructure.isDone() && !RobotBase.isSimulation();
     }
 }
