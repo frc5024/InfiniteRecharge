@@ -19,7 +19,7 @@ import frc.lib5k.components.motors.interfaces.IRampRateController;
 import frc.lib5k.components.motors.interfaces.IVoltageOutputController;
 import frc.lib5k.components.motors.motorsensors.TalonEncoder;
 import frc.lib5k.components.sensors.EncoderBase;
-import frc.lib5k.components.sensors.IEncoderProvider;
+import frc.lib5k.components.sensors.interfaces.IEncoderProvider;
 import frc.lib5k.interfaces.Loggable;
 import frc.lib5k.roborio.RR_HAL;
 import frc.lib5k.utils.Mathutils;

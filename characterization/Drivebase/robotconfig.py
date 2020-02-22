@@ -22,11 +22,11 @@
     # Encoder pulses-per-revolution (*NOT* cycles per revolution!)
     # This value should be the pulses per revolution *of the wheels*, and so
     # should take into account gearing between the encoder and the wheels
-    "encoderPPR": 1440,
+    "encoderPPR": 4096,
     # Whether the left encoder is inverted
     "leftEncoderInverted": False,
     # Whether the right encoder is inverted:
-    "rightEncoderInverted": True,
+    "rightEncoderInverted": False,
     # Your gyro type (one of "NavX", "Pigeon", "ADXRS450", "AnalogGyro", or "None")
     "gyroType": "NavX",
     # Whatever you put into the constructor of your gyro

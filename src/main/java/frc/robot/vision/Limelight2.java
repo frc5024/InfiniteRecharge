@@ -32,6 +32,7 @@ public class Limelight2 {
         LEDMode(int val) {
             this.val = val;
         }
+
     }
 
     // Vision NT table
@@ -113,6 +114,22 @@ public class Limelight2 {
         }
 
         return new LimelightTarget(getXAngle(), getYAngle(), getArea(), getSkew());
+    }
+
+    public LEDMode getLEDMode() {
+        switch (m_table.getEntry("ledMode").getNumber(0).intValue()) {
+            case 0:
+                return LEDMode.DEFAULT;
+            case 1:
+                return LEDMode.OFF;
+            case 2:
+                return LEDMode.BLINK;
+            case 3:
+                return LEDMode.ON;
+            default:
+                return LEDMode.OFF;
+
+        }
     }
 
     /**

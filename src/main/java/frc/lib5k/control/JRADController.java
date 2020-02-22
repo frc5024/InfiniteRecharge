@@ -31,7 +31,7 @@ public class JRADController {
      * @param kJ         Compensation factor for sequential balls (should be a small
      *                   non-zero number)
      * @param kF         Multiplier to get to setpoint faster (Can probably be 0.0)
-     * @param kLoadRatio A load ratio multiplier. This should be >= 1.0
+     * @param kLoadRatio A load ratio multiplier. This should be larger than 1.0
      */
     public JRADController(double kJ, double kF, double kLoadRatio) {
         this.kJ = kJ;
