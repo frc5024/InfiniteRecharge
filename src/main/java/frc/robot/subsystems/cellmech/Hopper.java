@@ -531,6 +531,13 @@ public class Hopper extends SubsystemBase {
     }
 
     /**
+     * moves cells to bottom
+     */
+    public void moveCellsToBottom(){
+        m_systemState = SystemState.MOVETOBOTTOM;
+    }
+
+    /**
      * manually control the belt
      * 
      * @param speed speed to set the belt to
