@@ -1,10 +1,14 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
 import frc.robot.autonomous.actions.cells.IntakeCells;
 import frc.robot.autonomous.actions.cells.UnjamCells;
-import frc.robot.autonomous.actions.cells.WaitForLimelightShoot;
+import frc.robot.subsystems.CellSuperstructure;
+import frc.robot.commands.actions.LowerBalls;
+import frc.robot.commands.actions.controlpanel.PositionPanel;
+import frc.robot.commands.actions.controlpanel.RotatePanel;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.cellmech.Hopper;
 
@@ -17,10 +21,18 @@ public class OperatorControl extends CommandBase {
     private IntakeCells m_intakeCellsCommand = new IntakeCells(5);
     private WaitForLimelightShoot m_shootCellsCommand = new WaitForLimelightShoot(5);
     private UnjamCells m_unjamCommend = new UnjamCells();
+    
     private ClimbController m_climbController = new ClimbController();
+    private PositionPanel m_positionCommand = new PositionPanel(new Translation2d(1, 1));
+    private RotatePanel m_rotateCommand = new RotatePanel(4, new Translation2d(1, 1));
+    private LowerBalls m_lowerBallsCommand = new LowerBalls();
 
     /** Instance of OI */
     private OI m_oi = OI.getInstance();
+
+    /** instance of hopper */
+    private Hopper m_hopper = Hopper.getInstance();
+    private CellSuperstructure m_cellStructure = CellSuperstructure.getInstance();
 
     @Override
     public void initialize() {
@@ -64,6 +76,11 @@ public class OperatorControl extends CommandBase {
             // Stop the bot from unjamming
             m_oi.resetUnjamInput();
 
+            // When the cell capacity is reached, ruble the operator controller
+            if (m_cellStructure.isDoneIntake()) {
+                m_hopper.startRumble();
+            }
+
         } else {
             m_intakeCellsCommand.cancel();
         }
@@ -92,6 +109,33 @@ public class OperatorControl extends CommandBase {
             m_unjamCommend.cancel();
         }
 
+        if (m_oi.shouldRotate()) {
+            m_rotateCommand.schedule();
+            m_positionCommand.cancel();
+        }
+
+        if (m_oi.shouldPosition()) {
+            m_positionCommand.schedule();
+            m_rotateCommand.cancel();
+        } 
+
+        if (m_oi.shouldKillPanel()) {
+            m_positionCommand.cancel();
+            m_rotateCommand.cancel();
+        }
+
+        if(m_oi.shouldLowerBallsToBottom()){
+            
+            m_lowerBallsCommand.schedule();
+        }else{
+            m_lowerBallsCommand.cancel();
+        }
+
+
+
+        // else if(m_positionCommand.isFinished()) {
+        // m_positionCommand.cancel();
+        // }
     }
 
     /**
@@ -101,6 +145,9 @@ public class OperatorControl extends CommandBase {
         m_intakeCellsCommand.cancel();
         m_shootCellsCommand.cancel();
         m_climbController.cancel();
+        m_rotateCommand.cancel();
+        m_positionCommand.cancel();
+        m_lowerBallsCommand.cancel();
     }
 
 }

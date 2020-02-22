@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -53,6 +54,8 @@ public class Robot extends TimedRobot {
 	private OperatorControl m_operatorControl;
 
 	private Chooser m_autonChooser;
+
+	private boolean m_lastUserState = false;
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -152,6 +155,10 @@ public class Robot extends TimedRobot {
 
 		// Force-set the hopper to recognize 3 power cells
 		Hopper.getInstance().forceCellCount(3);
+
+		// Put the limelight in "Primary" mode to debug aiming
+		Limelight2.getInstance().setCamMode(CameraMode.PIP_MAIN);
+		Limelight2.getInstance().setLED(LEDMode.OFF);
 	}
 
 	@Override
@@ -177,6 +184,7 @@ public class Robot extends TimedRobot {
 
 		// Put the limelight in "Secondary" mode for driver assist
 		Limelight2.getInstance().setCamMode(CameraMode.PIP_SECONDARY);
+		Limelight2.getInstance().setLED(LEDMode.OFF);
 
 		// Disable the autonomous command
 		if (m_autonomousCommand != null) {
@@ -228,6 +236,26 @@ public class Robot extends TimedRobot {
 
 		// Run all scheduled WPILib commands
 		CommandScheduler.getInstance().run();
+
+		// Handle limelight toggle
+		if (RobotController.getUserButton()) {
+			if (!m_lastUserState) {
+
+				// Toggle Light
+				if (Limelight2.getInstance().getLEDMode() == LEDMode.OFF) {
+					Limelight2.getInstance().setLED(LEDMode.ON);
+				} else {
+					Limelight2.getInstance().setLED(LEDMode.OFF);
+					
+				}
+			}
+			
+			// Set the last state
+			m_lastUserState = true;
+			
+		}else{
+			m_lastUserState = false;
+		}
 	}
 
 	@Override

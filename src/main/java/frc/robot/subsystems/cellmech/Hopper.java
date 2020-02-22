@@ -1,5 +1,6 @@
 package frc.robot.subsystems.cellmech;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib5k.components.motors.TalonHelper;
 import frc.lib5k.components.motors.motorsensors.TalonEncoder;
@@ -8,6 +9,7 @@ import frc.lib5k.components.sensors.LineBreak;
 import frc.lib5k.simulation.wrappers.SimTalon;
 import frc.lib5k.utils.Mathutils;
 import frc.lib5k.utils.RobotLogger;
+import frc.robot.OI;
 import frc.robot.RobotConstants;
 
 /**
@@ -16,6 +18,8 @@ import frc.robot.RobotConstants;
 public class Hopper extends SubsystemBase {
     public static Hopper s_instance = null;
     private RobotLogger logger = RobotLogger.getInstance();
+
+    private OI m_OI = OI.getInstance();
 
     /** Motor that moves hopper belt up and down */
     private SimTalon m_hopperBelt;
@@ -31,6 +35,8 @@ public class Hopper extends SubsystemBase {
     private LineBreak m_lineBottom;
     /** previous value of bottom line break */
     private boolean m_lineBottomLastValue;
+    /** counter to delay intaking */
+    private int m_intakeDelayCounter = 0;
 
     /** Top line break */
     private LineBreak m_lineTop;
@@ -41,6 +47,11 @@ public class Hopper extends SubsystemBase {
     private LineBreak m_lineMiddle;
     /** previous value of Middle line break */
     private boolean m_lineMiddleLastValue;
+
+    /** counter to manage rumbling */
+    private int m_rumbleCounter;
+    /** rumble sequence */
+    private int[] m_rumbleSequence;
 
     /**
      * System states
@@ -63,6 +74,9 @@ public class Hopper extends SubsystemBase {
 
     /** amount of cells currently in hopper */
     private int m_cellCount = 0;
+
+    // Timer for reset action
+    private Timer m_resetTimer;
 
     private Hopper() {
         // Construct motor controller
@@ -93,6 +107,32 @@ public class Hopper extends SubsystemBase {
         m_lineMiddleLastValue = false;
         m_lineTopLastValue = false;
 
+        // cache array so I don't have to type a bunch of stuff
+        int[][] rumbles = RobotConstants.Hopper.HOPPER_DONE_RUMBLE_SEQUENCE;
+
+        // find length of array and create array
+        int arrayLength = 0;
+        for (int i = 0; i < rumbles.length; i++) {
+            arrayLength += rumbles[i][1];
+        }
+        m_rumbleSequence = new int[arrayLength];
+
+        // set rumbling to be done
+        m_rumbleCounter = arrayLength;
+
+        // parse 2d array of value,duration pairs into a 1d array of values
+        int i = 0;
+        for (int y = 0; y < rumbles.length; y++) {
+            for (int x = 0; x < rumbles[y][1]; x++) {
+                m_rumbleSequence[i] = rumbles[y][0];
+                i++;
+            }
+        }
+
+        // Set up the reset timer
+        m_resetTimer = new Timer();
+        m_resetTimer.reset();
+
         // Add children
         addChild("Belt", m_hopperBelt);
         addChild("Bottom Limit", m_lineBottom);
@@ -116,9 +156,14 @@ public class Hopper extends SubsystemBase {
 
     @Override
     public void periodic() {
+        if (m_rumbleCounter < m_rumbleSequence.length) {
+            m_OI.rumbleOperator((double) m_rumbleSequence[m_rumbleCounter]);
+            System.out.println(m_rumbleSequence[m_rumbleCounter]);
+            m_rumbleCounter++;
+        }
 
-
-        if(m_systemState == SystemState.INTAKING || m_systemState == SystemState.INTAKEREADY || m_systemState == SystemState.UNJAM || m_systemState == SystemState.SHOOTING) {
+        if (m_systemState == SystemState.INTAKING || m_systemState == SystemState.INTAKEREADY
+                || m_systemState == SystemState.UNJAM || m_systemState == SystemState.SHOOTING) {
             // Count cells
 
             // cache values of line break sensors
@@ -217,14 +262,20 @@ public class Hopper extends SubsystemBase {
 
             // Stop belt
             setBeltSpeed(0.0);
+
         }
+        // increase counter when cell in range, reset to 0 when out of range
+        if (m_lineBottom.get()) {
+            m_intakeDelayCounter++;
 
-        // cache values of line break sensors
-        boolean bottomValue = m_lineBottom.get();
+            // if count reaches the desired amount of delay, starting intaking the cell
+            if (m_intakeDelayCounter >= RobotConstants.Hopper.CYCLES_BEFORE_INTAKE) {
+                m_systemState = SystemState.INTAKING;
+                m_intakeDelayCounter = 0;
+            }
 
-        // if the bottom line break is tripped off for the first time
-        if (bottomValue == true && m_lineBottomLastValue == false) {
-            m_systemState = SystemState.INTAKING;
+        } else {
+            m_intakeDelayCounter = 0;
         }
 
     }
@@ -251,8 +302,8 @@ public class Hopper extends SubsystemBase {
             m_systemState = SystemState.INTAKEREADY;
         }
 
-        // if no cells in hopper, only rely on sensors 
-        if(m_cellCount > 0) {
+        // if no cells in hopper, only rely on sensors
+        if (m_cellCount > 0) {
             // if belt has gone 12 inches, stop tying and set state to ready to intake
             if (m_ticksAtStartOfIntake - m_hopperEncoder.getTicks() >= 41583) {
                 m_systemState = SystemState.INTAKEREADY;
@@ -307,11 +358,21 @@ public class Hopper extends SubsystemBase {
             // Start belt
             setBeltSpeed(-0.5);
 
+            // Reset the timer
+            m_resetTimer.reset();
+            m_resetTimer.start();
+
         }
 
         // when a cell reaches the bottom, stop
         if (m_lineBottom.get()) {
             m_systemState = SystemState.MOVEUPONEPLACE;
+        }
+
+        // If our timer runs out, reset the counters, and go idle
+        if (m_resetTimer.hasPeriodPassed(RobotConstants.Hopper.RESET_TIMEOUT_SECONDS)) {
+            forceCellCount(0);
+            m_systemState = SystemState.IDLE;
         }
     }
 
@@ -389,6 +450,10 @@ public class Hopper extends SubsystemBase {
         m_cellCount = (int) Mathutils.clamp(m_cellCount, 0, 5);
     }
 
+    public void startRumble() {
+        m_rumbleCounter = 0;
+    }
+
     /**
      * @return wether or not the hopper has completed it's actions (if it is idle or
      *         not)
@@ -409,7 +474,7 @@ public class Hopper extends SubsystemBase {
      */
     public void interruptShooting() {
         logger.log("Hopper", "Shooting interrupt requested");
-        if(m_cellCount > 0) {
+        if (m_cellCount > 0) {
             m_systemState = SystemState.MOVETOBOTTOM;
         }
     }
@@ -417,7 +482,6 @@ public class Hopper extends SubsystemBase {
     /**
      * Supply cells to shooter until there are none left
      * 
-     * @param amountToEndUpWith amount of cells to have in the hopper after shooting
      */
     public void supplyCellsToShooter() {
         // Do not log here, because this method gets spammed by the superstructure
@@ -445,6 +509,13 @@ public class Hopper extends SubsystemBase {
      */
     public void stop() {
         m_systemState = SystemState.IDLE;
+    }
+
+    /**
+     * moves cells to bottom
+     */
+    public void moveCellsToBottom(){
+        m_systemState = SystemState.MOVETOBOTTOM;
     }
 
     /**

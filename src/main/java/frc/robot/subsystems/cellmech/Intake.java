@@ -107,6 +107,8 @@ public class Intake extends SubsystemBase {
 
         m_lastState = m_systemState;
 
+
+
         // Handle states
         switch (m_systemState) {
         case FROZEN:

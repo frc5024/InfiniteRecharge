@@ -75,8 +75,6 @@ public class EasyTrajectory {
      * Create a cubic spline trajectory from start, end, and s-curve points
      * 
      * @param start Start pose
-     * @param a     First interior translation
-     * @param b     Second interior translation
      * @param end   End pose
      */
     public EasyTrajectory(Pose2d start, Pose2d end, Translation2d ... innerPoints) {

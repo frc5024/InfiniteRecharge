@@ -41,7 +41,8 @@ public class CellSuperstructure extends SubsystemBase {
         IDLE, // System idle
         INTAKING, // Intaking cells
         SHOOTING, // Shooting cells
-        UNJAMING // Unjamming cells
+        UNJAMING, // Unjamming cells
+        MOVETOBOTTOM // Moves cells to bottom
     }
 
     /** Tracker for intake system state */
@@ -54,6 +55,9 @@ public class CellSuperstructure extends SubsystemBase {
 
     /** Amount of cells hopper should have after shooting */
     private int m_wantedCellsAfterShot = 0;
+
+    /** True when intake just stopped itself */
+    private boolean m_intakeDone = false;
 
     private CellSuperstructure() {
 
@@ -81,6 +85,10 @@ public class CellSuperstructure extends SubsystemBase {
     @Override
     public void periodic() {
 
+        if(m_intakeDone = true) {
+            m_intakeDone = false;
+        }
+
         // Determine if this state is new
         boolean isNewState = false;
         if (m_systemState != m_lastState) {
@@ -103,6 +111,9 @@ public class CellSuperstructure extends SubsystemBase {
             break;
         case UNJAMING:
             handleUnjamming(isNewState);
+            break;
+        case MOVETOBOTTOM:
+            handleMoveToBottom(isNewState);
             break;
         default:
             m_systemState = SystemState.IDLE;
@@ -151,6 +162,7 @@ public class CellSuperstructure extends SubsystemBase {
         // stop once there are enough cells
         if (cellCount >= 5 || cellCount == m_wantedCellsIntake || m_hopper.getTopLineBreak()) {
             m_systemState = SystemState.IDLE;
+            m_intakeDone = true;
         }
     }
 
@@ -204,11 +216,34 @@ public class CellSuperstructure extends SubsystemBase {
     }
 
     /**
+     * Set subsystems to intake cells
+     * 
+     * @param newState Is this state new?
+     */
+    private void handleMoveToBottom(boolean newState) {
+        if (newState) {
+            m_hopper.moveCellsToBottom();
+        }
+
+    }
+
+    /**
      * @return wether or not the superStructure has completed it's actions (if it is
      *         idle or not)
      */
     public boolean isDone() {
         return m_systemState == SystemState.IDLE;
+    }
+
+    /**
+     * @return wether or not the superStructure has completed intake
+     */
+    public boolean isDoneIntake() {
+        return m_intakeDone;
+    }
+
+    public void moveToBottom(){
+        m_systemState = SystemState.MOVETOBOTTOM;
     }
 
     /**

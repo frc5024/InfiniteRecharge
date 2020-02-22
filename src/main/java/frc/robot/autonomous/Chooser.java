@@ -16,7 +16,6 @@ import frc.robot.autonomous.paths.balls.ballsScoreTrench;
 import frc.robot.autonomous.paths.score.ScoreCenter;
 import frc.robot.autonomous.paths.score.ScoreGetBalls;
 import frc.robot.autonomous.paths.score.ScoreRight;
-import frc.robot.autonomous.paths.balls.ballsScoreTrench;
 import frc.robot.autonomous.paths.score.ScorePickupRight;
 import frc.robot.autonomous.paths.test.TestReverse;
 import frc.robot.subsystems.DriveTrain;
