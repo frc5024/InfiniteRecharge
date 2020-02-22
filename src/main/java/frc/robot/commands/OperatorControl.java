@@ -23,9 +23,9 @@ public class OperatorControl extends CommandBase {
     private IntakeCells m_intakeCellsCommand = new IntakeCells(5);
     private ShootCells m_shootCellsCommand = new ShootCells(5);
     private UnjamCells m_unjamCommend = new UnjamCells();
-    
+
     private ClimbController m_climbController = new ClimbController();
-    private TimePanel m_panelTimeCommand = new TimePanel(0.0, false);
+    private TimePanel m_panelTimeCommand;
     private LowerBalls m_lowerBallsCommand = new LowerBalls();
 
     /** Instance of OI */
@@ -109,29 +109,24 @@ public class OperatorControl extends CommandBase {
         } else {
             m_unjamCommend.cancel();
         }
-        
-        if (m_oi.shouldIncrPanelRight()) {
-            m_panelTimeCommand = new TimePanel(.5, false);
+
+        if (m_oi.shouldRotatePanel()) {
+            m_panelTimeCommand = new TimePanel(5.0, false);
             m_panelTimeCommand.schedule();
         }
 
-        if (m_oi.shouldIncrPanelLeft()){
-            m_panelTimeCommand = new TimePanel(.5, true); 
-            m_panelTimeCommand.schedule();           
+        if (m_oi.shouldIncrPanelRight()) {
+            m_panelTimeCommand = new TimePanel(0.5, false);
+            m_panelTimeCommand.schedule();
         }
 
-        if(m_oi.shouldLowerBallsToBottom()){
-            
+        if (m_oi.shouldLowerBallsToBottom()) {
+
             m_lowerBallsCommand.schedule();
-        }else{
+        } else {
             m_lowerBallsCommand.cancel();
         }
 
-
-
-        // else if(m_positionCommand.isFinished()) {
-        // m_positionCommand.cancel();
-        // }
     }
 
     /**

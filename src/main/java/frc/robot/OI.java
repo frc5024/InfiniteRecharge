@@ -132,15 +132,13 @@ public class OI {
         return m_operatorController.getTriggerAxis(Hand.kRight) > 0.8;
     }
 
+    public boolean shouldRotatePanel() {
+        return m_operatorController.getStickButtonPressed(Hand.kLeft);
+    }
+
     public boolean shouldIncrPanelRight() {
-        return m_operatorController.getAButtonPressed() && m_operatorController.getPOV() == 90;
+        return m_operatorController.getAButtonPressed();
     }
-
-    public boolean shouldIncrPanelLeft() {
-        return m_operatorController.getAButtonPressed() && m_operatorController.getPOV() == 180;
-    }
-
-    
     
     /**
      * Check if the climber should be ejected

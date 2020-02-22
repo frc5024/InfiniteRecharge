@@ -251,6 +251,9 @@ public class PanelManipulator extends SubsystemBase {
             // Reset the color tracker
             // TODO: Should this be moved to idle?
             m_lastColor = null;
+
+            // Stop the motor
+            m_spinner.set(0.0);
         }
 
         // Skip if not in contact with panel

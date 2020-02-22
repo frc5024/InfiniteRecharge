@@ -14,15 +14,15 @@ public class TimePanel extends CommandBase {
 
     /**
      * Spin the control panel for a set time
-     * @param time Seconds to spin for
+     * 
+     * @param time     Seconds to spin for
      * @param reversed Reverse rotation?
      */
     public TimePanel(double time, boolean reversed) {
+        logger.log("TimePanel", "Constructing");
 
         // Convert normal time to the subsystem time
         m_time = Math.abs(time) * ((reversed) ? -1 : 1);
-
-        addRequirements(PanelManipulator.getInstance());
 
     }
 
