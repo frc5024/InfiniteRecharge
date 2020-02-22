@@ -1,8 +1,16 @@
+/**
+ * System Plans:
+ *  - Make 2 new states
+ *       - Rotate_Time
+ *       - Await_Rotate_Time
+ *   - Use a system timer to wait for system commands
+ */
 package frc.robot.subsystems;
 
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import edu.wpi.first.wpilibj.Timer;
 
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
@@ -64,22 +72,22 @@ public class PanelManipulator extends SubsystemBase {
 
             // Switch/case the FMS color string
             switch (color.toUpperCase().charAt(0)) {
-            case 'R':
-                return RED;
-            case 'G':
-                return GREEN;
-            case 'B':
-                return BLUE;
-            case 'Y':
-                return YELLOW;
-            default:
-                return null;
+                case 'R':
+                    return RED;
+                case 'G':
+                    return GREEN;
+                case 'B':
+                    return BLUE;
+                case 'Y':
+                    return YELLOW;
+                default:
+                    return null;
             }
         }
 
         public static FieldColors fromColorObject(Color color) {
-            for(FieldColors fieldColor : EnumSet.allOf(FieldColors.class)) {
-                if(color == fieldColor.color) {
+            for (FieldColors fieldColor : EnumSet.allOf(FieldColors.class)) {
+                if (color == fieldColor.color) {
                     return fieldColor;
                 }
             }
@@ -102,6 +110,8 @@ public class PanelManipulator extends SubsystemBase {
         ROTATIONAL, // System rotation control
         AWAIT_POSITIONAL, // Wait for the manipulator to be in place for position control
         POSITIONAL, // System position control
+        ROTATE_TIME, // Rotates for a set amount of time
+        AWAIT_ROTATE_TIME, // Waits to rotate for a set amount of time
     }
 
     // Tracker for last & current state
@@ -121,6 +131,10 @@ public class PanelManipulator extends SubsystemBase {
 
     // Tracker for the last seen color
     private Integer m_lastColor = null;
+
+    // Rotaitonal timer
+    private Timer m_rotationTimer;
+    private double m_rotationTimeToWait;
 
     private PanelManipulator() {
 
@@ -148,6 +162,10 @@ public class PanelManipulator extends SubsystemBase {
         for (FieldColors fc : m_colors) {
             m_matcher.addColorMatch(fc.color);
         }
+
+        // Init the timer
+        m_rotationTimer = new Timer();
+        m_rotationTimer.reset();
 
     }
 
@@ -180,22 +198,26 @@ public class PanelManipulator extends SubsystemBase {
 
         // Handle system state
         switch (m_currentState) {
-        case IDLE:
-            handleIdle(isNew);
-            break;
-        case ROTATIONAL:
-            handleRotation(isNew);
-            break;
-        case POSITIONAL:
-            handlePosition(isNew);
-            break;
-        case AWAIT_POSITIONAL:
-        case AWAIT_ROTATIONAL:
-            handleAwait(isNew);
-            break;
-        default:
-            // Set state to idle
-            m_currentState = SystemState.IDLE;
+            case IDLE:
+                handleIdle(isNew);
+                break;
+            case ROTATIONAL:
+                handleRotation(isNew);
+                break;
+            case POSITIONAL:
+                handlePosition(isNew);
+                break;
+            case ROTATE_TIME:
+                handleTimedRotation(isNew);
+                break;
+            case AWAIT_ROTATE_TIME:
+            case AWAIT_POSITIONAL:
+            case AWAIT_ROTATIONAL:
+                handleAwait(isNew);
+                break;
+            default:
+                // Set state to idle
+                m_currentState = SystemState.IDLE;
         }
 
     }
@@ -238,14 +260,16 @@ public class PanelManipulator extends SubsystemBase {
 
         // Move to the correct state
         switch (m_currentState) {
-        case AWAIT_POSITIONAL:
-            m_currentState = SystemState.POSITIONAL;
-            break;
-        case AWAIT_ROTATIONAL:
-            m_currentState = SystemState.ROTATIONAL;
-            break;
-        default:
-            m_currentState = SystemState.IDLE;
+            case AWAIT_POSITIONAL:
+                m_currentState = SystemState.POSITIONAL;
+                break;
+            case AWAIT_ROTATIONAL:
+                m_currentState = SystemState.ROTATIONAL;
+                break;
+            case AWAIT_ROTATE_TIME:
+                m_currentState = SystemState.ROTATE_TIME;
+            default:
+                m_currentState = SystemState.IDLE;
         }
 
     }
@@ -288,13 +312,13 @@ public class PanelManipulator extends SubsystemBase {
      * @param isNew Is this a new state?
      */
     private void handlePosition(boolean isNew) {
-        init:if (isNew) { 
+        init: if (isNew) {
             logger.log("PanelManipulator", "Starting positional control");
 
             // Read the current color index
             int currentIDX = getColorIdx();
 
-            if(currentIDX == -1) {
+            if (currentIDX == -1) {
                 break init;
             }
             if (!m_hasLostContact) {
@@ -340,6 +364,46 @@ public class PanelManipulator extends SubsystemBase {
     }
 
     /**
+     * handles timed rotation
+     * 
+     * @param isNew if the state is new
+     */
+    private void handleTimedRotation(boolean isNew) {
+        if (isNew) {
+
+            // Check if we have lost contact
+            if (!m_hasLostContact) {
+                // Reset the timer
+                m_rotationTimer.reset();
+                m_rotationTimer.start();
+            }
+
+            // Set the motor speed to the sign of the time to wait, copied to the spinner
+            // speed.
+            // This allows the user to specify negative seconds to rotate backwards.
+            m_spinner.set(Math.copySign(RobotConstants.PanelManipulator.SPINNER_SPEED, m_rotationTimeToWait));
+
+        }
+
+        // Check if we lost contact
+        if (!isTouchingPanel()) {
+
+            // Tell the system we lost contact with the panel
+            m_hasLostContact = true;
+
+            // Wait for the robot to come in contact with the panel again
+            m_currentState = SystemState.AWAIT_ROTATE_TIME;
+        }
+
+        // Check if the period has passed
+        if (m_rotationTimer.hasPeriodPassed(Math.abs(m_rotationTimeToWait))) {
+            m_spinner.set(0);
+            m_currentState = SystemState.IDLE;
+        }
+
+    }
+
+    /**
      * Update the internal system count for colors passed, and apply to the offset.
      * 
      * This works by finding the mode color in the sensor buffer, and comparing to
@@ -350,7 +414,7 @@ public class PanelManipulator extends SubsystemBase {
         // Get the current color index
         int currentIdx = getColorIdx();
 
-        if(currentIdx == -1) {
+        if (currentIdx == -1) {
             return;
         }
 
@@ -393,19 +457,19 @@ public class PanelManipulator extends SubsystemBase {
         // Read the color sensor color
         Color sensedColor = m_colorSensor.getColor();
 
-        if(sensedColor == null) {
+        if (sensedColor == null) {
             return -1;
         }
 
         // Find the closest color
         ColorMatchResult closestMatchResult = m_matcher.matchColor(sensedColor);
 
-        if(closestMatchResult == null) {
+        if (closestMatchResult == null) {
             return -1;
         }
-        
+
         Color closestMatch = closestMatchResult.color;
-        
+
         // Find the array element for the match
         return m_colors.indexOf(FieldColors.fromColorObject(closestMatch));
     }
@@ -416,7 +480,7 @@ public class PanelManipulator extends SubsystemBase {
      * @return Is touching control panel?
      */
     public boolean isTouchingPanel() {
-        
+
         return m_colorSensor.getProximity() > RobotConstants.PanelManipulator.DISTANCE_THRESHOLD;
     }
 
@@ -481,4 +545,16 @@ public class PanelManipulator extends SubsystemBase {
         logger.log("PanelManipulator", "Stop requested");
         m_currentState = SystemState.IDLE;
     }
+
+    public void rotateForTime(double seconds) {
+        if(seconds == 0){
+            logger.log("Panel Manipulator", "seconds equal to zero");
+            return;
+        }
+
+        logger.log("Panel Manipulator", String.format("Rotating for %.2f seconds", seconds));
+        m_rotationTimeToWait = seconds;
+        m_currentState = SystemState.ROTATE_TIME;
+    }
+
 }
