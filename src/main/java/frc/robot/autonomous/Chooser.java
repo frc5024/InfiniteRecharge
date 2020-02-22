@@ -20,6 +20,7 @@ import frc.robot.autonomous.paths.score.ScorePickupRight;
 import frc.robot.autonomous.paths.test.TestReverse;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.autonomous.paths.test.TestPID;
+import frc.robot.autonomous.paths.test.TestPath;
 
 /**
  * Class for handling autonomous command generation
