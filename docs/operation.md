@@ -40,8 +40,13 @@ Pivot auto-aim will take over the driver's control of the robot, and use the rob
 | Right bumper (toggle) | Intake power cells          |
 | Right trigger (hold)  | Shoot power cells           |
 | B button (toggle)     | Un-jam system               |
-| X buton + Right D-pad | Reset internal ball counter |
+| Left trigger (press)  | Un-jam system upwards       |
+| X button + Right D-pad| Reset internal ball counter |
 | Y button (one-shot)   | Re-align balls in hopper    |
+| D-pad held up +       | Manually add cell           |
+| right stick press     |                             |
+| D-pad held down +     | Manually subtract cell      |
+| right stick press     |                             |
 
 Both the *intake* and *shoot* actions are heavily controlled by software, and the buttons inputs are only suggestions to the internal component management software. These systems will only run if the robot decides it is safe to do so. The intake will auto-finish once the robot fills its hopper, and the shooter will only run if there are balls available in the hopper to shoot, and the robot is properly aimed.
 

@@ -61,6 +61,7 @@ public class Hopper extends SubsystemBase {
         INTAKEREADY, // ready for a cell to enter
         INTAKING, // moving cell up 1 space
         UNJAM, // spit cells out
+        UNJAMUP, // move cells up
         MOVETOTOP, // move top cell in hopper to the top
         MOVETOBOTTOM, // move bottom cell in hopper to the bottom
         MOVEUPONEPLACE, // move the hopper up 8 inches
@@ -220,6 +221,9 @@ public class Hopper extends SubsystemBase {
         case UNJAM:
             handleUnjam(isNewState);
             break;
+        case UNJAMUP:
+            handleUnjamUp(isNewState);
+            break;
         case MOVETOTOP:
             handleMoveToTop(isNewState);
             break;
@@ -326,7 +330,22 @@ public class Hopper extends SubsystemBase {
             logger.log("Hopper", "Unjamming");
 
             // Reverse belt
-            setBeltSpeed(-0.8);
+            setBeltSpeed(-0.7);
+
+        }
+    }
+
+    /**
+     * attempt to spit out all cells
+     * 
+     * @param newState Is this state new?
+     */
+    private void handleUnjamUp(boolean newState) {
+        if (newState) {
+            logger.log("Hopper", "Unjamming");
+
+            // Reverse belt
+            setBeltSpeed(0.7);
 
         }
     }
@@ -499,6 +518,14 @@ public class Hopper extends SubsystemBase {
     public void unjam() {
         logger.log("Hopper", "Unjam requested");
         m_systemState = SystemState.UNJAM;
+    }
+
+    /**
+     * Set the hopper to unjam up
+     */
+    public void unjamUp() {
+        logger.log("Hopper", "Unjam up requested");
+        m_systemState = SystemState.UNJAMUP;
     }
 
     /**

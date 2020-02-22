@@ -42,6 +42,7 @@ public class CellSuperstructure extends SubsystemBase {
         INTAKING, // Intaking cells
         SHOOTING, // Shooting cells
         UNJAMING, // Unjamming cells
+        UNJAMUP, // unjamming cells upwards
         MOVETOBOTTOM // Moves cells to bottom
     }
 
@@ -112,6 +113,8 @@ public class CellSuperstructure extends SubsystemBase {
         case UNJAMING:
             handleUnjamming(isNewState);
             break;
+        case UNJAMUP:
+            handleUnjamUp(isNewState);
         case MOVETOBOTTOM:
             handleMoveToBottom(isNewState);
             break;
@@ -215,6 +218,21 @@ public class CellSuperstructure extends SubsystemBase {
         }
     }
 
+/**
+     * Set subsystems unjam balls
+     * 
+     * @param newState Is this state new?
+     */
+    private void handleUnjamUp(boolean newState) {
+        if (newState) {
+
+            m_hopper.unjamUp();
+
+            m_shooter.setOutputPercent(0.1);
+
+        }
+    }
+
     /**
      * Set subsystems to intake cells
      * 
@@ -296,5 +314,12 @@ public class CellSuperstructure extends SubsystemBase {
      */
     public void unjam() {
         m_systemState = SystemState.UNJAMING;
+    }
+
+    /**
+     * Set the subsystems to unjam up
+     */
+    public void unjamUp() {
+        m_systemState = SystemState.UNJAMUP;
     }
 }

@@ -6,6 +6,7 @@ import frc.robot.OI;
 import frc.robot.autonomous.actions.cells.IntakeCells;
 import frc.robot.autonomous.actions.cells.ShootCells;
 import frc.robot.autonomous.actions.cells.UnjamCells;
+import frc.robot.autonomous.actions.cells.UnjamUpCells;
 import frc.robot.subsystems.CellSuperstructure;
 import frc.robot.commands.actions.LowerBalls;
 import frc.robot.commands.actions.controlpanel.PositionPanel;
@@ -23,6 +24,7 @@ public class OperatorControl extends CommandBase {
     private IntakeCells m_intakeCellsCommand = new IntakeCells(5);
     private ShootCells m_shootCellsCommand = new ShootCells(5);
     private UnjamCells m_unjamCommend = new UnjamCells();
+    private UnjamUpCells m_unjamUpCommend = new UnjamUpCells();
 
     private ClimbController m_climbController = new ClimbController();
     private TimePanel m_panelTimeCommand;
@@ -110,6 +112,18 @@ public class OperatorControl extends CommandBase {
             m_unjamCommend.cancel();
         }
 
+        if (m_oi.shouldUnjamUp()) {
+
+            // Stop any other action
+            m_oi.resetIntakeInput();
+
+            // Start the un-jammer
+            m_unjamUpCommend.schedule();
+
+        } else {
+            m_unjamUpCommend.cancel();
+        }
+
         if (m_oi.shouldRotatePanel()) {
             m_panelTimeCommand = new TimePanel(5.0, false);
             m_panelTimeCommand.schedule();
@@ -127,6 +141,13 @@ public class OperatorControl extends CommandBase {
             m_lowerBallsCommand.cancel();
         }
 
+        if(m_oi.shouldAddCell()) {
+            m_hopper.forceCellCount(m_hopper.getCellCount() + 1);
+        }
+
+        if(m_oi.shouldSubtractCell()) {
+            m_hopper.forceCellCount(m_hopper.getCellCount() - 1);
+        }
     }
 
     /**

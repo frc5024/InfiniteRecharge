@@ -34,6 +34,9 @@ public class OI {
     private Toggle m_shouldRotateToggle = new Toggle();
     // Unjam toggle
     private Toggle m_shouldUnjamToggle = new Toggle();
+    // Unjam up toggle
+    private Toggle m_shouldUnjamUpToggle = new Toggle();
+    private boolean m_lastUnjamUpToggleState = false;
     // Lower balls Toggle
     private Toggle m_ShouldLowerBallsToggle = new Toggle();
 
@@ -139,7 +142,7 @@ public class OI {
     public boolean shouldIncrPanelRight() {
         return m_operatorController.getAButtonPressed();
     }
-    
+
     /**
      * Check if the climber should be ejected
      */
@@ -190,11 +193,19 @@ public class OI {
         return m_shouldUnjamToggle.feed(m_operatorController.getBButtonPressed());
     }
 
-    public boolean shouldLowerBallsToBottom(){
+    
+    public boolean shouldUnjamUp() {
+        boolean currentState = m_operatorController.getTriggerAxis(Hand.kLeft) > 0.8;
+        boolean difference = m_lastUnjamUpToggleState != currentState;
+        m_lastUnjamUpToggleState = currentState;
+        return m_shouldUnjamUpToggle.feed(difference);
+    }
+
+    public boolean shouldLowerBallsToBottom() {
         return m_ShouldLowerBallsToggle.feed(m_operatorController.getYButtonPressed());
     }
 
-    public void resetLower(){
+    public void resetLower() {
         m_ShouldLowerBallsToggle.reset();
     }
 
@@ -202,4 +213,11 @@ public class OI {
         m_shouldUnjamToggle.reset();
     }
 
+    public boolean shouldAddCell() {
+        return (m_operatorController.getStickButtonPressed(Hand.kRight) && m_operatorController.getPOV() == 0);
+    }
+
+    public boolean shouldSubtractCell() {
+        return (m_operatorController.getStickButtonPressed(Hand.kRight) && m_operatorController.getPOV() == 180);
+    }
 }
