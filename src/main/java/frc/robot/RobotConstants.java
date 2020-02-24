@@ -71,6 +71,7 @@ public class RobotConstants {
             public static final double ENCODER_RAMP_RATE = 0.12;
         }
 
+
         /**
          * Motor controller IDs
          */

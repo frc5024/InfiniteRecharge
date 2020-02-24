@@ -14,12 +14,12 @@ public class DrivePath extends CommandBase {
 
     private Translation2d m_epsilon;
 
-    public DrivePath(Path path, double lookahead, Translation2d epsilon) {
+    public DrivePath(Path path, double lookahead, Translation2d epsilon, double kP, double kSpeedCap) {
 
         this.m_epsilon = epsilon;
 
         m_controller = new PurePursuitController(path, lookahead, 0.1,
-                RobotConstants.DriveTrain.Measurements.DRIVEBASE_LENGTH);
+                RobotConstants.DriveTrain.Measurements.DRIVEBASE_LENGTH, kP, kSpeedCap);
 
     }
 

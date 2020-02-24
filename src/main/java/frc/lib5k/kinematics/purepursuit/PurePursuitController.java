@@ -15,10 +15,17 @@ public class PurePursuitController {
     // Tracker for last robot pose
     private Pose2d m_lastPose = null;
 
-    public PurePursuitController(Path path, double lookaheadDistance, double lookaheadGain, double drivebaseWidth) {
+    // kP for turning
+    private double kP;
+    private double kSpeedCap;
+
+    public PurePursuitController(Path path, double lookaheadDistance, double lookaheadGain, double drivebaseWidth, double kP, double kSpeedCap) {
 
         // Configure follower
         m_follower = new Follower(path, lookaheadDistance, lookaheadGain, drivebaseWidth);
+
+        this.kP = kP;
+        this.kSpeedCap = kSpeedCap;
     }
 
     public void reset() {
@@ -72,11 +79,11 @@ public class PurePursuitController {
         }
 
         // Determine delta
-        double delta = Math.atan2(2.0 * m_follower.getDrivebaseWidth() * Math.sin(alpha) / LF, 1.0) * 0.12;
+        double delta = Math.atan2(2.0 * m_follower.getDrivebaseWidth() * Math.sin(alpha) / LF, 1.0) * kP;
 
         double EPS = 86.0;
 
-        System.out.println(delta);
+        // System.out.println(delta);
         // System.out.println(Math.abs(Math.toDegrees(Mathutils.getWrappedError(Mathutils.wpiAngleTo5k(robotPose.getRotation().getDegrees()),
         // delta))));
 
@@ -100,7 +107,8 @@ public class PurePursuitController {
 
         // Scale back the speed if needed by large delta
         speed *= forceScale;
-        speed *= 0.7;
+        speed = Mathutils.clamp(speed, -1, 1);
+        speed *= kSpeedCap;
 
         // Handle mis-alignment
         // if(Math.toDegrees(delta) < EPS){
