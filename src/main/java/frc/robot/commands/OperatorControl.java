@@ -10,6 +10,7 @@ import frc.robot.subsystems.CellSuperstructure;
 import frc.robot.commands.actions.LowerBalls;
 import frc.robot.commands.actions.controlpanel.PositionPanel;
 import frc.robot.commands.actions.controlpanel.RotatePanel;
+import frc.robot.commands.actions.controlpanel.TimePanel;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.cellmech.Hopper;
 
@@ -22,10 +23,9 @@ public class OperatorControl extends CommandBase {
     private IntakeCells m_intakeCellsCommand = new IntakeCells(5);
     private ShootCells m_shootCellsCommand = new ShootCells(5);
     private UnjamCells m_unjamCommend = new UnjamCells();
-    
+
     private ClimbController m_climbController = new ClimbController();
-    private PositionPanel m_positionCommand = new PositionPanel(new Translation2d(1, 1));
-    private RotatePanel m_rotateCommand = new RotatePanel(4, new Translation2d(1, 1));
+    private TimePanel m_panelTimeCommand;
     private LowerBalls m_lowerBallsCommand = new LowerBalls();
 
     /** Instance of OI */
@@ -110,33 +110,23 @@ public class OperatorControl extends CommandBase {
             m_unjamCommend.cancel();
         }
 
-        if (m_oi.shouldRotate()) {
-            m_rotateCommand.schedule();
-            m_positionCommand.cancel();
+        if (m_oi.shouldRotatePanel()) {
+            m_panelTimeCommand = new TimePanel(5.0, false);
+            m_panelTimeCommand.schedule();
         }
 
-        if (m_oi.shouldPosition()) {
-            m_positionCommand.schedule();
-            m_rotateCommand.cancel();
-        } 
-
-        if (m_oi.shouldKillPanel()) {
-            m_positionCommand.cancel();
-            m_rotateCommand.cancel();
+        if (m_oi.shouldIncrPanelRight()) {
+            m_panelTimeCommand = new TimePanel(0.5, false);
+            m_panelTimeCommand.schedule();
         }
 
-        if(m_oi.shouldLowerBallsToBottom()){
-            
+        if (m_oi.shouldLowerBallsToBottom()) {
+
             m_lowerBallsCommand.schedule();
-        }else{
+        } else {
             m_lowerBallsCommand.cancel();
         }
 
-
-
-        // else if(m_positionCommand.isFinished()) {
-        // m_positionCommand.cancel();
-        // }
     }
 
     /**
@@ -146,8 +136,6 @@ public class OperatorControl extends CommandBase {
         m_intakeCellsCommand.cancel();
         m_shootCellsCommand.cancel();
         m_climbController.cancel();
-        m_rotateCommand.cancel();
-        m_positionCommand.cancel();
         m_lowerBallsCommand.cancel();
     }
 

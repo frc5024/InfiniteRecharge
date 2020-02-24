@@ -21,7 +21,7 @@ public class RobotConstants {
     }
 
     public static final boolean PUBLISH_SD_TELEMETRY = true;
-    public static final boolean ENABLE_PID_TUNING_OUTPUTS = false;
+    public static final boolean ENABLE_PID_TUNING_OUTPUTS = true;
 
     public static class Autonomous {
 
@@ -287,9 +287,9 @@ public class RobotConstants {
         public static final double RPM_EPSILON = VOLTAGE_EPSILON * MOTOR_KV;
 
         /* Shooter PID */
-        public static final double kPVel = 0.00045; // ;
+        public static final double kPVel = 0.00048; // ;
         public static final double kIVel = 3e-7;// ;
-        public static final double kDVel = 0.3;
+        public static final double kDVel = 0.355;
         public static final double kIz = 0.0;
         public static final double kFF = 0.0;
 
