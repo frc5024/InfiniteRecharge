@@ -42,6 +42,7 @@ public class CellSuperstructure extends SubsystemBase {
         INTAKING, // Intaking cells
         SHOOTING, // Shooting cells
         UNJAMING, // Unjamming cells
+        UNJAMUP, // unjamming cells upwards
         MOVETOBOTTOM // Moves cells to bottom
     }
 
@@ -85,7 +86,7 @@ public class CellSuperstructure extends SubsystemBase {
     @Override
     public void periodic() {
 
-        if(m_intakeDone = true) {
+        if (m_intakeDone = true) {
             m_intakeDone = false;
         }
 
@@ -100,23 +101,25 @@ public class CellSuperstructure extends SubsystemBase {
 
         // Handle states
         switch (m_systemState) {
-        case IDLE:
-            handleIdle(isNewState, lastStateIsShooting);
-            break;
-        case INTAKING:
-            handleIntaking(isNewState);
-            break;
-        case SHOOTING:
-            handleShooting(isNewState);
-            break;
-        case UNJAMING:
-            handleUnjamming(isNewState);
-            break;
-        case MOVETOBOTTOM:
-            handleMoveToBottom(isNewState);
-            break;
-        default:
-            m_systemState = SystemState.IDLE;
+            case IDLE:
+                handleIdle(isNewState, lastStateIsShooting);
+                break;
+            case INTAKING:
+                handleIntaking(isNewState);
+                break;
+            case SHOOTING:
+                handleShooting(isNewState);
+                break;
+            case UNJAMING:
+                handleUnjamming(isNewState);
+                break;
+            case UNJAMUP:
+                handleUnjamUp(isNewState);
+            case MOVETOBOTTOM:
+                handleMoveToBottom(isNewState);
+                break;
+            default:
+                m_systemState = SystemState.IDLE;
         }
     }
 
@@ -216,6 +219,21 @@ public class CellSuperstructure extends SubsystemBase {
     }
 
     /**
+     * Set subsystems unjam balls
+     * 
+     * @param newState Is this state new?
+     */
+    private void handleUnjamUp(boolean newState) {
+        if (newState) {
+
+            m_hopper.unjamUp();
+
+            m_shooter.setOutputPercent(0.1);
+
+        }
+    }
+
+    /**
      * Set subsystems to intake cells
      * 
      * @param newState Is this state new?
@@ -242,7 +260,7 @@ public class CellSuperstructure extends SubsystemBase {
         return m_intakeDone;
     }
 
-    public void moveToBottom(){
+    public void moveToBottom() {
         m_systemState = SystemState.MOVETOBOTTOM;
     }
 
@@ -296,5 +314,12 @@ public class CellSuperstructure extends SubsystemBase {
      */
     public void unjam() {
         m_systemState = SystemState.UNJAMING;
+    }
+
+    /**
+     * Set the subsystems to unjam up
+     */
+    public void unjamUp() {
+        m_systemState = SystemState.UNJAMUP;
     }
 }

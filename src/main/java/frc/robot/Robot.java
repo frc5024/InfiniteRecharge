@@ -10,6 +10,7 @@ import frc.lib5k.components.gyroscopes.NavX;
 import frc.lib5k.logging.USBLogger;
 import frc.lib5k.roborio.FaultReporter;
 import frc.lib5k.roborio.RR_HAL;
+import frc.lib5k.simulation.wpihooks.imgui.IMGUIFieldReporter;
 import frc.lib5k.utils.RobotLogger;
 import frc.lib5k.utils.RobotLogger.Level;
 import frc.robot.autonomous.Chooser;
@@ -123,8 +124,17 @@ public class Robot extends TimedRobot {
 		// Publish telemetry data to smartdashboard if setting enabled
 		if (RobotConstants.PUBLISH_SD_TELEMETRY) {
 			m_driveTrain.updateTelemetry();
+
 		}
 
+	}
+
+	@Override
+	public void simulationPeriodic() {
+
+		// Report robot position to IMGUI
+		IMGUIFieldReporter.getInstance().reportRobotPosition(DriveTrain.getInstance().getPosition());
+		
 	}
 
 	@Override
@@ -246,14 +256,14 @@ public class Robot extends TimedRobot {
 					Limelight2.getInstance().setLED(LEDMode.ON);
 				} else {
 					Limelight2.getInstance().setLED(LEDMode.OFF);
-					
+
 				}
 			}
-			
+
 			// Set the last state
 			m_lastUserState = true;
-			
-		}else{
+
+		} else {
 			m_lastUserState = false;
 		}
 	}
