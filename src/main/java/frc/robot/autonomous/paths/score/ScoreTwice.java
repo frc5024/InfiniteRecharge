@@ -31,10 +31,10 @@ public class ScoreTwice extends AutonomousPath {
         output.addCommands(new TurnToCommand(getStartingPose().getRotation(), 2.0));
 
         // Aim at goal
-        output.addCommands(new VisionAlign(Rotation2d.fromDegrees(156), 2.0));
+        // output.addCommands(new VisionAlign(Rotation2d.fromDegrees(156), 8.0));
 
-        // Shoot 3 balls
-        output.addCommands(new ShootCells(3).withTimeout(3.0));
+        // // Shoot 3 balls
+        // output.addCommands(new ShootCells(3).withTimeout(3.0));
 
         // Turn to trench
         output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 8.0));
@@ -53,7 +53,7 @@ public class ScoreTwice extends AutonomousPath {
         // PPS Turn
         output.addCommands(new DrivePath(
                 new Path(new Translation2d(startx + 2.0, starty), new Translation2d(startx + 2.1, starty + 0.4)), 0.2,
-                new Translation2d(0.2, 0.2), 0.2, 0.1));
+                new Translation2d(0.2, 0.2), 0.2, 0.15));
 
         // Face the target
         output.addCommands(new VisionAlign(Rotation2d.fromDegrees(165), 2.0));

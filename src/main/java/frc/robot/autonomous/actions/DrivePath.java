@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lib5k.kinematics.DriveSignal;
 import frc.lib5k.kinematics.purepursuit.Path;
 import frc.lib5k.kinematics.purepursuit.PurePursuitController;
+import frc.lib5k.utils.RobotLogger;
 import frc.robot.RobotConstants;
 import frc.robot.subsystems.DriveTrain;
 
@@ -25,6 +26,7 @@ public class DrivePath extends CommandBase {
 
     @Override
     public void initialize() {
+        RobotLogger.getInstance().log("DrivePath", "Driving path");
         m_controller.reset();
     }
 
@@ -34,16 +36,16 @@ public class DrivePath extends CommandBase {
         // Get DriveSignal for drivebase
         DriveSignal signal = m_controller.calculate(DriveTrain.getInstance().getPosition());
 
-        System.out.println(signal);
-
+        // Send signal to drivetrain
         DriveTrain.getInstance().setOpenLoop(signal);
 
     }
 
     @Override
     public void end(boolean interrupted) {
+        RobotLogger.getInstance().log("DrivePath", "Finished driving path");
         DriveTrain.getInstance().stop();
-        
+
     }
 
     @Override
