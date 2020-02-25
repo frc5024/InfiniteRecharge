@@ -23,17 +23,12 @@ public class OI {
     // Toggle for keeping track of drivetrain orientation
     private Toggle m_driveTrainInvertToggle = new Toggle();
 
-    // Shooting action toggle
-    private Toggle m_shouldShootToggle = new Toggle();
-
     // Intake action toggle
     private Toggle m_shouldIntakeToggle = new Toggle();
 
-    // Panel Manipulator Toggle(s)
-    private Toggle m_shouldPositionToggle = new Toggle();
-    private Toggle m_shouldRotateToggle = new Toggle();
     // Unjam toggle
     private Toggle m_shouldUnjamToggle = new Toggle();
+
     // Lower balls Toggle
     private Toggle m_ShouldLowerBallsToggle = new Toggle();
 
@@ -139,16 +134,16 @@ public class OI {
     public boolean shouldIncrPanelRight() {
         return m_operatorController.getAButtonPressed();
     }
-    
+
     /**
      * Check if the climber should be ejected
      */
     public boolean shouldEjectClimber() {
-        return m_operatorController.getBackButton() && m_operatorController.getStartButtonPressed();
+        return m_driverController.getBackButton() && m_driverController.getStartButtonPressed();
     }
 
     public boolean shouldCancelClimb() {
-        return m_operatorController.getStartButtonPressed() && !m_operatorController.getBackButton();
+        return m_driverController.getStartButtonPressed() && !m_driverController.getBackButton();
     }
 
     public Position getWantedClimbPosition() {
@@ -194,11 +189,11 @@ public class OI {
         return m_shouldUnjamToggle.feed(m_operatorController.getBButtonPressed());
     }
 
-    public boolean shouldLowerBallsToBottom(){
+    public boolean shouldLowerBallsToBottom() {
         return m_ShouldLowerBallsToggle.feed(m_operatorController.getYButtonPressed());
     }
 
-    public void resetLower(){
+    public void resetLower() {
         m_ShouldLowerBallsToggle.reset();
     }
 
