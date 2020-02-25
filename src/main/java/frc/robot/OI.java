@@ -23,15 +23,9 @@ public class OI {
     // Toggle for keeping track of drivetrain orientation
     private Toggle m_driveTrainInvertToggle = new Toggle();
 
-    // Shooting action toggle
-    private Toggle m_shouldShootToggle = new Toggle();
-
     // Intake action toggle
     private Toggle m_shouldIntakeToggle = new Toggle();
 
-    // Panel Manipulator Toggle(s)
-    private Toggle m_shouldPositionToggle = new Toggle();
-    private Toggle m_shouldRotateToggle = new Toggle();
     // Unjam toggle
     private Toggle m_shouldUnjamToggle = new Toggle();
     // Unjam up toggle
@@ -147,17 +141,21 @@ public class OI {
      * Check if the climber should be ejected
      */
     public boolean shouldEjectClimber() {
-        return m_operatorController.getBackButton() && m_operatorController.getStartButtonPressed();
+        return m_driverController.getBackButton() && m_driverController.getStartButtonPressed();
     }
 
     public boolean shouldCancelClimb() {
-        return m_operatorController.getStartButtonPressed() && !m_operatorController.getBackButton();
+        return m_driverController.getStartButtonPressed() && !m_driverController.getBackButton();
     }
 
     public Position getWantedClimbPosition() {
-        if (m_operatorController.getPOV() == 0) {
+        double direction = 0;
+
+        direction = m_driverController.getY(Hand.kRight) * -1;
+
+        if (direction >= 0.8) {
             return Position.LEVEL;
-        } else if (m_operatorController.getPOV() == 180) {
+        } else if (direction <= -0.8) {
             return Position.RETRACTED;
         } else {
             return Position.CURRENT;
