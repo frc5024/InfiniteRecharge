@@ -1,9 +1,9 @@
-# (Robot Name) Operation Manual
+# *Darth Raider* Operation Manual
 
 This document outlines how to operate 5024's 2020 season robot, and some notes about operation. Controls are split across two Xbox controllers, the "driver controller" and the "operator controller" 
 
 ## Operator Dashboard
-![Operator Dashboard](https://camo.githubusercontent.com/a333181729568445ae16830c195cdd667e6f7dbc/68747470733a2f2f692e696d6775722e636f6d2f6e5363506868452e706e67)
+![Operator Dashboard](../images/dashboard.png)
 
 This dashboard is displayed to the robot operators on the controller laptop. The image above contains:
  - Main robot vided feed
@@ -14,7 +14,7 @@ This dashboard is displayed to the robot operators on the controller laptop. The
  - (not shown) Climber video feed
 
 ## Driving
-(Robot Name)'s drivebase is controlled via the "trigger-drive" scheme developed by @slownie and @johnlownie in 2018. This scheme uses the following inputs on the driver controller: 
+Darth Raider's drivebase is controlled via the "trigger-drive" scheme developed by @slownie and @johnlownie in 2018. This scheme uses the following inputs on the driver controller: 
 
 | Input             | Output                                  |
 |-------------------|-----------------------------------------|
