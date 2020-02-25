@@ -184,6 +184,7 @@ public class CellSuperstructure extends SubsystemBase {
             // stop everything once hopper has desired amount of cells or no cells
             int cellAmount = m_hopper.getCellCount();
 
+            // TODO: Re-enable once middle sensor has been re-mounted
             // if (cellAmount == m_wantedCellsAfterShot ){//|| cellAmount == 0) {
             //     m_systemState = SystemState.IDLE;
             // }
