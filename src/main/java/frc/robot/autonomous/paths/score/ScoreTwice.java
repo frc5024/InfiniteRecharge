@@ -44,7 +44,7 @@ public class ScoreTwice extends AutonomousPath {
 
         // Get through the trench
         SequentialCommandGroup trenchMovement = new SequentialCommandGroup(
-            new DrivePath(new Path(new Translation2d(startx, starty), new Translation2d(startx + 2.0, starty)), 0.2, new Translation2d(0.2,0.2), 0.07, 0.4)
+            new DrivePath(new Path(new Translation2d(startx, starty), new Translation2d(startx + 2.0, starty)), 0.2, new Translation2d(0.2,0.2), 0.025, 0.4)
         );
 
         // Race the intake
