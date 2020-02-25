@@ -184,9 +184,9 @@ public class CellSuperstructure extends SubsystemBase {
             // stop everything once hopper has desired amount of cells or no cells
             int cellAmount = m_hopper.getCellCount();
 
-            if (cellAmount == m_wantedCellsAfterShot || cellAmount == 0) {
-                m_systemState = SystemState.IDLE;
-            }
+            // if (cellAmount == m_wantedCellsAfterShot ){//|| cellAmount == 0) {
+            //     m_systemState = SystemState.IDLE;
+            // }
 
             // only supply cells if shooter isn't spun up or the top line break is not
             // tripped

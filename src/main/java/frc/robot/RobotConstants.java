@@ -216,7 +216,7 @@ public class RobotConstants {
         public static final int INTAKE_ROLLER_TALON = 14;
 
         public static final boolean INTAKE_ACTUATOR_TALON_INVERTED = false;
-        public static final boolean INTAKE_ROLLER_TALON_INVERTED = false;
+        public static final boolean INTAKE_ROLLER_TALON_INVERTED = true;
 
         // Sensors DIO ports
         public static final int INTAKE_LIMIT_BOTTOM = 0;
@@ -229,10 +229,10 @@ public class RobotConstants {
 
         public static final double ARM_TICKS_PER_DEGREE = 1000;
 
-        public static final double ARM_UP_SPEED = -0.9;
+        public static final double ARM_UP_SPEED = -0.85;
         public static final double ARM_DOWN_SPEED = 0.35;
 
-        public static final double ROLLER_SPEED = 0.9;
+        public static final double ROLLER_SPEED = 0.55;
     }
 
     /**
