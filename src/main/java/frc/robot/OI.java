@@ -28,7 +28,9 @@ public class OI {
 
     // Unjam toggle
     private Toggle m_shouldUnjamToggle = new Toggle();
-
+    // Unjam up toggle
+    private Toggle m_shouldUnjamUpToggle = new Toggle();
+    private boolean m_lastUnjamUpToggleState = false;
     // Lower balls Toggle
     private Toggle m_ShouldLowerBallsToggle = new Toggle();
 
@@ -189,6 +191,14 @@ public class OI {
         return m_shouldUnjamToggle.feed(m_operatorController.getBButtonPressed());
     }
 
+    
+    public boolean shouldUnjamUp() {
+        boolean currentState = m_operatorController.getTriggerAxis(Hand.kLeft) > 0.8;
+        boolean difference = m_lastUnjamUpToggleState != currentState;
+        m_lastUnjamUpToggleState = currentState;
+        return m_shouldUnjamUpToggle.feed(difference);
+    }
+
     public boolean shouldLowerBallsToBottom() {
         return m_ShouldLowerBallsToggle.feed(m_operatorController.getYButtonPressed());
     }
@@ -201,4 +211,11 @@ public class OI {
         m_shouldUnjamToggle.reset();
     }
 
+    public boolean shouldAddCell() {
+        return m_operatorController.getPOV() == 0;
+    }
+
+    public boolean shouldSubtractCell() {
+        return m_operatorController.getPOV() == 180;
+    }
 }
