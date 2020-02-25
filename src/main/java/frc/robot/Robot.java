@@ -3,6 +3,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib5k.components.drive.IDifferentialDrivebase;
@@ -10,6 +12,7 @@ import frc.lib5k.components.gyroscopes.NavX;
 import frc.lib5k.logging.USBLogger;
 import frc.lib5k.roborio.FaultReporter;
 import frc.lib5k.roborio.RR_HAL;
+import frc.lib5k.simulation.Field2d;
 import frc.lib5k.utils.RobotLogger;
 import frc.lib5k.utils.RobotLogger.Level;
 import frc.robot.autonomous.Chooser;
@@ -41,6 +44,7 @@ public class Robot extends TimedRobot {
 
 	/* Robot telemetry */
 	private Dashboard m_dashboard = Dashboard.getInstance();
+	private Field2d m_field = new Field2d();
 
 	/* Robot Subsystems */
 	private DriveTrain m_driveTrain = DriveTrain.getInstance();
@@ -123,8 +127,16 @@ public class Robot extends TimedRobot {
 		// Publish telemetry data to smartdashboard if setting enabled
 		if (RobotConstants.PUBLISH_SD_TELEMETRY) {
 			m_driveTrain.updateTelemetry();
+
 		}
 
+	}
+
+	@Override
+	public void simulationPeriodic() {
+		Pose2d p = DriveTrain.getInstance().getPosition();
+		m_field.setRobotPose(p.getTranslation().getX(), (p.getTranslation().getY() - 4.35) * -1,
+				Rotation2d.fromDegrees(p.getRotation().getDegrees() * -1));
 	}
 
 	@Override
@@ -246,14 +258,14 @@ public class Robot extends TimedRobot {
 					Limelight2.getInstance().setLED(LEDMode.ON);
 				} else {
 					Limelight2.getInstance().setLED(LEDMode.OFF);
-					
+
 				}
 			}
-			
+
 			// Set the last state
 			m_lastUserState = true;
-			
-		}else{
+
+		} else {
 			m_lastUserState = false;
 		}
 	}
