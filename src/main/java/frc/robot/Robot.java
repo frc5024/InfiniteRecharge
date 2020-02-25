@@ -128,15 +128,15 @@ public class Robot extends TimedRobot {
 		if (RobotConstants.PUBLISH_SD_TELEMETRY) {
 			m_driveTrain.updateTelemetry();
 
-			Pose2d p = DriveTrain.getInstance().getPosition();
-			m_field.setRobotPose(p.getTranslation().getX(), (p.getTranslation().getY() -4.35) * -1, Rotation2d.fromDegrees(p.getRotation().getDegrees() * -1));
 		}
 
 	}
 
 	@Override
 	public void simulationPeriodic() {
-		// m_field.setRobotPose(DriveTrain.getInstance().getPosition());
+		Pose2d p = DriveTrain.getInstance().getPosition();
+		m_field.setRobotPose(p.getTranslation().getX(), (p.getTranslation().getY() - 4.35) * -1,
+				Rotation2d.fromDegrees(p.getRotation().getDegrees() * -1));
 	}
 
 	@Override
@@ -258,14 +258,14 @@ public class Robot extends TimedRobot {
 					Limelight2.getInstance().setLED(LEDMode.ON);
 				} else {
 					Limelight2.getInstance().setLED(LEDMode.OFF);
-					
+
 				}
 			}
-			
+
 			// Set the last state
 			m_lastUserState = true;
-			
-		}else{
+
+		} else {
 			m_lastUserState = false;
 		}
 	}
