@@ -86,7 +86,7 @@ public class CellSuperstructure extends SubsystemBase {
     @Override
     public void periodic() {
 
-        if(m_intakeDone = true) {
+        if (m_intakeDone = true) {
             m_intakeDone = false;
         }
 
@@ -101,25 +101,25 @@ public class CellSuperstructure extends SubsystemBase {
 
         // Handle states
         switch (m_systemState) {
-        case IDLE:
-            handleIdle(isNewState, lastStateIsShooting);
-            break;
-        case INTAKING:
-            handleIntaking(isNewState);
-            break;
-        case SHOOTING:
-            handleShooting(isNewState);
-            break;
-        case UNJAMING:
-            handleUnjamming(isNewState);
-            break;
-        case UNJAMUP:
-            handleUnjamUp(isNewState);
-        case MOVETOBOTTOM:
-            handleMoveToBottom(isNewState);
-            break;
-        default:
-            m_systemState = SystemState.IDLE;
+            case IDLE:
+                handleIdle(isNewState, lastStateIsShooting);
+                break;
+            case INTAKING:
+                handleIntaking(isNewState);
+                break;
+            case SHOOTING:
+                handleShooting(isNewState);
+                break;
+            case UNJAMING:
+                handleUnjamming(isNewState);
+                break;
+            case UNJAMUP:
+                handleUnjamUp(isNewState);
+            case MOVETOBOTTOM:
+                handleMoveToBottom(isNewState);
+                break;
+            default:
+                m_systemState = SystemState.IDLE;
         }
     }
 
@@ -218,7 +218,7 @@ public class CellSuperstructure extends SubsystemBase {
         }
     }
 
-/**
+    /**
      * Set subsystems unjam balls
      * 
      * @param newState Is this state new?
@@ -260,7 +260,7 @@ public class CellSuperstructure extends SubsystemBase {
         return m_intakeDone;
     }
 
-    public void moveToBottom(){
+    public void moveToBottom() {
         m_systemState = SystemState.MOVETOBOTTOM;
     }
 
