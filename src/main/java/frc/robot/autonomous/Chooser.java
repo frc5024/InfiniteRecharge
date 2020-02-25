@@ -35,7 +35,6 @@ public class Chooser {
         // Paths
         m_pathChooser.setDefaultOption("1. Score Twice", new ScoreTwice());
         m_pathChooser.addOption("Test PID", new TestPID());
-        
 
         // Scoring
         m_shouldScore.setDefaultOption("Score balls", true);
@@ -81,8 +80,12 @@ public class Chooser {
         outputCommand.addCommands(new LogCommand("Starting autonomous actions"));
 
         // Generate and add the path
-        outputCommand.addCommands(
-                m_pathChooser.getSelected().generate(m_shouldScore.getSelected(), m_getExtraCells.getSelected()));
+        try {
+            outputCommand.addCommands(
+                    m_pathChooser.getSelected().generate(m_shouldScore.getSelected(), m_getExtraCells.getSelected()));
+        } catch (NullPointerException e) {
+            System.out.println("WARNING: Failed to generate Autonomous path due to NPE");
+        }
 
         return outputCommand;
     }

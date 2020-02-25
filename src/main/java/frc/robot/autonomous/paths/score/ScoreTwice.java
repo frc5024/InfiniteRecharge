@@ -43,12 +43,17 @@ public class ScoreTwice extends AutonomousPath {
         CommandBase intakeCommand = new IntakeCells(3);
 
         // Get through the trench
-        SequentialCommandGroup trenchMovement = new SequentialCommandGroup(
-            new DrivePath(new Path(new Translation2d(startx, starty), new Translation2d(startx + 2.0, starty)), 0.2, new Translation2d(0.2,0.2), 0.025, 0.4)
-        );
+        DrivePath trenchMovement = new DrivePath(
+                new Path(new Translation2d(startx, starty), new Translation2d(startx + 2.0, starty)), 0.2,
+                new Translation2d(0.2, 0.2), 0.025, 0.4);
 
         // Race the intake
         output.addCommands(new ParallelRaceGroup(intakeCommand, trenchMovement));
+
+        // PPS Turn
+        output.addCommands(new DrivePath(
+                new Path(new Translation2d(startx + 2.0, starty), new Translation2d(startx + 2.1, starty + 0.4)), 0.2,
+                new Translation2d(0.2, 0.2), 0.2, 0.1));
 
         // Face the target
         output.addCommands(new VisionAlign(Rotation2d.fromDegrees(165), 2.0));
