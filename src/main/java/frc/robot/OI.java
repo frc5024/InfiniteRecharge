@@ -34,6 +34,8 @@ public class OI {
     private Toggle m_shouldRotateToggle = new Toggle();
     // Unjam toggle
     private Toggle m_shouldUnjamToggle = new Toggle();
+    // Lower balls Toggle
+    private Toggle m_ShouldLowerBallsToggle = new Toggle();
 
     /**
      * Force the use of getInstance() by setting this class private
@@ -130,22 +132,13 @@ public class OI {
         return m_operatorController.getTriggerAxis(Hand.kRight) > 0.8;
     }
 
-    public boolean shouldRotate() {
-        return m_operatorController.getStickButton(Hand.kLeft);
+    public boolean shouldRotatePanel() {
+        return m_operatorController.getStickButtonPressed(Hand.kLeft);
     }
 
-
-    public boolean shouldPosition() {
-        return m_operatorController.getStickButton(Hand.kRight);
+    public boolean shouldIncrPanelRight() {
+        return m_operatorController.getAButtonPressed();
     }
-
-
-    public boolean shouldKillPanel(){
-        return m_operatorController.getBackButtonPressed();
-    }
-    
-
-    
     
     /**
      * Check if the climber should be ejected
@@ -199,6 +192,14 @@ public class OI {
 
     public boolean shouldUnjam() {
         return m_shouldUnjamToggle.feed(m_operatorController.getBButtonPressed());
+    }
+
+    public boolean shouldLowerBallsToBottom(){
+        return m_ShouldLowerBallsToggle.feed(m_operatorController.getYButtonPressed());
+    }
+
+    public void resetLower(){
+        m_ShouldLowerBallsToggle.reset();
     }
 
     public void resetUnjamInput() {

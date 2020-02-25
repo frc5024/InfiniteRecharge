@@ -26,7 +26,7 @@ For robot software development, we are using the following tools:
 Java: Version 11
 Python: Version 3.7 or later
 Gradle: Version 5.0
-WPIlib: 2020.2.2
+WPIlib: 2020.3.2
 ```
 
 Gradle can be downloaded by following the instructions [HERE](https://gradle.org/install/) (Windows users should read the "Installing Manually" section), and WPILib's installation instructions can be found [HERE](https://docs.wpilib.org/en/latest/docs/getting-started/getting-started-frc-control-system/wpilib-setup.html).

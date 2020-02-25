@@ -163,24 +163,18 @@ public class Hopper extends SubsystemBase {
         }
 
         if (m_systemState == SystemState.INTAKING || m_systemState == SystemState.INTAKEREADY
-                || m_systemState == SystemState.UNJAM || m_systemState == SystemState.SHOOTING) {
+                || m_systemState == SystemState.UNJAM || m_systemState == SystemState.SHOOTING
+                || m_systemState == SystemState.MOVETOTOP) {
             // Count cells
 
             // cache values of line break sensors
             boolean middleValue = m_lineMiddle.get();
-            boolean topValue = m_lineTop.get();
-
             // If belt is moving up
             if (m_hopperBelt.get() > 0.0) {
 
                 // add when cell enters bottom
                 if (middleValue == true && m_lineMiddleLastValue == false) {
                     modifyCellCount(1);
-                }
-
-                // subtract when cell exits top
-                if (topValue == false && m_lineTopLastValue == true) {
-                    modifyCellCount(-1);
                 }
 
                 // If belt is moving down
@@ -190,6 +184,17 @@ public class Hopper extends SubsystemBase {
                 if (middleValue == false && m_lineMiddleLastValue == true) {
                     modifyCellCount(-1);
                 }
+
+            }
+
+        }
+
+        // subtract when cell exits top when hopper is moving up and in shoot or idle
+        // mode
+        if ((m_systemState == SystemState.SHOOTING || m_systemState == SystemState.IDLE
+                || m_systemState == SystemState.MOVETOTOP)) {
+            if (m_lineTop.get() == false && m_lineTopLastValue == true) {
+                modifyCellCount(-1);
             }
         }
 
@@ -393,8 +398,8 @@ public class Hopper extends SubsystemBase {
 
         }
 
-        // stop if middle sensor is tripped
-        if (m_lineMiddle.get()) {
+        // stop if middle or top sensor is tripped
+        if (m_lineMiddle.get() || m_lineTop.get()) {
             m_systemState = SystemState.IDLE;
         }
 
@@ -509,6 +514,13 @@ public class Hopper extends SubsystemBase {
      */
     public void stop() {
         m_systemState = SystemState.IDLE;
+    }
+
+    /**
+     * moves cells to bottom
+     */
+    public void moveCellsToBottom() {
+        m_systemState = SystemState.MOVETOBOTTOM;
     }
 
     /**
