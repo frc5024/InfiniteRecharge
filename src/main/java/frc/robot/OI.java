@@ -76,6 +76,14 @@ public class OI {
                 (force > 1.0) ? force - 1.0 : force);
     }
 
+   /**
+     * Should the robot be operating in "slow mode"
+     */
+    public boolean isSlowMode() {
+        return m_driverController.getBumper(GenericHID.Hand.kLeft)
+                || m_driverController.getBumper(GenericHID.Hand.kRight);
+    }
+
     /**
      * Get the robot "throttle" input
      * 

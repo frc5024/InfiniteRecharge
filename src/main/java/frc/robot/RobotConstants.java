@@ -60,6 +60,10 @@ public class RobotConstants {
         public static final int DRIVER_CONTROLLER_ID = 0;
         public static final int OPERATOR_CONTROLLER_ID = 1;
 
+        /* Slow mode */
+        public static final double LOW_GEAR_SPEED_GAIN = 0.8;
+        public static final double LOW_GEAR_ROTATION_GAIN = 0.9;
+
     }
 
     /**
@@ -113,8 +117,8 @@ public class RobotConstants {
 
             /* Ticks per revolution of the encoder */
 
-            public static final int PULSES_PER_REVOLUTION = 5760; //4096;// 1024 // 2880;//1440; // (isCompBot())? 4096
-                                                                 // : 1440;
+            public static final int PULSES_PER_REVOLUTION = 5760; // 4096;// 1024 // 2880;//1440; // (isCompBot())? 4096
+                                                                  // : 1440;
 
         }
 

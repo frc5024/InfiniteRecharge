@@ -6,9 +6,6 @@ import frc.robot.OI;
 import frc.robot.RobotConstants;
 import frc.robot.commands.actions.AutoAlign;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.vision.Limelight2;
-import frc.robot.vision.LimelightTarget;
-import frc.robot.vision.Limelight2.LEDMode;
 
 /**
  * Default command for controlling the robot drivebase with Xbox controller
@@ -19,7 +16,8 @@ public class DriveControl extends CommandBase {
     /** Operator interface object for reading driver inputs */
     private OI m_oi = OI.getInstance();
 
-    /** Deadband object for the "rotation" input. More info about deadbands can be
+    /**
+     * Deadband object for the "rotation" input. More info about deadbands can be
      * found at: https://en.wikipedia.org/wiki/Deadband
      */
     private CubicDeadband m_rotationDeadband = new CubicDeadband(
@@ -56,6 +54,12 @@ public class DriveControl extends CommandBase {
 
         // Deadband the rotation input to deal with low-quality Xbox joysticks
         rotation = m_rotationDeadband.feed(rotation);
+
+        // Handle "slow mode"
+        if (m_oi.isSlowMode()) {
+            speed *= RobotConstants.HumanInputs.LOW_GEAR_SPEED_GAIN;
+            rotation *= RobotConstants.HumanInputs.LOW_GEAR_ROTATION_GAIN;
+        }
 
         // Send control data to the DriveTrain
         DriveTrain.getInstance().drive(speed, rotation);
