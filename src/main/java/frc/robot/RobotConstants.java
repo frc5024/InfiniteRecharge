@@ -294,13 +294,14 @@ public class RobotConstants {
         /* Limelight */
         public static final double TARGET_HEIGHT = 2.49555+(.381*(0));
         public static final double LIMELIGHT_HEIGHT = 0.76;
-        public static final double LIMELIGHT_MOUNT_ANGLE = 13.0;
+        public static final double LIMELIGHT_MOUNT_ANGLE = 5.0;
+        public static final double LIMELIGHT_CROSSHAIR_ANGLE = 0.504788*27;
 
         /* Launch Angle */
         public static final double LAUNCH_ANGLE = 30.0;
 
         /* RPM to m/s */
-        public static final double WHEEL_DIAMETER = Units.inchesToMeters(4.0);
+        public static final double WHEEL_DIAMETER = Units.inchesToMeters(5.0);
         public static final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
         public static final double ROTATIONS_PER_METER = 1.0 / WHEEL_CIRCUMFERENCE;
 

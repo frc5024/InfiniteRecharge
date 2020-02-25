@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
 import frc.robot.autonomous.actions.cells.IntakeCells;
 import frc.robot.autonomous.actions.cells.UnjamCells;
+import frc.robot.autonomous.actions.cells.WaitForLimelightShoot;
 import frc.robot.subsystems.CellSuperstructure;
 import frc.robot.commands.actions.LowerBalls;
 import frc.robot.commands.actions.controlpanel.PositionPanel;

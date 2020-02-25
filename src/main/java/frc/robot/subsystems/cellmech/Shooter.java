@@ -374,33 +374,28 @@ public class Shooter extends SubsystemBase {
             return RobotConstants.Shooter.DEFAULT_VELOCITY;
         }
 
-        // TODO: Temp
-        return RobotConstants.Shooter.DEFAULT_VELOCITY;
+        // Get distance to target
+        double angleToTarget = m_limelight.getTarget().tx+RobotConstants.Shooter.LIMELIGHT_CROSSHAIR_ANGLE;
 
-        // // Get distance to target
-        // double angleToTarget = m_limelight.getTarget().ty;
+        // d = (h2-h1) / tan(a1+a2)
+        double distance = (RobotConstants.Shooter.TARGET_HEIGHT -
+        RobotConstants.Shooter.LIMELIGHT_HEIGHT)
+        / Math.tan(Math.toRadians(RobotConstants.Shooter.LIMELIGHT_MOUNT_ANGLE + angleToTarget));
+        RobotLogger.getInstance().log(
+        "[LIMELIGHT]: Distance to target calculated. Distance is " +
+        String.format("%.4f", distance) + "m.");
 
-        // // d = (h2-h1) / tan(a1+a2)
-        // double distance = (RobotConstants.Shooter.TARGET_HEIGHT -
-        // RobotConstants.Shooter.LIMELIGHT_HEIGHT)
-        // / Math.tan(RobotConstants.Shooter.LIMELIGHT_MOUNT_ANGLE + angleToTarget);
-        // RobotLogger.getInstance().log(
-        // "[LIMELIGHT]: Distance to target calculated. Distance is " +
-        // String.format("%.4f", distance) + "m.");
+        // Calculate necessary linear velocity of ball
+        double ballVel = (Math.sqrt(9.81) * Math.sqrt(distance) * Math.sqrt(
+        (Math.pow(Math.tan(Math.toRadians(RobotConstants.Shooter.LAUNCH_ANGLE)),2) + 1)))
+        / (Math.sqrt(2 * Math.tan(RobotConstants.Shooter.LAUNCH_ANGLE)
+        - (2 * RobotConstants.Shooter.TARGET_HEIGHT) / distance));
 
-        // // Calculate necessary linear velocity of ball
-        // double ballVel = (Math.sqrt(9.81) * Math.sqrt(distance) * Math.sqrt(
-        // (Math.tan(RobotConstants.Shooter.LAUNCH_ANGLE) *
-        // Math.tan(RobotConstants.Shooter.LAUNCH_ANGLE)) + 1))
-        // / Math.sqrt(2 * Math.tan(RobotConstants.Shooter.LAUNCH_ANGLE)
-        // - (2 * 9.81 * RobotConstants.Shooter.TARGET_HEIGHT) / distance);
-
-        // // Tangential velocity of flywheel, in RPM
-        // double wheelVel = (ballVel * 2) * RobotConstants.Shooter.RPM_PER_MPS;
-        // RobotLogger.getInstance().log("[LIMELIGHT]: Desired velocity calculated.
-        // Desired velocity is "
-        // + String.format("%.4f", wheelVel) + "RPM.");
-        // return wheelVel;
+        // Tangential velocity of flywheel, in RPM
+        double wheelVel = (ballVel * 2) * RobotConstants.Shooter.ROTATIONS_PER_METER * 60;
+        RobotLogger.getInstance().log("[LIMELIGHT]: Desired velocity calculated. Desired velocity is "
+        + String.format("%.4f", wheelVel) + "RPM.");
+        return Math.min(wheelVel,RobotConstants.Shooter.MOTOR_MAX_RPM);
     }
 
 }
