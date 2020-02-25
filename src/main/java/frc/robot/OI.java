@@ -212,10 +212,10 @@ public class OI {
     }
 
     public boolean shouldAddCell() {
-        return (m_operatorController.getStickButtonPressed(Hand.kRight) && m_operatorController.getPOV() == 0);
+        return m_operatorController.getPOV() == 0;
     }
 
     public boolean shouldSubtractCell() {
-        return (m_operatorController.getStickButtonPressed(Hand.kRight) && m_operatorController.getPOV() == 180);
+        return m_operatorController.getPOV() == 180;
     }
 }

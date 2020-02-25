@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.lib5k.utils.RobotLogger;
 import frc.robot.OI;
 import frc.robot.autonomous.actions.cells.IntakeCells;
 import frc.robot.autonomous.actions.cells.ShootCells;
@@ -29,6 +30,9 @@ public class OperatorControl extends CommandBase {
     private ClimbController m_climbController = new ClimbController();
     private TimePanel m_panelTimeCommand;
     private LowerBalls m_lowerBallsCommand = new LowerBalls();
+
+    // Cell count modification protection
+    private boolean m_cellModProtection = false;
 
     /** Instance of OI */
     private OI m_oi = OI.getInstance();
@@ -141,12 +145,16 @@ public class OperatorControl extends CommandBase {
             m_lowerBallsCommand.cancel();
         }
 
-        if(m_oi.shouldAddCell()) {
+        if (m_oi.shouldAddCell() && !m_cellModProtection) {
+            RobotLogger.getInstance().log("OperatorControl", "Operator force-incremented the hopper ball count");
             m_hopper.forceCellCount(m_hopper.getCellCount() + 1);
-        }
-
-        if(m_oi.shouldSubtractCell()) {
+            m_cellModProtection = true;
+        } else if (m_oi.shouldSubtractCell() && !m_cellModProtection) {
+            RobotLogger.getInstance().log("OperatorControl", "Operator force-decremented the hopper ball count");
             m_hopper.forceCellCount(m_hopper.getCellCount() - 1);
+            m_cellModProtection = true;
+        } else if (!m_oi.shouldAddCell() && !m_oi.shouldSubtractCell()) {
+            m_cellModProtection = false;
         }
     }
 
