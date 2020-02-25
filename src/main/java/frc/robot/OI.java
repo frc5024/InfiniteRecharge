@@ -153,7 +153,7 @@ public class OI {
 
         if (direction >= 0.8) {
             return Position.LEVEL;
-        } else if (direction <= 0.8) {
+        } else if (direction <= -0.8) {
             return Position.RETRACTED;
         } else {
             return Position.CURRENT;
