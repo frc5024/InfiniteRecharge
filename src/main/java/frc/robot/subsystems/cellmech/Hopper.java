@@ -51,6 +51,8 @@ public class Hopper extends SubsystemBase {
     /** rumble sequence */
     private int[] m_rumbleSequence;
 
+    private int m_realignDelay = 0;
+
     /**
      * System states
      */
@@ -183,6 +185,14 @@ public class Hopper extends SubsystemBase {
 
             }
 
+        }
+
+        if (m_systemState == SystemState.UNJAMUP ) {
+
+            // subtract when ejecting through top
+            if(m_lineTopLastValue == true && m_lineTop.get()) {
+                modifyCellCount(-1);
+            }
         }
 
         // subtract when cell exits top when hopper is moving up and in shoot or idle
@@ -410,10 +420,23 @@ public class Hopper extends SubsystemBase {
             // Start belt
             setBeltSpeed(0.5);
 
+            m_realignDelay = 10;
+
         }
 
-        // stop if middle or top sensor is tripped
-        if ((m_lineMiddleLastValue == false && m_lineMiddle.get() == true) || m_lineTop.get()) {
+        if(m_realignDelay > 0) {
+            m_realignDelay--;
+        }
+
+        if(m_realignDelay == 0) {
+            // stop if middle 
+            if (m_lineMiddleLastValue == false && m_lineMiddle.get() == true) {
+                m_systemState = SystemState.IDLE;
+            }
+        }
+
+        // stop if at top
+        if(m_lineTop.get()) {
             m_systemState = SystemState.IDLE;
         }
 
