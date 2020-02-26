@@ -23,7 +23,6 @@ Darth Raider's drivebase is controlled via the "trigger-drive" scheme developed 
 | Left joystick               | Turning force                           |
 | X button (toggle)           | Flip trigger actions (inverts movement) |
 | Y button (hold)             | Free-space auto-aim                     |
-| B button (hold)             | Pivot auto-aim                          |
 | Left or Right bumper (hold) | Slow mode                               |
 
 The **Y** abd **B** buttons are an additional feature built specifically for this bot. 
