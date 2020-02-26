@@ -286,8 +286,8 @@ public class RobotConstants {
 
         /* Shooter PID */
         public static final double kPVel = 0.00048; // ;
-        public static final double kIVel = 3e-7;// ;
-        public static final double kDVel = 0.355;
+        public static final double kIVel = 2.6e-7;// 3e-7
+        public static final double kDVel = 0.555; //0.355
         public static final double kIz = 0.0;
         public static final double kFF = 0.0;
 
@@ -305,7 +305,7 @@ public class RobotConstants {
         public static final double RPM_PER_METER = 1 / WHEEL_CIRCUMFERENCE;
         public static final double RPM_PER_MPS = RPM_PER_METER / 60;
 
-        public static final double DEFAULT_VELOCITY = MOTOR_MAX_RPM * 0.86; // Should be 85
+        public static final double DEFAULT_VELOCITY = MOTOR_MAX_RPM * 0.71; // Should be 85
 
     }
 
