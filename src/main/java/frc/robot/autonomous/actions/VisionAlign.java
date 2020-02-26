@@ -75,9 +75,9 @@ public class VisionAlign extends CommandBase {
         LimelightTarget target = m_limelight.getTarget();
 
         // If we are simulating, find a simulated target
-        if (SimVision.shouldSimulate()) {
-            target = SimVision.getSimulatedTarget();
-        }
+        // if (SimVision.shouldSimulate()) {
+        // target = SimVision.getSimulatedTarget();
+        // }
 
         // Check for a limelight target
         if (target != null) {

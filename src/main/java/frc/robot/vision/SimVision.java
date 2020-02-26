@@ -19,6 +19,7 @@ public class SimVision {
 
     /**
      * Should the client be attempting to simulate vision?
+     * 
      * @return Should simulate
      */
     public static boolean shouldSimulate() {
@@ -27,6 +28,7 @@ public class SimVision {
 
     /**
      * Get the simulated limelight target
+     * 
      * @return Limelight target
      */
     public static LimelightTarget getSimulatedTarget() {
@@ -68,6 +70,7 @@ public class SimVision {
                 }
             }
 
+            System.out.println(Math.toDegrees(dTheta) * -1);
             // Save this target as the closest
             closestTranslation = target;
             closestTarget = new LimelightTarget(Math.toDegrees(dTheta * -1), 0, 0, 0);
