@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -264,15 +264,20 @@ extends edu.wpi.first.wpilibj.TimedRobot</pre>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#teleopInit()">teleopInit</a></span>()</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#simulationPeriodic()">simulationPeriodic</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#teleopPeriodic()">teleopPeriodic</a></span>()</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#teleopInit()">teleopInit</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i8" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#teleopPeriodic()">teleopPeriodic</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#testInit()">testInit</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
@@ -290,7 +295,7 @@ extends edu.wpi.first.wpilibj.TimedRobot</pre>
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;edu.wpi.first.wpilibj.IterativeRobotBase</h3>
-<code>loopFunc, testPeriodic</code></li>
+<code>loopFunc, simulationInit, testPeriodic</code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.edu.wpi.first.wpilibj.RobotBase">
@@ -366,6 +371,19 @@ extends edu.wpi.first.wpilibj.TimedRobot</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>robotPeriodic</code>&nbsp;in class&nbsp;<code>edu.wpi.first.wpilibj.IterativeRobotBase</code></dd>
+</dl>
+</li>
+</ul>
+<a id="simulationPeriodic()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>simulationPeriodic</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;simulationPeriodic()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code>simulationPeriodic</code>&nbsp;in class&nbsp;<code>edu.wpi.first.wpilibj.IterativeRobotBase</code></dd>
 </dl>
 </li>
 </ul>

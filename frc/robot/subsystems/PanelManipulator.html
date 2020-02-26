@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":9,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10};
+var data = {"i0":9,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -142,6 +142,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre>public class <span class="typeNameLabel">PanelManipulator</span>
 extends edu.wpi.first.wpilibj2.command.SubsystemBase</pre>
+<div class="block">Subsystem in charge of interacting with the control panel</div>
 </li>
 </ul>
 </div>
@@ -163,67 +164,55 @@ extends edu.wpi.first.wpilibj2.command.SubsystemBase</pre>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>edu.wpi.first.wpilibj.util.Color</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getColor()">getColor</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Get the field color seen by the sensor (black if none)</div>
-</td>
-</tr>
-<tr id="i1" class="rowColor">
-<td class="colFirst"><code>java.lang.String</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getColorString(edu.wpi.first.wpilibj.util.Color)">getColorString</a></span>&#8203;(edu.wpi.first.wpilibj.util.Color&nbsp;c)</code></th>
-<td class="colLast">
-<div class="block">Convert a color to it's string</div>
-</td>
-</tr>
-<tr id="i2" class="altColor">
 <td class="colFirst"><code>static <a href="PanelManipulator.html" title="class in frc.robot.subsystems">PanelManipulator</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getInstance()">getInstance</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Get the PanelManipulator instance</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
-<td class="colFirst"><code>edu.wpi.first.wpilibj.util.Color</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getSensedColor()">getSensedColor</a></span>()</code></th>
+<tr id="i1" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#goToColor(java.lang.String)">goToColor</a></span>&#8203;(java.lang.String&nbsp;color)</code></th>
 <td class="colLast">
-<div class="block">Get the exact sensed color from the sensor</div>
+<div class="block">Set the manipulator to move an FMS color under the field sensor</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isIdle()">isIdle</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Check if the system is idle</div>
+</td>
+</tr>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isTouchingPanel()">isTouchingPanel</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Get if the manipulator is currently touching the control panel</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isSensedColorCorrect()">isSensedColorCorrect</a></span>()</code></th>
-<td class="colLast">
-<div class="block">z</div>
-</td>
-</tr>
-<tr id="i5" class="rowColor">
-<td class="colFirst"><code>edu.wpi.first.wpilibj.util.Color</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#offsetSensedColor(edu.wpi.first.wpilibj.util.Color)">offsetSensedColor</a></span>&#8203;(edu.wpi.first.wpilibj.util.Color&nbsp;c)</code></th>
-<td class="colLast">
-<div class="block">Offsets the color by the color that is at a 90 degree angle.</div>
-</td>
-</tr>
-<tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#periodic()">periodic</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i7" class="rowColor">
-<td class="colFirst"><code>double</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#spinWheelColors(int)">spinWheelColors</a></span>&#8203;(int&nbsp;numberOfColorChanges)</code></th>
-<td class="colLast">&nbsp;</td>
-</tr>
-<tr id="i8" class="altColor">
-<td class="colFirst"><code>double</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#spinWheelTurns(int)">spinWheelTurns</a></span>&#8203;(int&nbsp;turns)</code></th>
-<td class="colLast">&nbsp;</td>
-</tr>
-<tr id="i9" class="rowColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#updateTelemetry()">updateTelemetry</a></span>()</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#rotateForTime(double)">rotateForTime</a></span>&#8203;(double&nbsp;seconds)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i6" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#rotateTo(double)">rotateTo</a></span>&#8203;(double&nbsp;relRotations)</code></th>
 <td class="colLast">
-<div class="block">Update the telemetry data</div>
+<div class="block">Rotate panel by N rotations</div>
+</td>
+</tr>
+<tr id="i7" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#stop()">stop</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Stop the system</div>
 </td>
 </tr>
 </table>
@@ -294,107 +283,79 @@ extends edu.wpi.first.wpilibj2.command.SubsystemBase</pre>
 <pre class="methodSignature">public&nbsp;void&nbsp;periodic()</pre>
 </li>
 </ul>
-<a id="isSensedColorCorrect()">
+<a id="isTouchingPanel()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>isSensedColorCorrect</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;isSensedColorCorrect()</pre>
-<div class="block">z</div>
+<h4>isTouchingPanel</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;isTouchingPanel()</pre>
+<div class="block">Get if the manipulator is currently touching the control panel</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>a boolean that if the control color is the same as the sensed color,
-         it will return true. else false.</dd>
+<dd>Is touching control panel?</dd>
 </dl>
 </li>
 </ul>
-<a id="getColor()">
+<a id="isIdle()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getColor</h4>
-<pre class="methodSignature">public&nbsp;edu.wpi.first.wpilibj.util.Color&nbsp;getColor()</pre>
-<div class="block">Get the field color seen by the sensor (black if none)</div>
+<h4>isIdle</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;isIdle()</pre>
+<div class="block">Check if the system is idle</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>Sensed color (corrected to match field colors)</dd>
+<dd>Is system idle?</dd>
 </dl>
 </li>
 </ul>
-<a id="getSensedColor()">
+<a id="rotateTo(double)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getSensedColor</h4>
-<pre class="methodSignature">public&nbsp;edu.wpi.first.wpilibj.util.Color&nbsp;getSensedColor()</pre>
-<div class="block">Get the exact sensed color from the sensor</div>
-<dl>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>Sensed raw color</dd>
-</dl>
-</li>
-</ul>
-<a id="updateTelemetry()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>updateTelemetry</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;updateTelemetry()</pre>
-<div class="block">Update the telemetry data</div>
-</li>
-</ul>
-<a id="offsetSensedColor(edu.wpi.first.wpilibj.util.Color)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>offsetSensedColor</h4>
-<pre class="methodSignature">public&nbsp;edu.wpi.first.wpilibj.util.Color&nbsp;offsetSensedColor&#8203;(edu.wpi.first.wpilibj.util.Color&nbsp;c)</pre>
-<div class="block">Offsets the color by the color that is at a 90 degree angle.</div>
+<h4>rotateTo</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;rotateTo&#8203;(double&nbsp;relRotations)</pre>
+<div class="block">Rotate panel by N rotations</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>c</code> - Sensed color</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>Offset color</dd>
+<dd><code>relRotations</code> - Number of rotations for panel</dd>
 </dl>
 </li>
 </ul>
-<a id="getColorString(edu.wpi.first.wpilibj.util.Color)">
+<a id="goToColor(java.lang.String)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getColorString</h4>
-<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;getColorString&#8203;(edu.wpi.first.wpilibj.util.Color&nbsp;c)</pre>
-<div class="block">Convert a color to it's string</div>
+<h4>goToColor</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;goToColor&#8203;(java.lang.String&nbsp;color)</pre>
+<div class="block">Set the manipulator to move an FMS color under the field sensor</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>c</code> - Color</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>String of color name</dd>
+<dd><code>color</code> - FMS color string</dd>
 </dl>
 </li>
 </ul>
-<a id="spinWheelTurns(int)">
+<a id="stop()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>spinWheelTurns</h4>
-<pre class="methodSignature">public&nbsp;double&nbsp;spinWheelTurns&#8203;(int&nbsp;turns)</pre>
+<h4>stop</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;stop()</pre>
+<div class="block">Stop the system</div>
 </li>
 </ul>
-<a id="spinWheelColors(int)">
+<a id="rotateForTime(double)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>spinWheelColors</h4>
-<pre class="methodSignature">public&nbsp;double&nbsp;spinWheelColors&#8203;(int&nbsp;numberOfColorChanges)</pre>
+<h4>rotateForTime</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;rotateForTime&#8203;(double&nbsp;seconds)</pre>
 </li>
 </ul>
 </li>

@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":9,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10};
+var data = {"i0":9,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -188,29 +188,46 @@ extends edu.wpi.first.wpilibj2.command.SubsystemBase</pre>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isDoneIntake()">isDoneIntake</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#moveToBottom()">moveToBottom</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#periodic()">periodic</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#shootCells(int)">shootCells</a></span>&#8203;(int&nbsp;amount)</code></th>
 <td class="colLast">
 <div class="block">Set the subsystems to shoot an amount of cells</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#stop()">stop</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Set the subsystems to stop</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#unjam()">unjam</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Set the subsystems to unjam</div>
+</td>
+</tr>
+<tr id="i9" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#unjamUp()">unjamUp</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Set the subsystems to unjam up</div>
 </td>
 </tr>
 </table>
@@ -295,6 +312,28 @@ extends edu.wpi.first.wpilibj2.command.SubsystemBase</pre>
 </dl>
 </li>
 </ul>
+<a id="isDoneIntake()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isDoneIntake</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;isDoneIntake()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>wether or not the superStructure has completed intake</dd>
+</dl>
+</li>
+</ul>
+<a id="moveToBottom()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>moveToBottom</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;moveToBottom()</pre>
+</li>
+</ul>
 <a id="shootCells(int)">
 <!--   -->
 </a>
@@ -336,11 +375,21 @@ extends edu.wpi.first.wpilibj2.command.SubsystemBase</pre>
 <a id="unjam()">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>unjam</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;unjam()</pre>
 <div class="block">Set the subsystems to unjam</div>
+</li>
+</ul>
+<a id="unjamUp()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>unjamUp</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;unjamUp()</pre>
+<div class="block">Set the subsystems to unjam up</div>
 </li>
 </ul>
 </li>

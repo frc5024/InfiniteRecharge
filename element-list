@@ -24,6 +24,7 @@ frc.lib5k.networking.firewall
 frc.lib5k.roborio
 frc.lib5k.simulation
 frc.lib5k.simulation.mock.sensors
+frc.lib5k.simulation.wpihooks.imgui
 frc.lib5k.simulation.wrappers
 frc.lib5k.spatial
 frc.lib5k.utils
@@ -39,6 +40,7 @@ frc.robot.autonomous.paths.score
 frc.robot.autonomous.paths.test
 frc.robot.commands
 frc.robot.commands.actions
+frc.robot.commands.actions.controlpanel
 frc.robot.subsystems
 frc.robot.subsystems.cellmech
 frc.robot.vision

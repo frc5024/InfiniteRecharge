@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":9,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10};
+var data = {"i0":10,"i1":10,"i2":9,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -236,40 +236,59 @@ extends edu.wpi.first.wpilibj2.command.SubsystemBase</pre>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#moveCellsToBottom()">moveCellsToBottom</a></span>()</code></th>
+<td class="colLast">
+<div class="block">moves cells to bottom</div>
+</td>
+</tr>
+<tr id="i9" class="rowColor">
+<td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#periodic()">periodic</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#startIntake()">startIntake</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Set the hopper to intake</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i11" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#startRumble()">startRumble</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#stop()">stop</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Stop the hopper</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#supplyCellsToShooter()">supplyCellsToShooter</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Supply cells to shooter until there are none left</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#topLineBreakState()">topLineBreakState</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#unjam()">unjam</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Set the hopper to unjam</div>
+</td>
+</tr>
+<tr id="i16" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#unjamUp()">unjamUp</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Set the hopper to unjam up</div>
 </td>
 </tr>
 </table>
@@ -398,6 +417,15 @@ extends edu.wpi.first.wpilibj2.command.SubsystemBase</pre>
 </dl>
 </li>
 </ul>
+<a id="startRumble()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>startRumble</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;startRumble()</pre>
+</li>
+</ul>
 <a id="isDone()">
 <!--   -->
 </a>
@@ -455,6 +483,16 @@ extends edu.wpi.first.wpilibj2.command.SubsystemBase</pre>
 <div class="block">Set the hopper to unjam</div>
 </li>
 </ul>
+<a id="unjamUp()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>unjamUp</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;unjamUp()</pre>
+<div class="block">Set the hopper to unjam up</div>
+</li>
+</ul>
 <a id="startIntake()">
 <!--   -->
 </a>
@@ -473,6 +511,16 @@ extends edu.wpi.first.wpilibj2.command.SubsystemBase</pre>
 <h4>stop</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;stop()</pre>
 <div class="block">Stop the hopper</div>
+</li>
+</ul>
+<a id="moveCellsToBottom()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>moveCellsToBottom</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;moveCellsToBottom()</pre>
+<div class="block">moves cells to bottom</div>
 </li>
 </ul>
 <a id="manuallyControlBelt(double)">

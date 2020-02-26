@@ -122,6 +122,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li><a href="frc/lib5k/roborio/package-tree.html">frc.lib5k.roborio</a>, </li>
 <li><a href="frc/lib5k/simulation/package-tree.html">frc.lib5k.simulation</a>, </li>
 <li><a href="frc/lib5k/simulation/mock/sensors/package-tree.html">frc.lib5k.simulation.mock.sensors</a>, </li>
+<li><a href="frc/lib5k/simulation/wpihooks/imgui/package-tree.html">frc.lib5k.simulation.wpihooks.imgui</a>, </li>
 <li><a href="frc/lib5k/simulation/wrappers/package-tree.html">frc.lib5k.simulation.wrappers</a>, </li>
 <li><a href="frc/lib5k/spatial/package-tree.html">frc.lib5k.spatial</a>, </li>
 <li><a href="frc/lib5k/utils/package-tree.html">frc.lib5k.utils</a>, </li>
@@ -137,6 +138,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li><a href="frc/robot/autonomous/paths/test/package-tree.html">frc.robot.autonomous.paths.test</a>, </li>
 <li><a href="frc/robot/commands/package-tree.html">frc.robot.commands</a>, </li>
 <li><a href="frc/robot/commands/actions/package-tree.html">frc.robot.commands.actions</a>, </li>
+<li><a href="frc/robot/commands/actions/controlpanel/package-tree.html">frc.robot.commands.actions.controlpanel</a>, </li>
 <li><a href="frc/robot/subsystems/package-tree.html">frc.robot.subsystems</a>, </li>
 <li><a href="frc/robot/subsystems/cellmech/package-tree.html">frc.robot.subsystems.cellmech</a>, </li>
 <li><a href="frc/robot/vision/package-tree.html">frc.robot.vision</a></li>
@@ -193,9 +195,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </ul>
 </li>
 <li class="circle">frc.robot.autonomous.<a href="frc/robot/autonomous/Chooser.html" title="class in frc.robot.autonomous"><span class="typeNameLink">Chooser</span></a></li>
+<li class="circle">frc.lib5k.utils.<a href="frc/lib5k/utils/Color5k.html" title="class in frc.lib5k.utils"><span class="typeNameLink">Color5k</span></a></li>
 <li class="circle">com.revrobotics.ColorSensorV3
 <ul>
-<li class="circle">frc.lib5k.components.<a href="frc/lib5k/components/ColorSensor5k.html" title="class in frc.lib5k.components"><span class="typeNameLink">ColorSensor5k</span></a></li>
+<li class="circle">frc.lib5k.components.sensors.<a href="frc/lib5k/components/sensors/ColorSensor5k.html" title="class in frc.lib5k.components.sensors"><span class="typeNameLink">ColorSensor5k</span></a></li>
 </ul>
 </li>
 <li class="circle">frc.lib5k.utils.<a href="frc/lib5k/utils/ColorUtils.html" title="class in frc.lib5k.utils"><span class="typeNameLink">ColorUtils</span></a></li>
@@ -223,11 +226,16 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </ul>
 </li>
 <li class="circle">frc.robot.autonomous.actions.cells.<a href="frc/robot/autonomous/actions/cells/IntakeCells.html" title="class in frc.robot.autonomous.actions.cells"><span class="typeNameLink">IntakeCells</span></a></li>
+<li class="circle">frc.robot.commands.actions.<a href="frc/robot/commands/actions/LowerBalls.html" title="class in frc.robot.commands.actions"><span class="typeNameLink">LowerBalls</span></a></li>
 <li class="circle">frc.robot.commands.<a href="frc/robot/commands/OperatorControl.html" title="class in frc.robot.commands"><span class="typeNameLink">OperatorControl</span></a></li>
+<li class="circle">frc.robot.commands.actions.controlpanel.<a href="frc/robot/commands/actions/controlpanel/PositionPanel.html" title="class in frc.robot.commands.actions.controlpanel"><span class="typeNameLink">PositionPanel</span></a></li>
+<li class="circle">frc.robot.commands.actions.controlpanel.<a href="frc/robot/commands/actions/controlpanel/RotatePanel.html" title="class in frc.robot.commands.actions.controlpanel"><span class="typeNameLink">RotatePanel</span></a></li>
 <li class="circle">frc.robot.autonomous.actions.cells.<a href="frc/robot/autonomous/actions/cells/ShootCells.html" title="class in frc.robot.autonomous.actions.cells"><span class="typeNameLink">ShootCells</span></a></li>
 <li class="circle">frc.robot.autonomous.actions.cells.<a href="frc/robot/autonomous/actions/cells/StopCells.html" title="class in frc.robot.autonomous.actions.cells"><span class="typeNameLink">StopCells</span></a></li>
+<li class="circle">frc.robot.commands.actions.controlpanel.<a href="frc/robot/commands/actions/controlpanel/TimePanel.html" title="class in frc.robot.commands.actions.controlpanel"><span class="typeNameLink">TimePanel</span></a></li>
 <li class="circle">frc.robot.autonomous.actions.<a href="frc/robot/autonomous/actions/TurnToCommand.html" title="class in frc.robot.autonomous.actions"><span class="typeNameLink">TurnToCommand</span></a></li>
 <li class="circle">frc.robot.autonomous.actions.cells.<a href="frc/robot/autonomous/actions/cells/UnjamCells.html" title="class in frc.robot.autonomous.actions.cells"><span class="typeNameLink">UnjamCells</span></a></li>
+<li class="circle">frc.robot.autonomous.actions.cells.<a href="frc/robot/autonomous/actions/cells/UnjamUpCells.html" title="class in frc.robot.autonomous.actions.cells"><span class="typeNameLink">UnjamUpCells</span></a></li>
 <li class="circle">frc.robot.autonomous.actions.<a href="frc/robot/autonomous/actions/VisionAlign.html" title="class in frc.robot.autonomous.actions"><span class="typeNameLink">VisionAlign</span></a></li>
 </ul>
 </li>
@@ -257,6 +265,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="circle">frc.lib5k.roborio.<a href="frc/lib5k/roborio/FPGAClock.html" title="class in frc.lib5k.roborio"><span class="typeNameLink">FPGAClock</span></a></li>
 <li class="circle">frc.robot.<a href="frc/robot/GameData.html" title="class in frc.robot"><span class="typeNameLink">GameData</span></a></li>
 <li class="circle">frc.lib5k.simulation.<a href="frc/lib5k/simulation/Hooks.html" title="class in frc.lib5k.simulation"><span class="typeNameLink">Hooks</span></a></li>
+<li class="circle">frc.lib5k.simulation.wpihooks.imgui.<a href="frc/lib5k/simulation/wpihooks/imgui/IMGUIFieldReporter.html" title="class in frc.lib5k.simulation.wpihooks.imgui"><span class="typeNameLink">IMGUIFieldReporter</span></a></li>
 <li class="circle">frc.lib5k.components.drive.<a href="frc/lib5k/components/drive/InputUtils.html" title="class in frc.lib5k.components.drive"><span class="typeNameLink">InputUtils</span></a></li>
 <li class="circle">edu.wpi.first.wpilibj.InterruptableSensorBase (implements java.lang.AutoCloseable)
 <ul>

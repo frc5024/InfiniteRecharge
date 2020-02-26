@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":9,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10};
+var data = {"i0":9,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -197,59 +197,101 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#resetUnjamInput()">resetUnjamInput</a></span>()</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#resetLower()">resetLower</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i7" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#resetUnjamInput()">resetUnjamInput</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#rumbleDriver(double)">rumbleDriver</a></span>&#8203;(double&nbsp;force)</code></th>
 <td class="colLast">
 <div class="block">Send a rumble command to the driver controller</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#rumbleOperator(double)">rumbleOperator</a></span>&#8203;(double&nbsp;force)</code></th>
+<td class="colLast">
+<div class="block">Send a rumble command to the operator controller</div>
+</td>
+</tr>
+<tr id="i10" class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#shouldAddCell()">shouldAddCell</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#shouldAutoAim()">shouldAutoAim</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Get if the drivebase should switch to auto-aim mode</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#shouldCancelClimb()">shouldCancelClimb</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#shouldEjectClimber()">shouldEjectClimber</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Check if the climber should be ejected</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i14" class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#shouldIncrPanelRight()">shouldIncrPanelRight</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#shouldIntake()">shouldIntake</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Check if the robot should be intaking balls right now</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i16" class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#shouldLowerBallsToBottom()">shouldLowerBallsToBottom</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#shouldResetCellCount()">shouldResetCellCount</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Should the cell counter be reset?</div>
 </td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i18" class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#shouldRotatePanel()">shouldRotatePanel</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i19" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#shouldShoot()">shouldShoot</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Check if the robot should be shooting balls right now</div>
 </td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i20" class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#shouldSubtractCell()">shouldSubtractCell</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i21" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#shouldUnjam()">shouldUnjam</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i22" class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#shouldUnjamUp()">shouldUnjamUp</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 </table>
@@ -298,6 +340,20 @@ extends java.lang.Object</pre>
 <h4>rumbleDriver</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;rumbleDriver&#8203;(double&nbsp;force)</pre>
 <div class="block">Send a rumble command to the driver controller</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>force</code> - Force from 0-2</dd>
+</dl>
+</li>
+</ul>
+<a id="rumbleOperator(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>rumbleOperator</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;rumbleOperator&#8203;(double&nbsp;force)</pre>
+<div class="block">Send a rumble command to the operator controller</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>force</code> - Force from 0-2</dd>
@@ -372,6 +428,24 @@ extends java.lang.Object</pre>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>Should be shooting?</dd>
 </dl>
+</li>
+</ul>
+<a id="shouldRotatePanel()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>shouldRotatePanel</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;shouldRotatePanel()</pre>
+</li>
+</ul>
+<a id="shouldIncrPanelRight()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>shouldIncrPanelRight</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;shouldIncrPanelRight()</pre>
 </li>
 </ul>
 <a id="shouldEjectClimber()">
@@ -449,13 +523,58 @@ extends java.lang.Object</pre>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;shouldUnjam()</pre>
 </li>
 </ul>
+<a id="shouldUnjamUp()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>shouldUnjamUp</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;shouldUnjamUp()</pre>
+</li>
+</ul>
+<a id="shouldLowerBallsToBottom()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>shouldLowerBallsToBottom</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;shouldLowerBallsToBottom()</pre>
+</li>
+</ul>
+<a id="resetLower()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>resetLower</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;resetLower()</pre>
+</li>
+</ul>
 <a id="resetUnjamInput()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>resetUnjamInput</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;resetUnjamInput()</pre>
+</li>
+</ul>
+<a id="shouldAddCell()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>shouldAddCell</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;shouldAddCell()</pre>
+</li>
+</ul>
+<a id="shouldSubtractCell()">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>resetUnjamInput</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;resetUnjamInput()</pre>
+<h4>shouldSubtractCell</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;shouldSubtractCell()</pre>
 </li>
 </ul>
 </li>

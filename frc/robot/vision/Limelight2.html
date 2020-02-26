@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":9,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10};
+var data = {"i0":10,"i1":10,"i2":9,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -224,69 +224,74 @@ extends java.lang.Object</pre>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
+<td class="colFirst"><code><a href="Limelight2.LEDMode.html" title="enum in frc.robot.vision">Limelight2.LEDMode</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLEDMode()">getLEDMode</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>double</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getSkew()">getSkew</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Get target skew / rotation [-90 to 0 degrees]</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code><a href="LimelightTarget.html" title="class in frc.robot.vision">LimelightTarget</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getTarget()">getTarget</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Get the current target, or null if no target</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>double</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getXAngle()">getXAngle</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Get horizontal target angle [from -29.8 t0 29.8 degrees]</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>double</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getYAngle()">getYAngle</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Get horizontal target angle [from -24.85 to 24.85 degrees]</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hasTarget()">hasTarget</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Does the limelight have a target in sight?</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setCamMode(frc.robot.vision.Limelight2.CameraMode)">setCamMode</a></span>&#8203;(<a href="Limelight2.CameraMode.html" title="enum in frc.robot.vision">Limelight2.CameraMode</a>&nbsp;mode)</code></th>
 <td class="colLast">
 <div class="block">Set the camera stream mode</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setLED(frc.robot.vision.Limelight2.LEDMode)">setLED</a></span>&#8203;(<a href="Limelight2.LEDMode.html" title="enum in frc.robot.vision">Limelight2.LEDMode</a>&nbsp;mode)</code></th>
 <td class="colLast">
 <div class="block">Set the limelight LED mode</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setPipeline(int)">setPipeline</a></span>&#8203;(int&nbsp;pipelineID)</code></th>
 <td class="colLast">
 <div class="block">Set vision pipeline ID</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setPortrait(boolean)">setPortrait</a></span>&#8203;(boolean&nbsp;isPortrait)</code></th>
 <td class="colLast">
 <div class="block">Set camera portrait mode</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#use(boolean)">use</a></span>&#8203;(boolean&nbsp;use)</code></th>
 <td class="colLast">&nbsp;</td>
@@ -378,6 +383,15 @@ extends java.lang.Object</pre>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>Current target</dd>
 </dl>
+</li>
+</ul>
+<a id="getLEDMode()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getLEDMode</h4>
+<pre class="methodSignature">public&nbsp;<a href="Limelight2.LEDMode.html" title="enum in frc.robot.vision">Limelight2.LEDMode</a>&nbsp;getLEDMode()</pre>
 </li>
 </ul>
 <a id="getXAngle()">
