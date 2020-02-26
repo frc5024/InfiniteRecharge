@@ -260,8 +260,8 @@ public class RobotConstants {
 
         // Belt speed during shooting
         public static final double SHOOTER_FEED_SPEED = 0.5;
-        // how many times the belt gearbox output rotates to move 1 inch
-        public static final double REVOLUTIONS_PER_INCH = 2;
+        // how many encoder ticks to move for optimal ball spacing
+        public static final double MAGIC_ENCODER_NUMBER = 41583;
 
         // cycles the robot goes through with the bottom ensor tripped before moving the
         // hopper
