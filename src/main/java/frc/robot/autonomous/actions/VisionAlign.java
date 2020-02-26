@@ -2,8 +2,11 @@ package frc.robot.autonomous.actions;
 
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.lib5k.spatial.VisionTarget;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.vision.Limelight2;
+import frc.robot.vision.LimelightTarget;
+import frc.robot.vision.SimVision;
 import frc.robot.vision.Limelight2.LEDMode;
 
 public class VisionAlign extends CommandBase {
@@ -68,10 +71,19 @@ public class VisionAlign extends CommandBase {
         // Create a setpoint
         Rotation2d setpoint;
 
+        // Find a vision target
+        LimelightTarget target = m_limelight.getTarget();
+
+        // If we are simulating, find a simulated target
+        if (SimVision.shouldSimulate()) {
+            target = SimVision.getSimulatedTarget();
+        }
+
         // Check for a limelight target
-        if (m_limelight.hasTarget()) {
+        if (target != null) {
+
             // Set the setpoint to that of the target
-            setpoint = Rotation2d.fromDegrees(m_limelight.getXAngle());
+            setpoint = Rotation2d.fromDegrees(target.tx);
         } else {
             // Use fallback angle if no target is found
             setpoint = fallback;
