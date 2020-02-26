@@ -29,7 +29,7 @@ public class MovementPlanner {
      * for this to work!
      * 
      * @param end         Desired FieldPosition to move to
-     * @param constraints System output constraints
+     * @param constraints System output constraints 
      * @param turnRate    How quickly the robot should turn to it's goal. Play with
      *                    this number to generate arcs
      * @param epsilon     Acceptable error from the end position (in meters)
