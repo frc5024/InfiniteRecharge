@@ -14,6 +14,7 @@ import frc.robot.autonomous.paths.AutonomousPath;
 import frc.robot.autonomous.paths.score.ScoreTwice;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.autonomous.paths.test.TestPID;
+import frc.robot.autonomous.paths.test.TestPure;
 
 /**
  * Class for handling autonomous command generation
@@ -35,7 +36,7 @@ public class Chooser {
         // Paths
         m_pathChooser.setDefaultOption("1. Score Twice", new ScoreTwice());
         m_pathChooser.addOption("Test PID", new TestPID());
-
+        m_pathChooser.addOption("Test Pure", new TestPure());
         // Scoring
         m_shouldScore.setDefaultOption("Score balls", true);
         m_shouldScore.addOption("Do not score balls", false);

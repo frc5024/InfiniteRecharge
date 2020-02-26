@@ -31,35 +31,42 @@ public class ScoreTwice extends AutonomousPath {
         output.addCommands(new TurnToCommand(getStartingPose().getRotation(), 2.0));
 
         // Aim at goal
-        // output.addCommands(new VisionAlign(Rotation2d.fromDegrees(156), 8.0));
+        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(150), 8.0));
 
         // // Shoot 3 balls
-        // output.addCommands(new ShootCells(3).withTimeout(3.0));
+        output.addCommands(new ShootCells(3).withTimeout(3.5));
 
         // Turn to trench
         output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 8.0));
 
+        // output.addCommands(new DrivePath(new Path(getStartingPose().getTranslation(), new Translation2d(startx + 0.5,starty)),  0.2,
+        // new Translation2d(0.2, 0.2), 0.025, 0.2));
+
         // Intake balls
-        CommandBase intakeCommand = new IntakeCells(3);
+        CommandBase intakeCommand = new IntakeCells(2);
+
+        DrivePath preTrench = new DrivePath(
+            new Path(new Translation2d(startx, starty), new Translation2d(startx + 0.4, starty)), 0.2,
+            new Translation2d(0.2, 0.2), 0.025, 0.5);
 
         // Get through the trench
         DrivePath trenchMovement = new DrivePath(
-                new Path(new Translation2d(startx, starty), new Translation2d(startx + 2.0, starty)), 0.2,
-                new Translation2d(0.2, 0.2), 0.025, 0.4);
+                new Path(new Translation2d(startx+0.2, starty), new Translation2d(startx + 1.1, starty)), 0.2,
+                new Translation2d(0.2, 0.2), 0.025, 0.25);
 
         // Race the intake
-        output.addCommands(new ParallelRaceGroup(intakeCommand, trenchMovement));
+        output.addCommands(new ParallelRaceGroup(intakeCommand, new SequentialCommandGroup(preTrench, trenchMovement)));
 
-        // PPS Turn
-        output.addCommands(new DrivePath(
-                new Path(new Translation2d(startx + 2.0, starty), new Translation2d(startx + 2.1, starty + 0.4)), 0.2,
-                new Translation2d(0.2, 0.2), 0.2, 0.15));
+        // // PPS Turn
+        // output.addCommands(new DrivePath(
+        //         new Path(new Translation2d(startx + 2.0, starty), new Translation2d(startx + 2.1, starty + 0.4)), 0.2,
+        //         new Translation2d(0.2, 0.2), 0.2, 0.15));
 
-        // Face the target
-        output.addCommands(new VisionAlign(Rotation2d.fromDegrees(165), 2.0));
+        // // Face the target
+        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(165), 8.0));
 
         // Shoot 3 balls
-        output.addCommands(new ShootCells(3).withTimeout(3.0));
+        output.addCommands(new ShootCells(2).withTimeout(3.0));
 
         return output;
     }
