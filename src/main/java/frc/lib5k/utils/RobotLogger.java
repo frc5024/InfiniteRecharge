@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import edu.wpi.first.wpilibj.Notifier;
 import frc.lib5k.logging.USBLogger;
+import frc.lib5k.roborio.FPGAClock;
 
 /**
  * A threaded logger for use by all robot functions
@@ -113,14 +114,16 @@ public class RobotLogger {
      * Push all queued messages to netconsole, the clear the buffer
      */
     private void pushLogs() {
+        double time = FPGAClock.getFPGASeconds();
 
         try {
             for (String x : this.periodic_buffer) {
+                
                 System.out.println(x);
 
                 // Check if we should log to USB
                 if (m_usbLogger != null) {
-                    m_usbLogger.writeln(x);
+                    m_usbLogger.writeln(String.format("[%.2f] %s", time, x));
                 }
             }
             periodic_buffer.clear();

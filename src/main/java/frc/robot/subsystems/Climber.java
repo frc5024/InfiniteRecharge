@@ -79,6 +79,7 @@ public class Climber extends SubsystemBase {
         m_camera = new AutoCamera("Climb camera", 0);
         m_camera.keepCameraAwake(true);
         m_camera.showCamera(false);
+        
 
         // Disable the climb motor's brakes to allow easy servicing
         m_liftMotor.setNeutralMode(NeutralMode.Coast);
