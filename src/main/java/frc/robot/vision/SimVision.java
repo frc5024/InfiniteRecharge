@@ -12,7 +12,7 @@ public class SimVision {
 
     private static final double LIMELIGHT_FOV = 29.8;
 
-    private static final Translation2d[] visionTargets = new Translation2d[] { new Translation2d(0, 0) };
+    private static final Translation2d[] visionTargets = new Translation2d[] { new Translation2d(0, -1.45) };
 
     public static boolean shouldSimulate() {
         return RobotBase.isSimulation();
@@ -57,7 +57,7 @@ public class SimVision {
 
             // Set the closest data
             closestTranslation = target;
-            closestTarget = new LimelightTarget(Math.toDegrees(dTheta), 0, 0, 0);
+            closestTarget = new LimelightTarget(Math.toDegrees(dTheta * -1), 0, 0, 0);
         }
 
         return closestTarget;
