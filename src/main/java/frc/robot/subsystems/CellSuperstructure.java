@@ -115,6 +115,7 @@ public class CellSuperstructure extends SubsystemBase {
                 break;
             case UNJAMUP:
                 handleUnjamUp(isNewState);
+                break;
             case MOVETOBOTTOM:
                 handleMoveToBottom(isNewState);
                 break;
@@ -241,6 +242,13 @@ public class CellSuperstructure extends SubsystemBase {
     private void handleMoveToBottom(boolean newState) {
         if (newState) {
             m_hopper.moveCellsToBottom();
+        } else {
+
+            // when done moving stop being in this state, so I can go into realign twice in a row
+            if(m_hopper.isDone()) {
+                m_systemState = SystemState.IDLE;
+            }
+
         }
 
     }
