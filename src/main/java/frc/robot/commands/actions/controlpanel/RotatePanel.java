@@ -9,7 +9,7 @@ import frc.robot.subsystems.PanelManipulator;
 public class RotatePanel extends CommandBase {
 
     // Count of rotations to rotate panel
-    private double rotations;
+    private double rotations = 3;
 
     // Epsilon on robot movement
     private Translation2d robotEpsilon;
@@ -51,6 +51,6 @@ public class RotatePanel extends CommandBase {
         // Check for system finish
         boolean systemFinished = PanelManipulator.getInstance().isIdle();
 
-        return systemFinished || !hasRobotLeftTrench;
+        return systemFinished; //|| !hasRobotLeftTrench;
     }
 }
