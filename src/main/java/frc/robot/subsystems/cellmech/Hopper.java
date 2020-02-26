@@ -28,8 +28,6 @@ public class Hopper extends SubsystemBase {
     private EncoderBase m_hopperEncoder;
     /** ticks of encoders when intake starts */
     private int m_ticksAtStartOfIntake;
-    /** how many times the motor turns per inch of belt movement */
-    private double m_revolutionsPerInch;
 
     /** Bottom line break */
     private LineBreak m_lineBottom;
@@ -52,6 +50,8 @@ public class Hopper extends SubsystemBase {
     private int m_rumbleCounter;
     /** rumble sequence */
     private int[] m_rumbleSequence;
+
+    private int m_realignDelay = 0;
 
     /**
      * System states
@@ -100,9 +100,6 @@ public class Hopper extends SubsystemBase {
                 RobotConstants.Hopper.HOPPER_LINEBREAK_TOP_POWER_CHANNEL);
         m_lineMiddle = new LineBreak(RobotConstants.Hopper.HOPPER_LINEBREAK_MIDDLE,
                 RobotConstants.Pneumatics.PCM_CAN_ID, RobotConstants.Hopper.HOPPER_LINEBREAK_MIDDLE_POWER_CHANNEL);
-
-        // Set revolutions per inch
-        m_revolutionsPerInch = RobotConstants.Hopper.REVOLUTIONS_PER_INCH;
 
         m_lineBottomLastValue = false;
         m_lineMiddleLastValue = false;
@@ -188,6 +185,14 @@ public class Hopper extends SubsystemBase {
 
             }
 
+        }
+
+        if (m_systemState == SystemState.UNJAMUP ) {
+
+            // subtract when ejecting through top
+            if(m_lineTopLastValue == true && m_lineTop.get()) {
+                modifyCellCount(-1);
+            }
         }
 
         // subtract when cell exits top when hopper is moving up and in shoot or idle
@@ -314,7 +319,7 @@ public class Hopper extends SubsystemBase {
         // if no cells in hopper, only rely on sensors
         if (m_cellCount > 0) {
             // if belt has gone 12 inches, stop tying and set state to ready to intake
-            if (m_ticksAtStartOfIntake - m_hopperEncoder.getTicks() >= 41583) {
+            if (m_ticksAtStartOfIntake - m_hopperEncoder.getTicks() >= RobotConstants.Hopper.MAGIC_ENCODER_NUMBER) {
                 m_systemState = SystemState.INTAKEREADY;
             }
         }
@@ -415,15 +420,28 @@ public class Hopper extends SubsystemBase {
             // Start belt
             setBeltSpeed(0.5);
 
+            m_realignDelay = 10;
+
         }
 
-        // stop if middle or top sensor is tripped
-        if (m_lineMiddle.get() || m_lineTop.get()) {
+        if(m_realignDelay > 0) {
+            m_realignDelay--;
+        }
+
+        if(m_realignDelay == 0) {
+            // stop if middle 
+            if (m_lineMiddleLastValue == false && m_lineMiddle.get() == true) {
+                m_systemState = SystemState.IDLE;
+            }
+        }
+
+        // stop if at top
+        if(m_lineTop.get()) {
             m_systemState = SystemState.IDLE;
         }
 
         // if belt has gone 8 inches, set state to ready to intake
-        if (m_hopperEncoder.getTicks() - m_ticksAtStartOfIntake >= (4096 * m_revolutionsPerInch) * 8) {
+        if (m_hopperEncoder.getTicks() - m_ticksAtStartOfIntake >= RobotConstants.Hopper.MAGIC_ENCODER_NUMBER) {
             m_systemState = SystemState.IDLE;
         }
     }
@@ -565,8 +583,8 @@ public class Hopper extends SubsystemBase {
      * @param count New cell count [0-5]
      */
     public void forceCellCount(int count) {
-        logger.log("Hopper", String.format("Cell count force-set to: %d", count));
         m_cellCount = (int) Mathutils.clamp(count, 0, 5);
+        logger.log("Hopper", String.format("Cell count force-set to: %d", m_cellCount));
     }
 
 }
