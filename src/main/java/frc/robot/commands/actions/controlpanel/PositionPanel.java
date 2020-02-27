@@ -63,6 +63,6 @@ public class PositionPanel extends CommandBase {
         // Check for system finish
         boolean systemFinished = PanelManipulator.getInstance().isIdle();
 
-        return systemFinished || !hasRobotLeftTrench || failed;
+        return systemFinished; //|| !hasRobotLeftTrench || failed;
     }
 }

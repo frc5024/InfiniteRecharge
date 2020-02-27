@@ -169,10 +169,10 @@ public class PanelManipulator extends SubsystemBase {
     public void periodic() {
 
         /* Update the threshold from Shuffleboard */
-        double threshold = m_threshold.getDouble(RobotConstants.PanelManipulator.DEFAULT_COLOR_THRESHOLD);
+        //double threshold = m_threshold.getDouble(RobotConstants.PanelManipulator.DEFAULT_COLOR_THRESHOLD);
 
         // Set the matcher threshold
-        m_matcher.setConfidenceThreshold(threshold);
+        //m_matcher.setConfidenceThreshold(threshold);
 
         // Check if new state
         boolean isNew = (m_currentState != m_lastState);
@@ -321,6 +321,8 @@ public class PanelManipulator extends SubsystemBase {
         // Update the color counter
         updateColorCounter();
 
+        logger.log("[Panel Manipulator] " + m_desiredColorOffset + " Color Offset", Level.kRobot);
+
         // If we have reached the desired color, switch to idle
         if (m_desiredColorOffset == 0) {
             m_currentState = SystemState.IDLE;
@@ -465,7 +467,7 @@ public class PanelManipulator extends SubsystemBase {
         // Get the Robot-oriented color array index (Field color should be under the FMS
         // sensor)
         // TODO: This may need to be addition not subtraction
-        int robotIndx = (m_colors.indexOf(desiredColor) - 2) % 4;
+        int robotIndx = (m_colors.indexOf(desiredColor) + 2) % 4;
 
         // Set the desired color count
         m_desiredColorOffset = robotIndx;

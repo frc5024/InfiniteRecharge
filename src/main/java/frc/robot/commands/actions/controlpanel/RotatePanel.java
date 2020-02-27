@@ -9,7 +9,7 @@ import frc.robot.subsystems.PanelManipulator;
 public class RotatePanel extends CommandBase {
 
     // Count of rotations to rotate panel
-    private double rotations = 3;
+    private double rotations = 4;
 
     // Epsilon on robot movement
     private Translation2d robotEpsilon;
