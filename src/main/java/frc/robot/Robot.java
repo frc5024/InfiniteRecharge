@@ -22,6 +22,7 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.PanelManipulator;
 import frc.robot.subsystems.cellmech.Hopper;
 import frc.robot.subsystems.cellmech.Intake;
+import frc.robot.subsystems.cellmech.Shooter;
 import frc.robot.vision.Limelight2;
 import frc.robot.vision.Limelight2.CameraMode;
 import frc.robot.vision.Limelight2.LEDMode;
@@ -195,6 +196,9 @@ public class Robot extends TimedRobot {
 		// Put the limelight in "Secondary" mode for driver assist
 		Limelight2.getInstance().setCamMode(CameraMode.PIP_SECONDARY);
 		Limelight2.getInstance().setLED(LEDMode.OFF);
+
+		// Reset the shooter fallback velocity from possible modifications during autonomous
+		Shooter.getInstance().setFallbackVelocity(RobotConstants.Shooter.DEFAULT_VELOCITY);
 
 		// Disable the autonomous command
 		if (m_autonomousCommand != null) {

@@ -70,6 +70,9 @@ public class Shooter extends SubsystemBase {
     // Telemetry object for tuning the flywheel
     private FlywheelTuner m_tuner;
 
+    // Fallback velocity for case of no vision targets found
+    private double m_fallbackVelocity = RobotConstants.Shooter.DEFAULT_VELOCITY;
+
     private Shooter() {
 
         // Create Limelight
@@ -296,6 +299,11 @@ public class Shooter extends SubsystemBase {
 
     }
 
+    public void setFallbackVelocity(double velocity) {
+        logger.log("Shooter", String.format("Fallback velocity set to: %.1f", velocity));
+        m_fallbackVelocity = velocity;
+    }
+
     public void setOutputPercent(double val) {
 
         // Switch to "Spin Up" mode. If we are already at, or above the setpoint, it
@@ -370,11 +378,11 @@ public class Shooter extends SubsystemBase {
 
         // If there is no target found, default to a constant shooting point
         if (!m_limelight.hasTarget()) {
-            return RobotConstants.Shooter.DEFAULT_VELOCITY;
+            return m_fallbackVelocity;
         }
 
         // TODO: Temp
-        return RobotConstants.Shooter.DEFAULT_VELOCITY;
+        return m_fallbackVelocity;
 
         // // Get distance to target
         // double angleToTarget = m_limelight.getTarget().ty;
