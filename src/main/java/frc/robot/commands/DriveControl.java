@@ -5,10 +5,8 @@ import frc.lib5k.control.CubicDeadband;
 import frc.robot.OI;
 import frc.robot.RobotConstants;
 import frc.robot.commands.actions.FreeSpaceAutoAim;
+import frc.robot.commands.actions.PivotAutoAim;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.vision.Limelight2;
-import frc.robot.vision.LimelightTarget;
-import frc.robot.vision.Limelight2.LEDMode;
 
 /**
  * Default command for controlling the robot drivebase with Xbox controller
@@ -19,14 +17,16 @@ public class DriveControl extends CommandBase {
     /** Operator interface object for reading driver inputs */
     private OI m_oi = OI.getInstance();
 
-    /** Deadband object for the "rotation" input. More info about deadbands can be
+    /**
+     * Deadband object for the "rotation" input. More info about deadbands can be
      * found at: https://en.wikipedia.org/wiki/Deadband
      */
     private CubicDeadband m_rotationDeadband = new CubicDeadband(
             RobotConstants.HumanInputs.Deadbands.ROTATION_INPUT_DEADBAND, 0.0);
 
-    /** Alignment command */
+    /** Alignment commands */
     private FreeSpaceAutoAim m_freeSpaceAim = new FreeSpaceAutoAim();
+    private PivotAutoAim m_pivotAim = new PivotAutoAim();
 
     /**
      * DriveControl constructor
@@ -40,10 +40,11 @@ public class DriveControl extends CommandBase {
     @Override
     public void execute() {
 
-        // Handle auto-aim
+        // Handle auto-aim commands
         if (m_oi.shouldAutoAim()) {
-
             m_freeSpaceAim.schedule(true);
+        } else if (m_oi.shouldPivotAim()) {
+            m_pivotAim.schedule(true);
         }
 
         // Read driver inputs
