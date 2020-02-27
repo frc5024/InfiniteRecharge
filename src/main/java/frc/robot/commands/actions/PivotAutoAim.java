@@ -1,5 +1,6 @@
 package frc.robot.commands.actions;
 
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
 import frc.robot.subsystems.DriveTrain;
@@ -10,9 +11,9 @@ import frc.robot.vision.SimVision;
 import frc.robot.vision.Limelight2.CameraMode;
 import frc.robot.vision.Limelight2.LEDMode;
 
-public class AutoAlign extends CommandBase {
+public class PivotAutoAim extends CommandBase {
 
-    public AutoAlign() {
+    public PivotAutoAim() {
         addRequirements(DriveTrain.getInstance());
     }
 
@@ -39,10 +40,14 @@ public class AutoAlign extends CommandBase {
             target = SimVision.getSimulatedTarget();
         }
 
+        // Get the robot's angle
+        double robotAngle = DriveTrain.getInstance().getPosition().getRotation().getDegrees();
+
         if (target != null) {
 
             // Tell the DriveTrain to auto-steer, send outcome to shooter
-            Shooter.getInstance().setInPosition(DriveTrain.getInstance().autoTarget(target));
+            Shooter.getInstance()
+                    .setInPosition(DriveTrain.getInstance().face(Rotation2d.fromDegrees(target.tx + robotAngle), 0.8));
         } else {
             // Blink the light if we are the only user, and there is no target
             if (Limelight2.getInstance().users == 1) {
