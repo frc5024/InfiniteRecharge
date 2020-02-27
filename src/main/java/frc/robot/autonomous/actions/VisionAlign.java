@@ -86,7 +86,7 @@ public class VisionAlign extends CommandBase {
         if (target != null) {
 
             // Set the setpoint to that of the target
-            setpoint = Rotation2d.fromDegrees(target.tx + robotAngle);
+            setpoint = Rotation2d.fromDegrees((target.tx * -1) + robotAngle);
         } else {
             // Use fallback angle if no target is found
             setpoint = fallback;

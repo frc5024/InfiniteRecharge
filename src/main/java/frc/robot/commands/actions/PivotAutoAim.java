@@ -47,7 +47,7 @@ public class PivotAutoAim extends CommandBase {
 
             // Tell the DriveTrain to auto-steer, send outcome to shooter
             Shooter.getInstance()
-                    .setInPosition(DriveTrain.getInstance().face(Rotation2d.fromDegrees(target.tx + robotAngle), 0.8));
+                    .setInPosition(DriveTrain.getInstance().face(Rotation2d.fromDegrees((target.tx * -1) + robotAngle), 0.8));
         } else {
             // Blink the light if we are the only user, and there is no target
             if (Limelight2.getInstance().users == 1) {
