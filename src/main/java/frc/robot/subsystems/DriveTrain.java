@@ -469,7 +469,7 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
      * @return Robot position
      */
     public Pose2d getPosition() {
-        return m_robotPose;
+        return m_odometry.getPoseMeters();
     }
 
     /**

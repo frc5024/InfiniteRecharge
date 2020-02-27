@@ -5,13 +5,6 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "java",
-      "name": "CodeLens (Launch) - Mathutils",
-      "request": "launch",
-      "mainClass": "frc.lib5k.utils.Mathutils",
-      "projectName": "InfiniteRecharge"
-    },
-    {
       "type": "wpilib",
       "name": "WPILib Desktop Debug",
       "request": "launch",
