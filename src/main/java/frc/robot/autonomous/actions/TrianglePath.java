@@ -67,7 +67,7 @@ public class TrianglePath extends SequentialCommandGroup {
 		// Get from start to mid
 		addCommands(
 				PathGenerator.generate(new EasyTrajectory(start, new Pose2d(start.getTranslation().getX() + mid.getX(),
-						start.getTranslation().getY() + mid.getY(), startToMidTheta))));
+						start.getTranslation().getY() + mid.getY(), startToMidTheta)), constraints, false, false));
 
 		// Determine angle from mid to end
 		Rotation2d midToEndTheta = new Rotation2d(
@@ -76,7 +76,7 @@ public class TrianglePath extends SequentialCommandGroup {
 						- angleFlipOffset);
 
 		// Add a Turn-to to face end
-		addCommands(new TurnToCommand(midToEndTheta, 2.0));
+		// addCommands(new TurnToCommand(midToEndTheta, 2.0));
 
 		// // Get from mid2 to end
 		addCommands(PathGenerator.generate(new EasyTrajectory(new Pose2d(start.getTranslation().getX() + mid.getX(),

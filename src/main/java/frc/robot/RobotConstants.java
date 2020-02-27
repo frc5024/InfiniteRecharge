@@ -21,7 +21,7 @@ public class RobotConstants {
     }
 
     public static final boolean PUBLISH_SD_TELEMETRY = true;
-    public static final boolean ENABLE_PID_TUNING_OUTPUTS = true;
+    public static final boolean ENABLE_PID_TUNING_OUTPUTS = false;
 
     public static class Autonomous {
 
@@ -60,6 +60,10 @@ public class RobotConstants {
         public static final int DRIVER_CONTROLLER_ID = 0;
         public static final int OPERATOR_CONTROLLER_ID = 1;
 
+        /* Slow mode */
+        public static final double LOW_GEAR_SPEED_GAIN = 0.8;
+        public static final double LOW_GEAR_ROTATION_GAIN = 0.9;
+
     }
 
     /**
@@ -70,6 +74,7 @@ public class RobotConstants {
         public static class Simulation {
             public static final double ENCODER_RAMP_RATE = 0.12;
         }
+
 
         /**
          * Motor controller IDs
@@ -108,13 +113,13 @@ public class RobotConstants {
             public static final int RIGHT_ENCODER_SLOT = 1;
 
             /* Encoder phases */
-            public static final boolean LEFT_SENSOR_PHASE = false;
+            public static final boolean LEFT_SENSOR_PHASE = true;
             public static final boolean RIGHT_SENSOR_PHASE = false;
 
             /* Ticks per revolution of the encoder */
 
-            public static final int PULSES_PER_REVOLUTION = 5760; //4096;// 1024 // 2880;//1440; // (isCompBot())? 4096
-                                                                 // : 1440;
+            public static final int PULSES_PER_REVOLUTION = 5760; // 4096;// 1024 // 2880;//1440; // (isCompBot())? 4096
+                                                                  // : 1440;
 
         }
 
@@ -155,7 +160,7 @@ public class RobotConstants {
         public static final double kDDriveVel = 0.008;
 
         // Optimal Control Gain for turning
-        public static final double kPTurnVel = 0.0085;// 0.030;
+        public static final double kPTurnVel = 0.0088; // 0.0085// 0.030;
         public static final double kITurnVel = 0.01; // 0.12;
         public static final double kDTurnVel = 0.0106; // 0.0066
 
@@ -181,6 +186,8 @@ public class RobotConstants {
         public static final double kMaxAccelerationMetersPerSecondSquared = 1.5; // This value will most likely need to
                                                                                  // be
                                                                                  // changed
+
+                                                                                 
 
         // Ramsete Parameters (Not sure if this is nessacary for trajectory and may need
         // changes)
@@ -305,7 +312,7 @@ public class RobotConstants {
         public static final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
         public static final double ROTATIONS_PER_METER = 1.0 / WHEEL_CIRCUMFERENCE;
 
-        public static final double DEFAULT_VELOCITY = MOTOR_MAX_RPM * 0.86;
+        public static final double DEFAULT_VELOCITY = MOTOR_MAX_RPM * 0.77;
 
     }
      /**

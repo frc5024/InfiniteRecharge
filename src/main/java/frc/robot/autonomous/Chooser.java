@@ -1,6 +1,5 @@
 package frc.robot.autonomous;
 
-import edu.wpi.first.wpilibj.SlewRateLimiter;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -12,14 +11,10 @@ import frc.lib5k.utils.RobotLogger;
 import frc.robot.Dashboard;
 import frc.robot.autonomous.actions.LogCommand;
 import frc.robot.autonomous.paths.AutonomousPath;
-import frc.robot.autonomous.paths.balls.ballsScoreTrench;
-import frc.robot.autonomous.paths.score.ScoreCenter;
-import frc.robot.autonomous.paths.score.ScoreGetBalls;
-import frc.robot.autonomous.paths.score.ScoreRight;
-import frc.robot.autonomous.paths.score.ScorePickupRight;
-import frc.robot.autonomous.paths.test.TestReverse;
+import frc.robot.autonomous.paths.score.ScoreTwice;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.autonomous.paths.test.TestPID;
+import frc.robot.autonomous.paths.test.TestPure;
 
 /**
  * Class for handling autonomous command generation
@@ -39,15 +34,9 @@ public class Chooser {
     public Chooser() {
 
         // Paths
-        m_pathChooser.setDefaultOption("1. Collect Score Trench", new ballsScoreTrench());
-        m_pathChooser.addOption("2. Score Get Balls", new ScoreGetBalls());
-        m_pathChooser.addOption("3. Score Right", new ScoreRight());
-        m_pathChooser.addOption("4. Center Score", new ScoreCenter());
-        m_pathChooser.addOption("5. Score Right Pickup Indev", new ScorePickupRight());
+        m_pathChooser.setDefaultOption("1. Score Twice", new ScoreTwice());
         m_pathChooser.addOption("Test PID", new TestPID());
-        m_pathChooser.addOption("Test Backwards" , new TestReverse());
-        
-
+        m_pathChooser.addOption("Test Pure", new TestPure());
         // Scoring
         m_shouldScore.setDefaultOption("Score balls", true);
         m_shouldScore.addOption("Do not score balls", false);
@@ -92,8 +81,12 @@ public class Chooser {
         outputCommand.addCommands(new LogCommand("Starting autonomous actions"));
 
         // Generate and add the path
-        outputCommand.addCommands(
-                m_pathChooser.getSelected().generate(m_shouldScore.getSelected(), m_getExtraCells.getSelected()));
+        try {
+            outputCommand.addCommands(
+                    m_pathChooser.getSelected().generate(m_shouldScore.getSelected(), m_getExtraCells.getSelected()));
+        } catch (NullPointerException e) {
+            System.out.println("WARNING: Failed to generate Autonomous path due to NPE");
+        }
 
         return outputCommand;
     }
