@@ -58,6 +58,12 @@ public class DriveControl extends CommandBase {
         // Deadband the rotation input to deal with low-quality Xbox joysticks
         rotation = m_rotationDeadband.feed(rotation);
 
+        // Handle "slow mode"
+        if (m_oi.isSlowMode()) {
+            speed *= RobotConstants.HumanInputs.LOW_GEAR_SPEED_GAIN;
+            rotation *= RobotConstants.HumanInputs.LOW_GEAR_ROTATION_GAIN;
+        }
+
         // Send control data to the DriveTrain
         DriveTrain.getInstance().drive(speed, rotation);
     }
