@@ -15,6 +15,10 @@ import frc.robot.autonomous.actions.cells.IntakeCells;
 import frc.robot.autonomous.actions.cells.ShootCells;
 import frc.robot.autonomous.paths.AutonomousPath;
 
+
+/**
+ * Starts Center scores then gets one ball
+ */
 public class CenterScore extends AutonomousPath {
 
     @Override
