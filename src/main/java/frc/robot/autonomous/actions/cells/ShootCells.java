@@ -32,7 +32,6 @@ public class ShootCells extends CommandBase {
         // if(m_shooter.isInPosition()){
         RobotLogger.getInstance().log("ShootCells", String.format("Shooting %d cells", m_shootAmount));
         m_cellSuperstructure.shootCells(m_shootAmount);
-        // }
     }
 
     @Override
