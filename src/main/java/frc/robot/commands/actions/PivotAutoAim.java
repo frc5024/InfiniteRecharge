@@ -17,7 +17,7 @@ public class PivotAutoAim extends SequentialCommandGroup {
         }));
 
         // Wait for target
-        addCommands(new WaitCommand(0.5));
+        addCommands(new WaitCommand(0.1));
 
         // Turn to target
         addCommands(new PivotAim());

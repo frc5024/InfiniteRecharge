@@ -14,7 +14,8 @@ import frc.robot.vision.Limelight2.LEDMode;
 public class PivotAim extends CommandBase {
 
     // Vision target
-    LimelightTarget m_target;
+    private LimelightTarget m_target;
+    private double m_angle;
 
     public PivotAim() {
         addRequirements(DriveTrain.getInstance());
@@ -39,6 +40,16 @@ public class PivotAim extends CommandBase {
             m_target = SimVision.getSimulatedTarget();
         }
 
+        // Get the robot's angle
+        double robotAngle = DriveTrain.getInstance().getPosition().getRotation().getDegrees();
+
+        // Set the target angle
+        if (m_target != null) {
+            m_angle = (m_target.tx * -1) + robotAngle;
+        } else {
+            m_angle = 0.0;
+        }
+
     }
 
     @Override
@@ -46,14 +57,10 @@ public class PivotAim extends CommandBase {
         // We enable the LEDs here to prevent other commands from disabling it
         Limelight2.getInstance().setLED(LEDMode.DEFAULT);
 
-        // Get the robot's angle
-        double robotAngle = DriveTrain.getInstance().getPosition().getRotation().getDegrees();
-
         if (m_target != null) {
 
             // Tell the DriveTrain to auto-steer, send outcome to shooter
-            Shooter.getInstance().setInPosition(
-                    DriveTrain.getInstance().face(Rotation2d.fromDegrees((m_target.tx * -1) + robotAngle), 16));
+            Shooter.getInstance().setInPosition(DriveTrain.getInstance().face(Rotation2d.fromDegrees(m_angle), 4));
         } else {
             // Blink the light if we are the only user, and there is no target
             if (Limelight2.getInstance().users == 1) {
@@ -75,6 +82,10 @@ public class PivotAim extends CommandBase {
 
         // Put the limelight in "Secondary" mode for driver assist
         Limelight2.getInstance().setCamMode(CameraMode.PIP_SECONDARY);
+
+        // Reset target info
+        m_target = null;
+        m_angle = 0.0;
     }
 
     @Override
