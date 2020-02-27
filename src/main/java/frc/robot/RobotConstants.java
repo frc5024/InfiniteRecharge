@@ -21,7 +21,7 @@ public class RobotConstants {
     }
 
     public static final boolean PUBLISH_SD_TELEMETRY = true;
-    public static final boolean ENABLE_PID_TUNING_OUTPUTS = true;
+    public static final boolean ENABLE_PID_TUNING_OUTPUTS = false;
 
     public static class Autonomous {
 
@@ -75,6 +75,7 @@ public class RobotConstants {
             public static final double ENCODER_RAMP_RATE = 0.12;
         }
 
+
         /**
          * Motor controller IDs
          */
@@ -112,7 +113,7 @@ public class RobotConstants {
             public static final int RIGHT_ENCODER_SLOT = 1;
 
             /* Encoder phases */
-            public static final boolean LEFT_SENSOR_PHASE = false;
+            public static final boolean LEFT_SENSOR_PHASE = true;
             public static final boolean RIGHT_SENSOR_PHASE = false;
 
             /* Ticks per revolution of the encoder */
@@ -185,6 +186,8 @@ public class RobotConstants {
         public static final double kMaxAccelerationMetersPerSecondSquared = 1.5; // This value will most likely need to
                                                                                  // be
                                                                                  // changed
+
+                                                                                 
 
         // Ramsete Parameters (Not sure if this is nessacary for trajectory and may need
         // changes)
@@ -264,8 +267,8 @@ public class RobotConstants {
 
         // Belt speed during shooting
         public static final double SHOOTER_FEED_SPEED = 0.5;
-        // how many times the belt gearbox output rotates to move 1 inch
-        public static final double REVOLUTIONS_PER_INCH = 2;
+        // how many encoder ticks to move for optimal ball spacing
+        public static final double MAGIC_ENCODER_NUMBER = 41583;
 
         // cycles the robot goes through with the bottom ensor tripped before moving the
         // hopper
@@ -309,7 +312,7 @@ public class RobotConstants {
         public static final double RPM_PER_METER = 1 / WHEEL_CIRCUMFERENCE;
         public static final double RPM_PER_MPS = RPM_PER_METER / 60;
 
-        public static final double DEFAULT_VELOCITY = MOTOR_MAX_RPM * 0.85;
+        public static final double DEFAULT_VELOCITY = MOTOR_MAX_RPM * 0.77;
 
     }
 

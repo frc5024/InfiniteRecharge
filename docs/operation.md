@@ -40,7 +40,7 @@ Pivot auto-aim will take over the driver's control of the robot, and use the rob
 | Right bumper (toggle)  | Intake power cells           |
 | Right trigger (hold)   | Shoot power cells            |
 | B button (toggle)      | Un-jam system                |
-| Left trigger (press)   | Un-jam system upwards        |
+| Left trigger (hold)    | Un-jam system upwards        |
 | X button + Right D-pad | Reset internal ball counter  |
 | Y button (one-shot)    | Re-align balls in hopper     |
 | D-pad up (tap)         | Manually add cell count      |
