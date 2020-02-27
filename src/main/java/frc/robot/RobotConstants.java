@@ -305,11 +305,10 @@ public class RobotConstants {
         public static final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
         public static final double ROTATIONS_PER_METER = 1.0 / WHEEL_CIRCUMFERENCE;
 
-        public static final double DEFAULT_VELOCITY = MOTOR_MAX_RPM * 0.85;
+        public static final double DEFAULT_VELOCITY = MOTOR_MAX_RPM * 0.86;
 
     }
-
-    /**
+     /**
      * Constants regarding the Climber
      */
     public static class Climber {
