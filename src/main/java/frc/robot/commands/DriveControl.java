@@ -4,7 +4,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lib5k.control.CubicDeadband;
 import frc.robot.OI;
 import frc.robot.RobotConstants;
-import frc.robot.commands.actions.AutoAlign;
+import frc.robot.commands.actions.FreeSpaceAutoAim;
+import frc.robot.commands.actions.PivotAutoAim;
 import frc.robot.subsystems.DriveTrain;
 
 /**
@@ -23,8 +24,9 @@ public class DriveControl extends CommandBase {
     private CubicDeadband m_rotationDeadband = new CubicDeadband(
             RobotConstants.HumanInputs.Deadbands.ROTATION_INPUT_DEADBAND, 0.0);
 
-    /** Alignment command */
-    private AutoAlign m_alignmentCommand = new AutoAlign();
+    /** Alignment commands */
+    private FreeSpaceAutoAim m_freeSpaceAim = new FreeSpaceAutoAim();
+    private PivotAutoAim m_pivotAim = new PivotAutoAim();
 
     /**
      * DriveControl constructor
@@ -38,10 +40,11 @@ public class DriveControl extends CommandBase {
     @Override
     public void execute() {
 
-        // Handle auto-aim
+        // Handle auto-aim commands
         if (m_oi.shouldAutoAim()) {
-
-            m_alignmentCommand.schedule(true);
+            m_freeSpaceAim.schedule(true);
+        } else if (m_oi.shouldPivotAim()) {
+            m_pivotAim.schedule(true);
         }
 
         // Read driver inputs
