@@ -37,17 +37,17 @@ public class CenterScore extends AutonomousPath {
         output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(-45), 8.0));
 
         // Drive to front of trench
-        output.addCommands(new DrivePath(new Path(getStartingPose().getTranslation(), new Translation2d(startx + .4 ,starty - 0.6),
-        new Translation2d(startx + .5 ,starty - 0.6)),  0.2,
-        new Translation2d(0.2, 0.2), 0.025, 0.2));
-        output.addCommands(new TurnToCommand(0, 6));
+        output.addCommands(new DrivePath(new Path(getStartingPose().getTranslation(), new Translation2d(startx + .4 ,starty - 0.3),
+        new Translation2d(startx + .5 ,starty - 0.3)),  0.2,
+        new Translation2d(0.2, 0.2), 0.025, 0.65));
+        output.addCommands(new TurnToCommand(0, 8));
         
         
         // Intake balls command
         CommandBase intakeCommand = new IntakeCells(1);
 
         // Goes to the first ball from the front of the trench
-        DrivePath firstBall = new DrivePath(new Path(new Translation2d(startx + .5 ,starty - 0.6),
+        DrivePath firstBall = new DrivePath(new Path(new Translation2d(startx + .5 ,starty - 0.5),
         new Translation2d(startx + .8 ,starty - 0.4)),  0.2,
         new Translation2d(0.2, 0.2), 0.025, 0.2);
 
@@ -55,10 +55,11 @@ public class CenterScore extends AutonomousPath {
         output.addCommands(new ParallelRaceGroup(intakeCommand, firstBall));
 
         // turns towards target
-        // output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(165), 8.0));
+        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(95), 15.0));
+        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(168), 8.0));
 
         // shoots three balls
-        // output.addCommands(new ShootCells(1));
+        output.addCommands(new ShootCells(1));
 
         // Rotates towards rendevous
         // output.addCommands(new TurnToCommand(90, 5));

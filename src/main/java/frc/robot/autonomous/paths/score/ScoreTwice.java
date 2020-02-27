@@ -63,7 +63,7 @@ public class ScoreTwice extends AutonomousPath {
         //         new Translation2d(0.2, 0.2), 0.2, 0.15));
 
         // // Face the target
-        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(165), 8.0));
+        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(168), 8.0));
 
         // Shoot 3 balls
         output.addCommands(new ShootCells(2).withTimeout(3.0));
