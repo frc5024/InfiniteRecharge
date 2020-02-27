@@ -75,15 +75,18 @@ public class VisionAlign extends CommandBase {
         LimelightTarget target = m_limelight.getTarget();
 
         // If we are simulating, find a simulated target
-        // if (SimVision.shouldSimulate()) {
-        // target = SimVision.getSimulatedTarget();
-        // }
+        if (SimVision.shouldSimulate()) {
+            target = SimVision.getSimulatedTarget();
+        }
+
+        // Get the robot's angle
+        double robotAngle = DriveTrain.getInstance().getPosition().getRotation().getDegrees();
 
         // Check for a limelight target
         if (target != null) {
 
             // Set the setpoint to that of the target
-            setpoint = Rotation2d.fromDegrees(target.tx);
+            setpoint = Rotation2d.fromDegrees(target.tx + robotAngle);
         } else {
             // Use fallback angle if no target is found
             setpoint = fallback;
