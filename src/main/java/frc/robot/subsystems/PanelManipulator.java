@@ -12,11 +12,13 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpiutil.CircularBuffer;
 import frc.lib5k.components.motors.TalonHelper;
 import frc.lib5k.components.sensors.ColorSensor5k;
+import frc.lib5k.interfaces.Loggable;
 import frc.lib5k.simulation.wrappers.SimTalon;
 import frc.lib5k.utils.Mathutils;
 import frc.lib5k.utils.RobotLogger;
@@ -169,10 +171,10 @@ public class PanelManipulator extends SubsystemBase {
     public void periodic() {
 
         /* Update the threshold from Shuffleboard */
-        //double threshold = m_threshold.getDouble(RobotConstants.PanelManipulator.DEFAULT_COLOR_THRESHOLD);
+        double threshold = m_threshold.getDouble(RobotConstants.PanelManipulator.DEFAULT_COLOR_THRESHOLD);
 
         // Set the matcher threshold
-        //m_matcher.setConfidenceThreshold(threshold);
+        m_matcher.setConfidenceThreshold(threshold);
 
         // Check if new state
         boolean isNew = (m_currentState != m_lastState);
@@ -276,8 +278,10 @@ public class PanelManipulator extends SubsystemBase {
         // Update the color counter
         updateColorCounter();
 
+        logger.log("[Panel Manipulator] " + m_desiredColorOffset + " Color Offset", Level.kRobot);
+
         // If we have reached the desired color, switch to idle
-        if (m_desiredColorOffset == 0) {
+        if (m_desiredColorOffset <= 0) {
             m_currentState = SystemState.IDLE;
         }
     }
@@ -321,10 +325,9 @@ public class PanelManipulator extends SubsystemBase {
         // Update the color counter
         updateColorCounter();
 
-        logger.log("[Panel Manipulator] " + m_desiredColorOffset + " Color Offset", Level.kRobot);
 
         // If we have reached the desired color, switch to idle
-        if (m_desiredColorOffset == 0) {
+        if (m_desiredColorOffset <= 0) {
             m_currentState = SystemState.IDLE;
         }
     }
@@ -352,9 +355,13 @@ public class PanelManipulator extends SubsystemBase {
         // Get the current color index
         int currentIdx = getColorIdx();
 
+
         if(currentIdx == -1) {
             return;
         }
+
+        logger.log("[Panel Manipulator] Current Color is: " + m_colors.get(currentIdx).toString(), Level.kRobot);
+
 
         // Push to buffer
         m_colorBufffer.addLast(currentIdx);
@@ -373,8 +380,10 @@ public class PanelManipulator extends SubsystemBase {
         }
 
         // Find the difference in color positions
-        int colorDiff = m_lastColor - mainColor;
+        int colorDiff = mainColor - m_lastColor;
         int wrappedDistance = ((colorDiff % 4) < 3) ? (colorDiff % 4) : -1;
+
+        logger.log("[Panel Manipulator] wrapped Distance: " + wrappedDistance);
 
         // Subtract the difference from the current color tracker
         m_desiredColorOffset -= wrappedDistance;
@@ -483,4 +492,5 @@ public class PanelManipulator extends SubsystemBase {
         logger.log("PanelManipulator", "Stop requested");
         m_currentState = SystemState.IDLE;
     }
+
 }
