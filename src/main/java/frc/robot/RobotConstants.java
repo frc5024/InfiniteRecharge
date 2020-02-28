@@ -61,7 +61,7 @@ public class RobotConstants {
         public static final int OPERATOR_CONTROLLER_ID = 1;
 
         /* Slow mode */
-        public static final double LOW_GEAR_SPEED_GAIN = 0.8;
+        public static final double LOW_GEAR_SPEED_GAIN = 0.5;
         public static final double LOW_GEAR_ROTATION_GAIN = 0.9;
 
     }
