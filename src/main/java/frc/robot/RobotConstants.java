@@ -157,8 +157,8 @@ public class RobotConstants {
 
         // Optimal Control Gain for turning 
         // 2.86 2.83 2.77 2.71 2.83 2.67 over shot
-        public static final double kPTurnVel = 0.0085;// 0.008; /// 0.0085;// 0.030;
-        public static final double kITurnVel = 0.01; // 0.07; // 0.12;
+        public static final double kPTurnVel = 0.008; /// 0.0085;// 0.030;
+        public static final double kITurnVel = 0.07; // 0.12;
         public static final double kDTurnVel = 0.0106; // 0.0066
 
         // Basic P control for encoder-only distance driving
