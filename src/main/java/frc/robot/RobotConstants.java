@@ -60,6 +60,10 @@ public class RobotConstants {
         public static final int DRIVER_CONTROLLER_ID = 0;
         public static final int OPERATOR_CONTROLLER_ID = 1;
 
+        /* Slow mode */
+        public static final double LOW_GEAR_SPEED_GAIN = 0.8;
+        public static final double LOW_GEAR_ROTATION_GAIN = 0.9;
+
     }
 
     /**
@@ -114,8 +118,8 @@ public class RobotConstants {
 
             /* Ticks per revolution of the encoder */
 
-            public static final int PULSES_PER_REVOLUTION = 5760; //4096;// 1024 // 2880;//1440; // (isCompBot())? 4096
-                                                                 // : 1440;
+            public static final int PULSES_PER_REVOLUTION = 5760; // 4096;// 1024 // 2880;//1440; // (isCompBot())? 4096
+                                                                  // : 1440;
 
         }
 
@@ -156,7 +160,7 @@ public class RobotConstants {
         public static final double kDDriveVel = 0.008;
 
         // Optimal Control Gain for turning
-        public static final double kPTurnVel = 0.0085;// 0.030;
+        public static final double kPTurnVel = 0.0088; // 0.0085// 0.030;
         public static final double kITurnVel = 0.01; // 0.12;
         public static final double kDTurnVel = 0.0106; // 0.0066
 
