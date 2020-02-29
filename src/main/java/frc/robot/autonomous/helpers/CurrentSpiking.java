@@ -12,6 +12,7 @@ public class CurrentSpiking{
     private double targetSpike;
     private Timer timer = new Timer();
     private boolean isNew = true;
+    private double totalCurrent;
 
     public CurrentSpiking(int channel, double targetSpike){
         this.channel = channel;
@@ -22,6 +23,20 @@ public class CurrentSpiking{
         return powerDistributionPanel.getCurrent(channel);
     }
 
+    public void setTargetSpike(double targetSpike){
+        this.targetSpike = targetSpike;
+    }
+
+    public double getAverage(int... args){
+        totalCurrent = 0;
+        for(int arg : args){
+            totalCurrent += getChannelCurrent(arg);
+        }
+
+        return totalCurrent / args.length;
+    }
+    
+
     public boolean hitTargetSpike(double seconds){
         if(getChannelCurrent(channel) >= targetSpike){
             if(isNew){
@@ -31,7 +46,6 @@ public class CurrentSpiking{
             }
 
             if(timer.hasElapsed(seconds)){
-                System.out.println("Spike hit");
                 return true;
             }
         }else{
@@ -41,7 +55,7 @@ public class CurrentSpiking{
         return false;
     }
 
-
+    
 
 
 }
