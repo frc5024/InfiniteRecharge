@@ -13,7 +13,7 @@ import frc.lib5k.components.drive.IDifferentialDrivebase;
 /**
  * A wrapper for the AHRS / NavX gyroscope
  */
-public class NavX extends AHRS {
+public class NavX extends AHRS implements IGyroscope {
 
     private static NavX m_instance = null;
 

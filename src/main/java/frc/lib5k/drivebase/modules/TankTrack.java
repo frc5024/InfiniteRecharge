@@ -185,4 +185,26 @@ public class TankTrack implements PeriodicComponent {
     public double getVelocity() {
         return velocityMPS;
     }
+
+    /**
+     * Get track distance in meters
+     * 
+     * @return Track distance traveled
+     */
+    public double getMeters() {
+        return encoder.getTicks() / tpm;
+    }
+
+    /**
+     * Zeros all sensors and controllers
+     */
+    public void zero() {
+        controller.set(0.0);
+        mode = ControlMode.OPEN_LOOP;
+        setpoint = 0.0;
+        encoder.zero();
+        pid.reset();
+        velocityMPS = 0.0;
+        lastMeters = 0.0;
+    }
 }
