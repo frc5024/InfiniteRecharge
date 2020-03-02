@@ -134,7 +134,7 @@ public class Robot extends TimedRobot {
 
 		// Report robot position to IMGUI
 		IMGUIFieldReporter.getInstance().reportRobotPosition(DriveTrain.getInstance().getPosition());
-		
+
 	}
 
 	@Override
@@ -169,6 +169,9 @@ public class Robot extends TimedRobot {
 		// Put the limelight in "Primary" mode to debug aiming
 		Limelight2.getInstance().setCamMode(CameraMode.PIP_MAIN);
 		Limelight2.getInstance().setLED(LEDMode.OFF);
+
+		// Reset shooter boost
+		CellSuperstructure.getInstance().configShooterBoost(0.0);
 	}
 
 	@Override
@@ -195,6 +198,9 @@ public class Robot extends TimedRobot {
 		// Put the limelight in "Secondary" mode for driver assist
 		Limelight2.getInstance().setCamMode(CameraMode.PIP_SECONDARY);
 		Limelight2.getInstance().setLED(LEDMode.OFF);
+
+		// Reset shooter boost
+		CellSuperstructure.getInstance().configShooterBoost(0.0);
 
 		// Disable the autonomous command
 		if (m_autonomousCommand != null) {
@@ -238,6 +244,9 @@ public class Robot extends TimedRobot {
 
 		// Put the Limelight in "SBS" mode
 		Limelight2.getInstance().setCamMode(CameraMode.STANDARD);
+
+		// Reset shooter boost
+		CellSuperstructure.getInstance().configShooterBoost(0.0);
 
 	}
 

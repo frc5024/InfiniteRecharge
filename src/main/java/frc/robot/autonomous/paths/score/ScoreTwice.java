@@ -4,9 +4,11 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.lib5k.kinematics.purepursuit.Path;
+import frc.robot.RobotConstants;
 import frc.robot.autonomous.AutonomousStartpoints;
 import frc.robot.autonomous.actions.DrivePath;
 import frc.robot.autonomous.actions.LogCommand;
@@ -15,6 +17,7 @@ import frc.robot.autonomous.actions.VisionAlign;
 import frc.robot.autonomous.actions.cells.IntakeCells;
 import frc.robot.autonomous.actions.cells.ShootCells;
 import frc.robot.autonomous.paths.AutonomousPath;
+import frc.robot.subsystems.CellSuperstructure;
 
 public class ScoreTwice extends AutonomousPath {
 
@@ -38,26 +41,29 @@ public class ScoreTwice extends AutonomousPath {
 
         // // Shoot 3 balls
         output.addCommands(new LogCommand("Autonomous", "Shooting 3 Balls"));
+        output.addCommands(new InstantCommand(() -> {
+            CellSuperstructure.getInstance().configShooterBoost(0.0);
+        }));
         output.addCommands(new ShootCells(3).withTimeout(3.5));
 
         // Turn to trench
         output.addCommands(new LogCommand("Autonomous", "Turning to Face Trench"));
         output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 8.0));
 
-        // output.addCommands(new DrivePath(new Path(getStartingPose().getTranslation(), new Translation2d(startx + 0.5,starty)),  0.2,
+        // output.addCommands(new DrivePath(new Path(getStartingPose().getTranslation(),
+        // new Translation2d(startx + 0.5,starty)), 0.2,
         // new Translation2d(0.2, 0.2), 0.025, 0.2));
 
         // Intake balls
         CommandBase intakeCommand = new IntakeCells(2);
 
-        
         DrivePath preTrench = new DrivePath(
-            new Path(new Translation2d(startx, starty), new Translation2d(startx + 0.4, starty)), 0.2,
-            new Translation2d(0.2, 0.2), 0.025, 0.5);
+                new Path(new Translation2d(startx, starty), new Translation2d(startx + 0.4, starty)), 0.2,
+                new Translation2d(0.2, 0.2), 0.025, 0.5);
 
         // Get through the trench
         DrivePath trenchMovement = new DrivePath(
-                new Path(new Translation2d(startx+0.2, starty), new Translation2d(startx + 1.1, starty)), 0.2,
+                new Path(new Translation2d(startx + 0.2, starty), new Translation2d(startx + 1.1, starty)), 0.2,
                 new Translation2d(0.2, 0.2), 0.025, 0.25);
 
         // Race the intake
@@ -66,8 +72,9 @@ public class ScoreTwice extends AutonomousPath {
 
         // // PPS Turn
         // output.addCommands(new DrivePath(
-        //         new Path(new Translation2d(startx + 2.0, starty), new Translation2d(startx + 2.1, starty + 0.4)), 0.2,
-        //         new Translation2d(0.2, 0.2), 0.2, 0.15));
+        // new Path(new Translation2d(startx + 2.0, starty), new Translation2d(startx +
+        // 2.1, starty + 0.4)), 0.2,
+        // new Translation2d(0.2, 0.2), 0.2, 0.15));
 
         // // Face the target
         output.addCommands(new LogCommand("Autonomous", "Turning towards Target"));
@@ -75,6 +82,9 @@ public class ScoreTwice extends AutonomousPath {
 
         // Shoot 3 balls
         output.addCommands(new LogCommand("Autonomous", "Shooting Three Balls"));
+        output.addCommands(new InstantCommand(() -> {
+            CellSuperstructure.getInstance().configShooterBoost(RobotConstants.Shooter.MOTOR_MAX_RPM * 0.03);
+        }));
         output.addCommands(new ShootCells(2).withTimeout(3.0));
 
         output.addCommands(new LogCommand("Autonomous", "Path Finished"));
