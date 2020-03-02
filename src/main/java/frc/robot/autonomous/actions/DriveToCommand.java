@@ -2,7 +2,7 @@ package frc.robot.autonomous.actions;
 
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.autonomous.helpers.SpeedConstraint;
+import frc.lib5k.kinematics.SpeedConstraint;
 import frc.robot.subsystems.DriveTrain;
 
 /**

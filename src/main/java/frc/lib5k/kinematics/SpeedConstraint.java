@@ -1,4 +1,4 @@
-package frc.robot.autonomous.helpers;
+package frc.lib5k.kinematics;
 
 /**
  * Constraint on a path speed

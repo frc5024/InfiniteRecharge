@@ -4,9 +4,9 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.autonomous.helpers.EasyTrajectory;
+import frc.lib5k.kinematics.EasyTrajectory;
+import frc.lib5k.kinematics.SpeedConstraint;
 import frc.robot.autonomous.helpers.PathGenerator;
-import frc.robot.autonomous.helpers.SpeedConstraint;
 
 /**
  * A simple point-to-point movement command.

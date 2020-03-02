@@ -11,9 +11,9 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.lib5k.kinematics.EasyTrajectory;
+import frc.lib5k.kinematics.SpeedConstraint;
 import frc.robot.RobotConstants;
-import frc.robot.autonomous.helpers.EasyTrajectory;
-import frc.robot.autonomous.helpers.SpeedConstraint;
 import frc.robot.subsystems.DriveTrain;
 
 /**
