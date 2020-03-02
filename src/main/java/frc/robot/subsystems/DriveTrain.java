@@ -100,6 +100,9 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
         m_leftGearbox = new TalonSRXCollection(
                 new WPI_TalonSRX(RobotConstants.DriveTrain.MotorControllers.LEFT_FRONT_TALON),
                 new WPI_TalonSRX(RobotConstants.DriveTrain.MotorControllers.LEFT_REAR_TALON));
+        
+        
+
         m_rightGearbox = new TalonSRXCollection(
                 new WPI_TalonSRX(RobotConstants.DriveTrain.MotorControllers.RIGHT_FRONT_TALON),
                 new WPI_TalonSRX(RobotConstants.DriveTrain.MotorControllers.RIGHT_REAR_TALON));

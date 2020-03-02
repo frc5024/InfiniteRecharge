@@ -31,6 +31,10 @@ public class AutonomousStartpoints {
                         - Units.inchesToMeters(14)) * -1);
 
 
+        public static final Translation2d SECTOR_LINE_INFRONT_OF_GOAL = new Translation2d(
+                Units.inchesToMeters(120) - (RobotConstants.DriveTrain.Measurements.DRIVEBASE_LENGTH / 2)
+                        - Units.inchesToMeters(8),
+                ((FieldConstants.FIELD_WIDTH / 2) - 1 * -1));                
 
         public static final Translation2d SECTOR_LINE_GOAL = new Translation2d(
                 Units.inchesToMeters(120) - (RobotConstants.DriveTrain.Measurements.DRIVEBASE_LENGTH / 2)
