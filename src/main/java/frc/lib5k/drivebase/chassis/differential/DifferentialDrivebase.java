@@ -58,6 +58,53 @@ public abstract class DifferentialDrivebase extends SubsystemBase implements IDr
     @Override
     public void periodic() {
 
+        // Handle control mode
+        switch (mode) {
+            case POSITION:
+                handlePosition();
+                break;
+            case TWIST:
+                handleTwist();
+                break;
+            case VELOCITY:
+                handleVelocity();
+                break;
+            default:
+                break;
+
+        }
+    }
+
+    private void handlePosition() {
+
+    }
+
+    private void handleTwist() {
+
+    }
+
+    /**
+     * Handle velocity control
+     */
+    private void handleVelocity() {
+
+        // Send a velocity command to each track
+        sendVelocityCommand(goalVelocity);
+    }
+
+    /**
+     * Send a velocity command to both tracks
+     * 
+     * @param velocity Velocity goal
+     */
+    private void sendVelocityCommand(DifferentialDriveWheelSpeeds velocity) {
+
+        // Ensure velocities are normalized
+        velocity.normalize(Math.min(leftTrack.getMaxMPS(), rightTrack.getMaxMPS()));
+
+        // Set left & right
+        leftTrack.setVelocity(velocity.leftMetersPerSecond);
+        rightTrack.setVelocity(velocity.rightMetersPerSecond);
     }
 
     /**
@@ -141,6 +188,11 @@ public abstract class DifferentialDrivebase extends SubsystemBase implements IDr
     @Override
     public Rotation2d getHeading() {
         return getPosition().getRotation();
+    }
+
+    @Override
+    public void setPosition(Pose2d pose) {
+        odometry.resetPosition(pose, gyro.getRotation());
     }
 
 }

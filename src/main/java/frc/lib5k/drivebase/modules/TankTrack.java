@@ -37,6 +37,7 @@ public class TankTrack implements PeriodicComponent {
     private double lastTime = 0.0;
     private double lastMeters = 0.0;
     private double velocityMPS = 0.0;
+    private double maxMPS;
 
     /**
      * Create a TankTrack
@@ -45,10 +46,11 @@ public class TankTrack implements PeriodicComponent {
      * @param encoder    Track sensor
      * @param tpm        Number of sensor "ticks" per meter traveled
      */
-    public TankTrack(SpeedController controller, EncoderBase encoder, double tpm) {
+    public TankTrack(SpeedController controller, EncoderBase encoder, double tpm, double maxMPS) {
         this.controller = controller;
         this.encoder = encoder;
         this.tpm = tpm;
+        this.maxMPS = maxMPS;
         this.pid = new PIDController(1.0, 0.0, 0.0);
     }
 
@@ -170,11 +172,11 @@ public class TankTrack implements PeriodicComponent {
     /**
      * Set the track's velocity
      * 
-     * @param rpm Track velocity in RPM
+     * @param mps Track velocity in MPS
      */
-    public void setVelocity(double rpm) {
+    public void setVelocity(double mps) {
         mode = ControlMode.VELOCITY;
-        setpoint = rpm;
+        setpoint = mps;
     }
 
     /**
@@ -193,6 +195,14 @@ public class TankTrack implements PeriodicComponent {
      */
     public double getMeters() {
         return encoder.getTicks() / tpm;
+    }
+
+    /**
+     * Get max output in MPS
+     * @return Max MPS
+     */
+    public double getMaxMPS(){
+        return maxMPS;
     }
 
     /**
