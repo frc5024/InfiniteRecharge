@@ -3,13 +3,12 @@ package frc.lib5k.components.motors;
 import java.util.function.Consumer;
 
 import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import frc.lib5k.components.motors.interfaces.IMotorCollection;
 import frc.lib5k.components.motors.interfaces.IRampRateController;
 import frc.lib5k.components.motors.interfaces.IVoltageOutputController;
-import frc.lib5k.control.TimedSlewLimiter;
+import frc.lib5k.control.motionprofile.TimedSlewLimiter;
 import frc.lib5k.interfaces.Loggable;
 import frc.lib5k.roborio.RR_HAL;
 import frc.lib5k.utils.RobotLogger;

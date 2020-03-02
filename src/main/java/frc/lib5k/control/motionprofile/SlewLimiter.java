@@ -1,4 +1,4 @@
-package frc.lib5k.control;
+package frc.lib5k.control.motionprofile;
 
 /**
  * A tool for smoothing out joystick information (enforces a maximum rate of
