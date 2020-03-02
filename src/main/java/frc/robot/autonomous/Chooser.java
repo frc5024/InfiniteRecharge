@@ -11,6 +11,7 @@ import frc.lib5k.utils.RobotLogger;
 import frc.robot.Dashboard;
 import frc.robot.autonomous.actions.LogCommand;
 import frc.robot.autonomous.paths.AutonomousPath;
+import frc.robot.autonomous.paths.score.CenterScore;
 import frc.robot.autonomous.paths.score.ScoreTwice;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.autonomous.paths.test.TestPID;
@@ -35,6 +36,7 @@ public class Chooser {
 
         // Paths
         m_pathChooser.setDefaultOption("1. Score Twice", new ScoreTwice());
+        m_pathChooser.addOption("2. Shoot Center", new CenterScore());
         m_pathChooser.addOption("Test PID", new TestPID());
         m_pathChooser.addOption("Test Pure", new TestPure());
         // Scoring
