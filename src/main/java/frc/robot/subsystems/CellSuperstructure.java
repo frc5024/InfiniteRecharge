@@ -35,6 +35,7 @@ public class CellSuperstructure extends SubsystemBase {
     private Hopper m_hopper = Hopper.getInstance();
     /* Shooter instance */
     private Shooter m_shooter = Shooter.getInstance();
+    private double m_shooterBoost = 0.0;
 
     /* Internal system states */
     private enum SystemState {
@@ -182,7 +183,7 @@ public class CellSuperstructure extends SubsystemBase {
 
             m_hopper.supplyCellsToShooter();
 
-            m_shooter.setVelocity(m_shooter.getVelocityFromLimelight());
+            m_shooter.setVelocity(m_shooter.getVelocityFromLimelight() + m_shooterBoost);
 
         } else {
             // stop everything once hopper has desired amount of cells or no cells
@@ -244,8 +245,9 @@ public class CellSuperstructure extends SubsystemBase {
             m_hopper.moveCellsToBottom();
         } else {
 
-            // when done moving stop being in this state, so I can go into realign twice in a row
-            if(m_hopper.isDone()) {
+            // when done moving stop being in this state, so I can go into realign twice in
+            // a row
+            if (m_hopper.isDone()) {
                 m_systemState = SystemState.IDLE;
             }
 
@@ -308,6 +310,16 @@ public class CellSuperstructure extends SubsystemBase {
             m_systemState = SystemState.INTAKING;
         }
 
+    }
+
+    /**
+     * Boost the shooter output by a set RPM (basically a dumb feedforward)
+     * 
+     * @param boostRPM RPM feedforward
+     */
+    public void configShooterBoost(double boostRPM) {
+        logger.log("CellSuperstructure", String.format("Shooter output boosted by %2.fRPM", boostRPM));
+        m_shooterBoost = boostRPM;
     }
 
     /**
