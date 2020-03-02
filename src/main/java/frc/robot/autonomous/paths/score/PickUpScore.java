@@ -16,6 +16,7 @@ import frc.robot.autonomous.paths.AutonomousPath;
 
 /**
  * Start on the Center then scores then picks up
+ * DO NOT USE
  */
 public class PickUpScore extends AutonomousPath {
 

@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.lib5k.kinematics.purepursuit.Path;
 import frc.robot.autonomous.AutonomousStartpoints;
 import frc.robot.autonomous.actions.DrivePath;
+import frc.robot.autonomous.actions.LogCommand;
 import frc.robot.autonomous.actions.TurnToCommand;
 import frc.robot.autonomous.actions.VisionAlign;
 import frc.robot.autonomous.actions.cells.IntakeCells;
@@ -32,15 +33,19 @@ public class CenterScore extends AutonomousPath {
         SequentialCommandGroup output = new SequentialCommandGroup();
 
         // Ensure robot faces correct angle
+        output.addCommands(new LogCommand("Autonomous", "Ensuring robot is facing proper heading"));
         output.addCommands(new TurnToCommand(getStartingPose().getRotation(), 2.0));
 
-        // // Shoot 3 balls
+        // Shoot 3 balls
+        output.addCommands(new LogCommand("Autonomous", "Shooting 3 cells"));
         output.addCommands(new ShootCells(3).withTimeout(3.5));
 
         // Turn to trench
+        output.addCommands(new LogCommand("Autonomous", "Turning to face Trench"));
         output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(-45), 8.0));
 
-        // Drive to front of trench
+        // Drive to front of trench, This may have problems because we can drive straight lines
+        output.addCommands(new LogCommand("Autonomous", "Driving to trench"));
         output.addCommands(new DrivePath(new Path(getStartingPose().getTranslation(), new Translation2d(startx + .4 ,starty - 0.3),
         new Translation2d(startx + .5 ,starty - 0.3)),  0.2,
         new Translation2d(0.2, 0.2), 0.025, 0.65));
@@ -56,15 +61,20 @@ public class CenterScore extends AutonomousPath {
         new Translation2d(0.2, 0.2), 0.025, 0.2);
 
         // intakes and drives through trench
+        output.addCommands(new LogCommand("Autonomous", "Starting Command Race"));
         output.addCommands(new ParallelRaceGroup(intakeCommand, firstBall));
 
         // turns towards target
+        output.addCommands(new LogCommand("Autonomous", "Performing Turn 1"));
         output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(95), 15.0));
+        output.addCommands(new LogCommand("Autonomous", "Performing Turn 2"));
         output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(168), 8.0));
 
         // shoots three balls
+        output.addCommands(new LogCommand("Autonomous", "Shooting 1 cell"));
         output.addCommands(new ShootCells(1));
 
+        output.addCommands(new LogCommand("Autonomous", "Auto Path has finished"));
         // Rotates towards rendevous
         // output.addCommands(new TurnToCommand(90, 5));
         
