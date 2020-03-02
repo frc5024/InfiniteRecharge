@@ -8,11 +8,13 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib5k.control.ShooterInterpolator;
 import frc.lib5k.roborio.RR_HAL;
 import frc.lib5k.simulation.wrappers.SimSparkMax;
 import frc.lib5k.utils.Mathutils;
 import frc.lib5k.utils.RobotLogger;
 import frc.lib5k.utils.telemetry.FlywheelTuner;
+import frc.lib5k.vectors.libvec.Point2;
 import frc.robot.RobotConstants;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.vision.Limelight2;
@@ -70,6 +72,9 @@ public class Shooter extends SubsystemBase {
     // Telemetry object for tuning the flywheel
     private FlywheelTuner m_tuner;
 
+    // Velocity interpolator
+    private ShooterInterpolator m_interpolator;
+
     private Shooter() {
 
         // Create Limelight
@@ -96,6 +101,9 @@ public class Shooter extends SubsystemBase {
         // Configure the tuner
         m_tuner = new FlywheelTuner("Shooter", m_motorEncoder::getVelocity);
         m_tuner.setEnabled(RobotConstants.ENABLE_PID_TUNING_OUTPUTS);
+
+        // Build the interpolator
+        m_interpolator = new ShooterInterpolator(new Point2(3.1, 3640), new Point2(5.75, 3348), new Point2(6.37, 3508));
 
     }
 
@@ -373,33 +381,16 @@ public class Shooter extends SubsystemBase {
             return RobotConstants.Shooter.DEFAULT_VELOCITY;
         }
 
-        // TODO: Temp
-        return RobotConstants.Shooter.DEFAULT_VELOCITY;
 
-        // // Get distance to target
-        // double angleToTarget = m_limelight.getTarget().ty;
+        // Get distance to target
+        double angleToTarget = m_limelight.getTarget().ty;
 
-        // // d = (h2-h1) / tan(a1+a2)
-        // double distance = (RobotConstants.Shooter.TARGET_HEIGHT -
-        // RobotConstants.Shooter.LIMELIGHT_HEIGHT)
-        // / Math.tan(RobotConstants.Shooter.LIMELIGHT_MOUNT_ANGLE + angleToTarget);
-        // RobotLogger.getInstance().log(
-        // "[LIMELIGHT]: Distance to target calculated. Distance is " +
-        // String.format("%.4f", distance) + "m.");
+        // Turn off the limelight
+        Limelight2.getInstance().setLED(LEDMode.OFF);
 
-        // // Calculate necessary linear velocity of ball
-        // double ballVel = (Math.sqrt(9.81) * Math.sqrt(distance) * Math.sqrt(
-        // (Math.tan(RobotConstants.Shooter.LAUNCH_ANGLE) *
-        // Math.tan(RobotConstants.Shooter.LAUNCH_ANGLE)) + 1))
-        // / Math.sqrt(2 * Math.tan(RobotConstants.Shooter.LAUNCH_ANGLE)
-        // - (2 * 9.81 * RobotConstants.Shooter.TARGET_HEIGHT) / distance);
+        // TODO: Switch interpolation plane to angle-base
 
-        // // Tangential velocity of flywheel, in RPM
-        // double wheelVel = (ballVel * 2) * RobotConstants.Shooter.RPM_PER_MPS;
-        // RobotLogger.getInstance().log("[LIMELIGHT]: Desired velocity calculated.
-        // Desired velocity is "
-        // + String.format("%.4f", wheelVel) + "RPM.");
-        // return wheelVel;
+        return m_interpolator.calculate(angleToTarget, RobotConstants.Shooter.MOTOR_MAX_RPM);
     }
 
 }
