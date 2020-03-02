@@ -1,17 +1,23 @@
-package frc.robot.commands.actions;
+package frc.robot.commands.actions.alignment;
 
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.cellmech.Shooter;
 import frc.robot.vision.Limelight2;
 import frc.robot.vision.LimelightTarget;
+import frc.robot.vision.SimVision;
 import frc.robot.vision.Limelight2.CameraMode;
 import frc.robot.vision.Limelight2.LEDMode;
 
-public class AutoAlign extends CommandBase {
+public class PivotAim extends CommandBase {
 
-    public AutoAlign() {
+    // Vision target
+    private LimelightTarget m_target;
+    private double m_angle;
+
+    public PivotAim() {
         addRequirements(DriveTrain.getInstance());
     }
 
@@ -21,8 +27,29 @@ public class AutoAlign extends CommandBase {
         DriveTrain.getInstance().stop();
         DriveTrain.getInstance().setBrakes(false);
         OI.getInstance().rumbleDriver(0.5);
+
         // Put the limelight in "Main" mode for driver assist
-		Limelight2.getInstance().setCamMode(CameraMode.PIP_MAIN);
+        Limelight2.getInstance().setCamMode(CameraMode.PIP_MAIN);
+
+        // Read the target
+        // Find a vision target
+        m_target = Limelight2.getInstance().getTarget();
+
+        // If we are simulating, find a simulated target
+        if (SimVision.shouldSimulate()) {
+            m_target = SimVision.getSimulatedTarget();
+        }
+
+        // Get the robot's angle
+        double robotAngle = DriveTrain.getInstance().getPosition().getRotation().getDegrees();
+
+        // Set the target angle
+        if (m_target != null) {
+            m_angle = (m_target.tx * -1) + robotAngle;
+        } else {
+            m_angle = 0.0;
+        }
+
     }
 
     @Override
@@ -30,13 +57,10 @@ public class AutoAlign extends CommandBase {
         // We enable the LEDs here to prevent other commands from disabling it
         Limelight2.getInstance().setLED(LEDMode.DEFAULT);
 
-        // Get the target
-        LimelightTarget target = Limelight2.getInstance().getTarget();
-
-        if (target != null) {
+        if (m_target != null) {
 
             // Tell the DriveTrain to auto-steer, send outcome to shooter
-            Shooter.getInstance().setInPosition(DriveTrain.getInstance().autoTarget(target));
+            Shooter.getInstance().setInPosition(DriveTrain.getInstance().face(Rotation2d.fromDegrees(m_angle), 4));
         } else {
             // Blink the light if we are the only user, and there is no target
             if (Limelight2.getInstance().users == 1) {
@@ -57,13 +81,17 @@ public class AutoAlign extends CommandBase {
         OI.getInstance().rumbleDriver(0.0);
 
         // Put the limelight in "Secondary" mode for driver assist
-		Limelight2.getInstance().setCamMode(CameraMode.PIP_SECONDARY);
+        Limelight2.getInstance().setCamMode(CameraMode.PIP_SECONDARY);
+
+        // Reset target info
+        m_target = null;
+        m_angle = 0.0;
     }
 
     @Override
     public boolean isFinished() {
 
         // If button not held, stop aiming
-        return !OI.getInstance().shouldAutoAim();
+        return !OI.getInstance().shouldPivotAim();
     }
 }

@@ -23,17 +23,12 @@ public class OI {
     // Toggle for keeping track of drivetrain orientation
     private Toggle m_driveTrainInvertToggle = new Toggle();
 
-    // Shooting action toggle
-    private Toggle m_shouldShootToggle = new Toggle();
-
     // Intake action toggle
     private Toggle m_shouldIntakeToggle = new Toggle();
 
-    // Panel Manipulator Toggle(s)
-    private Toggle m_shouldPositionToggle = new Toggle();
-    private Toggle m_shouldRotateToggle = new Toggle();
     // Unjam toggle
     private Toggle m_shouldUnjamToggle = new Toggle();
+    
     // Lower balls Toggle
     private Toggle m_ShouldLowerBallsToggle = new Toggle();
 
@@ -74,6 +69,14 @@ public class OI {
     public void rumbleOperator(double force) {
         m_operatorController.setRumble((force > 1.0) ? RumbleType.kLeftRumble : RumbleType.kRightRumble,
                 (force > 1.0) ? force - 1.0 : force);
+    }
+
+   /**
+     * Should the robot be operating in "slow mode"
+     */
+    public boolean isSlowMode() {
+        return m_driverController.getBumper(GenericHID.Hand.kLeft)
+                || m_driverController.getBumper(GenericHID.Hand.kRight);
     }
 
     /**
@@ -123,6 +126,10 @@ public class OI {
         return m_driverController.getYButton();
     }
 
+    public boolean shouldPivotAim() {
+        return m_driverController.getBButton();
+    }
+
     /**
      * Check if the robot should be shooting balls right now
      * 
@@ -139,22 +146,26 @@ public class OI {
     public boolean shouldIncrPanelRight() {
         return m_operatorController.getAButtonPressed();
     }
-    
+
     /**
      * Check if the climber should be ejected
      */
     public boolean shouldEjectClimber() {
-        return m_operatorController.getBackButton() && m_operatorController.getStartButtonPressed();
+        return m_driverController.getBackButton() && m_driverController.getStartButtonPressed();
     }
 
     public boolean shouldCancelClimb() {
-        return m_operatorController.getStartButtonPressed() && !m_operatorController.getBackButton();
+        return m_driverController.getStartButtonPressed() && !m_driverController.getBackButton();
     }
 
     public Position getWantedClimbPosition() {
-        if (m_operatorController.getPOV() == 0) {
+        double direction = 0;
+
+        direction = m_driverController.getY(Hand.kRight) * -1;
+
+        if (direction >= 0.8) {
             return Position.LEVEL;
-        } else if (m_operatorController.getPOV() == 180) {
+        } else if (direction <= -0.8) {
             return Position.RETRACTED;
         } else {
             return Position.CURRENT;
@@ -190,11 +201,16 @@ public class OI {
         return m_shouldUnjamToggle.feed(m_operatorController.getBButtonPressed());
     }
 
-    public boolean shouldLowerBallsToBottom(){
+    
+    public boolean shouldUnjamUp() {
+        return m_operatorController.getTriggerAxis(Hand.kLeft) > 0.5;
+    }
+
+    public boolean shouldLowerBallsToBottom() {
         return m_ShouldLowerBallsToggle.feed(m_operatorController.getYButtonPressed());
     }
 
-    public void resetLower(){
+    public void resetLower() {
         m_ShouldLowerBallsToggle.reset();
     }
 
@@ -202,4 +218,11 @@ public class OI {
         m_shouldUnjamToggle.reset();
     }
 
+    public boolean shouldAddCell() {
+        return m_operatorController.getPOV() == 0;
+    }
+
+    public boolean shouldSubtractCell() {
+        return m_operatorController.getPOV() == 180;
+    }
 }

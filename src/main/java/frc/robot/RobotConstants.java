@@ -60,6 +60,10 @@ public class RobotConstants {
         public static final int DRIVER_CONTROLLER_ID = 0;
         public static final int OPERATOR_CONTROLLER_ID = 1;
 
+        /* Slow mode */
+        public static final double LOW_GEAR_SPEED_GAIN = 0.5;
+        public static final double LOW_GEAR_ROTATION_GAIN = 0.9;
+
     }
 
     /**
@@ -114,8 +118,8 @@ public class RobotConstants {
 
             /* Ticks per revolution of the encoder */
 
-            public static final int PULSES_PER_REVOLUTION = 5760; //4096;// 1024 // 2880;//1440; // (isCompBot())? 4096
-                                                                 // : 1440;
+            public static final int PULSES_PER_REVOLUTION = 5760; // 4096;// 1024 // 2880;//1440; // (isCompBot())? 4096
+                                                                  // : 1440;
 
         }
 
@@ -155,9 +159,10 @@ public class RobotConstants {
         public static final double kIDriveVel = 0.0;
         public static final double kDDriveVel = 0.008;
 
+
         // Optimal Control Gain for turning 
         // 2.86 2.83 2.77 2.71 2.83 2.67 over shot
-        public static final double kPTurnVel = 0.0085;// 0.008; /// 0.0085;// 0.030;
+        public static final double kPTurnVel = 0.0088;// 0.008; /// 0.0085;// 0.030;
         public static final double kITurnVel = 0.01; // 0.07; // 0.12;
         public static final double kDTurnVel = 0.0106; // 0.0066
 
@@ -236,7 +241,7 @@ public class RobotConstants {
         public static final double ARM_UP_SPEED = -0.85;
         public static final double ARM_DOWN_SPEED = 0.35;
 
-        public static final double ROLLER_SPEED = 0.55;
+        public static final double ROLLER_SPEED = 0.4;
     }
 
     /**
@@ -264,8 +269,8 @@ public class RobotConstants {
 
         // Belt speed during shooting
         public static final double SHOOTER_FEED_SPEED = 0.5;
-        // how many times the belt gearbox output rotates to move 1 inch
-        public static final double REVOLUTIONS_PER_INCH = 2;
+        // how many encoder ticks to move for optimal ball spacing
+        public static final double MAGIC_ENCODER_NUMBER = 41583;
 
         // cycles the robot goes through with the bottom ensor tripped before moving the
         // hopper

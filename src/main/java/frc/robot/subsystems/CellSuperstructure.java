@@ -42,6 +42,7 @@ public class CellSuperstructure extends SubsystemBase {
         INTAKING, // Intaking cells
         SHOOTING, // Shooting cells
         UNJAMING, // Unjamming cells
+        UNJAMUP, // unjamming cells upwards
         MOVETOBOTTOM // Moves cells to bottom
     }
 
@@ -85,7 +86,7 @@ public class CellSuperstructure extends SubsystemBase {
     @Override
     public void periodic() {
 
-        if(m_intakeDone = true) {
+        if (m_intakeDone = true) {
             m_intakeDone = false;
         }
 
@@ -100,23 +101,26 @@ public class CellSuperstructure extends SubsystemBase {
 
         // Handle states
         switch (m_systemState) {
-        case IDLE:
-            handleIdle(isNewState, lastStateIsShooting);
-            break;
-        case INTAKING:
-            handleIntaking(isNewState);
-            break;
-        case SHOOTING:
-            handleShooting(isNewState);
-            break;
-        case UNJAMING:
-            handleUnjamming(isNewState);
-            break;
-        case MOVETOBOTTOM:
-            handleMoveToBottom(isNewState);
-            break;
-        default:
-            m_systemState = SystemState.IDLE;
+            case IDLE:
+                handleIdle(isNewState, lastStateIsShooting);
+                break;
+            case INTAKING:
+                handleIntaking(isNewState);
+                break;
+            case SHOOTING:
+                handleShooting(isNewState);
+                break;
+            case UNJAMING:
+                handleUnjamming(isNewState);
+                break;
+            case UNJAMUP:
+                handleUnjamUp(isNewState);
+                break;
+            case MOVETOBOTTOM:
+                handleMoveToBottom(isNewState);
+                break;
+            default:
+                m_systemState = SystemState.IDLE;
         }
     }
 
@@ -184,10 +188,9 @@ public class CellSuperstructure extends SubsystemBase {
             // stop everything once hopper has desired amount of cells or no cells
             int cellAmount = m_hopper.getCellCount();
 
-            // TODO: Re-enable once middle sensor has been re-mounted
-            // if (cellAmount == m_wantedCellsAfterShot ){//|| cellAmount == 0) {
-            //     m_systemState = SystemState.IDLE;
-            // }
+            if (cellAmount == m_wantedCellsAfterShot || cellAmount == 0) {
+                m_systemState = SystemState.IDLE;
+            }
 
             // only supply cells if shooter isn't spun up or the top line break is not
             // tripped
@@ -217,6 +220,21 @@ public class CellSuperstructure extends SubsystemBase {
     }
 
     /**
+     * Set subsystems unjam balls
+     * 
+     * @param newState Is this state new?
+     */
+    private void handleUnjamUp(boolean newState) {
+        if (newState) {
+
+            m_hopper.unjamUp();
+
+            m_shooter.setOutputPercent(0.25);
+
+        }
+    }
+
+    /**
      * Set subsystems to intake cells
      * 
      * @param newState Is this state new?
@@ -224,6 +242,13 @@ public class CellSuperstructure extends SubsystemBase {
     private void handleMoveToBottom(boolean newState) {
         if (newState) {
             m_hopper.moveCellsToBottom();
+        } else {
+
+            // when done moving stop being in this state, so I can go into realign twice in a row
+            if(m_hopper.isDone()) {
+                m_systemState = SystemState.IDLE;
+            }
+
         }
 
     }
@@ -243,7 +268,7 @@ public class CellSuperstructure extends SubsystemBase {
         return m_intakeDone;
     }
 
-    public void moveToBottom(){
+    public void moveToBottom() {
         m_systemState = SystemState.MOVETOBOTTOM;
     }
 
@@ -297,5 +322,12 @@ public class CellSuperstructure extends SubsystemBase {
      */
     public void unjam() {
         m_systemState = SystemState.UNJAMING;
+    }
+
+    /**
+     * Set the subsystems to unjam up
+     */
+    public void unjamUp() {
+        m_systemState = SystemState.UNJAMUP;
     }
 }

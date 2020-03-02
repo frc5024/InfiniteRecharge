@@ -1,7 +1,10 @@
 #! /bin/bash
 
+# Clear out the logfile
+rm build/stdout/*
+
 # Spawn HALSIM
-./gradlew simulateJava
+./gradlew simulateJava --console=plain
 task_pid=$(cat build/pids/simulateJava.pid)
 
 # Spawn a tail follower
@@ -17,6 +20,10 @@ do
         sleep 2
         continue
     fi
+
+    echo "[Simulation Runner] Killing processes"
     kill -TERM $tail_pid
+    kill -9 $task_pid
     break
 done
+
