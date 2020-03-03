@@ -12,7 +12,8 @@ import frc.lib5k.drivebase.IDrivebase;
 import frc.lib5k.drivebase.modules.TankTrack;
 
 /**
- * A common backend for all differential drivebases.
+ * A common backend for all differential drivebases, with a built-in Dead
+ * Reckoning engine.
  */
 public abstract class DifferentialDrivebase extends SubsystemBase implements IDrivebase, IDifferentialDrivebase {
 
@@ -34,7 +35,7 @@ public abstract class DifferentialDrivebase extends SubsystemBase implements IDr
 
     // Control modes
     private enum ControlMode {
-        POSITION, TWIST, VELOCITY
+        POSITION, TWIST, VELOCITY, VOLTAGE
     }
 
     private ControlMode mode = ControlMode.VELOCITY;
@@ -69,18 +70,24 @@ public abstract class DifferentialDrivebase extends SubsystemBase implements IDr
             case VELOCITY:
                 handleVelocity();
                 break;
+            case VOLTAGE:
+                handleVoltage();
+                break;
             default:
+                mode = ControlMode.VOLTAGE;
+                goalVelocity.leftMetersPerSecond = 0.0;
+                goalVelocity.rightMetersPerSecond = 0.0;
                 break;
 
         }
     }
 
     private void handlePosition() {
-
+        System.out.println("WARNING: Position control not yet implemented!");
     }
 
     private void handleTwist() {
-
+        System.out.println("WARNING: Twist control not yet implemented!");
     }
 
     /**
@@ -90,6 +97,13 @@ public abstract class DifferentialDrivebase extends SubsystemBase implements IDr
 
         // Send a velocity command to each track
         sendVelocityCommand(goalVelocity);
+    }
+
+    private void handleVoltage() {
+
+        // Set left & right track voltages
+        leftTrack.setVoltage(goalVelocity.leftMetersPerSecond);
+        rightTrack.setVoltage(goalVelocity.rightMetersPerSecond);
     }
 
     /**
@@ -119,6 +133,22 @@ public abstract class DifferentialDrivebase extends SubsystemBase implements IDr
 
         // Set control mode
         mode = ControlMode.VELOCITY;
+    }
+
+    /**
+     * Set the voltage output for each track
+     * 
+     * @param leftVolts  Left track voltage
+     * @param rightVolts Right track voltage
+     */
+    public void setTrackVoltage(double leftVolts, double rightVolts) {
+
+        // Set goal
+        goalVelocity.leftMetersPerSecond = leftVolts;
+        goalVelocity.rightMetersPerSecond = rightVolts;
+
+        // Set control mode
+        mode = ControlMode.VOLTAGE;
     }
 
     @Override
