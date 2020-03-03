@@ -66,7 +66,7 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 
 		// Enable USB logging
-		usbLogger = new USBLogger("RobotLogs-2020");
+		usbLogger = new USBLogger("RobotLogs-2020/live");
 		logger.enableUSBLogging(usbLogger);
 
 		// Create control commands
@@ -225,6 +225,10 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() {
 		logger.log("Robot", "Robot disabled");
+
+		// Dump analytics
+		AnalyticsEngine.logStats();
+		AnalyticsEngine.resetStats();
 
 		// Disable brakes on the DriveTrain
 		m_driveTrain.setBrakes(false);
