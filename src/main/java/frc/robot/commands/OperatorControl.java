@@ -3,7 +3,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lib5k.utils.RobotLogger;
+import frc.robot.AnalyticsEngine;
 import frc.robot.OI;
+import frc.robot.AnalyticsEngine.AnalyticEvent;
 import frc.robot.autonomous.actions.cells.IntakeCells;
 import frc.robot.autonomous.actions.cells.ShootCells;
 import frc.robot.autonomous.actions.cells.UnjamCells;
@@ -101,6 +103,7 @@ public class OperatorControl extends CommandBase {
 
         // Check if the cell counter should be reset
         if (m_oi.shouldResetCellCount()) {
+            AnalyticsEngine.trackEvent(AnalyticEvent.BALL_RESET);
             Hopper.getInstance().forceCellCount(0);
         }
 
@@ -148,10 +151,12 @@ public class OperatorControl extends CommandBase {
         if (m_oi.shouldAddCell() && !m_cellModProtection) {
             RobotLogger.getInstance().log("OperatorControl", "Operator force-incremented the hopper ball count");
             m_hopper.forceCellCount(m_hopper.getCellCount() + 1);
+            AnalyticsEngine.trackEvent(AnalyticEvent.BALL_OVERRIDE);
             m_cellModProtection = true;
         } else if (m_oi.shouldSubtractCell() && !m_cellModProtection) {
             RobotLogger.getInstance().log("OperatorControl", "Operator force-decremented the hopper ball count");
             m_hopper.forceCellCount(m_hopper.getCellCount() - 1);
+            AnalyticsEngine.trackEvent(AnalyticEvent.BALL_OVERRIDE);
             m_cellModProtection = true;
         } else if (!m_oi.shouldAddCell() && !m_oi.shouldSubtractCell()) {
             m_cellModProtection = false;
