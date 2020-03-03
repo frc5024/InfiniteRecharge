@@ -2,6 +2,8 @@ package frc.robot.commands.actions.controlpanel;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lib5k.utils.RobotLogger;
+import frc.robot.AnalyticsEngine;
+import frc.robot.AnalyticsEngine.AnalyticEvent;
 import frc.robot.subsystems.PanelManipulator;
 
 /**
@@ -30,6 +32,7 @@ public class TimePanel extends CommandBase {
     public void initialize() {
         logger.log("TimePanel", String.format("Rotating for %.2f seconds", m_time));
         PanelManipulator.getInstance().rotateForTime(m_time);
+        AnalyticsEngine.trackEvent(AnalyticEvent.CTRLPANEL_TIME);
     }
 
     @Override
