@@ -9,8 +9,10 @@ import frc.lib5k.components.sensors.LineBreak;
 import frc.lib5k.simulation.wrappers.SimTalon;
 import frc.lib5k.utils.Mathutils;
 import frc.lib5k.utils.RobotLogger;
+import frc.robot.AnalyticsEngine;
 import frc.robot.OI;
 import frc.robot.RobotConstants;
+import frc.robot.AnalyticsEngine.AnalyticEvent;
 
 /**
  * Robot hopper subsystem
@@ -490,6 +492,12 @@ public class Hopper extends SubsystemBase {
     public void modifyCellCount(int changeAmount) {
         m_cellCount += changeAmount;
         m_cellCount = (int) Mathutils.clamp(m_cellCount, 0, 5);
+
+        if (changeAmount > 0) {
+            AnalyticsEngine.trackEvent(AnalyticEvent.BALL_INTAKE);
+        }else{
+            AnalyticsEngine.trackEvent(AnalyticEvent.BALL_SHOT);
+        }
     }
 
     public void startRumble() {

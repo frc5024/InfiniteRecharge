@@ -226,6 +226,10 @@ public class Robot extends TimedRobot {
 	public void disabledInit() {
 		logger.log("Robot", "Robot disabled");
 
+		// Dump analytics
+		AnalyticsEngine.logStats();
+		AnalyticsEngine.resetStats();
+
 		// Disable brakes on the DriveTrain
 		m_driveTrain.setBrakes(false);
 		m_driveTrain.stop();
