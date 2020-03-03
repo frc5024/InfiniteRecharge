@@ -66,7 +66,7 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 
 		// Enable USB logging
-		usbLogger = new USBLogger("RobotLogs-2020");
+		usbLogger = new USBLogger("RobotLogs-2020/live");
 		logger.enableUSBLogging(usbLogger);
 
 		// Create control commands
