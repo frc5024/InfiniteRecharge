@@ -1,6 +1,7 @@
 package frc.lib5k.control;
 
 import edu.wpi.first.wpiutil.math.MathUtil;
+import frc.lib5k.utils.Mathutils;
 import frc.lib5k.vectors.libvec.Point2;
 import frc.lib5k.vectors.libvec.Vector3;
 
@@ -35,25 +36,11 @@ public class ShooterInterpolator {
      */
     public ShooterInterpolator(Point2 min, Point2 mid, Point2 max) {
 
-        /* Determine coefficients */
-
-        // Min -> Mid
-        double minMid_A = Math.pow(mid.x, 2) - Math.pow(min.x, 2);
-        double minMid_B = mid.x - min.x;
-        double minMid_D = mid.y - min.y;
-
-        // Mid -> Max
-        double midMax_A = Math.pow(max.x, 2) - Math.pow(mid.x, 2);
-        double midMax_B = max.x - mid.x;
-        double midMax_D = max.y - mid.y;
-
-        // Determine multiplier
-        double multiplier = (midMax_B / minMid_B) * -1;
-
-        // Calculate coefficients
-        this.A = (multiplier * minMid_D + midMax_D) / (multiplier * minMid_A + midMax_A);
-        this.B = (minMid_D - minMid_A * this.A) / (minMid_B);
-        this.C = min.y - (this.A * Math.pow(min.x, 2)) - (this.B * min.x);
+        // Determine coefficients
+        double[] coeffs = Mathutils.calcCoeffs(min, mid, max);
+        this.A = coeffs[0];
+        this.B = coeffs[1];
+        this.C = coeffs[2];
 
     }
 

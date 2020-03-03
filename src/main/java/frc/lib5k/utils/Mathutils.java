@@ -3,7 +3,7 @@ package frc.lib5k.utils;
 import java.util.HashMap;
 
 import edu.wpi.first.wpiutil.CircularBuffer;
-
+import frc.lib5k.vectors.libvec.Point2;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 
@@ -95,7 +95,6 @@ public class Mathutils {
         return (a - epsilon <= b) && (a + epsilon >= b);
     }
 
-
     public static boolean epsilonEquals(Pose2d a, Pose2d b, Pose2d epsilon) {
         return (epsilonEquals(a.getTranslation().getX(), b.getTranslation().getX(), epsilon.getTranslation().getX()))
                 && (epsilonEquals(a.getTranslation().getY(), b.getTranslation().getY(),
@@ -161,6 +160,37 @@ public class Mathutils {
                 hm.put((int) array.get(i), 1);
         }
         return temp;
+    }
+
+    /**
+     * Calculate optimal quadratic coefficients for a parabola passing through 2
+     * points in 2D space.
+     * 
+     * @param min Min point
+     * @param mid Mid point
+     * @param max Max point
+     * @return [A,B,C]
+     */
+    public static double[] calcCoeffs(Point2 min, Point2 mid, Point2 max) {
+        // Min -> Mid
+        double minMid_A = Math.pow(mid.x, 2) - Math.pow(min.x, 2);
+        double minMid_B = mid.x - min.x;
+        double minMid_D = mid.y - min.y;
+
+        // Mid -> Max
+        double midMax_A = Math.pow(max.x, 2) - Math.pow(mid.x, 2);
+        double midMax_B = max.x - mid.x;
+        double midMax_D = max.y - mid.y;
+
+        // Determine multiplier
+        double multiplier = (midMax_B / minMid_B) * -1;
+
+        // Calculate coefficients
+        double A = (multiplier * minMid_D + midMax_D) / (multiplier * minMid_A + midMax_A);
+        double B = (minMid_D - minMid_A * A) / (minMid_B);
+        double C = min.y - (A * Math.pow(min.x, 2)) - (B * min.x);
+
+        return new double[] { A, B, C };
     }
 
 }
