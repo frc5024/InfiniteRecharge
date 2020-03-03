@@ -24,10 +24,6 @@ public class CellSuperstructure extends SubsystemBase {
      */
     private static CellSuperstructure s_instance = null;
 
-    /**
-     * Robot logger util
-     */
-    private RobotLogger logger = RobotLogger.getInstance();
 
     /* Intake instance */
     private Intake m_intake = Intake.getInstance();
@@ -63,7 +59,7 @@ public class CellSuperstructure extends SubsystemBase {
     private CellSuperstructure() {
 
         // Register all sub-subsystems
-        logger.log("CellSuperstructure", "Registering sub-subsystems", Level.kRobot);
+        RobotLogger.getInstance().log("CellSuperstructure", "Registering sub-subsystems", Level.kRobot);
         m_intake.register();
         m_hopper.register();
         m_shooter.register();

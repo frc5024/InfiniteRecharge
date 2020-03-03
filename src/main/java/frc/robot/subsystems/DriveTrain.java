@@ -72,11 +72,6 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
     private DifferentialDriveOdometry m_odometry;
 
     /**
-     * Pose2d for keeping track of robot position on the field
-     */
-    private Pose2d m_robotPose = new Pose2d();
-
-    /**
      * Velocity tracking vars
      */
     private double m_lastLeftMeters, m_lastRightMeters, m_leftMPS, m_rightMPS = 0;
@@ -216,7 +211,6 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
 
         // Calculate the robot pose
         m_odometry.update(heading, getLeftMeters(), getRightMeters());
-        m_robotPose = m_odometry.getPoseMeters();
 
     }
 
