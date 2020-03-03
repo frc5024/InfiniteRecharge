@@ -7,6 +7,7 @@ import edu.wpi.cscore.VideoSource;
 import frc.lib5k.components.AutoCamera;
 import frc.lib5k.components.LinearActuator;
 import frc.lib5k.components.LinearActuator.ActuatorState;
+import frc.lib5k.components.motors.TalonHelper;
 import frc.lib5k.components.sensors.HallEffect;
 import frc.lib5k.simulation.wrappers.SimTalon;
 import frc.lib5k.utils.RobotLogger;
@@ -88,6 +89,7 @@ public class Climber extends SubsystemBase {
         m_releasePin.set(ActuatorState.kINACTIVE);
         m_releasePin.clearAllFaults();
 
+        TalonHelper.configCurrentLimit(m_liftMotor, 34, 32, 15, 0);
     }
 
     /**
