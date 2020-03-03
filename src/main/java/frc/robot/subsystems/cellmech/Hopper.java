@@ -349,7 +349,7 @@ public class Hopper extends SubsystemBase {
      */
     private void handleUnjamUp(boolean newState) {
         if (newState) {
-            logger.log("Hopper", "Unjamming");
+            logger.log("Hopper", "Unjamming up");
 
             // Reverse belt
             setBeltSpeed(0.7);
