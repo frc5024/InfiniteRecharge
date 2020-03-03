@@ -307,12 +307,12 @@ public class Hopper extends SubsystemBase {
             m_ticksAtStartOfIntake = m_hopperEncoder.getTicks();
 
             // Start belt
-            setBeltSpeed(0.5);
+            setBeltSpeed(0.4);
 
         }
 
         // stop if middle sensor is tripped and not bottom tripped
-        if (m_lineMiddle.get() && !m_lineBottom.get()) {
+        if (m_lineMiddle.get() && m_lineMiddleLastValue == false && !m_lineBottom.get()) {
             m_systemState = SystemState.INTAKEREADY;
         }
 
