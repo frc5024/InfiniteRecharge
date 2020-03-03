@@ -48,6 +48,7 @@ public class PivotAim extends CommandBase {
             m_angle = (m_target.tx * -1) + robotAngle;
         } else {
             m_angle = 0.0;
+            Limelight2.getInstance().setLED(LEDMode.BLINK);
         }
 
     }
@@ -55,17 +56,12 @@ public class PivotAim extends CommandBase {
     @Override
     public void execute() {
         // We enable the LEDs here to prevent other commands from disabling it
-        Limelight2.getInstance().setLED(LEDMode.DEFAULT);
+        Limelight2.getInstance().setLED(LEDMode.OFF);
 
         if (m_target != null) {
 
             // Tell the DriveTrain to auto-steer, send outcome to shooter
             Shooter.getInstance().setInPosition(DriveTrain.getInstance().face(Rotation2d.fromDegrees(m_angle), 4));
-        } else {
-            // Blink the light if we are the only user, and there is no target
-            if (Limelight2.getInstance().users == 1) {
-                Limelight2.getInstance().setLED(LEDMode.BLINK);
-            }
         }
     }
 
