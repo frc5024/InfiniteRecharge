@@ -189,10 +189,10 @@ public class Hopper extends SubsystemBase {
 
         }
 
-        if (m_systemState == SystemState.UNJAMUP ) {
+        if (m_systemState == SystemState.UNJAMUP) {
 
             // subtract when ejecting through top
-            if(m_lineTopLastValue == true && m_lineTop.get()) {
+            if (m_lineTopLastValue == true && m_lineTop.get()) {
                 modifyCellCount(-1);
             }
         }
@@ -216,35 +216,35 @@ public class Hopper extends SubsystemBase {
 
         // Handle states
         switch (m_systemState) {
-        case IDLE:
-            handleIdle(isNewState);
-            break;
-        case INTAKEREADY:
-            handleIntakeReady(isNewState);
-            break;
-        case INTAKING:
-            handleIntaking(isNewState);
-            break;
-        case UNJAM:
-            handleUnjam(isNewState);
-            break;
-        case UNJAMUP:
-            handleUnjamUp(isNewState);
-            break;
-        case MOVETOTOP:
-            handleMoveToTop(isNewState);
-            break;
-        case MOVETOBOTTOM:
-            handleMoveToBottom(isNewState);
-            break;
-        case MOVEUPONEPLACE:
-            handleMoveUpOnePlace(isNewState);
-            break;
-        case SHOOTING:
-            handleShooting(isNewState);
-            break;
-        default:
-            m_systemState = SystemState.IDLE;
+            case IDLE:
+                handleIdle(isNewState);
+                break;
+            case INTAKEREADY:
+                handleIntakeReady(isNewState);
+                break;
+            case INTAKING:
+                handleIntaking(isNewState);
+                break;
+            case UNJAM:
+                handleUnjam(isNewState);
+                break;
+            case UNJAMUP:
+                handleUnjamUp(isNewState);
+                break;
+            case MOVETOTOP:
+                handleMoveToTop(isNewState);
+                break;
+            case MOVETOBOTTOM:
+                handleMoveToBottom(isNewState);
+                break;
+            case MOVEUPONEPLACE:
+                handleMoveUpOnePlace(isNewState);
+                break;
+            case SHOOTING:
+                handleShooting(isNewState);
+                break;
+            default:
+                m_systemState = SystemState.IDLE;
         }
 
         m_lineBottomLastValue = m_lineBottom.get();
@@ -426,19 +426,19 @@ public class Hopper extends SubsystemBase {
 
         }
 
-        if(m_realignDelay > 0) {
+        if (m_realignDelay > 0) {
             m_realignDelay--;
         }
 
-        if(m_realignDelay == 0) {
-            // stop if middle 
+        if (m_realignDelay == 0) {
+            // stop if middle
             if (m_lineMiddleLastValue == false && m_lineMiddle.get() == true) {
                 m_systemState = SystemState.IDLE;
             }
         }
 
         // stop if at top
-        if(m_lineTop.get()) {
+        if (m_lineTop.get()) {
             m_systemState = SystemState.IDLE;
         }
 
@@ -490,14 +490,17 @@ public class Hopper extends SubsystemBase {
      * @param changeAmount amount to increase or decrease the cell count by
      */
     public void modifyCellCount(int changeAmount) {
-        m_cellCount += changeAmount;
-        m_cellCount = (int) Mathutils.clamp(m_cellCount, 0, 5);
 
+        // Log event
         if (changeAmount > 0) {
             AnalyticsEngine.trackEvent(AnalyticEvent.BALL_INTAKE);
-        }else{
+        } else if (changeAmount < 0 && m_cellCount > 0) {
             AnalyticsEngine.trackEvent(AnalyticEvent.BALL_SHOT);
         }
+
+        // Edit cell count
+        m_cellCount += changeAmount;
+        m_cellCount = (int) Mathutils.clamp(m_cellCount, 0, 5);
     }
 
     public void startRumble() {
