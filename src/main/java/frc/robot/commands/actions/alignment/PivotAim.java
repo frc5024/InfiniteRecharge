@@ -60,7 +60,7 @@ public class PivotAim extends CommandBase {
     @Override
     public void execute() {
         // We enable the LEDs here to prevent other commands from disabling it
-        Limelight2.getInstance().setLED(LEDMode.OFF);
+        Limelight2.getInstance().setLED(LEDMode.DEFAULT);
 
         if (m_target != null) {
 
