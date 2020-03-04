@@ -1,5 +1,6 @@
 package frc.robot.autonomous.paths.score;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
@@ -15,6 +16,7 @@ import frc.robot.autonomous.actions.VisionAlign;
 import frc.robot.autonomous.actions.cells.IntakeCells;
 import frc.robot.autonomous.actions.cells.ShootCells;
 import frc.robot.autonomous.paths.AutonomousPath;
+import frc.robot.subsystems.cellmech.Hopper;
 
 public class ScoreTwice extends AutonomousPath {
 
@@ -35,6 +37,7 @@ public class ScoreTwice extends AutonomousPath {
         // Aim at goal
         output.addCommands(new LogCommand("Autonomous", "Turing to Goal"));
         output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(150), 8.0));
+        output.addCommands(new InstantCommand(()->{Hopper.getInstance().forceCellCount(3);}));
 
         // // Shoot 3 balls
         output.addCommands(new LogCommand("Autonomous", "Shooting 3 Balls"));
@@ -71,11 +74,12 @@ public class ScoreTwice extends AutonomousPath {
 
         // // Face the target
         output.addCommands(new LogCommand("Autonomous", "Turning towards Target"));
-        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(168), 8.0));
+        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(80), 15.0));
+        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(170), 8.0));
 
         // Shoot 3 balls
         output.addCommands(new LogCommand("Autonomous", "Shooting Three Balls"));
-        output.addCommands(new ShootCells(2).withTimeout(3.0));
+        output.addCommands(new ShootCells(2).withTimeout(6.5));
 
         output.addCommands(new LogCommand("Autonomous", "Path Finished"));
         return output;
