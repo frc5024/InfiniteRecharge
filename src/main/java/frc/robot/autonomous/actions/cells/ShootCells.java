@@ -2,6 +2,7 @@ package frc.robot.autonomous.actions.cells;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.vision.Limelight2;
 import frc.robot.vision.Limelight2.LEDMode;
 
@@ -15,6 +16,8 @@ public class ShootCells extends SequentialCommandGroup {
         addCommands(new InstantCommand(() -> {
             Limelight2.getInstance().setLED(LEDMode.DEFAULT);
         }));
+        // Wait for target
+        addCommands(new WaitCommand(0.1));
         addCommands(new ShootCellsBackend(count));
         addCommands(new InstantCommand(() -> {
             Limelight2.getInstance().setLED(LEDMode.OFF);

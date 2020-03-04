@@ -103,7 +103,7 @@ public class Shooter extends SubsystemBase {
         m_tuner.setEnabled(RobotConstants.ENABLE_PID_TUNING_OUTPUTS);
 
         // Build the interpolator
-        m_interpolator = new ShooterInterpolator(new Point2(3.1, 3640), new Point2(5.75, 3348), new Point2(6.37, 3508));
+        m_interpolator = new ShooterInterpolator(new Point2(3.4, 3675), new Point2(-6.67, 3377), new Point2(-7.96, 3548));
 
     }
 
@@ -385,12 +385,15 @@ public class Shooter extends SubsystemBase {
         // Get distance to target
         double angleToTarget = m_limelight.getTarget().ty;
 
-        // Turn off the limelight
-        Limelight2.getInstance().setLED(LEDMode.OFF);
+        double out = m_interpolator.calculate(angleToTarget, RobotConstants.Shooter.MOTOR_MAX_RPM);
 
+        // Turn off the limelight
+        // Limelight2.getInstance().setLED(LEDMode.OFF);
+
+        System.out.println("!!!!!! "+out+" !!!!!! "+ angleToTarget);
         // TODO: Switch interpolation plane to angle-base
 
-        return m_interpolator.calculate(angleToTarget, RobotConstants.Shooter.MOTOR_MAX_RPM);
+        return out;
     }
 
 }

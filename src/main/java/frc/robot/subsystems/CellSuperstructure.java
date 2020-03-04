@@ -279,6 +279,7 @@ public class CellSuperstructure extends SubsystemBase {
      */
     public void shootCells(int amount) {
         int amountToEndUpWith = m_hopper.getCellCount() - amount;
+        logger.log("CellSuperstructure", String.format("Shoot %d cells requested", amount));
 
         // limit amount to between 0 and 4
         amountToEndUpWith = MathUtil.clamp(amountToEndUpWith, 0, 4);
