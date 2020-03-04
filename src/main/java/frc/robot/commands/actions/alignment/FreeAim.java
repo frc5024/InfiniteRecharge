@@ -1,7 +1,9 @@
 package frc.robot.commands.actions.alignment;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.AnalyticsEngine;
 import frc.robot.OI;
+import frc.robot.AnalyticsEngine.AnalyticEvent;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.cellmech.Shooter;
 import frc.robot.vision.Limelight2;
@@ -24,6 +26,7 @@ public class FreeAim extends CommandBase {
         OI.getInstance().rumbleDriver(0.5);
         // Put the limelight in "Main" mode for driver assist
         Limelight2.getInstance().setCamMode(CameraMode.PIP_MAIN);
+        AnalyticsEngine.trackEvent(AnalyticEvent.AIM_FREESPACE);
     }
 
     @Override

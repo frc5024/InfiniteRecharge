@@ -2,7 +2,9 @@ package frc.robot.commands.actions.alignment;
 
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.AnalyticsEngine;
 import frc.robot.OI;
+import frc.robot.AnalyticsEngine.AnalyticEvent;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.cellmech.Shooter;
 import frc.robot.vision.Limelight2;
@@ -48,7 +50,10 @@ public class PivotAim extends CommandBase {
             m_angle = (m_target.tx * -1) + robotAngle;
         } else {
             m_angle = 0.0;
+            Limelight2.getInstance().setLED(LEDMode.BLINK);
         }
+
+        AnalyticsEngine.trackEvent(AnalyticEvent.AIM_PIVOT);
 
     }
 
@@ -61,11 +66,6 @@ public class PivotAim extends CommandBase {
 
             // Tell the DriveTrain to auto-steer, send outcome to shooter
             Shooter.getInstance().setInPosition(DriveTrain.getInstance().face(Rotation2d.fromDegrees(m_angle), 4));
-        } else {
-            // Blink the light if we are the only user, and there is no target
-            if (Limelight2.getInstance().users == 1) {
-                Limelight2.getInstance().setLED(LEDMode.BLINK);
-            }
         }
     }
 
