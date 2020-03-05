@@ -70,6 +70,9 @@ public class Shooter extends SubsystemBase {
     // Telemetry object for tuning the flywheel
     private FlywheelTuner m_tuner;
 
+    // Autonomous flywheel velocity tracker
+    private double autonOutputGoal = RobotConstants.Shooter.DEFAULT_VELOCITY;
+
     private Shooter() {
 
         // Create Limelight
@@ -296,6 +299,11 @@ public class Shooter extends SubsystemBase {
 
     }
 
+    /**
+     * Set shooter output as a percentage of the max output
+     * 
+     * @param val Percent output
+     */
     public void setOutputPercent(double val) {
 
         // Switch to "Spin Up" mode. If we are already at, or above the setpoint, it
@@ -307,6 +315,11 @@ public class Shooter extends SubsystemBase {
 
     }
 
+    /**
+     * Set the shooter velocity
+     * 
+     * @param val Velocity RPM
+     */
     public void setVelocity(double val) {
         m_systemState = SystemState.SPIN_UP;
         output = val;
@@ -363,10 +376,33 @@ public class Shooter extends SubsystemBase {
     }
 
     /**
+     * Set the static shooter speed for use during autonomous. This removes possible
+     * vision error in a "safe" environment.
+     * 
+     * @param rpm Output RPM
+     */
+    public void setAutonomousOutput(double rpm) {
+
+        // Clamp output to the possible outputs for the motor
+        rpm = Mathutils.clamp(rpm, 0.0, RobotConstants.Shooter.MOTOR_MAX_RPM);
+
+        // Log
+        logger.log("Shooter", String.format("Set autonomous output velocity goal to: %.2fRPM", rpm));
+
+        // Set
+        autonOutputGoal = rpm;
+    }
+
+    /**
      * 
      * @return Desired flywheel velocity in RPM based on distance to target.
      */
     public double getVelocityFromLimelight() {
+
+        // During autonomous, we force the shooter to use the auton goal.
+        if (DriverStation.getInstance().isAutonomous()) {
+            return autonOutputGoal;
+        }
 
         // If there is no target found, default to a constant shooting point
         if (!m_limelight.hasTarget()) {
