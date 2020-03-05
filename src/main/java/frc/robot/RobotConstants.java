@@ -261,7 +261,7 @@ public class RobotConstants {
         public static final int HOPPER_LINEBREAK_BOTTOM = 2;
         public static final int HOPPER_LINEBREAK_BOTTOM_POWER_CHANNEL = 1;
 
-        public static final int HOPPER_LINEBREAK_MIDDLE = 4;
+        public static final int HOPPER_LINEBREAK_MIDDLE = 8;
         public static final int HOPPER_LINEBREAK_MIDDLE_POWER_CHANNEL = 2;
 
         public static final int HOPPER_LINEBREAK_TOP = 3;
