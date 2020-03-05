@@ -261,7 +261,7 @@ public class RobotConstants {
         public static final int HOPPER_LINEBREAK_BOTTOM = 2;
         public static final int HOPPER_LINEBREAK_BOTTOM_POWER_CHANNEL = 1;
 
-        public static final int HOPPER_LINEBREAK_MIDDLE = 4;
+        public static final int HOPPER_LINEBREAK_MIDDLE = 8;
         public static final int HOPPER_LINEBREAK_MIDDLE_POWER_CHANNEL = 2;
 
         public static final int HOPPER_LINEBREAK_TOP = 3;
@@ -314,7 +314,7 @@ public class RobotConstants {
         public static final double RPM_PER_METER = 1 / WHEEL_CIRCUMFERENCE;
         public static final double RPM_PER_MPS = RPM_PER_METER / 60;
 
-        public static final double DEFAULT_VELOCITY = MOTOR_MAX_RPM * 0.77;
+        public static final double DEFAULT_VELOCITY = MOTOR_MAX_RPM * 0.83; // Good general val: 0.80 // Amazing auto init line val: 0.71
 
     }
 
