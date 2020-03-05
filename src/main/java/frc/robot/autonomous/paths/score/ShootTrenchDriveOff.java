@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.lib5k.kinematics.purepursuit.Path;
@@ -16,6 +17,7 @@ import frc.robot.autonomous.actions.VisionAlign;
 import frc.robot.autonomous.actions.cells.IntakeCells;
 import frc.robot.autonomous.actions.cells.ShootCells;
 import frc.robot.autonomous.paths.AutonomousPath;
+import frc.robot.subsystems.cellmech.Hopper;
 
 
 public class ShootTrenchDriveOff extends AutonomousPath {
@@ -37,6 +39,7 @@ public class ShootTrenchDriveOff extends AutonomousPath {
         // Aim at goal
         output.addCommands(new LogCommand("Autonomous", "Turing to Goal"));
         output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(150), 8.0));
+        output.addCommands(new InstantCommand(()->{Hopper.getInstance().forceCellCount(3);}));
 
         // // Shoot 3 balls
         output.addCommands(new LogCommand("Autonomous", "Shooting 3 Balls"));
@@ -44,7 +47,8 @@ public class ShootTrenchDriveOff extends AutonomousPath {
 
         // Drives back
         output.addCommands(new LogCommand("Autonomous", "Driving Backwards"));
-        output.addCommands(new DriveDistance(-1, 10, .5));
+        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 8.0));
+        // output.addCommands(new DriveDistance(-.1, 10, .5));
 
         output.addCommands(new LogCommand("Autonomous", "Path Finished"));
 
