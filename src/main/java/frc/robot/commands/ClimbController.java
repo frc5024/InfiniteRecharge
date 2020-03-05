@@ -1,7 +1,9 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.AnalyticsEngine;
 import frc.robot.OI;
+import frc.robot.AnalyticsEngine.AnalyticEvent;
 import frc.robot.subsystems.Climber;
 
 public class ClimbController extends CommandBase {
@@ -12,6 +14,7 @@ public class ClimbController extends CommandBase {
     @Override
     public void initialize() {
         Climber.getInstance().unlock();
+        AnalyticsEngine.trackEvent(AnalyticEvent.CLIMB_REQUEST);
     }
 
     @Override

@@ -2,7 +2,9 @@ package frc.robot.commands.actions.alignment;
 
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.AnalyticsEngine;
 import frc.robot.OI;
+import frc.robot.AnalyticsEngine.AnalyticEvent;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.cellmech.Shooter;
 import frc.robot.vision.Limelight2;
@@ -51,12 +53,14 @@ public class PivotAim extends CommandBase {
             Limelight2.getInstance().setLED(LEDMode.BLINK);
         }
 
+        AnalyticsEngine.trackEvent(AnalyticEvent.AIM_PIVOT);
+
     }
 
     @Override
     public void execute() {
         // We enable the LEDs here to prevent other commands from disabling it
-        Limelight2.getInstance().setLED(LEDMode.OFF);
+        Limelight2.getInstance().setLED(LEDMode.DEFAULT);
 
         if (m_target != null) {
 
