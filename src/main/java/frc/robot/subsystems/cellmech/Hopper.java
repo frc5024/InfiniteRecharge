@@ -458,7 +458,7 @@ public class Hopper extends SubsystemBase {
             logger.log("Hopper", "Feeding balls to flywheel");
 
             // Start belt
-            setBeltSpeed(RobotConstants.Hopper.SHOOTER_FEED_SPEED_INCREASE);
+            setBeltSpeed(RobotConstants.Hopper.SHOOTER_FEED_SPEED);
 
         }
     }

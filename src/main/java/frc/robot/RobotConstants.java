@@ -269,8 +269,6 @@ public class RobotConstants {
 
         // Belt speed during shooting
         public static final double SHOOTER_FEED_SPEED = 0.5;
-
-        public static final double SHOOTER_FEED_SPEED_INCREASE = 0.7;
     
         // how many encoder ticks to move for optimal ball spacing
         public static final double MAGIC_ENCODER_NUMBER = 41583;
