@@ -75,7 +75,6 @@ public class RobotConstants {
             public static final double ENCODER_RAMP_RATE = 0.12;
         }
 
-
         /**
          * Motor controller IDs
          */
@@ -159,8 +158,7 @@ public class RobotConstants {
         public static final double kIDriveVel = 0.0;
         public static final double kDDriveVel = 0.008;
 
-
-        // Optimal Control Gain for turning 
+        // Optimal Control Gain for turning
         // 2.86 2.83 2.77 2.71 2.83 2.67 over shot
         public static final double kPTurnVel = 0.0088;// 0.008; /// 0.0085;// 0.030;
         public static final double kITurnVel = 0.01; // 0.07; // 0.12;
@@ -188,8 +186,6 @@ public class RobotConstants {
         public static final double kMaxAccelerationMetersPerSecondSquared = 1.5; // This value will most likely need to
                                                                                  // be
                                                                                  // changed
-
-                                                                                 
 
         // Ramsete Parameters (Not sure if this is nessacary for trajectory and may need
         // changes)
@@ -314,7 +310,21 @@ public class RobotConstants {
         public static final double RPM_PER_METER = 1 / WHEEL_CIRCUMFERENCE;
         public static final double RPM_PER_MPS = RPM_PER_METER / 60;
 
-        public static final double DEFAULT_VELOCITY = MOTOR_MAX_RPM * 0.83; // Good general val: 0.80 // Amazing auto init line val: 0.71
+        public static final double DEFAULT_VELOCITY = MOTOR_MAX_RPM * 0.83; // Good general val: 0.80 // Amazing auto
+                                                                            // init line val: 0.71
+
+        /* Auton shooter vals */
+        public static class ShooterGoals {
+
+            // Direct head-on shot through inner goal from init line
+            public static final double INIT_LINE_DIRECT_SHOT = MOTOR_MAX_RPM * 0.71;
+
+            // A nice shot from the front of the trench
+            public static final double TRENCH_FRONT_SHOT = MOTOR_MAX_RPM * 0.84;
+
+            // A nice shot from the back of the trench
+            public static final double TRENCH_REAR_SHOT = MOTOR_MAX_RPM * 0.88;
+        }
 
     }
 
