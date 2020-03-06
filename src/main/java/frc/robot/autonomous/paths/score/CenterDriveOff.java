@@ -47,9 +47,10 @@ public class CenterDriveOff extends AutonomousPath {
 
         // Turn to trench
         output.addCommands(new LogCommand("Autonomous", "Driving Backwards"));
-        output.addCommands(new TurnToCommand(0, 2.0));
-        output.addCommands(new DriveToCommand(new Pose2d(0, 2, Rotation2d.fromDegrees(0))));
-   
+        output.addCommands(new TurnToCommand(80, 15));
+        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 8.0));
+        output.addCommands(new DriveToCommand(new Pose2d(startx + .5, starty - .3, Rotation2d.fromDegrees(0))));
+
 
         output.addCommands(new LogCommand("Autonomous", "Auto Path has finished"));        
 
