@@ -66,6 +66,7 @@ public class Climber extends SubsystemBase {
 
         // Climber release
         m_releaseServo = new SmartServo(RobotConstants.Climber.SERVO_PWM);
+        m_releaseServo.setAngle(0.0);
 
         addChild("Release", m_releaseServo);
 
@@ -84,7 +85,6 @@ public class Climber extends SubsystemBase {
 
         // Disable the climb motor's brakes to allow easy servicing
         m_liftMotor.setNeutralMode(NeutralMode.Coast);
-
 
         TalonHelper.configCurrentLimit(m_liftMotor, 34, 32, 15, 0);
     }
@@ -143,7 +143,7 @@ public class Climber extends SubsystemBase {
         if (isNew) {
 
             // Retract safety pin
-            m_releasePin.set(ActuatorState.kINACTIVE);
+            m_releaseServo.setAngle(0.0);
 
             // Stop the motor
             m_liftMotor.setNeutralMode(NeutralMode.Brake);
@@ -163,17 +163,13 @@ public class Climber extends SubsystemBase {
         if (isNew) {
 
             // Release the climber spring
-            m_releaseServo.setAngle();
-            // m_releasePin.set(ActuatorState.kDEPLOYED);
+            m_releaseServo.setAngle(180.0);
 
             // Disable the motor
             m_liftMotor.set(0.0);
 
             // Show the camera feed to the drivers
             m_camera.showCamera(true);
-        } else {
-            // Stop excessive load
-            m_releasePin.set(ActuatorState.kINACTIVE);
         }
 
     }
@@ -217,7 +213,7 @@ public class Climber extends SubsystemBase {
             m_camera.showCamera(true);
 
             // Retract safety pin
-            m_releasePin.set(ActuatorState.kINACTIVE);
+            m_releaseServo.setAngle(0.0);
         }
     }
 
