@@ -267,6 +267,8 @@ public class RobotConstants {
         public static final int HOPPER_LINEBREAK_TOP = 3;
         public static final int HOPPER_LINEBREAK_TOP_POWER_CHANNEL = 3;
 
+        public static final int HOPPER_SENSOR_DELAY_CYCLES = 20;
+
         // Belt speed during shooting
         public static final double SHOOTER_FEED_SPEED = 0.5;
     

@@ -48,6 +48,9 @@ public class Hopper extends SubsystemBase {
     /** previous value of Middle line break */
     private boolean m_lineMiddleLastValue;
 
+    /** counter for delay in between ball counts */
+    private int m_sensorCountDelay = 0;
+
     /** counter to manage rumbling */
     private int m_rumbleCounter;
     /** rumble sequence */
@@ -162,48 +165,56 @@ public class Hopper extends SubsystemBase {
             m_rumbleCounter++;
         }
 
-        if (m_systemState == SystemState.INTAKING || m_systemState == SystemState.INTAKEREADY
-                || m_systemState == SystemState.UNJAM || m_systemState == SystemState.SHOOTING
-                || m_systemState == SystemState.MOVETOTOP) {
-            // Count cells
+        if(m_sensorCountDelay == 0) {
+            if (m_systemState == SystemState.INTAKING || m_systemState == SystemState.INTAKEREADY
+                    || m_systemState == SystemState.UNJAM || m_systemState == SystemState.SHOOTING
+                    || m_systemState == SystemState.MOVETOTOP) {
+                // Count cells
 
-            // cache values of line break sensors
-            boolean middleValue = m_lineMiddle.get();
-            // If belt is moving up
-            if (m_hopperBelt.get() > 0.0) {
+                // cache values of line break sensors
+                boolean middleValue = m_lineMiddle.get();
+                // If belt is moving up
+                if (m_hopperBelt.get() > 0.0) {
 
-                // add when cell enters bottom
-                if (middleValue == true && m_lineMiddleLastValue == false) {
-                    modifyCellCount(1);
+                    // add when cell enters bottom
+                    if (middleValue == true && m_lineMiddleLastValue == false) {
+                        modifyCellCount(1);
+                        m_sensorCountDelay = RobotConstants.Hopper.HOPPER_SENSOR_DELAY_CYCLES;
+                    }
+
+                    // If belt is moving down
+                } else if (m_hopperBelt.get() < 0.0) {
+
+                    // subtract when cell exits bottom
+                    if (middleValue == false && m_lineMiddleLastValue == true) {
+                        modifyCellCount(-1);
+                        m_sensorCountDelay = RobotConstants.Hopper.HOPPER_SENSOR_DELAY_CYCLES;
+                    }
+
                 }
 
-                // If belt is moving down
-            } else if (m_hopperBelt.get() < 0.0) {
+            }
 
-                // subtract when cell exits bottom
-                if (middleValue == false && m_lineMiddleLastValue == true) {
+            if (m_systemState == SystemState.UNJAMUP) {
+
+                // subtract when ejecting through top
+                if (m_lineTopLastValue == true && m_lineTop.get()) {
                     modifyCellCount(-1);
+                    m_sensorCountDelay = RobotConstants.Hopper.HOPPER_SENSOR_DELAY_CYCLES;
                 }
-
             }
 
-        }
-
-        if (m_systemState == SystemState.UNJAMUP) {
-
-            // subtract when ejecting through top
-            if (m_lineTopLastValue == true && m_lineTop.get()) {
-                modifyCellCount(-1);
+            // subtract when cell exits top when hopper is moving up and in shoot or idle
+            // mode
+            if ((m_systemState == SystemState.SHOOTING || m_systemState == SystemState.IDLE
+                    || m_systemState == SystemState.MOVETOTOP)) {
+                if (m_lineTop.get() == false && m_lineTopLastValue == true) {
+                    modifyCellCount(-1);
+                    m_sensorCountDelay = RobotConstants.Hopper.HOPPER_SENSOR_DELAY_CYCLES;
+                }
             }
-        }
-
-        // subtract when cell exits top when hopper is moving up and in shoot or idle
-        // mode
-        if ((m_systemState == SystemState.SHOOTING || m_systemState == SystemState.IDLE
-                || m_systemState == SystemState.MOVETOTOP)) {
-            if (m_lineTop.get() == false && m_lineTopLastValue == true) {
-                modifyCellCount(-1);
-            }
+        } else {
+            m_sensorCountDelay--;
         }
 
         // Determine if this state is new
