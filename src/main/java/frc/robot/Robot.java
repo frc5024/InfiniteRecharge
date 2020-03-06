@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.lib5k.components.drive.IDifferentialDrivebase;
 import frc.lib5k.components.gyroscopes.NavX;
 import frc.lib5k.logging.USBLogger;
@@ -68,6 +69,7 @@ public class Robot extends TimedRobot {
 		// Enable USB logging
 		usbLogger = new USBLogger("RobotLogs-2020/live");
 		logger.enableUSBLogging(usbLogger);
+		
 
 		// Create control commands
 		logger.log("Robot", "Constructing Commands", Level.kRobot);
@@ -139,6 +141,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
+		logger.log("Robot", "Match Number: " + DriverStation.getInstance().getMatchNumber());
 		logger.log("Robot", "Autonomous started");
 
 		// Determine correct autonomous command to run
