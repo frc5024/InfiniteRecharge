@@ -53,4 +53,12 @@ public class SmartServo extends Servo {
         super.setAngle(degrees);
     }
 
+    public void stop(){
+        stopMotor();
+    }
+
+    public void rip() {
+        set(1.0);
+    }
+
 }

@@ -5,9 +5,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.cscore.VideoSource;
 import frc.lib5k.components.AutoCamera;
-import frc.lib5k.components.LinearActuator;
 import frc.lib5k.components.SmartServo;
-import frc.lib5k.components.LinearActuator.ActuatorState;
 import frc.lib5k.components.motors.TalonHelper;
 import frc.lib5k.components.sensors.HallEffect;
 import frc.lib5k.simulation.wrappers.SimTalon;
@@ -66,7 +64,7 @@ public class Climber extends SubsystemBase {
 
         // Climber release
         m_releaseServo = new SmartServo(RobotConstants.Climber.SERVO_PWM);
-        m_releaseServo.setAngle(0.0);
+        m_releaseServo.stop();
 
         addChild("Release", m_releaseServo);
 
@@ -143,7 +141,7 @@ public class Climber extends SubsystemBase {
         if (isNew) {
 
             // Retract safety pin
-            m_releaseServo.setAngle(0.0);
+            m_releaseServo.stop();
 
             // Stop the motor
             m_liftMotor.setNeutralMode(NeutralMode.Brake);
@@ -163,7 +161,7 @@ public class Climber extends SubsystemBase {
         if (isNew) {
 
             // Release the climber spring
-            m_releaseServo.setAngle(180.0);
+            m_releaseServo.rip();
 
             // Disable the motor
             m_liftMotor.set(0.0);
@@ -213,7 +211,7 @@ public class Climber extends SubsystemBase {
             m_camera.showCamera(true);
 
             // Retract safety pin
-            m_releaseServo.setAngle(0.0);
+            m_releaseServo.stop();
         }
     }
 
