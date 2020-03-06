@@ -39,8 +39,8 @@ public class Chooser {
         // Paths
         m_pathChooser.setDefaultOption("1. Score Twice", new ScoreTwice());
         m_pathChooser.addOption("2. Shoot Center", new CenterScore());
-        m_pathChooser.addOption("3. Shoot Trench Drive Off", new CenterDriveOff());
-        m_pathChooser.addOption("4. Shoot Center Drive Off", new ShootTrenchDriveOff());
+        m_pathChooser.addOption("3. Shoot Trench Drive Off", new ShootTrenchDriveOff());
+        m_pathChooser.addOption("4. Shoot Center Drive Off", new CenterDriveOff());
         m_pathChooser.addOption("Test PID", new TestPID());
         m_pathChooser.addOption("Test Pure", new TestPure());
         // Scoring
