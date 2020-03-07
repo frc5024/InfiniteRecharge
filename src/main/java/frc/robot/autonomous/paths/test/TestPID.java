@@ -14,10 +14,10 @@ public class TestPID extends AutonomousPath {
 
         SequentialCommandGroup output = new SequentialCommandGroup();
 
-        output.addCommands(new DriveToCommand(new Pose2d(1, 0, Rotation2d.fromDegrees(0))));
+        // output.addCommands(new DriveToCommand(new Pose2d(1, 0, Rotation2d.fromDegrees(0))));
 
 
-        output.addCommands(new TurnToCommand(90, 10));
+        output.addCommands(new TurnToCommand(90));
         return output;
     }
 
