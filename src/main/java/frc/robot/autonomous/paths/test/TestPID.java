@@ -17,7 +17,7 @@ public class TestPID extends AutonomousPath {
         output.addCommands(new DriveToCommand(new Pose2d(1, 0, Rotation2d.fromDegrees(0))));
 
 
-        output.addCommands(new TurnToCommand(90));
+        output.addCommands(new TurnToCommand(90, 10));
         return output;
     }
 
