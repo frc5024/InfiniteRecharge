@@ -229,7 +229,7 @@ public class CellSuperstructure extends SubsystemBase {
 
             m_hopper.unjamUp();
 
-            m_shooter.setOutputPercent(0.25);
+            m_shooter.setOutputPercent(0.35);
 
         }
     }

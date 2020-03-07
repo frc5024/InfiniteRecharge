@@ -263,8 +263,11 @@ public class RobotConstants {
         public static final int HOPPER_LINEBREAK_TOP = 3;
         public static final int HOPPER_LINEBREAK_TOP_POWER_CHANNEL = 3;
 
+        public static final int HOPPER_SENSOR_DELAY_CYCLES = 20;
+
         // Belt speed during shooting
         public static final double SHOOTER_FEED_SPEED = 0.5;
+    
         // how many encoder ticks to move for optimal ball spacing
         public static final double MAGIC_ENCODER_NUMBER = 41583;
 
@@ -333,6 +336,7 @@ public class RobotConstants {
      */
     public static class Climber {
         // ALL OF THESE ARE PLACEHOLDERS
+        public static final int SERVO_PWM = 0;
         public static final int PIN_RELEASE_SOLENOID = 4;
         public static final int MOTOR_CONTROLLER_ID = 21;
         public static final int HIGH_HALL_ID = 5;
