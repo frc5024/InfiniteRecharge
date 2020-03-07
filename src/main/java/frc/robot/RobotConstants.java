@@ -267,7 +267,7 @@ public class RobotConstants {
 
         // Belt speed during shooting
         public static final double SHOOTER_FEED_SPEED = 0.5;
-    
+
         // how many encoder ticks to move for optimal ball spacing
         public static final double MAGIC_ENCODER_NUMBER = 41583;
 
@@ -313,8 +313,9 @@ public class RobotConstants {
         public static final double RPM_PER_METER = 1 / WHEEL_CIRCUMFERENCE;
         public static final double RPM_PER_MPS = RPM_PER_METER / 60;
 
-        public static final double DEFAULT_VELOCITY = MOTOR_MAX_RPM * 0.83; // Good general val: 0.80 // Amazing auto
-                                                                            // init line val: 0.71
+        public static final double DEFAULT_VELOCITY = MOTOR_MAX_RPM * 0.84; // 0.83; // Good general val: 0.80 //
+                                                                            // Amazing auto
+        // init line val: 0.71
 
         /* Auton shooter vals */
         public static class ShooterGoals {
