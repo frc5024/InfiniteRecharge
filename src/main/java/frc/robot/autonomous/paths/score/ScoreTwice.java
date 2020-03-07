@@ -8,12 +8,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.lib5k.kinematics.purepursuit.Path;
+import frc.robot.RobotConstants;
 import frc.robot.autonomous.AutonomousStartpoints;
 import frc.robot.autonomous.actions.DrivePath;
 import frc.robot.autonomous.actions.LogCommand;
 import frc.robot.autonomous.actions.TurnToCommand;
 import frc.robot.autonomous.actions.VisionAlign;
 import frc.robot.autonomous.actions.cells.IntakeCells;
+import frc.robot.autonomous.actions.cells.SetShooterOutput;
 import frc.robot.autonomous.actions.cells.ShootCells;
 import frc.robot.autonomous.paths.AutonomousPath;
 import frc.robot.subsystems.cellmech.Hopper;
@@ -37,6 +39,7 @@ public class ScoreTwice extends AutonomousPath {
         // Aim at goal
         output.addCommands(new LogCommand("Autonomous", "Turing to Goal"));
         output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(150), 8.0));
+        output.addCommands(new SetShooterOutput(RobotConstants.Shooter.DEFAULT_VELOCITY));
         output.addCommands(new InstantCommand(()->{Hopper.getInstance().forceCellCount(3);}));
 
         // // Shoot 3 balls
@@ -79,6 +82,7 @@ public class ScoreTwice extends AutonomousPath {
 
         // Shoot 3 balls
         output.addCommands(new LogCommand("Autonomous", "Shooting Three Balls"));
+        output.addCommands(new SetShooterOutput(RobotConstants.Shooter.ShooterGoals.TRENCH_REAR_SHOT));
         output.addCommands(new ShootCells(2).withTimeout(6.5));
 
         output.addCommands(new LogCommand("Autonomous", "Path Finished"));
