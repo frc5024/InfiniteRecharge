@@ -15,7 +15,7 @@ import frc.lib5k.components.drive.DifferentialDriveCalculation;
 import frc.lib5k.components.drive.IDifferentialDrivebase;
 import frc.lib5k.components.drive.InputUtils;
 import frc.lib5k.components.drive.InputUtils.ScalingMode;
-import frc.lib5k.components.gyroscopes.NavX;
+import frc.lib5k.components.gyroscopes.ADGyro;
 import frc.lib5k.components.motors.TalonSRXCollection;
 import frc.lib5k.components.sensors.EncoderBase;
 import frc.lib5k.interfaces.Loggable;
@@ -149,7 +149,7 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
         m_turnController.reset();
 
         // Create odometry object
-        m_odometry = new DifferentialDriveOdometry(NavX.getInstance().getRotation());
+        m_odometry = new DifferentialDriveOdometry(ADGyro.getInstance().getRotation());
 
         // Zero encoders
         m_leftEncoder.zero();
@@ -212,7 +212,7 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
         /* Handle odometry updates */
 
         // Get the current robot heading
-        Rotation2d heading = Rotation2d.fromDegrees(NavX.getInstance().getHeading());
+        Rotation2d heading = Rotation2d.fromDegrees(ADGyro.getInstance().getHeading());
 
         // Calculate the robot pose
         m_odometry.update(heading, getLeftMeters(), getRightMeters());
@@ -331,7 +331,7 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
         setOpenLoop(new DriveSignal(throttle, throttle));
 
         // Set old yaw
-        setOldYaw(NavX.getInstance().getAngle());
+        setOldYaw(ADGyro.getInstance().getAngle());
 
         // Return if we are in range
         return Mathutils.epsilonEquals(target.ty, 0.0, RobotConstants.Autonomous.AUTO_TARGET_DISTANCE_EPSILON);
@@ -481,7 +481,7 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
      * @return If yaw difference is greater than 3 degrees since last alignment;
      */
     public boolean alignmentLost() {
-        double yaw = NavX.getInstance().getAngle();
+        double yaw = ADGyro.getInstance().getAngle();
         double yawDelta = Math.abs(yaw - oldYaw);
         return (yawDelta > RobotConstants.DriveTrain.ALIGNMENT_EPSILON);
     }
@@ -505,11 +505,9 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
         m_leftEncoder.zero();
         m_rightEncoder.zero();
 
-        // Reset gyro
-        // NavX.getInstance().reset();
 
         // Reset odometry
-        m_odometry.resetPosition(pose, NavX.getInstance().getRotation());
+        m_odometry.resetPosition(pose, ADGyro.getInstance().getRotation());
 
     }
 

@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib5k.components.drive.IDifferentialDrivebase;
+import frc.lib5k.components.gyroscopes.ADGyro;
 import frc.lib5k.components.gyroscopes.NavX;
 import frc.lib5k.logging.USBLogger;
 import frc.lib5k.roborio.FaultReporter;
@@ -86,8 +87,8 @@ public class Robot extends TimedRobot {
 		logger.start(0.02);
 
 		// Reset & calibrate the robot gyroscope
-		NavX.getInstance().reset();
-		NavX.getInstance().setInverted(false);
+		ADGyro.getInstance().reset();
+		ADGyro.getInstance().setInverted(false);
 
 		// Reset the drivetrain pose
 		m_driveTrain.setRampRate(0.12);
@@ -98,8 +99,8 @@ public class Robot extends TimedRobot {
 
 		// Simulate main gyroscope
 		if (RobotBase.isSimulation()) {
-			logger.log("Robot", "Starting NavX simulation");
-			NavX.getInstance().initDrivebaseSimulation((IDifferentialDrivebase) m_driveTrain);
+			logger.log("Robot", "Starting ADGyro simulation");
+			ADGyro.getInstance().initDrivebaseSimulation((IDifferentialDrivebase) m_driveTrain);
 		}
 
 		// Force-set odometry
@@ -124,7 +125,7 @@ public class Robot extends TimedRobot {
 		// Publish telemetry data to smartdashboard if setting enabled
 		if (RobotConstants.PUBLISH_SD_TELEMETRY) {
 			m_driveTrain.updateTelemetry();
-			System.out.println(NavX.getInstance().getAngle());
+			System.out.println(ADGyro.getInstance().getAngle());
 
 		}
 
