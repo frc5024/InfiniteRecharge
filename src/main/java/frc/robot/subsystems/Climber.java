@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
@@ -32,7 +33,8 @@ public class Climber extends SubsystemBase {
     private HallEffect m_lowHall;
     private HallEffect m_highHall;
 
-    // Line break sensor on the hook of the climber
+    // Ripcord timer
+    private Timer m_ripTimer = new Timer();
 
     /**
      * System states
@@ -70,7 +72,7 @@ public class Climber extends SubsystemBase {
 
         // Climb motor
         m_liftMotor = new SimTalon(RobotConstants.Climber.MOTOR_CONTROLLER_ID);
-        
+
         // Low and High Hall sensors
         m_lowHall = new HallEffect(RobotConstants.Climber.LOW_HALL_ID);
         m_highHall = new HallEffect(RobotConstants.Climber.HIGH_HALL_ID);
@@ -79,7 +81,6 @@ public class Climber extends SubsystemBase {
         m_camera = new AutoCamera("Climb camera", 0);
         m_camera.keepCameraAwake(true);
         m_camera.showCamera(false);
-        
 
         // Disable the climb motor's brakes to allow easy servicing
         m_liftMotor.setNeutralMode(NeutralMode.Coast);
@@ -112,18 +113,18 @@ public class Climber extends SubsystemBase {
 
         /* Handle states */
         switch (m_state) {
-        case LOCKED:
-            handleLocked(isNewState);
-            break;
-        case DEPLOYING:
-            handleDeploy(isNewState);
-            break;
-        case RETRACTING:
-            handleRetract(isNewState);
-            break;
-        case SERVICE:
-            handleService(isNewState);
-            break;
+            case LOCKED:
+                handleLocked(isNewState);
+                break;
+            case DEPLOYING:
+                handleDeploy(isNewState);
+                break;
+            case RETRACTING:
+                handleRetract(isNewState);
+                break;
+            case SERVICE:
+                handleService(isNewState);
+                break;
 
         }
 
@@ -163,11 +164,20 @@ public class Climber extends SubsystemBase {
             // Release the climber spring
             m_releaseServo.rip();
 
+            // Reset the rip timer
+            m_ripTimer.reset();
+            m_ripTimer.start();
+
             // Disable the motor
             m_liftMotor.set(0.0);
 
             // Show the camera feed to the drivers
             m_camera.showCamera(true);
+        }
+
+        // If the timer runs out, we stop the ripcord
+        if (m_ripTimer.hasElapsed(1.0)) {
+            m_releaseServo.stop();
         }
 
     }
@@ -178,6 +188,11 @@ public class Climber extends SubsystemBase {
      * @param isNew
      */
     public void handleRetract(boolean isNew) {
+
+        // If the timer runs out, we stop the ripcord
+        if (m_ripTimer.hasElapsed(1.0)) {
+            m_releaseServo.stop();
+        }
 
         // Read the current position
         Position current = getPosition();
