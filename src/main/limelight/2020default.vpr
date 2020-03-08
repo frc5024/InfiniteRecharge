@@ -1,7 +1,7 @@
 area_max:100
-area_min:0.0163047361
+area_min:0.016304736100000005
 area_similarity:88
-aspect_max:1.5780962000000005
+aspect_max:1.4623232000000002
 aspect_min:1.25e-8
 black_level:9
 blue_balance:1975
@@ -9,10 +9,10 @@ calibration_type:0
 contour_grouping:0
 contour_sort_final:0
 convexity_max:100
-convexity_min:5
+convexity_min:6
 corner_approx:2
-cross_a_a:1
-cross_a_x:0
+cross_a_a:0.018668
+cross_a_x:0.500766
 cross_a_y:0
 cross_b_a:1
 cross_b_x:0
@@ -51,6 +51,6 @@ solve3d_precies:1
 solve3d_precise:0
 solve3d_zoffset:0
 val_max:255
-val_min:155
+val_min:103
 y_max:1.000000
 y_min:-1.000000
