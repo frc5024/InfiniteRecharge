@@ -7,6 +7,8 @@ import frc.lib5k.utils.Mathutils;
 
 /**
  * A wrapper for the REV Robotics Smart Servo (REV-41-1097)
+ * 
+ * https://www.andymark.com/products/rev-smart-robot-servo
  */
 public class SmartServo extends Servo {
 
