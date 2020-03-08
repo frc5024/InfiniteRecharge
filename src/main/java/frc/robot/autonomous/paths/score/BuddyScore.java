@@ -7,8 +7,10 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.lib5k.utils.RobotLogger;
+import frc.robot.RobotConstants;
 import frc.robot.autonomous.AutonomousStartpoints;
 import frc.robot.autonomous.actions.TurnToCommand;
+import frc.robot.autonomous.actions.cells.SetShooterOutput;
 import frc.robot.autonomous.actions.cells.ShootCells;
 import frc.robot.autonomous.paths.AutonomousPath;
 import frc.robot.subsystems.DriveTrain;
@@ -34,16 +36,18 @@ public class BuddyScore extends AutonomousPath {
 
         double shootTimeout = 10.0;
         double pushTimeout = 1.0;
-        double runTimeout = 1.5;
+        double runTimeout = 2.0;
 
         // Turn to startpoint
         output.addCommands(new TurnToCommand(getStartingPose().getRotation()));
+        
+        output.addCommands(new SetShooterOutput(RobotConstants.Shooter.ShooterGoals.TRENCH_FRONT_SHOT));
 
         output.addCommands(new CommandBase() {
             @Override
             public void initialize() {
                 RobotLogger.getInstance().log("BuddyScore", "Making a gap");
-                DriveTrain.getInstance().drive(-0.4, 0.0);
+                DriveTrain.getInstance().drive(-0.5, 0.0);
             }
 
             @Override
@@ -87,7 +91,7 @@ public class BuddyScore extends AutonomousPath {
             @Override
             public void initialize() {
                 RobotLogger.getInstance().log("BuddyScore", "Pushing buddy");
-                DriveTrain.getInstance().drive(0.4, 0.0);
+                DriveTrain.getInstance().drive(0.5, 0.0);
             }
 
             @Override
