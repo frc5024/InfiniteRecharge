@@ -1,5 +1,6 @@
 package frc.robot.autonomous.paths.score;
 
+import edu.wpi.first.wpilibj.command.TimedCommand;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
@@ -8,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.lib5k.kinematics.purepursuit.Path;
+import frc.lib5k.utils.RobotLogger;
 import frc.robot.RobotConstants;
 import frc.robot.autonomous.AutonomousStartpoints;
 import frc.robot.autonomous.actions.DriveDistance;
@@ -20,6 +22,7 @@ import frc.robot.autonomous.actions.cells.IntakeCells;
 import frc.robot.autonomous.actions.cells.SetShooterOutput;
 import frc.robot.autonomous.actions.cells.ShootCells;
 import frc.robot.autonomous.paths.AutonomousPath;
+import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.cellmech.Hopper;
 
 
@@ -50,9 +53,21 @@ public class CenterDriveOff extends AutonomousPath {
 
         // Turn to trench
         output.addCommands(new LogCommand("Autonomous", "Driving Backwards"));
-        output.addCommands(new TurnToCommand(80, 15));
-        output.addCommands(new TurnToCommand(Rotation2d.fromDegrees(0), 8.0));
-        output.addCommands(new DriveToCommand(new Pose2d(startx + .5, starty - .3, Rotation2d.fromDegrees(0))));
+        output.addCommands(new CommandBase() {
+            @Override
+            public void initialize() {
+                RobotLogger.getInstance().log("BuddyScore", "Pushing buddy");
+                DriveTrain.getInstance().drive(-0.35, 0.0);
+            }
+            
+            @Override
+            public void end(boolean x) {
+                RobotLogger.getInstance().log("BuddyScore", "Stopped pushing");
+                DriveTrain.getInstance().stop();
+                
+            }
+        }.withTimeout(.5));
+        
 
 
         output.addCommands(new LogCommand("Autonomous", "Auto Path has finished"));        
