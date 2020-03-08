@@ -320,7 +320,7 @@ public class Hopper extends SubsystemBase {
             m_ticksAtStartOfIntake = m_hopperEncoder.getTicks();
 
             // Start belt
-            setBeltSpeed(0.4);
+            setBeltSpeed(0.48);
 
         }
 
