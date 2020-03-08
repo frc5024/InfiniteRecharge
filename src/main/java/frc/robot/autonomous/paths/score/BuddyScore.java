@@ -33,7 +33,7 @@ public class BuddyScore extends AutonomousPath {
         };
 
         double shootTimeout = 10.0;
-        double pushTimeout = 2.0;
+        double pushTimeout = 1.0;
         double runTimeout = 3.0;
 
         // Turn to startpoint
@@ -67,6 +67,21 @@ public class BuddyScore extends AutonomousPath {
         // Combine both commands
         output.addCommands(new ParallelCommandGroup(shootCommand, intakeCommand).withTimeout(shootTimeout + 0.1));
 
+        output.addCommands(new CommandBase() {
+            @Override
+            public void initialize() {
+                RobotLogger.getInstance().log("BuddyScore", "Pushing buddy");
+                DriveTrain.getInstance().drive(0.4, 0.0);
+            }
+            
+            @Override
+            public void end(boolean x) {
+                RobotLogger.getInstance().log("BuddyScore", "Stopped pushing");
+                DriveTrain.getInstance().stop();
+                
+            }
+        }.withTimeout(0.5));
+
         // Push our buddy off the line
         output.addCommands(new CommandBase() {
             @Override
@@ -84,20 +99,20 @@ public class BuddyScore extends AutonomousPath {
         }.withTimeout(pushTimeout));
 
         // Get off the line ourselves
-        output.addCommands(new CommandBase() {
-            @Override
-            public void initialize() {
-                RobotLogger.getInstance().log("BuddyScore", "Pushing buddy");
-                DriveTrain.getInstance().drive(-0.35, 0.0);
-            }
+        // output.addCommands(new CommandBase() {
+        //     @Override
+        //     public void initialize() {
+        //         RobotLogger.getInstance().log("BuddyScore", "Pushing buddy");
+        //         DriveTrain.getInstance().drive(-0.35, 0.0);
+        //     }
             
-            @Override
-            public void end(boolean x) {
-                RobotLogger.getInstance().log("BuddyScore", "Stopped pushing");
-                DriveTrain.getInstance().stop();
+        //     @Override
+        //     public void end(boolean x) {
+        //         RobotLogger.getInstance().log("BuddyScore", "Stopped pushing");
+        //         DriveTrain.getInstance().stop();
                 
-            }
-        }.withTimeout(runTimeout));
+        //     }
+        // }.withTimeout(runTimeout));
         
         return output;
     }
