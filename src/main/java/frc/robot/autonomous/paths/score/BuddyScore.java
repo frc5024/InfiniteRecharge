@@ -21,7 +21,7 @@ public class BuddyScore extends AutonomousPath {
     protected SequentialCommandGroup getCommand() {
 
         // Create a modified commandgroup that forces our ball counter up
-        SequentialCommandGroup output = new SequentialCommandGroup(){
+        SequentialCommandGroup output = new SequentialCommandGroup() {
             @Override
             public void execute() {
                 // Run internal command handler
@@ -34,10 +34,25 @@ public class BuddyScore extends AutonomousPath {
 
         double shootTimeout = 10.0;
         double pushTimeout = 1.0;
-        double runTimeout = 3.0;
+        double runTimeout = 1.5;
 
         // Turn to startpoint
         output.addCommands(new TurnToCommand(getStartingPose().getRotation()));
+
+        output.addCommands(new CommandBase() {
+            @Override
+            public void initialize() {
+                RobotLogger.getInstance().log("BuddyScore", "Making a gap");
+                DriveTrain.getInstance().drive(-0.4, 0.0);
+            }
+
+            @Override
+            public void end(boolean x) {
+                RobotLogger.getInstance().log("BuddyScore", "Stopped");
+                DriveTrain.getInstance().stop();
+
+            }
+        }.withTimeout(0.5));
 
         // Add a timeout command for shooting
         ParallelRaceGroup shootCommand = new ShootCells(5).withTimeout(shootTimeout);
@@ -55,32 +70,17 @@ public class BuddyScore extends AutonomousPath {
             public void execute() {
                 Intake.getInstance().intake();
             }
-            
+
             @Override
             public void end(boolean x) {
                 RobotLogger.getInstance().log("BuddyScore", "Raising intake");
                 Intake.getInstance().stow();
-                
+
             }
         }.withTimeout(shootTimeout - 0.5);
 
         // Combine both commands
         output.addCommands(new ParallelCommandGroup(shootCommand, intakeCommand).withTimeout(shootTimeout + 0.1));
-
-        output.addCommands(new CommandBase() {
-            @Override
-            public void initialize() {
-                RobotLogger.getInstance().log("BuddyScore", "Pushing buddy");
-                DriveTrain.getInstance().drive(0.4, 0.0);
-            }
-            
-            @Override
-            public void end(boolean x) {
-                RobotLogger.getInstance().log("BuddyScore", "Stopped pushing");
-                DriveTrain.getInstance().stop();
-                
-            }
-        }.withTimeout(0.5));
 
         // Push our buddy off the line
         output.addCommands(new CommandBase() {
@@ -89,31 +89,31 @@ public class BuddyScore extends AutonomousPath {
                 RobotLogger.getInstance().log("BuddyScore", "Pushing buddy");
                 DriveTrain.getInstance().drive(0.4, 0.0);
             }
-            
+
             @Override
             public void end(boolean x) {
                 RobotLogger.getInstance().log("BuddyScore", "Stopped pushing");
                 DriveTrain.getInstance().stop();
-                
+
             }
         }.withTimeout(pushTimeout));
 
         // Get off the line ourselves
-        // output.addCommands(new CommandBase() {
-        //     @Override
-        //     public void initialize() {
-        //         RobotLogger.getInstance().log("BuddyScore", "Pushing buddy");
-        //         DriveTrain.getInstance().drive(-0.35, 0.0);
-        //     }
-            
-        //     @Override
-        //     public void end(boolean x) {
-        //         RobotLogger.getInstance().log("BuddyScore", "Stopped pushing");
-        //         DriveTrain.getInstance().stop();
-                
-        //     }
-        // }.withTimeout(runTimeout));
-        
+        output.addCommands(new CommandBase() {
+            @Override
+            public void initialize() {
+                RobotLogger.getInstance().log("BuddyScore", "Pushing buddy");
+                DriveTrain.getInstance().drive(-0.35, 0.0);
+            }
+
+            @Override
+            public void end(boolean x) {
+                RobotLogger.getInstance().log("BuddyScore", "Stopped pushing");
+                DriveTrain.getInstance().stop();
+
+            }
+        }.withTimeout(runTimeout));
+
         return output;
     }
 
@@ -121,5 +121,5 @@ public class BuddyScore extends AutonomousPath {
     public Pose2d getStartingPose() {
         return new Pose2d(AutonomousStartpoints.SECTOR_LINE_INFRONT_OF_GOAL, Rotation2d.fromDegrees(-180));
     }
-    
+
 }

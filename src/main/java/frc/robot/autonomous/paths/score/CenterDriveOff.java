@@ -66,7 +66,7 @@ public class CenterDriveOff extends AutonomousPath {
                 DriveTrain.getInstance().stop();
                 
             }
-        }.withTimeout(.5));
+        }.withTimeout(1.5));
         
 
 
