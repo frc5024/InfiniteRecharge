@@ -5,6 +5,9 @@ import edu.wpi.first.hal.SimDouble;
 import edu.wpi.first.wpilibj.Servo;
 import frc.lib5k.utils.Mathutils;
 
+/**
+ * A wrapper for the REV Robotics Smart Servo (REV-41-1097)
+ */
 public class SmartServo extends Servo {
 
     /* Simulation */
@@ -12,10 +15,13 @@ public class SmartServo extends Servo {
     private SimDouble m_angle;
     private SimDouble m_output;
 
+    /**
+     * Create a SmartServo object
+     * 
+     * @param channel PWM channel
+     */
     public SmartServo(int channel) {
         super(channel);
-
-        
 
         // Set up simulation
         m_device = SimDevice.create("SmartServo");
@@ -53,10 +59,16 @@ public class SmartServo extends Servo {
         super.setAngle(degrees);
     }
 
-    public void stop(){
+    /**
+     * Stop the servo
+     */
+    public void stop() {
         stopMotor();
     }
 
+    /**
+     * "Rip" the servo for use in ripcord situations (like our 2020 climber)
+     */
     public void rip() {
         set(1.0);
     }
