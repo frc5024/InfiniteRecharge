@@ -11,6 +11,7 @@ import frc.lib5k.utils.RobotLogger;
 import frc.robot.Dashboard;
 import frc.robot.autonomous.actions.LogCommand;
 import frc.robot.autonomous.paths.AutonomousPath;
+import frc.robot.autonomous.paths.score.BuddyScore;
 import frc.robot.autonomous.paths.score.CenterDriveOff;
 import frc.robot.autonomous.paths.score.CenterScore;
 import frc.robot.autonomous.paths.score.ScoreTwice;
@@ -41,6 +42,7 @@ public class Chooser {
         m_pathChooser.addOption("2. Shoot Center", new CenterScore());
         m_pathChooser.addOption("3. Shoot Trench Drive Off", new ShootTrenchDriveOff());
         m_pathChooser.addOption("4. Shoot Center Drive Off", new CenterDriveOff());
+        m_pathChooser.addOption("5. Buddy Score", new BuddyScore());
         m_pathChooser.addOption("Test PID", new TestPID());
         m_pathChooser.addOption("Test Pure", new TestPure());
         // Scoring

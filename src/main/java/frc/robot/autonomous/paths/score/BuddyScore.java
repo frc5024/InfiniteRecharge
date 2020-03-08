@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.lib5k.utils.RobotLogger;
 import frc.robot.autonomous.AutonomousStartpoints;
+import frc.robot.autonomous.actions.TurnToCommand;
 import frc.robot.autonomous.actions.cells.ShootCells;
 import frc.robot.autonomous.paths.AutonomousPath;
 import frc.robot.subsystems.DriveTrain;
@@ -34,6 +35,9 @@ public class BuddyScore extends AutonomousPath {
         double shootTimeout = 10.0;
         double pushTimeout = 2.0;
         double runTimeout = 3.0;
+
+        // Turn to startpoint
+        output.addCommands(new TurnToCommand(getStartingPose().getRotation()));
 
         // Add a timeout command for shooting
         ParallelRaceGroup shootCommand = new ShootCells(5).withTimeout(shootTimeout);
