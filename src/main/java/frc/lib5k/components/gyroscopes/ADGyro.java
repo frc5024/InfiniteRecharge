@@ -1,11 +1,17 @@
 package frc.lib5k.components.gyroscopes;
 
+import edu.wpi.first.hal.SimDevice;
+import edu.wpi.first.hal.SimDouble;
+import edu.wpi.first.hal.SimDouble;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import frc.lib5k.components.drive.IDifferentialDrivebase;
 
+/**
+ * A wrapper for the AnalogDevices KOP gyroscope
+ */
 public class ADGyro extends ADXRS450_Gyro {
 
     private static ADGyro m_instance = null;
@@ -18,15 +24,18 @@ public class ADGyro extends ADXRS450_Gyro {
     private IDifferentialDrivebase m_simDrivebase;
     private double[] m_simSensorReadings = new double[2];
     private Notifier m_simThread;
+    private SimDevice m_simDevice;
+    private SimDouble m_simAngle;
+    private SimDouble m_simRate;
 
-    public ADGyro() {
+    private ADGyro() {
         super(SPI.Port.kOnboardCS0);
     }
 
     /**
-     * Get the Default NavX instance
+     * Get the Default ADGyro instance
      * 
-     * @return NavX instance
+     * @return ADGyro instance
      */
     public static ADGyro getInstance() {
         if (m_instance == null) {
@@ -36,50 +45,63 @@ public class ADGyro extends ADXRS450_Gyro {
         return m_instance;
     }
 
+    /**
+     * Initialize drivebase simulation mode.
+     * 
+     * This lets us simulate a chassis-mounted gyroscope by comparing encoder
+     * readings over time.
+     * 
+     * @param drivebase Drivebase data provider
+     */
     public void initDrivebaseSimulation(IDifferentialDrivebase drivebase) {
+        m_simDevice = SimDevice.create("ADGyro-Sim");
 
+        if (m_simDevice != null) {
+            m_simAngle = m_simDevice.createDouble("Angle", true, 0.0);
+            m_simRate = m_simDevice.createDouble("Rate", true, 0.0);
+            m_simDrivebase = drivebase;
 
-        // if (m_simDevice != null) {
-        //     m_simDrivebase = drivebase;
+            // Create and start a simulation thread
+            m_simThread = new Notifier(this::updateSimData);
+            m_simThread.startPeriodic(SIMULATION_PERIOD);
 
-        //     // Create and start a simulation thread
-        //     m_simThread = new Notifier(this::updateSimData);
-        //     m_simThread.startPeriodic(SIMULATION_PERIOD);
-
-        // }
+        }
     }
 
+    /**
+     * Update the simulation data
+     */
     private void updateSimData() {
 
-        // // Ensure sim is running
-        // if (m_simDevice != null) {
+        // Ensure sim is running
+        if (m_simDevice != null) {
 
-        //     // Get drivebase sensor readings
-        //     double leftReading = m_simDrivebase.getLeftMeters();
-        //     double rightReading = m_simDrivebase.getRightMeters();
+            // Get drivebase sensor readings
+            double leftReading = m_simDrivebase.getLeftMeters();
+            double rightReading = m_simDrivebase.getRightMeters();
 
-        //     // Determine change from last reading
-        //     double leftDiff = leftReading - m_simSensorReadings[0];
-        //     double rightDiff = rightReading - m_simSensorReadings[1];
+            // Determine change from last reading
+            double leftDiff = leftReading - m_simSensorReadings[0];
+            double rightDiff = rightReading - m_simSensorReadings[1];
 
-        //     // Calculate angle
-        //     double omega = ((leftDiff - rightDiff) / m_simDrivebase.getWidthMeters() * ROTATION_SPEED_GAIN);
+            // Calculate angle
+            double omega = ((leftDiff - rightDiff) / m_simDrivebase.getWidthMeters() * ROTATION_SPEED_GAIN);
 
-        //     // Set last readings
-        //     m_simSensorReadings[0] = leftReading;
-        //     m_simSensorReadings[1] = rightReading;
+            // Set last readings
+            m_simSensorReadings[0] = leftReading;
+            m_simSensorReadings[1] = rightReading;
 
-        //     // Publish readings
-        //     m_simAngle.set(m_simAngle.get() + omega);
-        //     m_simRate.set(omega);
-        // }
+            // Publish readings
+            m_simAngle.set(m_simAngle.get() + omega);
+            m_simRate.set(omega);
+        }
 
     }
 
     /**
-     * Set if the NavX readings should be inverted
+     * Set if the ADGyro readings should be inverted
      * 
-     * @param inverted Is NavX inverted?
+     * @param inverted Is ADGyro inverted?
      */
     public void setInverted(boolean inverted) {
         this.inverted = inverted;
@@ -88,9 +110,9 @@ public class ADGyro extends ADXRS450_Gyro {
     @Override
     public double getAngle() {
 
-        // if (m_simDevice != null) {
-        //     return m_simAngle.get();
-        // }
+        if (m_simDevice != null) {
+            return m_simAngle.get();
+        }
 
         return super.getAngle();
     }
@@ -107,9 +129,9 @@ public class ADGyro extends ADXRS450_Gyro {
     @Override
     public double getRate() {
 
-        // if (m_simAngle != null) {
-        //     return m_simRate.get() * (inverted ? -1.0 : 1.0);
-        // }
+        if (m_simAngle != null) {
+            return m_simRate.get() * (inverted ? -1.0 : 1.0);
+        }
 
         return super.getRate() * (inverted ? -1.0 : 1.0);
     }
@@ -124,7 +146,7 @@ public class ADGyro extends ADXRS450_Gyro {
     }
 
     /**
-     * Get the NavX heading as a Rotation2d object
+     * Get the ADGyro heading as a Rotation2d object
      * 
      * @return Heading
      */
