@@ -50,6 +50,11 @@ public class BuddyScore extends AutonomousPath {
                 RobotLogger.getInstance().log("BuddyScore", "Dropping intake");
                 Intake.getInstance().intake();
             }
+
+            @Override
+            public void execute() {
+                Intake.getInstance().intake();
+            }
             
             @Override
             public void end(boolean x) {
@@ -67,7 +72,7 @@ public class BuddyScore extends AutonomousPath {
             @Override
             public void initialize() {
                 RobotLogger.getInstance().log("BuddyScore", "Pushing buddy");
-                DriveTrain.getInstance().drive(4.0, 0.0);
+                DriveTrain.getInstance().drive(0.4, 0.0);
             }
             
             @Override
@@ -83,7 +88,7 @@ public class BuddyScore extends AutonomousPath {
             @Override
             public void initialize() {
                 RobotLogger.getInstance().log("BuddyScore", "Pushing buddy");
-                DriveTrain.getInstance().drive(-2.0, 0.0);
+                DriveTrain.getInstance().drive(-0.35, 0.0);
             }
             
             @Override
