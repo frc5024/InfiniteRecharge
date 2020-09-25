@@ -179,6 +179,10 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
     @Override
     public void periodic() {
 
+        if(m_currentSignal == null){
+            m_currentSignal = new DriveSignal(0.0,0.0);
+        }
+
         /* Handle motor outputs for each mode */
         switch (m_currentDriveMode) {
         case OPEN_LOOP:
