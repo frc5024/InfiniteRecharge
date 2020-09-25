@@ -351,4 +351,10 @@ public class RobotConstants {
         public static final int PCM_CAN_ID = 8;
     }
 
+    public static class Power{
+
+        // PDP CAN ID
+        public static final int PDP_CAN_ID = 10;
+    }
+
 }

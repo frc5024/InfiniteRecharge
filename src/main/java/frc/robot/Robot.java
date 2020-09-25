@@ -16,6 +16,7 @@ import frc.lib5k.simulation.wpihooks.imgui.IMGUIFieldReporter;
 import frc.lib5k.utils.RobotLogger;
 import frc.lib5k.utils.RobotLogger.Level;
 import frc.robot.autonomous.Chooser;
+import frc.robot.autonomous.helpers.CurrentSpiking;
 import frc.robot.commands.DriveControl;
 import frc.robot.commands.OperatorControl;
 import frc.robot.subsystems.CellSuperstructure;
@@ -55,11 +56,11 @@ public class Robot extends TimedRobot {
 	private CommandBase m_autonomousCommand;
 	private DriveControl m_driveControl;
 	private OperatorControl m_operatorControl;
-
+	
 	private Chooser m_autonChooser;
 
 	private boolean m_lastUserState = false;
-
+	private CurrentSpiking m_currentSpike;
 	/**
 	 * This function is run when the robot is first started up and should be used
 	 * for any initialization code.
@@ -119,6 +120,10 @@ public class Robot extends TimedRobot {
 
 		// Report Lib5k
 		RR_HAL.reportFRCVersion("Java", RR_HAL.getLibraryVersion());
+
+		// Creates current spike
+		m_currentSpike = new CurrentSpiking(1, 2);
+
 	}
 
 	@Override
@@ -130,6 +135,9 @@ public class Robot extends TimedRobot {
 			// System.out.println(ADGyro.getInstance().getAngle());
 
 		}
+
+		// Checks for current spiking
+		m_currentSpike.hitTargetSpike(2);
 
 	}
 
@@ -145,7 +153,7 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		logger.log("Robot", "Match Number: " + DriverStation.getInstance().getMatchNumber());
 		logger.log("Robot", "Autonomous started");
-
+		
 		// Determine correct autonomous command to run
 		m_autonomousCommand = m_autonChooser.generateAutonomousCommand();
 
@@ -181,6 +189,7 @@ public class Robot extends TimedRobot {
 
 		// Run all scheduled WPILib commands
 		CommandScheduler.getInstance().run();
+		
 	}
 
 	@Override
