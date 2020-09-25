@@ -1,4 +1,4 @@
-package frc.lib5k.kinematics.models;
+package frc.lib5k.control.models;
 
 /**
  * DC Brushed motor constants. <br>

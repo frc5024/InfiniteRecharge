@@ -1,4 +1,4 @@
-package frc.lib5k.control;
+package frc.lib5k.control.motionprofile;
 
 import frc.lib5k.roborio.FPGAClock;
 

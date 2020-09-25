@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import edu.wpi.first.hal.SimDevice;
 import edu.wpi.first.hal.SimDouble;
 import edu.wpi.first.wpilibj.SpeedController;
-import frc.lib5k.control.SlewLimiter;
+import frc.lib5k.control.motionprofile.SlewLimiter;
 import frc.lib5k.interfaces.PeriodicComponent;
 import frc.lib5k.roborio.FPGAClock;
 
