@@ -24,10 +24,6 @@ public class CellSuperstructure extends SubsystemBase {
      */
     private static CellSuperstructure s_instance = null;
 
-    /**
-     * Robot logger util
-     */
-    private RobotLogger logger = RobotLogger.getInstance();
 
     /* Intake instance */
     private Intake m_intake = Intake.getInstance();
@@ -60,10 +56,13 @@ public class CellSuperstructure extends SubsystemBase {
     /** True when intake just stopped itself */
     private boolean m_intakeDone = false;
 
+    /** logger instance */
+    private RobotLogger m_logger = RobotLogger.getInstance();
+
     private CellSuperstructure() {
 
         // Register all sub-subsystems
-        logger.log("CellSuperstructure", "Registering sub-subsystems", Level.kRobot);
+        m_logger.log("CellSuperstructure", "Registering sub-subsystems", Level.kRobot);
         m_intake.register();
         m_hopper.register();
         m_shooter.register();
@@ -131,7 +130,7 @@ public class CellSuperstructure extends SubsystemBase {
      */
     private void handleIdle(boolean newState, boolean wasShooting) {
         if (newState) {
-
+            m_logger.log("CellSuperstructure", "Entering idle state");
             // Stops subsystems
             m_intake.stow();
             m_shooter.stop();
@@ -152,6 +151,7 @@ public class CellSuperstructure extends SubsystemBase {
      */
     private void handleIntaking(boolean newState) {
         if (newState) {
+            m_logger.log("CellSuperstructure", "Entering intake state");
 
             m_intake.intake();
 
@@ -177,6 +177,7 @@ public class CellSuperstructure extends SubsystemBase {
      */
     private void handleShooting(boolean newState) {
         if (newState) {
+            m_logger.log("CellSuperstructure", "Entering shooting state");
 
             m_intake.stow();
 
@@ -209,6 +210,7 @@ public class CellSuperstructure extends SubsystemBase {
      */
     private void handleUnjamming(boolean newState) {
         if (newState) {
+            m_logger.log("CellSuperstructure", "Entering unjam state");
 
             m_intake.unjam();
 
@@ -226,6 +228,7 @@ public class CellSuperstructure extends SubsystemBase {
      */
     private void handleUnjamUp(boolean newState) {
         if (newState) {
+            m_logger.log("CellSuperstructure", "Entering unjam up state");
 
             m_hopper.unjamUp();
 
@@ -241,6 +244,8 @@ public class CellSuperstructure extends SubsystemBase {
      */
     private void handleMoveToBottom(boolean newState) {
         if (newState) {
+            m_logger.log("CellSuperstructure", "Entering move to bottom state");
+
             m_hopper.moveCellsToBottom();
         } else {
 

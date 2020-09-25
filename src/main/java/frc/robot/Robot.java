@@ -44,6 +44,7 @@ public class Robot extends TimedRobot {
 
 	/* Robot telemetry */
 	private Dashboard m_dashboard = Dashboard.getInstance();
+	private Limelight2 m_limeLight2 = Limelight2.getInstance();
 
 	/* Robot Subsystems */
 	private DriveTrain m_driveTrain = DriveTrain.getInstance();
@@ -109,9 +110,9 @@ public class Robot extends TimedRobot {
 		m_driveTrain.setPosition(m_autonChooser.getRobotAutoStartPosition());
 
 		// Connect to, and configure Limelight
-		Limelight2.getInstance().setPortrait(true);
-		Limelight2.getInstance().setLED(LEDMode.OFF);
-		Limelight2.getInstance().enableVision(true);
+		m_limeLight2.setPortrait(true);
+		m_limeLight2.setLED(LEDMode.OFF);
+		m_limeLight2.enableVision(true);
 
 		// Init and start the dashboard service
 		m_dashboard.init();
@@ -163,7 +164,7 @@ public class Robot extends TimedRobot {
 		m_driveTrain.setBrakes(true);
 
 		// Lock the climber
-		Climber.getInstance().lock();
+		m_climber.lock();
 
 		// Stow the superstructure
 		m_cellSuperstructure.stop();
@@ -172,8 +173,8 @@ public class Robot extends TimedRobot {
 		Hopper.getInstance().forceCellCount(3);
 
 		// Put the limelight in "Primary" mode to debug aiming
-		Limelight2.getInstance().setCamMode(CameraMode.PIP_MAIN);
-		Limelight2.getInstance().setLED(LEDMode.OFF);
+		m_limeLight2.setCamMode(CameraMode.PIP_MAIN);
+		m_limeLight2.setLED(LEDMode.OFF);
 	}
 
 	@Override
@@ -192,14 +193,14 @@ public class Robot extends TimedRobot {
 		m_driveTrain.setRampRate(0.2);
 
 		// Lock the climber
-		Climber.getInstance().lock();
+		m_climber.lock();
 
 		// Freeze the intake to make Tiet happy
 		Intake.getInstance().freeze();
 
 		// Put the limelight in "Secondary" mode for driver assist
-		Limelight2.getInstance().setCamMode(CameraMode.PIP_SECONDARY);
-		Limelight2.getInstance().setLED(LEDMode.OFF);
+		m_limeLight2.setCamMode(CameraMode.PIP_SECONDARY);
+		m_limeLight2.setLED(LEDMode.OFF);
 
 		// Disable the autonomous command
 		if (m_autonomousCommand != null) {
@@ -243,10 +244,10 @@ public class Robot extends TimedRobot {
 		m_operatorControl.killAllActions();
 
 		// Put the climber in service mode
-		Climber.getInstance().service();
+		m_climber.service();
 
 		// Put the Limelight in "SBS" mode
-		Limelight2.getInstance().setCamMode(CameraMode.STANDARD);
+		m_limeLight2.setCamMode(CameraMode.STANDARD);
 
 	}
 
@@ -261,10 +262,10 @@ public class Robot extends TimedRobot {
 			if (!m_lastUserState) {
 
 				// Toggle Light
-				if (Limelight2.getInstance().getLEDMode() == LEDMode.OFF) {
-					Limelight2.getInstance().setLED(LEDMode.ON);
+				if (m_limeLight2.getLEDMode() == LEDMode.OFF) {
+					m_limeLight2.setLED(LEDMode.ON);
 				} else {
-					Limelight2.getInstance().setLED(LEDMode.OFF);
+					m_limeLight2.setLED(LEDMode.OFF);
 
 				}
 			}
