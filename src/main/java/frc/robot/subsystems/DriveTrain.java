@@ -24,6 +24,7 @@ import frc.lib5k.utils.RobotLogger;
 import frc.robot.RobotConstants;
 import frc.robot.vision.LimelightTarget;
 import frc.lib5k.kinematics.DriveSignal;
+import frc.lib5k.roborio.FPGAClock;
 
 /**
  * The DriveTrain handles all robot movement.
@@ -79,7 +80,7 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
     /**
      * Velocity tracking vars
      */
-    private double m_lastLeftMeters, m_lastRightMeters, m_leftMPS, m_rightMPS = 0;
+    private double m_lastLeftMeters, m_lastRightMeters, m_leftMPS, m_rightMPS, m_lastTime = 0;
 
     /**
      * In-place drivebase rotation controller
@@ -205,9 +206,14 @@ public class DriveTrain extends SubsystemBase implements Loggable, IDifferential
         m_leftEncoder.update();
         m_rightEncoder.update();
 
+        // Determine dt
+        double time = FPGAClock.getFPGASeconds();
+        double dt = time - m_lastTime;
+        m_lastTime = time;
+
         // Determine wheel speeds
-        m_leftMPS = (getLeftMeters() - m_lastLeftMeters) * 50;
-        m_rightMPS = (getRightMeters() - m_lastRightMeters) * 50;
+        m_leftMPS = (getLeftMeters() - m_lastLeftMeters) / dt;
+        m_rightMPS = (getRightMeters() - m_lastRightMeters) / dt;
 
         // set last distances
         m_lastLeftMeters = getLeftMeters();
